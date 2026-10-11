@@ -497,3 +497,4 @@ README и NOTICE описывают ограничение.
 | `actionlint` (npm `actionlint@2.0.6`, WASM) | ✅ 0 замечаний |
 | `npm audit` | ✅ 0 (critical 0, high 0, moderate 0, low 0, info 0) |
 | Новые тесты против кода `main` | ✅ ожидаемо падают: UI — исходный `TypeError` в `shotHeroes`, движок — 4, CI — 22 |
+| CI на PR #5 (`pull_request`, прогон 38169375270) | ✅ build за 1 мин 8 с: lint, `npm test`, распознавание, UI, определение режима Pages с `pages: read` (без предупреждения о сбое API); загрузка артефакта пропущена; deploy — skipped. Аннотации — только уведомления GitHub о Node 20 у закреплённых действий и о переходе `ubuntu-latest` на Ubuntu 26 |
