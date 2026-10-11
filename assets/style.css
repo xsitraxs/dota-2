@@ -210,3 +210,30 @@ ul.plain { list-style: none; margin: 0; padding: 0; }
 .btn.sm { padding: 5px 10px; font-size: 13px; }
 
 footer.foot { margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12.5px; }
+
+/* ---------- распознавание скриншота ---------- */
+.shot-drop {
+  margin-top: 10px; border: 1px dashed var(--border); border-radius: var(--radius);
+  background: var(--bg-soft); padding: 12px; text-align: center;
+}
+.shot-drop.filled { border-style: solid; padding: 10px; }
+.shot-empty { color: var(--muted); font-size: 13px; display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.shot-empty b { color: var(--gold); }
+.shot-preview { display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 8px; }
+.shot-row { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; border-top: 1px solid var(--border); }
+.shot-row:first-child { border-top: 0; }
+.shot-thumb {
+  width: 52px; height: 52px; flex: 0 0 52px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--panel-2);
+}
+.shot-info { min-width: 0; flex: 1; }
+.shot-pick {
+  width: 100%; max-width: 320px; padding: 5px 8px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+}
+.num {
+  width: 56px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--panel-2); color: var(--text);
+}
+.lbl { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); }
+.warn { color: var(--danger); }

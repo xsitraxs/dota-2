@@ -7,11 +7,13 @@ import {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
   heroDamage, heroHp, heroMana, heroArmor,
 } from './analysis.js';
+import { recognizeScreenshot, recognizeCells, splitRect } from './recognize.js';
 
 const DATA = {
   heroes: {}, abilities: {}, items: {}, patchnotes: {}, icons: {}, meta: {},
   tagsKb: { vocabulary: {}, heroes: {} }, rules: { rules: {}, combos: [] },
   timings: { events: [], notes: [] }, plans: {},
+  templates: null, // подписи героев для распознавания — грузятся при первом открытии вкладки
 };
 
 /** Сколько карточек предметов рисуем сразу: остальное подгружается по скроллу или кнопкой. */
@@ -33,6 +35,19 @@ const state = {
   patch: null,
   timer: { running: false, start: 0, offset: 0 },
   checks: {},
+  shot: {
+    image: null,      // { width, height, data } — пиксели скриншота (RGBA)
+    name: '',
+    result: null,     // { grid, cells, confidence } — итог распознавания
+    busy: false,
+    error: '',
+    cols: 0,          // поля ручной нарезки
+    rows: 0,
+    region: null,     // { x, y, w, h } — область, которая режется вручную
+    regionEdited: false, // пользователь сам задал область (её не перетирает автопоиск)
+    manual: false,    // последний результат получен ручной нарезкой
+    picks: {},        // правки распознавания: индекс ячейки → слаг героя
+  },
 };
 
 const ROLE_RU = {
@@ -76,6 +91,121 @@ async function loadData() {
     Object.assign(DATA.plans, await get(`data/kb/${f}`));
   }
   state.patch = Object.keys(DATA.patchnotes).sort().pop();
+}
+
+/* ------------------------------ распознавание скриншота ------------------------------ */
+
+/** Подписи героев для распознавания: грузятся один раз и кэшируются в памяти. */
+async function ensureTemplates() {
+  if (DATA.templates) return DATA.templates;
+  const res = await fetch('data/templates.json');
+  if (!res.ok) throw new Error(`data/templates.json: HTTP ${res.status}`);
+  DATA.templates = (await res.json()).heroes;
+  return DATA.templates;
+}
+
+/** Уменьшенная копия кадра для предпросмотра: распознавание работает по полному изображению. */
+function shotPreviewSize(image, maxW = 900) {
+  const k = Math.min(1, maxW / image.width);
+  return { w: Math.max(1, Math.round(image.width * k)), h: Math.max(1, Math.round(image.height * k)), k };
+}
+
+/**
+ * Ячейки ручной нарезки: область и число колонок/строк берём из состояния, а по умолчанию —
+ * из найденной автоматически рамки, чтобы правку можно было начать с готового результата.
+ */
+function shotManualCells() {
+  const img = state.shot.image;
+  if (!img) return [];
+  const region = state.shot.region || { x: 0, y: 0, w: img.width, h: img.height };
+  const cols = Math.max(1, Math.min(24, Math.round(state.shot.cols) || 1));
+  const rows = Math.max(1, Math.min(24, Math.round(state.shot.rows) || 1));
+  return splitRect(region, cols, rows);
+}
+
+/** Распознавание кадра и подготовка состояния: автопоиск сетки либо ручная нарезка. */
+function shotRecognize({ manual = false } = {}) {
+  const shot = state.shot;
+  if (!shot.image || !DATA.templates) return;
+  if (manual) {
+    const cells = shotManualCells();
+    const results = recognizeCells(shot.image, cells, DATA.templates, { topK: 5 });
+    shot.result = { grid: null, cells: results, confidence: null };
+    shot.manual = true;
+  } else {
+    shot.result = recognizeScreenshot(shot.image, DATA.templates, { topK: 5 });
+    shot.manual = false;
+    const cells = shot.result.cells;
+    if (cells && cells.length && !shot.regionEdited) {
+      const xs = cells.map((c) => c.rect.x);
+      const ys = cells.map((c) => c.rect.y);
+      const xe = cells.map((c) => c.rect.x + c.rect.w);
+      const ye = cells.map((c) => c.rect.y + c.rect.h);
+      shot.region = {
+        x: Math.min(...xs), y: Math.min(...ys),
+        w: Math.max(...xe) - Math.min(...xs), h: Math.max(...ye) - Math.min(...ys),
+      };
+      shot.cols = shot.result.grid.cols;
+      shot.rows = shot.result.grid.rows;
+    }
+  }
+  shot.picks = {};
+}
+
+/** Запуск распознавания с перерисовкой «идёт распознавание…» (тяжёлый проход — вне текущего кадра). */
+function shotRun(options = {}) {
+  const shot = state.shot;
+  if (!shot.image) return;
+  shot.busy = true;
+  shot.error = '';
+  render();
+  setTimeout(() => {
+    try {
+      ensureTemplates().then(() => {
+        shotRecognize(options);
+        shot.busy = false;
+        render();
+      }).catch((err) => {
+        shot.busy = false;
+        shot.error = err.message;
+        render();
+      });
+    } catch (err) {
+      shot.busy = false;
+      shot.error = err.message;
+      render();
+    }
+  }, 30);
+}
+
+/** Итоговый список героев: правки пользователя поверх распознанных. */
+function shotHeroes() {
+  const shot = state.shot;
+  if (!shot.result) return [];
+  return shot.result.cells.map((cell, i) => ({
+    index: i,
+    rect: cell.rect,
+    slug: shot.picks[i] !== undefined ? shot.picks[i] : cell.candidates[0].slug,
+    score: cell.candidates[0].score,
+    candidates: cell.candidates,
+    edited: shot.picks[i] !== undefined,
+  }));
+}
+
+/** Заполнение драфта по порядку ячеек: пустые слоты заполняются сверху вниз. */
+function shotFill(group) {
+  const heroes = shotHeroes().map((h) => h.slug).filter(Boolean);
+  const slots = group === 'enemies' ? state.enemies : state.allies;
+  let k = 0;
+  for (let i = 0; i < slots.length && k < heroes.length; i++) {
+    if (slots[i]) continue;
+    slots[i] = heroes[k++];
+  }
+  if (group === 'enemies' && !state.enemyMid && state.enemies.filter(Boolean).length) {
+    state.enemyMid = state.enemies.filter(Boolean)[0];
+  }
+  saveDraft();
+  render();
 }
 
 /* ------------------------------ helpers ------------------------------ */
@@ -189,6 +319,9 @@ function renderDraft() {
         <div class="stack">
           ${state.enemies.map((s, i) => slot('enemies', state.enemies, i, `Враг ${i + 1}`)).join('')}
         </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn sm ghost" data-shot="open-shot">Заполнить по скриншоту</button>
+        </div>
         ${enemies.length ? `<div class="row small" style="margin-top:10px">
           <span class="muted">Их мид:</span>
           <select class="search" data-enemy-mid style="padding:6px 8px">
@@ -220,6 +353,7 @@ function renderDraft() {
           <li>Добавь вражеский драфт — анализ сразу перестроится.</li>
           <li>Укажи, кто у них на миду, чтобы получить разбор лейна.</li>
           <li>Смотри план закупа, угрозы и рекомендации по следующим пикам.</li>
+          <li>Либо вставь скриншот экрана пика на вкладке «Скриншот» — герои распознаются и подставятся сами.</li>
         </ol>
         <p class="muted small">Всё работает офлайн и на цифрах патча 7.41 — без сторонних сервисов и винрейтов.</p>
       </div>` : ''}
@@ -671,6 +805,7 @@ function render() {
   document.querySelectorAll('#tabs button').forEach((b) => b.classList.toggle('active', b.dataset.tab === state.tab));
   const view = $('#view');
   if (state.tab === 'draft') view.innerHTML = renderDraft();
+  else if (state.tab === 'shot') { view.innerHTML = renderShot(); mountShot(); }
   else if (state.tab === 'heroes') view.innerHTML = renderHeroes();
   else if (state.tab === 'items') { view.innerHTML = renderItems(); mountItemsLazy(); }
   else if (state.tab === 'patch') view.innerHTML = renderPatch();
@@ -758,6 +893,196 @@ function openPicker(target) {
     }
   });
 }
+
+/* ------------------------------ вкладка «Скриншот» ------------------------------ */
+
+/** Строка результата: миниатюра ячейки, список героев и ближайшие альтернативы. */
+function shotRowHTML(row) {
+  const heroes = Object.values(DATA.heroes).sort((a, b) => byName(a.localized_name, b.localized_name));
+  const alts = row.candidates.slice(1, 4)
+    .filter((c) => c.slug !== row.slug)
+    .map((c) => `<button class="chip" data-shot-alt="${row.index}:${esc(c.slug)}" title="Близость ${c.score}">${esc(DATA.heroes[c.slug]?.localized_name || c.slug)}</button>`)
+    .join('');
+  const unsure = !row.edited && row.score > 0.26;
+  return `<div class="shot-row">
+    <canvas class="shot-thumb" data-shot-thumb="${row.index}" width="52" height="52"></canvas>
+    <div class="shot-info">
+      <select class="shot-pick" data-shot-pick="${row.index}">
+        <option value="">— не определён —</option>
+        ${heroes.map((h) => `<option value="${h.slug}"${h.slug === row.slug ? ' selected' : ''}>${esc(h.localized_name)}</option>`).join('')}
+      </select>
+      <div class="small muted">ячейка ${row.index + 1} · близость ${row.score}${row.edited ? ' · правка' : ''}${unsure ? ' · <span class="warn">не уверен</span>' : ''}</div>
+      ${alts ? `<div class="chips" style="margin-top:4px">${alts}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderShot() {
+  const shot = state.shot;
+  const result = shot.result;
+  const rows = shotHeroes();
+  const found = rows.filter((r) => r.slug).length;
+  const gridInfo = result && result.grid
+    ? `Сетка ${result.grid.cols}×${result.grid.rows} (${result.grid.meta.colMode}/${result.grid.meta.rowMode})`
+      + `${result.confidence === null ? '' : `, уверенность ${Math.round(result.confidence * 100)}%`}`
+    : (result ? 'Нарезка задана вручную.' : 'Кадр ещё не распознан.');
+  const busy = shot.busy;
+  return `
+  <div class="grid cols-2">
+    <div class="stack">
+      <div class="panel">
+        <h2>Скриншот экрана пика</h2>
+        <p class="small muted">Вставь скриншот (Ctrl+V), перетащи файл в область или выбери его кнопкой.
+          Распознавание идёт целиком в браузере по локальным иконкам — картинка никуда не отправляется.</p>
+        <div class="shot-drop${shot.image ? ' filled' : ''}" id="shotDrop">
+          ${shot.image
+    ? '<canvas id="shotPreview" class="shot-preview"></canvas>'
+    : '<div class="shot-empty"><b>Ctrl+V</b> · перетащи файл сюда · <label class="btn sm ghost">выбрать файл<input type="file" id="shotFile" accept="image/*" hidden></label></div>'}
+        </div>
+        ${shot.image ? `<div class="row small muted" style="margin-top:8px">
+          <span>${esc(shot.name || 'скриншот')} · ${shot.image.width}×${shot.image.height}</span>
+          <button class="btn sm ghost" data-shot="reset">Другой скриншот</button>
+        </div>` : ''}
+        ${busy ? '<p class="small">Распознаю карточки…</p>' : ''}
+        ${shot.error ? `<p class="small warn">${esc(shot.error)}</p>` : ''}
+      </div>
+      ${shot.image ? `
+      <div class="panel">
+        <h2>Сетка карточек</h2>
+        <div class="row small">
+          <label class="lbl">колонок <input class="num" id="shotCols" type="number" min="1" max="24" value="${shot.cols || 1}"></label>
+          <label class="lbl">строк <input class="num" id="shotRows" type="number" min="1" max="24" value="${shot.rows || 1}"></label>
+          <button class="btn sm" data-shot="resplit">Нарезать заново</button>
+          <button class="btn sm ghost" data-shot="auto">Автопоиск</button>
+        </div>
+        <div class="row small" style="margin-top:6px">
+          <span class="muted">область:</span>
+          <label class="lbl">x <input class="num" id="shotX" type="number" min="0" value="${Math.round(shot.region ? shot.region.x : 0)}"></label>
+          <label class="lbl">y <input class="num" id="shotY" type="number" min="0" value="${Math.round(shot.region ? shot.region.y : 0)}"></label>
+          <label class="lbl">ш <input class="num" id="shotW" type="number" min="1" value="${Math.round(shot.region ? shot.region.w : shot.image.width)}"></label>
+          <label class="lbl">в <input class="num" id="shotH" type="number" min="1" value="${Math.round(shot.region ? shot.region.h : shot.image.height)}"></label>
+        </div>
+        <p class="small muted">${gridInfo}. Если автопоиск ошибся, задай колонки, строки и область вручную —
+          удобно нарезать по одному ряду карточек (например, ряд одной команды) и заполнять драфт по частям.</p>
+      </div>` : ''}
+    </div>
+    <div class="stack">
+      ${result ? `
+      <div class="panel">
+        <h2>Распознано героев: ${found} из ${rows.length}</h2>
+        <div class="stack" id="shotList">${rows.map((r) => shotRowHTML(r)).join('')}</div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn sm" data-shot="fill-enemies">В противники</button>
+          <button class="btn sm" data-shot="fill-allies">В союзники</button>
+          <button class="btn sm ghost" data-shot="open-draft">Открыть драфт</button>
+        </div>
+        <p class="small muted">Заполняются пустые слоты драфта по порядку ячеек. Любого героя можно
+          поправить списком или кнопкой-альтернативой, затем пересобрать драфт кнопкой ещё раз.</p>
+      </div>` : `
+      <div class="panel">
+        <h2>Как это работает</h2>
+        <ol class="small" style="margin:0;padding-left:18px">
+          <li>Кадр уменьшается до рабочих 32×32 на ячейку и превращается в «подпись»: разностный хеш
+            (dHash) и средние цвета.</li>
+          <li>Сетка карточек ищется по профилям яркости и градиента, затем фаза сетки подгоняется
+            по узнаваемости карточек.</li>
+          <li>Каждая ячейка сравнивается с локальными иконками всех героев; в ответе — ближайшие
+            кандидаты, так что ошибку видно и легко поправить руками.</li>
+        </ol>
+      </div>`}
+    </div>
+  </div>`;
+}
+
+/** Рисует предпросмотр: кадр, найденную сетку и миниатюры ячеек. */
+function mountShot() {
+  const shot = state.shot;
+  if (state.tab !== 'shot' || !shot.image) return;
+  try {
+    const preview = document.getElementById('shotPreview');
+    if (preview) {
+      const size = shotPreviewSize(shot.image);
+      preview.width = size.w;
+      preview.height = size.h;
+      const ctx = preview.getContext && preview.getContext('2d');
+      const src = document.createElement('canvas');
+      src.width = shot.image.width;
+      src.height = shot.image.height;
+      const sctx = src.getContext && src.getContext('2d');
+      if (ctx && sctx) {
+        sctx.putImageData(new ImageData(new Uint8ClampedArray(shot.image.data), shot.image.width, shot.image.height), 0, 0);
+        ctx.drawImage(src, 0, 0, size.w, size.h);
+        const rows = shotHeroes();
+        ctx.lineWidth = 2;
+        for (const row of rows) {
+          const r = row.rect;
+          ctx.strokeStyle = row.slug ? 'rgba(110, 207, 90, 0.95)' : 'rgba(240, 112, 58, 0.95)';
+          ctx.fillStyle = 'rgba(110, 207, 90, 0.12)';
+          ctx.fillRect(r.x * size.k, r.y * size.k, r.w * size.k, r.h * size.k);
+          ctx.strokeRect(r.x * size.k, r.y * size.k, r.w * size.k, r.h * size.k);
+        }
+      }
+      const thumbs = document.querySelectorAll('[data-shot-thumb]');
+      for (const el of thumbs) {
+        const row = shotHeroes()[Number(el.dataset.shotThumb)];
+        if (!row) continue;
+        const tctx = el.getContext && el.getContext('2d');
+        if (!tctx) continue;
+        const r = row.rect;
+        const side = Math.min(r.w, r.h);
+        const crop = { x: r.x + (r.w - side) / 2, y: r.y + (r.h - side) / 2, w: side, h: side };
+        const sc = document.createElement('canvas');
+        sc.width = shot.image.width;
+        sc.height = shot.image.height;
+        const sctx = sc.getContext && sc.getContext('2d');
+        if (!sctx) continue;
+        sctx.putImageData(new ImageData(new Uint8ClampedArray(shot.image.data), shot.image.width, shot.image.height), 0, 0);
+        tctx.drawImage(sc, crop.x, crop.y, crop.w, crop.h, 0, 0, el.width, el.height);
+      }
+    }
+  } catch { /* нет canvas (jsdom) — предпросмотр просто не рисуется */ }
+}
+
+/** Кладёт пиксели кадра в состояние и запускает распознавание. */
+function shotUseImage(image, name = 'скриншот') {
+  const shot = state.shot;
+  shot.image = image;
+  shot.name = name;
+  shot.result = null;
+  shot.picks = {};
+  shot.region = null;
+  shot.manual = false;
+  shot.error = '';
+  shotRun();
+}
+
+/** Разбор файла/вставки: File → пиксели через canvas. */
+async function shotLoadBlob(blob, name) {
+  const shot = state.shot;
+  try {
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = () => reject(new Error('формат изображения не поддержан'));
+      img.src = url;
+    });
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    URL.revokeObjectURL(url);
+    shotUseImage({ width: data.width, height: data.height, data: new Uint8Array(data.data) }, name);
+  } catch (err) {
+    shot.error = `Не удалось прочитать изображение: ${err.message}`;
+    render();
+  }
+}
+
+/** Вход для тестов: в jsdom нет canvas, поэтому кадр подкладывается готовыми пикселями. */
+window.__dpShot = (image, name) => shotUseImage(image, name);
 
 /* ------------------------------ таймер ------------------------------ */
 
@@ -905,6 +1230,50 @@ function bindEvents() {
     const moreItems = e.target.closest('[data-items-more]');
     if (moreItems) { showMoreItems(Number(moreItems.dataset.itemsMore) || ITEM_PAGE); return; }
 
+    const shotBtn = e.target.closest('[data-shot]');
+    if (shotBtn) {
+      const act = shotBtn.dataset.shot;
+      if (act === 'reset') {
+        state.shot = { ...state.shot, image: null, result: null, picks: {}, region: null, regionEdited: false, error: '' };
+        render();
+        return;
+      }
+      if (act === 'auto') { shotRun({ manual: false }); return; }
+      if (act === 'resplit') {
+        const shot = state.shot;
+        shot.cols = Math.max(1, Number($('#shotCols')?.value) || shot.cols || 1);
+        shot.rows = Math.max(1, Number($('#shotRows')?.value) || shot.rows || 1);
+        if (shot.image) {
+          const img = shot.image;
+          const px = Number($('#shotX')?.value);
+          const py = Number($('#shotY')?.value);
+          const pw = Number($('#shotW')?.value);
+          const ph = Number($('#shotH')?.value);
+          shot.region = {
+            x: Math.max(0, Math.min(img.width - 1, Number.isFinite(px) ? px : 0)),
+            y: Math.max(0, Math.min(img.height - 1, Number.isFinite(py) ? py : 0)),
+            w: Math.max(1, Math.min(img.width, Number.isFinite(pw) && pw > 0 ? pw : img.width)),
+            h: Math.max(1, Math.min(img.height, Number.isFinite(ph) && ph > 0 ? ph : img.height)),
+          };
+          shot.regionEdited = true;
+        }
+        shotRun({ manual: true });
+        return;
+      }
+      if (act === 'fill-enemies') { shotFill('enemies'); return; }
+      if (act === 'fill-allies') { shotFill('allies'); return; }
+      if (act === 'open-draft') { state.tab = 'draft'; render(); return; }
+      if (act === 'open-shot') { state.tab = 'shot'; render(); return; }
+    }
+
+    const shotAlt = e.target.closest('[data-shot-alt]');
+    if (shotAlt) {
+      const [idx, slug] = shotAlt.dataset.shotAlt.split(':');
+      state.shot.picks[Number(idx)] = slug;
+      render();
+      return;
+    }
+
     const pick = e.target.closest('[data-pick]');
     if (pick) { const [group, idx] = pick.dataset.pick.split(':'); openPicker({ group, idx: Number(idx) }); return; }
 
@@ -980,6 +1349,17 @@ function bindEvents() {
   });
 
   document.addEventListener('change', (e) => {
+    if (e.target.matches('[data-shot-pick]')) {
+      const idx = Number(e.target.dataset.shotPick);
+      if (e.target.value) state.shot.picks[idx] = e.target.value;
+      else delete state.shot.picks[idx];
+      render();
+      return;
+    }
+    if (e.target.id === 'shotFile' && e.target.files && e.target.files[0]) {
+      shotLoadBlob(e.target.files[0], e.target.files[0].name);
+      return;
+    }
     if (e.target.matches('[data-enemy-mid]')) { state.enemyMid = e.target.value; saveDraft(); render(); }
     if (e.target.id === 'patchSelect') { state.patch = e.target.value; render(); }
     if (e.target.matches('[data-check]')) {
@@ -988,6 +1368,35 @@ function bindEvents() {
       else delete state.checks[e.target.dataset.check];
       saveDraft();
     }
+  });
+}
+
+/** Вставка из буфера обмена и перетаскивание файла на область предпросмотра. */
+function bindShotDrop() {
+  document.addEventListener('paste', (e) => {
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (const item of items) {
+      if (!item.type || !item.type.startsWith('image/')) continue;
+      const file = item.getAsFile();
+      if (!file) continue;
+      e.preventDefault();
+      state.tab = 'shot';
+      render();
+      shotLoadBlob(file, 'вставленный скриншот');
+      return;
+    }
+  });
+  document.addEventListener('dragover', (e) => {
+    if (state.tab !== 'shot') return;
+    e.preventDefault();
+  });
+  document.addEventListener('drop', (e) => {
+    if (state.tab !== 'shot') return;
+    const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (!file) return;
+    e.preventDefault();
+    shotLoadBlob(file, file.name);
   });
 }
 
@@ -1001,6 +1410,7 @@ function bindEvents() {
     $('#patchBadge').textContent = `патч ${DATA.meta.latestPatch}`;
     $('#metaLine').textContent = `данные от ${String(DATA.meta.latestPatchDate).slice(0, 10)} · ${DATA.meta.heroes} героев · ${DATA.meta.items} предметов`;
     bindEvents();
+    bindShotDrop();
     render();
   } catch (err) {
     $('#view').innerHTML = `<div class="panel"><h2>Ошибка загрузки данных</h2>

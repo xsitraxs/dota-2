@@ -5,6 +5,14 @@
  * локальных иконок (data/templates.json). Подпись карточки — два инварианта:
  *   • dHash 17×16 (256 бит): сравнение соседних пикселей по строке — устойчиво к яркости;
  *   • цветовая сигнатура 4×4 блока (48 байт): средний RGB блока после нормировки яркости.
+ * Близость = 0.7·dHash + 0.3·цвет. Пустые (плоские) ячейки помечаются и в сравнении не участвуют.
+ *
+ * Автопоиск сетки: по профилям яркости и градиента находится область содержимого, затем шаг
+ * решётки (перебор шагов с фазировкой по профилю плюс «попадание в границы») и полосы карточек
+ * (например, два ряда команд на экране пика). Из нескольких кандидатов сетка выбирается по
+ * узнаваемости ячеек (медиана близости + покрытие области + соответствие размеров), после чего
+ * подбирается общий сдвиг — фаза — всей сетки. Ячейка сравнивается в нескольких окнах
+ * кадрирования и масштабах, плоские края (фон, полоса подписи PICK/BAN) обрезаются.
  *
  * Модуль не зависит от DOM (кроме ImageData-подобных объектов) и тестируется в Node.
  */
@@ -56,9 +64,21 @@ export function sampleRect(img, rect) {
   }
   // Автоуровни: скриншоты бывают темнее/светлее исходных иконок. Растягиваем диапазон по
   // процентилям (крайние значения отбрасываем — там шум), одинаково для всех каналов.
-  const sorted = Array.from(gray).sort((a, b) => a - b);
-  const lo = sorted[Math.floor(sorted.length * 0.02)];
-  const hi = sorted[Math.floor(sorted.length * 0.98)];
+  let lo = 0;
+  let hi = 255;
+  {
+    // Процентили по гистограмме: сортировать 1024 значения на каждую подпись слишком дорого.
+    const hist = new Uint16Array(256);
+    for (let i = 0; i < gray.length; i++) hist[gray[i]]++;
+    const target = gray.length * 0.02;
+    let acc = 0;
+    for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= target) { lo = v; break; } }
+    acc = 0;
+    for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc >= target) { hi = v; break; } }
+  }
+  // Плоский патч (фон, пустой слот): сравнивать нечего — иначе серый прямоугольник
+  // «похож» на случайного героя по цвету и портит и выбор сетки, и результат.
+  const flat = hi - lo < 12;
   if (hi - lo >= 12) {
     const scale = 255 / (hi - lo);
     for (let i = 0; i < gray.length; i++) {
@@ -69,7 +89,7 @@ export function sampleRect(img, rect) {
       }
     }
   }
-  return { gray, rgb };
+  return { gray, rgb, flat };
 }
 
 /** Уменьшение 32×32 → 17×16 усреднением (тот же алгоритм в сборщике шаблонов и в браузере). */
@@ -188,7 +208,7 @@ export function cellCropRects(rect, opts = {}) {
     }
   }
   // Плюс квадратные окна: в экране пика портреты обрезаны квадратом, а не 16:9.
-  for (const scale of [0.78, 0.9]) {
+  for (const scale of opts.squares === false ? [] : [0.78, 0.9]) {
     const side = Math.min(rect.w, rect.h) * scale;
     out.push({ x: rect.x + (rect.w - side) / 2, y: rect.y + (rect.h - side) / 2, w: side, h: side });
   }
@@ -209,7 +229,11 @@ export function recognizeCells(img, cells, templates, opts = {}) {
     sigs: hexes.map(signatureFromHex),
   }));
   return cells.map((rect) => {
-    const windows = cellCropRects(rect, opts);
+    const sampled = sampleRect(img, rect);
+    if (sampled.flat) return { rect, candidates: [], empty: true };
+    // Плоские края ячейки (фон, полоса подписи, пустота между рядами) в сравнение не берём.
+    const base = flatFreeRect(sampled.gray, rect);
+    const windows = cellCropRects(base, opts);
     const scoreOf = (cand, win) => {
       const sig = buildSignature(sampleRect(img, win));
       let best = { d: 1, variant: 0 };
@@ -221,7 +245,7 @@ export function recognizeCells(img, cells, templates, opts = {}) {
     };
     // Грубый проход по центральному окну отбирает пул похожих героев, затем для каждого героя
     // пула выбирается лучшее окно кадрирования — так компенсируется смещение рамки карточки.
-    const coarseSig = buildSignature(sampleRect(img, centerCrop(rect, 0.92)));
+    const coarseSig = buildSignature(sampleRect(img, centerCrop(base, 0.92)));
     const coarse = prepared.map((tpl) => {
       let best = 1;
       for (const t of tpl.sigs) {
@@ -245,6 +269,48 @@ export function recognizeCells(img, cells, templates, opts = {}) {
     const ranked = refined.concat(rest);
     return { rect, candidates: ranked.slice(0, Math.max(topK, 5)) };
   });
+}
+
+/**
+ * Обрезка плоских краёв ячейки: рамка сетки часто захватывает фон, полосу подписи «PICK/BAN»
+ * или пустоту между рядами карточек. Портрет же даёт заметный разброс яркости.
+ */
+function flatFreeRect(gray, rect) {
+  const n = SIG_SIZE;
+  const colStd = new Float32Array(n);
+  const rowStd = new Float32Array(n);
+  for (let x = 0; x < n; x++) {
+    let sum = 0;
+    let sum2 = 0;
+    for (let y = 0; y < n; y++) { const v = gray[y * n + x]; sum += v; sum2 += v * v; }
+    const m = sum / n;
+    colStd[x] = Math.sqrt(Math.max(0, sum2 / n - m * m));
+  }
+  for (let y = 0; y < n; y++) {
+    let sum = 0;
+    let sum2 = 0;
+    for (let x = 0; x < n; x++) { const v = gray[y * n + x]; sum += v; sum2 += v * v; }
+    const m = sum / n;
+    rowStd[y] = Math.sqrt(Math.max(0, sum2 / n - m * m));
+  }
+  const thrC = Math.max(5, median(colStd) * 0.35);
+  const thrR = Math.max(5, median(rowStd) * 0.35);
+  let x0 = 0;
+  let x1 = n - 1;
+  let y0 = 0;
+  let y1 = n - 1;
+  while (x0 < x1 && colStd[x0] < thrC) x0++;
+  while (x1 > x0 && colStd[x1] < thrC) x1--;
+  while (y0 < y1 && rowStd[y0] < thrR) y0++;
+  while (y1 > y0 && rowStd[y1] < thrR) y1--;
+  // Обрезать больше половины ячейки — уже не «край», а сама картинка: не трогаем.
+  if (x1 - x0 + 1 < n * 0.45 || y1 - y0 + 1 < n * 0.45) return rect;
+  return {
+    x: rect.x + (rect.w * x0) / n,
+    y: rect.y + (rect.h * y0) / n,
+    w: (rect.w * (x1 - x0 + 1)) / n,
+    h: (rect.h * (y1 - y0 + 1)) / n,
+  };
 }
 
 /** Центральное окно ячейки: уменьшенная копия без сдвигов (грубый проход). */
@@ -461,7 +527,9 @@ function cellsFromLines(colLines, rowLines) {
  * @returns {Array<{x:number,y:number,w:number,h:number,cols:number,rows:number,cells:Array,meta:object}>}
  */
 export function gridCandidates(img, opts = {}) {
-  const maxW = opts.maxWidth || 480;
+  // Профили считаем в заметном разрешении: у карточек на реальном скриншоте разделители
+  // всего 2–4 пикселя, и при сильном сжатии решётка по ним уже не находится.
+  const maxW = opts.maxWidth || 960;
   const scale = Math.min(1, maxW / img.width);
   const w = Math.max(16, Math.round(img.width * scale));
   const h = Math.max(16, Math.round(img.height * scale));
@@ -488,6 +556,19 @@ export function gridCandidates(img, opts = {}) {
   const colRange = { a: box.x0, b: box.x1 - 1 };
   colSets.push(...lagLattices(colLum, colRange, { minLag: colMinLag, maxLag: colMaxLag, mode: 'gaps', limit: 6 }));
   colSets.push(...lagLattices(colEdge, colRange, { minLag: colMinLag, maxLag: colMaxLag, mode: 'edges', limit: 4 }));
+  // Экран пика состоит из двух рядов команд с большим промежутком между ними: общий профиль
+  // по всем рядам размывается, поэтому колонки отдельно ищем в каждой полосе содержимого.
+  const rowLumAll = lumProfileY(gray, w, h, box.x0, box.x1);
+  const bands = activeBands(rowLumAll, 0.15, Math.max(6, Math.round(h * 0.05)))
+    .filter((b) => b.b - b.a >= Math.max(6, Math.round(h * 0.05)));
+  for (const band of bands.slice(0, 3)) {
+    const bandLum = lumProfileX(gray, w, h, band.a, band.b + 1);
+    const bandEdge = edgeProfileX(gray, w, h, band.a, band.b + 1);
+    colSets.push(...lagLattices(bandLum, colRange, { minLag: colMinLag, maxLag: colMaxLag, mode: 'gaps', limit: 3 })
+      .map((c) => ({ ...c, source: 'band' })));
+    colSets.push(...lagLattices(bandEdge, colRange, { minLag: colMinLag, maxLag: colMaxLag, mode: 'edges', limit: 2 })
+      .map((c) => ({ ...c, source: 'band' })));
+  }
   const out = [];
   const seen = new Set();
   for (const cols of colSets) {
@@ -508,6 +589,11 @@ export function gridCandidates(img, opts = {}) {
     // Одна полоса карточек: ряд занимает всю вертикальную область, заполненную деталями.
     const bandRows = contentBand(rowLum);
     if (bandRows) rowSets.push({ boundaries: [bandRows.a, bandRows.b], lag: 0, coverage: 1, mode: 'band' });
+    // Ряды команд: каждая полоса содержимого — свой ряд карточек (экран пика).
+    if (bands.length >= 2 && bands.length <= 3) {
+      for (const band of bands) rowSets.push({ boundaries: [band.a, band.b], lag: 0, coverage: 1, mode: 'band' });
+      rowSets.push({ boundaries: bands.flatMap((b) => [b.a, b.b]), lag: 0, coverage: 1, mode: 'bands' });
+    }
     rowSets.push({ boundaries: [0, h], lag: 0, coverage: 1, mode: 'full' }); // и весь кадр на случай, если и это не помогло
     for (const rows of rowSets) {
       // Ячейки целиком вне области содержимого — заведомо фон, а не карточки;
@@ -557,6 +643,26 @@ function activeRange(profile, rel = 0.15, minLen = 4) {
   }
   if (a < 0 || b - a < minLen) return null;
   return { a, b };
+}
+
+/** Все непрерывные участки профиля выше порога: например, два ряда команд на экране пика. */
+function activeBands(profile, rel = 0.15, minLen = 4) {
+  const n = profile.length;
+  const sorted = [...profile].sort((a, b) => a - b);
+  const lo = sorted[Math.floor(n * 0.05)];
+  const hi = sorted[Math.floor(n * 0.95)];
+  const thr = lo + rel * Math.max(1, hi - lo);
+  const bands = [];
+  let a = -1;
+  for (let i = 0; i <= n; i++) {
+    const on = i < n && profile[i] > thr;
+    if (on && a < 0) a = i;
+    if (!on && a >= 0) {
+      if (i - a >= minLen) bands.push({ a, b: i - 1 });
+      a = -1;
+    }
+  }
+  return bands;
 }
 
 /** Вертикальная область кадра, заполненная деталями (для случая «одна полоса карточек»). */
@@ -627,8 +733,8 @@ const median = (arr) => {
 function gridPhase(img, cells, prepared, weights) {
   const sample = [];
   const stride = Math.max(1, Math.floor(cells.length / 6));
-  for (let i = 0; i < cells.length && sample.length < 6; i += stride) sample.push(cells[i]);
-  const offsets = [0, -0.03, 0.03, -0.06, 0.06, -0.09, 0.09, -0.12, 0.12];
+  for (let i = 0; i < cells.length && sample.length < 4; i += stride) sample.push(cells[i]);
+  const offsets = [0, -0.04, 0.04, -0.08, 0.08, -0.12, 0.12];
   const at = (dx, dy) => {
     const vals = sample.map((rect) => {
       const sig = buildSignature(sampleRect(img, centerCrop(shiftRect(rect, dx, dy), 0.9)));
@@ -677,17 +783,21 @@ export function recognizeScreenshot(img, templates, opts = {}) {
     const sampleLimit = Math.min(verifyLimit, 8);
     const step = Math.max(1, Math.floor(grid.cells.length / sampleLimit));
     const sample = grid.cells.filter((_, i) => i % step === 0).slice(0, sampleLimit);
-    const stats = sample.map((rect) => cellStats(img, rect));
-    const emptyFrac = stats.filter((st) => st.std < 12).length / Math.max(1, stats.length);
-    const top = recognizeCells(img, sample, templates, { topK: 1, refinePool: 4, scales: [0.9], shifts: [[0, 0]] });
-    // Оценка рамки — медиана по ячейкам: верная сетка даёт ровные уверенные совпадения,
+    const top = recognizeCells(img, sample, templates, { topK: 1, refinePool: 4, scales: [1], shifts: [[0, 0]], squares: false });
+    const emptyFrac = top.filter((r) => r.empty).length / Math.max(1, top.length);
+    // Оценка рамки — медиана по непустым ячейкам: верная сетка даёт ровные уверенные совпадения,
     // смещённая — «никакие» почти на всех карточках.
-    const med = median(top.map((r) => r.candidates[0].score));
+    const filled = top.filter((r) => !r.empty);
+    const med = filled.length ? median(filled.map((r) => r.candidates[0].score)) : 1;
     const cov = coveredFrac(grid.cells, grid.meta.box);
-    // Итоговая оценка кандидата: качество совпадений плюс штраф за неполное покрытие кадра.
-    scored.push({ grid, med, aspect, emptyFrac, cov, rank: med + 0.15 * (1 - cov) });
+    const fit = fitPenalty(grid.cells, grid.meta.box);
+    // Итоговая оценка кандидата: качество совпадений плюс штрафы за неполное покрытие
+    // области содержимого и за ячейки, не похожие на карточки по размеру.
+    scored.push({ grid, med, aspect, emptyFrac, cov, fit, rank: med + 0.15 * (1 - cov) + 0.08 * fit });
   }
-  const plausible = scored.filter((c) => c.emptyFrac <= 0.15 && c.aspect >= 0.5 && c.aspect <= 1.4);
+  // Карточки героев бывают и квадратными, и 16:9 — окно аспекта поэтому широкое,
+  // а пустые ячейки (полоса подписей, промежуток между рядами) не отбраковывают сетку целиком.
+  const plausible = scored.filter((c) => c.aspect >= 0.4 && c.aspect <= 2 && c.emptyFrac <= 0.6);
   const pool = plausible.length ? plausible : scored;
   // У лучших кандидатов уточняем общую фазу сетки и пересчитываем их оценку.
   const weights = opts.weights || { dhash: 0.7, color: 0.3 };
@@ -697,9 +807,10 @@ export function recognizeScreenshot(img, templates, opts = {}) {
     cand.phase = phase;
     if (phase.dx || phase.dy) {
       const shifted = cand.grid.cells.map((r) => shiftRect(r, phase.dx, phase.dy));
-      const top = recognizeCells(img, shifted, templates, { topK: 1, refinePool: 4, scales: [1, 0.9], shifts: [[0, 0]] });
-      cand.med = median(top.map((r) => r.candidates[0].score));
-      cand.rank = cand.med + 0.15 * (1 - cand.cov);
+      const top = recognizeCells(img, shifted, templates, { topK: 1, refinePool: 4, scales: [1, 0.9], shifts: [[0, 0]], squares: false });
+      const filled = top.filter((r) => !r.empty);
+      cand.med = filled.length ? median(filled.map((r) => r.candidates[0].score)) : 1;
+      cand.rank = cand.med + 0.15 * (1 - cand.cov) + 0.08 * cand.fit;
     }
   }
   // Среди близких по качеству рамок предпочитаем более грубую: если карточка делится
@@ -713,8 +824,10 @@ export function recognizeScreenshot(img, templates, opts = {}) {
   const phase = best.phase || { dx: 0, dy: 0 };
   const gridCells = best.grid.cells.map((r) => shiftRect(r, phase.dx, phase.dy));
   const cells = recognizeCells(img, gridCells, templates, opts);
-  const scores = cells.map((c) => c.candidates[0].score);
-  const med = median(scores);
+  // Уверенность считаем по непустым ячейкам: пустые слоты (баны, свободные места) — это норма,
+  // а не признак плохой сетки.
+  const scores = cells.filter((c) => !c.empty).map((c) => c.candidates[0].score);
+  const med = scores.length ? median(scores) : 1;
   const confidence = Math.max(0, Math.min(1, (0.28 - med) / 0.08));
   return {
     grid: {
@@ -750,15 +863,17 @@ function coveredFrac(cells, box) {
   return Math.min(1, sum / (box.w * box.h));
 }
 
-/** Статистика ячейки: разброс яркости и «пустоту» (фон/щель) видно по стандартному отклонению. */
-function cellStats(img, rect) {
-  const { gray } = sampleRect(img, rect);
-  let sum = 0;
-  for (let i = 0; i < gray.length; i++) sum += gray[i];
-  const mean = sum / gray.length;
-  let varSum = 0;
-  for (let i = 0; i < gray.length; i++) varSum += (gray[i] - mean) ** 2;
-  return { mean, std: Math.sqrt(varSum / gray.length) };
+/**
+ * Насколько сетка объясняет площадь содержимого: ячейки должны укладываться в область
+ * карточек. Если ячейка одна и она больше области — это не сетка, а «кадр целиком».
+ */
+function fitPenalty(cells, box) {
+  if (!box || !box.w || !box.h || !cells.length) return 0;
+  const cellArea = median(cells.map((c) => c.w * c.h));
+  if (cellArea <= 0) return 0;
+  const expect = (box.w * box.h) / cellArea;
+  const ratio = cells.length / Math.max(0.15, expect);
+  return Math.min(1, Math.abs(Math.log2(Math.max(0.05, ratio))));
 }
 
 /** Равномерная нарезка прямоугольника на сетку cols×rows (ручной режим интерфейса). */

@@ -8,7 +8,8 @@
     "serve": "python3 -m http.server 8000",
     "lint": "eslint .",
     "test": "node tools/test_engine.mjs",
-    "test:ui": "node tools/test_ui.mjs"
+    "test:ui": "node tools/test_ui.mjs",
+    "test:recognize": "node tools/test_recognize.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

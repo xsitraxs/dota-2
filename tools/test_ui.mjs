@@ -14,6 +14,11 @@
  */
 
 import { JSDOM, VirtualConsole } from 'jsdom';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 const BASE = process.argv[2] || process.env.SITE_URL || 'http://127.0.0.1:8000/';
 
@@ -32,8 +37,11 @@ for (const f of JSON.parse(await get('data/kb_index.json')).files) {
 
 let html = await get('index.html');
 const analysis = (await get('assets/analysis.js')).replace(/^export\s+/gm, '');
-const app = (await get('assets/app.js')).replace(/^import\s*\{[\s\S]*?\}\s*from\s*'\.\/analysis\.js';/m, '');
-html = html.replace('<script type="module" src="assets/app.js"></script>', `<script>\n${analysis}\n${app}\n</script>`);
+const recognize = (await get('assets/recognize.js')).replace(/^export\s+/gm, '');
+const app = (await get('assets/app.js'))
+  .replace(/^import\s*\{[\s\S]*?\}\s*from\s*'\.\/analysis\.js';\s*/m, '')
+  .replace(/^import\s*\{[\s\S]*?\}\s*from\s*'\.\/recognize\.js';\s*/m, '');
+html = html.replace('<script type="module" src="assets/app.js"></script>', `<script>\n${analysis}\n${recognize}\n${app}\n</script>`);
 
 const vc = new VirtualConsole();
 vc.on('jsdomError', (e) => problems.push('jsdomError: ' + e.message));
@@ -54,6 +62,9 @@ function bootApp(seedDraft, { withObserver = false } = {}) {
       window.prompt = () => null;
       try { Object.defineProperty(window.navigator, 'clipboard', { value: { writeText: async () => {} } }); } catch { /* старый jsdom — не страшно */ }
       window.confirm = () => true;
+      // В jsdom нет canvas: приложение просто не рисует предпросмотр, а распознавание
+      // получает пиксели через window.__dpShot (см. раздел «Скриншот»).
+      window.HTMLCanvasElement.prototype.getContext = () => null;
       if (withObserver) window.IntersectionObserver = class { constructor(cb) { window.__io = cb; } observe() {} disconnect() {} };
     },
   });
@@ -203,6 +214,102 @@ check($$3('.item-card').length === itemPage, `на вкладке снова п�
 check($3('#itemsSentinel') !== null, 'страж подгрузки стоит после карточек');
 w3.__io([{ isIntersecting: true }]); await t(80);
 check($$3('.item-card').length === itemPage * 2, `подгрузка по скроллу добавила порцию: ${$$3('.item-card').length}`);
+
+console.log('\n7. Распознавание скриншота во вкладке «Скриншот»');
+{
+  const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'uishi-'));
+  const strip = ['axe', 'crystal_maiden', 'invoker', 'pudge', 'sniper', 'queenofpain'];
+  const CARD = 88;
+  const GAP = 6;
+  const PAD = 10;
+  const W = PAD * 2 + strip.length * CARD + (strip.length - 1) * GAP;
+  const H = PAD * 2 + CARD;
+  const args = ['-size', `${W}x${H}`, 'xc:#0d1016'];
+  strip.forEach((slug, i) => {
+    args.push('(', path.join(ROOT, 'data', 'icons', `${slug}.webp`), '-crop', '144x144+56+0', '+repage',
+      '-resize', `${CARD}x${CARD}!`, ')', '-geometry', `+${PAD + i * (CARD + GAP)}+${PAD}`, '-composite');
+  });
+  const png = path.join(tmp, 'ui-strip.png');
+  execFileSync('convert', [...args, png], { maxBuffer: 64 * 1024 * 1024 });
+  const dims = execFileSync('identify', ['-format', '%w %h', png]).toString().trim().split(' ').map(Number);
+  const data = new Uint8Array(execFileSync('convert', [png, '-depth', '8', 'rgba:-'], { maxBuffer: 256 * 1024 * 1024 }));
+  fs.rmSync(tmp, { recursive: true, force: true });
+
+  const dom4 = bootApp();
+  const w4 = dom4.window;
+  const $4 = (s) => w4.document.querySelector(s);
+  const $$4 = (s) => [...w4.document.querySelectorAll(s)];
+  const click4 = (el) => el.dispatchEvent(new w4.MouseEvent('click', { bubbles: true }));
+  const deadline4 = Date.now() + 30000;
+  while (Date.now() < deadline4 && !/патч 7\.41/.test($4('#patchBadge')?.textContent || '')) await t(150);
+
+  click4($4('[data-tab="shot"]'));
+  await t(150);
+  check($4('#shotDrop') !== null && /Ctrl\+V/.test($4('#shotDrop').textContent), 'вкладка предлагает вставить скриншот');
+  check(w4.__dpShot !== undefined, 'есть вход для передачи кадра (тестовый)');
+
+  w4.__dpShot({ width: dims[0], height: dims[1], data }, 'тестовая полоса');
+  const shotDeadline = Date.now() + 30000;
+  while (Date.now() < shotDeadline && !$4('#shotList')) await t(200);
+  check($4('#shotList') !== null, 'распознавание завершилось и список показан');
+  const picks = $$4('[data-shot-pick]').map((el) => el.value);
+  check(picks.length === strip.length, `строк по числу карточек: ${picks.length}`);
+  check(picks.join(',') === strip.join(','), `распознаны герои: ${picks.join(', ')}`);
+  check(/уверенность/.test($4('#view').textContent), 'показана уверенность сетки');
+
+  const selectEl = $4('[data-shot-pick="0"]');
+  selectEl.value = 'lion';
+  selectEl.dispatchEvent(new w4.Event('change', { bubbles: true }));
+  await t(100);
+  const altEl = $4('[data-shot-alt^="5:"]') || $4('[data-shot-alt]');
+  check(altEl !== null, 'альтернативы показываются кнопками');
+  let alt = null;
+  if (altEl) {
+    const [idx, slug] = altEl.dataset.shotAlt.split(':');
+    click4(altEl);
+    await t(120);
+    alt = { idx: Number(idx), slug };
+  }
+  const picked = $$4('[data-shot-pick]').map((el) => el.value);
+  check(picked[0] === 'lion' && alt && picked[alt.idx] === alt.slug,
+    `правки распознавания учтены: ячейка 1 → ${picked[0]}, ячейка ${alt ? alt.idx + 1 : '—'} → ${alt ? alt.slug : '—'}`);
+
+  click4($4('[data-shot="fill-enemies"]'));
+  await t(150);
+  click4($4('[data-tab="draft"]'));
+  await t(150);
+  const draftSlugs = $$4('.hero-mini .nm').map((el) => el.textContent.trim()).slice(0, 5);
+  check(draftSlugs.length === 5, `драфт заполнен пятью героями: ${draftSlugs.join(', ')}`);
+  const savedShot = JSON.parse(w4.localStorage.getItem('dp.draft') || '{}');
+  check(Array.isArray(savedShot.enemies) && savedShot.enemies.filter(Boolean).length === 5, 'драфт сохранён в localStorage');
+
+  click4($4('[data-tab="shot"]'));
+  await t(150);
+  const colsEl = $4('#shotCols');
+  check(colsEl !== null, 'есть поля ручной нарезки');
+  colsEl.value = '3';
+  $4('#shotRows').value = '2';
+  click4($4('[data-shot="resplit"]'));
+  const manualDeadline = Date.now() + 30000;
+  while (Date.now() < manualDeadline && $$4('[data-shot-pick]').length !== 6) await t(200);
+  check($$4('[data-shot-pick]').length === 6, `ручная нарезка 3×2 дала ${$$4('[data-shot-pick]').length} ячейки`);
+  check(/вручную/.test($4('#view').textContent), 'подписано, что нарезка ручная');
+
+  // Область нарезки: можно указать один ряд карточек (как ряд команды на экране пика).
+  const set = (sel, v) => { const el = $4(sel); el.value = v; el.dispatchEvent(new w4.Event('input', { bubbles: true })); };
+  set('#shotX', 10);
+  set('#shotY', 10);
+  set('#shotW', 300);
+  set('#shotH', 108);
+  set('#shotCols', 3);
+  set('#shotRows', 1);
+  click4($4('[data-shot="resplit"]'));
+  const regionDeadline = Date.now() + 30000;
+  while (Date.now() < regionDeadline && $$4('[data-shot-pick]').length !== 3) await t(200);
+  check($$4('[data-shot-pick]').length === 3, `нарезка области 300×108 на 3×1 дала ${$$4('[data-shot-pick]').length} ячейки`);
+  check($4('#shotX').value === '10' && $4('#shotW').value === '300', 'поля области сохраняют введённые значения');
+}
 
 console.log(problems.length ? `\nПРОБЛЕМЫ (${problems.length}):\n - ` + problems.join('\n - ') : '\nПроблем не найдено.');
 process.exit(problems.length ? 1 : 0);
