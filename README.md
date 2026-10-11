@@ -9,10 +9,17 @@
 
 **<https://xsitraxs.github.io/dota-2/>** — открывается прямо в браузере, ничего ставить не нужно.
 
-Сайт публикуется автоматически при каждом пуше в `main`: workflow
-[`.github/workflows/pages.yml`](.github/workflows/pages.yml) прогоняет проверки движка на тех данных,
-которые уедут в прод, собирает `index.html` + `assets/` + `data/` в артефакт и выкладывает его через
-GitHub Pages. Кнопка **Re-run jobs** на странице Actions или ручной запуск workflow (`workflow_dispatch`)
+Сайт обновляется при каждом пуше в `main`, а workflow
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) подстраивается под настройку
+**Settings → Pages → Source**:
+
+| Source | Что происходит |
+| --- | --- |
+| **Deploy from a branch** | GitHub сам собирает сайт из корня `main`; workflow в этом режиме прогоняет `node tools/test_engine.mjs` на тех данных, что уедут в прод, и не мешает |
+| **GitHub Actions** | workflow дополнительно собирает чистый артефакт — только `index.html` + `assets/` + `data/`, без `tools/` и README — и публикует его через `actions/deploy-pages` |
+
+В обоих режимах перед публикацией проверяется движок, так что сломанные данные 7.41 в прод не уедут.
+Кнопка **Re-run jobs** на странице Actions или ручной запуск workflow (`workflow_dispatch`)
 перепубликуют сайт без нового коммита.
 
 ## Запуск локально
