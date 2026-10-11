@@ -4,3 +4,5 @@ tools/.cache/
 _site/
 *.tar.gz
 node_modules/
+# Референс-скриншоты для отладки распознавания (не для репозитория)
+image-search/

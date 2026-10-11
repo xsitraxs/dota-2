@@ -18,7 +18,7 @@ const DATA = path.join(ROOT, 'data');
 const J = (p) => JSON.parse(fs.readFileSync(path.join(DATA, p), 'utf8'));
 
 const {
-  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, heroDamage,
+  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse, heroDamage,
 } = await import(path.join(ROOT, 'assets', 'analysis.js'));
 
 const heroes = J('heroes.json');
@@ -109,6 +109,19 @@ const generic = buildPlan({ heroSlug: 'largo', enemySlugs: ['riki'], data });
 ok(!generic.curated && generic.items.core.length > 0, 'для героя без плана есть универсальная сборка');
 const checklist = buildChecklist({ threats, combos, data });
 ok(checklist.length >= 8, 'чеклист собирается', String(checklist.length));
+ok(new Set(checklist).size === checklist.length, 'в чеклисте нет дублей');
+
+// 6b. «вселенная» пунктов чеклиста — по ней интерфейс вычищает устаревшие галочки из localStorage.
+const universe = checklistUniverse(data);
+const otherEnemies = ['huskar', 'tidehunter', 'warlock', 'medusa', 'viper'];
+const otherChecklist = buildChecklist({
+  threats: threatsFor(otherEnemies, data), combos: combosFor(otherEnemies, data), data,
+});
+ok([...checklist, ...otherChecklist].every((c) => universe.has(c)),
+  'любой пункт чеклиста входит во «вселенную»', `во вселенной: ${universe.size}`);
+ok((rules.combos || []).every((c) => universe.has(`Запомни комбо-предупреждение: ${c.advice.split('.')[0]}`)),
+  'все комбо-пункты из rules.json учтены во «вселенной»');
+ok(universe.has('Сентри/дасты в инвентаре до 10-й минуты') && !universe.has('мусор'), 'во «вселенную» попадают только реальные пункты');
 
 // 7. тайминги
 ok(timings.events.some((e) => e.at === '20:00' && e.title.includes('Торментор')), 'Торментор 20:00 в таймингах');

@@ -14,6 +14,11 @@
  */
 
 import { JSDOM, VirtualConsole } from 'jsdom';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 const BASE = process.argv[2] || process.env.SITE_URL || 'http://127.0.0.1:8000/';
 
@@ -32,25 +37,44 @@ for (const f of JSON.parse(await get('data/kb_index.json')).files) {
 
 let html = await get('index.html');
 const analysis = (await get('assets/analysis.js')).replace(/^export\s+/gm, '');
-const app = (await get('assets/app.js')).replace(/^import\s*\{[\s\S]*?\}\s*from\s*'\.\/analysis\.js';/m, '');
-html = html.replace('<script type="module" src="assets/app.js"></script>', `<script>\n${analysis}\n${app}\n</script>`);
+const recognize = (await get('assets/recognize.js')).replace(/^export\s+/gm, '');
+const app = (await get('assets/app.js'))
+  .replace(/^import\s*\{[\s\S]*?\}\s*from\s*'\.\/analysis\.js';\s*/m, '')
+  .replace(/^import\s*\{[\s\S]*?\}\s*from\s*'\.\/recognize\.js';\s*/m, '');
+html = html.replace('<script type="module" src="assets/app.js"></script>', `<script>\n${analysis}\n${recognize}\n${app}\n</script>`);
 
 const vc = new VirtualConsole();
 vc.on('jsdomError', (e) => problems.push('jsdomError: ' + e.message));
 vc.on('error', (...a) => problems.push('console.error: ' + a.join(' ')));
 
-const dom = new JSDOM(html, {
-  url: base, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc,
-  beforeParse(window) {
-    window.fetch = (u, o) => globalThis.fetch(new URL(u, base).href, o);
-    window.Response = globalThis.Response;
-    window.Headers = globalThis.Headers;
-    window.Element.prototype.scrollIntoView = function () {};
-    window.prompt = () => null;
-    try { Object.defineProperty(window.navigator, 'clipboard', { value: { writeText: async () => {} } }); } catch {}
-    window.confirm = () => true;
-  },
-});
+/**
+ * Новый экземпляр приложения: свои virtualConsole-обработчики уже навешены на problems.
+ * withObserver — заглушка IntersectionObserver (в jsdom его нет), колбэк доступен как window.__io.
+ */
+function bootApp(seedDraft, { withObserver = false } = {}) {
+  const d = new JSDOM(html, {
+    url: base, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc,
+    beforeParse(window) {
+      window.fetch = (u, o) => globalThis.fetch(new URL(u, base).href, o);
+      window.Response = globalThis.Response;
+      window.Headers = globalThis.Headers;
+      window.Element.prototype.scrollIntoView = function () {};
+      window.prompt = () => null;
+      try { Object.defineProperty(window.navigator, 'clipboard', { value: { writeText: async () => {} } }); } catch { /* старый jsdom — не страшно */ }
+      window.confirm = () => true;
+      // В jsdom нет canvas: приложение просто не рисует предпросмотр, а распознавание
+      // получает пиксели через window.__dpShot (см. раздел «Скриншот»).
+      window.HTMLCanvasElement.prototype.getContext = () => null;
+      if (withObserver) window.IntersectionObserver = class { constructor(cb) { window.__io = cb; } observe() {} disconnect() {} };
+    },
+  });
+  // Скрипт приложения стартует синхронно, но читает localStorage только после загрузки данных,
+  // поэтому подсеять состояние можно сразу после создания окна.
+  if (seedDraft) d.window.localStorage.setItem('dp.draft', JSON.stringify(seedDraft));
+  return d;
+}
+
+const dom = bootApp();
 const { window } = dom;
 const doc = window.document;
 const t = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -58,7 +82,6 @@ const $ = (s) => doc.querySelector(s);
 const $$ = (s) => [...doc.querySelectorAll(s)];
 const click = (el) => { if (!el) throw new Error('нет элемента для клика'); el.dispatchEvent(new window.MouseEvent('click', { bubbles: true })); };
 const type = (el, v) => { if (!el) throw new Error('нет поля ввода'); el.value = v; el.dispatchEvent(new window.Event('input', { bubbles: true })); };
-const change = (el) => el.dispatchEvent(new window.Event('change', { bubbles: true }));
 const check = (cond, label) => { console.log(`${cond ? '  ✓' : '  ✗'} ${label}`); if (!cond) problems.push('проверка: ' + label); };
 
 const deadline = Date.now() + 30000;
@@ -105,6 +128,10 @@ const firstCheck = $('input[data-check]');
 click(firstCheck); await t(150);
 const savedChecks = JSON.parse(window.localStorage.getItem('dp.draft') || '{}').checks || {};
 check(savedChecks[firstCheck.dataset.check] === true, 'галочка сохраняется в localStorage');
+click(firstCheck); await t(150);
+const afterUncheck = JSON.parse(window.localStorage.getItem('dp.draft') || '{}').checks || {};
+check(!(firstCheck.dataset.check in afterUncheck), 'снятая галочка удаляет ключ, а не пишет false');
+click(firstCheck); await t(150); // возвращаем как было — ниже сверим сохранность вкладки драфта
 const draftText = $('#view').textContent;
 click($('[data-tab="heroes"]')); await t(300);
 check($$('.pick[data-hero]').length === heroesCount, `героев в справочнике: ${$$('.pick[data-hero]').length}`);
@@ -113,10 +140,28 @@ check($$('.pick[data-hero]').length === 1, 'поиск героя работае
 click($('.pick[data-hero]')); await t(400);
 check($$('.ability').length >= 13 && /Cold Snap/.test($('#view').textContent), `карточка Invoker: способностей ${$$('.ability').length}, есть вызываемые заклинания`);
 click($('[data-tab="items"]')); await t(400);
-const allItems = $$('.item-card').length;
-check(allItems === itemsCount, `предметов в списке: ${allItems} (без рецептов в данных: ${itemsCount})`);
+const itemPage = Number((app.match(/const ITEM_PAGE = (\d+)/) || [])[1]) || 60;
+check($$('.item-card').length === itemPage, `первый рендер вкладки — ${itemPage} карточек, а не весь список (всего ${itemsCount})`);
+check(new RegExp(`показано ${itemPage} из ${itemsCount}`).test($('#itemPager')?.textContent || ''), `счётчик пагинации: ${$('#itemPager')?.textContent?.trim()}`);
+check($('#itemsSentinel') === null, 'в jsdom без IntersectionObserver ничего не висит впустую — остаётся кнопка');
+// Поиск идёт по полному списку: Tango (90 золота) не попадает в первые страницы (сортировка по цене).
+type($('#itemSearch'), 'tango'); await t(250);
+check($$('.item-card').length === 2 && /Tango/.test($('#view').textContent), `поиск по всему списку: «tango» → ${$$('.item-card').length}`);
+type($('#itemSearch'), ''); await t(250);
+let guard = 0;
+while ($$('.item-card').length < itemsCount && guard++ < 30) {
+  const more = $('[data-items-more]');
+  if (!more) break;
+  click(more); await t(20);
+}
+check($$('.item-card').length === itemsCount, `кнопка «Показать ещё» доводит список до всех ${itemsCount} (кликов: ${guard})`);
+check(/Показаны все/.test($('#itemPager')?.textContent || ''), `по завершении: ${$('#itemPager')?.textContent?.trim()}`);
+click($('[data-tab="draft"]')); await t(150);
+click($('[data-tab="items"]')); await t(300);
+check($$('.item-card').length === itemPage, `возврат на вкладку снова рисует только ${itemPage} карточек`);
 type($('#itemSearch'), 'blink'); await t(250);
 check($$('.item-card').length >= 1 && $$('.item-card').length <= 4, `поиск «blink» → ${$$('.item-card').length} (Blink/Swift/Overwhelming)`);
+type($('#itemSearch'), ''); await t(250);
 click($('[data-tab="patch"]')); await t(400);
 const versions = $$('#patchSelect option').length;
 check(versions >= 4 && $('#view').textContent.length > 800, `версий патча: ${versions}, символов: ${$('#view').textContent.length}`);
@@ -139,6 +184,132 @@ click($('[data-action="reset"]')); await t(300);
 check(/Как пользоваться/.test($('#view').textContent), 'сброс драфта вернул стартовый экран');
 const saved = JSON.parse(window.localStorage.getItem('dp.draft') || '{}');
 check(saved.me === null, `localStorage после сброса: me=${saved.me}`);
+
+console.log('\n5. Чистка галочек при загрузке');
+const waterRune = 'Руна воды 2:00 и 4:00 — рефил бутылки, не отдавай её бесплатно';
+const seeded = {
+  'Сентри/дасты в инвентаре до 10-й минуты': true, // валидный пункт (нужен на другом драфте)
+  'Галочка из старого драфта': true, // такого пункта чеклист не выдаёт никогда
+  [waterRune]: false, // снятая галочка не должна храниться
+};
+const dom2 = bootApp({ me: 'queenofpain', enemies: ['huskar', null, null, null, null], enemyMid: 'huskar', allies: [], checks: seeded });
+const w2 = dom2.window;
+const deadline2 = Date.now() + 30000;
+while (Date.now() < deadline2 && !/патч 7\.41/.test(w2.document.querySelector('#patchBadge')?.textContent || '')) await t(150);
+const cleaned = JSON.parse(w2.localStorage.getItem('dp.draft') || '{}').checks || {};
+check(cleaned['Сентри/дасты в инвентаре до 10-й минуты'] === true, 'нужный пункт чеклиста остаётся');
+check(!('Галочка из старого драфта' in cleaned), 'несуществующий ключ вычищается из localStorage');
+check(!(waterRune in cleaned), 'значение false в хранилище не копится');
+
+console.log('\n6. Подгрузка предметов по скроллу (заглушка IntersectionObserver)');
+const dom3 = bootApp(null, { withObserver: true });
+const w3 = dom3.window;
+const $3 = (s) => w3.document.querySelector(s);
+const $$3 = (s) => [...w3.document.querySelectorAll(s)];
+const click3 = (el) => el.dispatchEvent(new w3.MouseEvent('click', { bubbles: true }));
+const deadline3 = Date.now() + 30000;
+while (Date.now() < deadline3 && !/патч 7\.41/.test($3('#patchBadge')?.textContent || '')) await t(150);
+click3($3('[data-tab="items"]')); await t(300);
+check($$3('.item-card').length === itemPage, `на вкладке снова первая порция (${itemPage})`);
+check($3('#itemsSentinel') !== null, 'страж подгрузки стоит после карточек');
+w3.__io([{ isIntersecting: true }]); await t(80);
+check($$3('.item-card').length === itemPage * 2, `подгрузка по скроллу добавила порцию: ${$$3('.item-card').length}`);
+
+console.log('\n7. Распознавание скриншота во вкладке «Скриншот»');
+{
+  const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'uishi-'));
+  const strip = ['axe', 'crystal_maiden', 'invoker', 'pudge', 'sniper', 'queenofpain'];
+  const CARD = 88;
+  const GAP = 6;
+  const PAD = 10;
+  const W = PAD * 2 + strip.length * CARD + (strip.length - 1) * GAP;
+  const H = PAD * 2 + CARD;
+  const args = ['-size', `${W}x${H}`, 'xc:#0d1016'];
+  strip.forEach((slug, i) => {
+    args.push('(', path.join(ROOT, 'data', 'icons', `${slug}.webp`), '-crop', '144x144+56+0', '+repage',
+      '-resize', `${CARD}x${CARD}!`, ')', '-geometry', `+${PAD + i * (CARD + GAP)}+${PAD}`, '-composite');
+  });
+  const png = path.join(tmp, 'ui-strip.png');
+  execFileSync('convert', [...args, png], { maxBuffer: 64 * 1024 * 1024 });
+  const dims = execFileSync('identify', ['-format', '%w %h', png]).toString().trim().split(' ').map(Number);
+  const data = new Uint8Array(execFileSync('convert', [png, '-depth', '8', 'rgba:-'], { maxBuffer: 256 * 1024 * 1024 }));
+  fs.rmSync(tmp, { recursive: true, force: true });
+
+  const dom4 = bootApp();
+  const w4 = dom4.window;
+  const $4 = (s) => w4.document.querySelector(s);
+  const $$4 = (s) => [...w4.document.querySelectorAll(s)];
+  const click4 = (el) => el.dispatchEvent(new w4.MouseEvent('click', { bubbles: true }));
+  const deadline4 = Date.now() + 30000;
+  while (Date.now() < deadline4 && !/патч 7\.41/.test($4('#patchBadge')?.textContent || '')) await t(150);
+
+  click4($4('[data-tab="shot"]'));
+  await t(150);
+  check($4('#shotDrop') !== null && /Ctrl\+V/.test($4('#shotDrop').textContent), 'вкладка предлагает вставить скриншот');
+  check(w4.__dpShot !== undefined, 'есть вход для передачи кадра (тестовый)');
+
+  w4.__dpShot({ width: dims[0], height: dims[1], data }, 'тестовая полоса');
+  const shotDeadline = Date.now() + 30000;
+  while (Date.now() < shotDeadline && !$4('#shotList')) await t(200);
+  check($4('#shotList') !== null, 'распознавание завершилось и список показан');
+  const picks = $$4('[data-shot-pick]').map((el) => el.value);
+  check(picks.length === strip.length, `строк по числу карточек: ${picks.length}`);
+  check(picks.join(',') === strip.join(','), `распознаны герои: ${picks.join(', ')}`);
+  check(/уверенность/.test($4('#view').textContent), 'показана уверенность сетки');
+
+  const selectEl = $4('[data-shot-pick="0"]');
+  selectEl.value = 'lion';
+  selectEl.dispatchEvent(new w4.Event('change', { bubbles: true }));
+  await t(100);
+  const altEl = $4('[data-shot-alt^="5:"]') || $4('[data-shot-alt]');
+  check(altEl !== null, 'альтернативы показываются кнопками');
+  let alt = null;
+  if (altEl) {
+    const [idx, slug] = altEl.dataset.shotAlt.split(':');
+    click4(altEl);
+    await t(120);
+    alt = { idx: Number(idx), slug };
+  }
+  const picked = $$4('[data-shot-pick]').map((el) => el.value);
+  check(picked[0] === 'lion' && alt && picked[alt.idx] === alt.slug,
+    `правки распознавания учтены: ячейка 1 → ${picked[0]}, ячейка ${alt ? alt.idx + 1 : '—'} → ${alt ? alt.slug : '—'}`);
+
+  click4($4('[data-shot="fill-enemies"]'));
+  await t(150);
+  click4($4('[data-tab="draft"]'));
+  await t(150);
+  const draftSlugs = $$4('.hero-mini .nm').map((el) => el.textContent.trim()).slice(0, 5);
+  check(draftSlugs.length === 5, `драфт заполнен пятью героями: ${draftSlugs.join(', ')}`);
+  const savedShot = JSON.parse(w4.localStorage.getItem('dp.draft') || '{}');
+  check(Array.isArray(savedShot.enemies) && savedShot.enemies.filter(Boolean).length === 5, 'драфт сохранён в localStorage');
+
+  click4($4('[data-tab="shot"]'));
+  await t(150);
+  const colsEl = $4('#shotCols');
+  check(colsEl !== null, 'есть поля ручной нарезки');
+  colsEl.value = '3';
+  $4('#shotRows').value = '2';
+  click4($4('[data-shot="resplit"]'));
+  const manualDeadline = Date.now() + 30000;
+  while (Date.now() < manualDeadline && $$4('[data-shot-pick]').length !== 6) await t(200);
+  check($$4('[data-shot-pick]').length === 6, `ручная нарезка 3×2 дала ${$$4('[data-shot-pick]').length} ячейки`);
+  check(/вручную/.test($4('#view').textContent), 'подписано, что нарезка ручная');
+
+  // Область нарезки: можно указать один ряд карточек (как ряд команды на экране пика).
+  const set = (sel, v) => { const el = $4(sel); el.value = v; el.dispatchEvent(new w4.Event('input', { bubbles: true })); };
+  set('#shotX', 10);
+  set('#shotY', 10);
+  set('#shotW', 300);
+  set('#shotH', 108);
+  set('#shotCols', 3);
+  set('#shotRows', 1);
+  click4($4('[data-shot="resplit"]'));
+  const regionDeadline = Date.now() + 30000;
+  while (Date.now() < regionDeadline && $$4('[data-shot-pick]').length !== 3) await t(200);
+  check($$4('[data-shot-pick]').length === 3, `нарезка области 300×108 на 3×1 дала ${$$4('[data-shot-pick]').length} ячейки`);
+  check($4('#shotX').value === '10' && $4('#shotW').value === '300', 'поля области сохраняют введённые значения');
+}
 
 console.log(problems.length ? `\nПРОБЛЕМЫ (${problems.length}):\n - ` + problems.join('\n - ') : '\nПроблем не найдено.');
 process.exit(problems.length ? 1 : 0);
