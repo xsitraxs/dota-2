@@ -1,0 +1,23 @@
+Драфт-помощник Dota 2 — производные данные и сторонние компоненты
+=================================================================
+
+Код проекта распространяется по лицензии MIT (см. LICENSE).
+
+В собранных данных и ассетах используются сторонние материалы:
+
+1. odota/dotaconstants (https://github.com/odota/dotaconstants)
+   Лицензия: MIT.
+   Использование: игровые константы Dota 2 — герои, способности с цифрами,
+   предметы, патчноуты. Из них собираются файлы data/heroes.json,
+   data/abilities.json, data/items.json, data/patchnotes.json
+   (см. tools/build_data.mjs).
+
+2. M-Hasan-Ibrahim/Dota2HeroInfoAndIcons
+   (https://github.com/M-Hasan-Ibrahim/Dota2HeroInfoAndIcons)
+   Использование: иконки героев (data/icons/*.webp). Пожалуйста, сверьтесь
+   с лицензией репозитория-источника перед redistribut'ом иконок.
+
+Все названия героев, предметов и способностей являются товарными знаками
+Valve Corporation. Проект не связан с Valve и не поддерживается ей.
+
+«Dota 2» — товарный знак Valve Corporation.

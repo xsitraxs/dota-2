@@ -8,11 +8,11 @@
 
 const ATTR_KEY = { str: 'base_str', agi: 'base_agi', int: 'base_int', all: null };
 
-/** Средний урон автоатаки: база + основной атрибут (для all-героев — наибольший из трёх). */
+/** Средний урон автоатаки: база + основной атрибут (для универсалов — 0.7 за каждый пункт любого из трёх). */
 export function heroDamage(h) {
   const base = ((h.stats.base_attack_min || 0) + (h.stats.base_attack_max || 0)) / 2;
   const attr = h.primary_attr === 'all'
-    ? Math.max(h.stats.base_str || 0, h.stats.base_agi || 0, h.stats.base_int || 0)
+    ? 0.7 * ((h.stats.base_str || 0) + (h.stats.base_agi || 0) + (h.stats.base_int || 0))
     : h.stats[ATTR_KEY[h.primary_attr]] || 0;
   return base + attr;
 }
@@ -186,15 +186,16 @@ const KEYWORD_TAGS = [
  */
 export function threatsFor(enemySlugs, data) {
   const { heroes, abilities, tagsKb, rules } = data;
+  enemySlugs = [...new Set(enemySlugs)]; // защита от дублей в слотах
   const out = [];
   const seen = new Set();
-  const autoEvidence = {};
-  const evidence = {};
+  const evidenceByHero = {}; // slug -> { tag: [строки «Герой: Способность»] }
   for (const slug of enemySlugs) {
     const h = heroes[slug];
     if (!h) continue;
     const manual = (tagsKb.heroes && tagsKb.heroes[slug]) || [];
     const auto = new Set();
+    const ev = {};
     for (const slot of [...h.slots, ...h.extra.map((k) => ({ key: k }))]) {
       const a = abilities[slot.key];
       if (!a || !a.desc) continue;
@@ -202,13 +203,13 @@ export function threatsFor(enemySlugs, data) {
       for (const [re, tag] of KEYWORD_TAGS) {
         if (re.test(a.desc)) {
           auto.add(tag);
-          if (!autoEvidence[tag]) autoEvidence[tag] = [];
-          if (autoEvidence[tag].length < 3) autoEvidence[tag].push(`${h.localized_name}: ${a.dname}`);
+          if (!ev[tag]) ev[tag] = [];
+          if (ev[tag].length < 3) ev[tag].push(`${h.localized_name}: ${a.dname}`);
         }
       }
     }
+    evidenceByHero[slug] = ev;
     const tags = new Set(manual);
-    for (const t of auto) evidence[t] = [...(evidence[t] || []), ...(autoEvidence[t] || [])];
     for (const t of auto) if (!manual.includes(t)) tags.add(t); // авто — только как дополнение
     for (const tag of tags) {
       const rule = rules.rules[tag];
@@ -227,9 +228,12 @@ export function threatsFor(enemySlugs, data) {
         actions: rule.actions || [],
         heroes: [{ slug, name: h.localized_name }],
         auto: !manual.includes(tag),
-        evidence: [...new Set(evidence[tag] || [])].slice(0, 3),
       });
     }
+  }
+  // Свидетельства «по тексту способностей» — только от героев, входящих в эту угрозу.
+  for (const t of out) {
+    t.evidence = [...new Set(t.heroes.flatMap((h) => (evidenceByHero[h.slug] || {})[t.tag] || []))].slice(0, 3);
   }
   out.sort((a, b) => b.severity - a.severity || b.heroes.length - a.heroes.length);
   return out;
@@ -250,14 +254,17 @@ export function combosFor(enemySlugs, data) {
   return res.sort((a, b) => b.hits - a.hits);
 }
 
-/** Рекомендации по пикам: кто из мидовых героев хорошо стоит против их драфта. */
-export function counterPicks({ enemies, enemyMid, data, limit = 6 }) {
+/** Рекомендации по пикам: кто из мидовых героев хорошо стоит против их драфта.
+ *  exclude — уже занятые герои (я и союзники), их не предлагаем. */
+export function counterPicks({ enemies, enemyMid, data, limit = 6, exclude = [] }) {
   const { heroes, plans, tagsKb, rules } = data;
   const tagRules = rules.rules;
   const enemySet = enemies.filter(Boolean);
+  const skip = new Set(exclude.filter(Boolean));
   const results = [];
   for (const [slug, plan] of Object.entries(plans)) {
     if (slug.startsWith('_') || !plan.mid) continue;
+    if (skip.has(slug)) continue;
     const h = heroes[slug];
     if (!h) continue;
     let score = 0;
@@ -354,7 +361,7 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
   };
 }
 
-/** Чеклист на игру — из угроз и комбо. */
+/** Чеклист на игру — из угроз, комбо и таймингов (data/kb/timings.json → checklist). */
 export function buildChecklist({ threats, combos, data }) {
   const list = [];
   if (threats.some((t) => t.tag === 'roam_ganker')) list.push('Вард на проходе к миду к 3-4 минуте (50 золота против одной смерти)');
@@ -363,9 +370,6 @@ export function buildChecklist({ threats, combos, data }) {
   if (threats.some((t) => t.tag === 'burst_magical')) list.push('Рейндаропы и маг. wand на линии важнее лишнего урона');
   if (threats.some((t) => t.tag === 'save')) list.push('Порядок файта: сначала сайленс/хекс на спасающего, потом бурст');
   if (combos.length) list.push(`Запомни комбо-предупреждение: ${combos[0].advice.split('.')[0]}`);
-  list.push('Руна воды 2:00 и 4:00 — рефил бутылки, не отдавай её бесплатно');
-  list.push('Руна силы 6:00 — первый серьёзный ресурс мида: вытолкни волну до 5:30');
-  list.push('Святилище мудрости 7:00 (200 опыта) — приди со саппортом');
-  list.push('Торментор 20:00 — бесплатный Aghanim\u2019s Shard: соберите 3-4 героя');
+  list.push(...((data && data.timings && data.timings.checklist) || []));
   return list;
 }

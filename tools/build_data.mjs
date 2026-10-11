@@ -50,6 +50,7 @@ async function download(url, dest) {
 function extractTarGz(archive, destDir) {
   const tar = zlib.gunzipSync(fs.readFileSync(archive));
   fs.mkdirSync(destDir, { recursive: true });
+  const destRoot = path.resolve(destDir);
   let off = 0;
   const written = [];
   while (off + 512 <= tar.length) {
@@ -61,11 +62,15 @@ function extractTarGz(archive, destDir) {
     const type = String.fromCharCode(header[156]);
     const dataStart = off + 512;
     const rel = name.split('/').slice(1).join('/'); // срезаем корневую папку архива
-    if (rel && (type === '0' || type === 'x' || type === '\0')) {
-      const out = path.join(destDir, rel);
-      fs.mkdirSync(path.dirname(out), { recursive: true });
-      fs.writeFileSync(out, tar.subarray(dataStart, dataStart + size));
-      written.push(rel);
+    // Пишем только обычные файлы: PAX/GNU-заголовки ('x', 'g', 'L') пропускаем,
+    // а путь проверяем, чтобы запись не вышла за пределы каталога (защита от tar-slip).
+    if (rel && (type === '0' || type === '\0')) {
+      const out = path.resolve(destDir, rel);
+      if (out.startsWith(destRoot + path.sep)) {
+        fs.mkdirSync(path.dirname(out), { recursive: true });
+        fs.writeFileSync(out, tar.subarray(dataStart, dataStart + size));
+        written.push(rel);
+      }
     }
     off = dataStart + Math.ceil(size / 512) * 512;
   }
@@ -281,11 +286,13 @@ log('\nКопирую иконки героев …');
 const iconsDir = await getIcons();
 const iconFiles = fs.readdirSync(iconsDir).filter((f) => f.endsWith('.webp'));
 const byLocal = new Map(iconFiles.map((f) => [f.replace(/\.webp$/, ''), f]));
+const byLocalLower = new Map(iconFiles.map((f) => [f.replace(/\.webp$/, '').toLowerCase(), f]));
 fs.mkdirSync(path.join(DATA, 'icons'), { recursive: true });
 const manifest = {};
 let copied = 0;
 for (const [slug, h] of Object.entries(heroesOut)) {
-  const src = byLocal.get(h.localized_name);
+  // Сопоставление по localized_name; запасной вариант — без учёта регистра.
+  const src = byLocal.get(h.localized_name) || byLocalLower.get(String(h.localized_name).toLowerCase());
   if (!src) continue;
   const dst = path.join(DATA, 'icons', `${slug}.webp`);
   fs.copyFileSync(path.join(iconsDir, src), dst);
@@ -302,8 +309,6 @@ log('\nПроверяю data/kb/*.json …');
 const kbFiles = fs.existsSync(KB) ? fs.readdirSync(KB).filter((f) => f.endsWith('.json')).sort() : [];
 writeJson(path.join(DATA, 'kb_index.json'), { files: kbFiles });
 const errors = [];
-const warn = [];
-const itemKeys = new Set(Object.values(itemsOut).filter((i) => !i.recipe).map((i) => i.dname));
 const itemKeysRaw = new Set(Object.keys(itemsOut));
 
 /** Записи предметов допускаются как строка-ключ, так и пара [ключ, причина]. */
@@ -370,6 +375,5 @@ if (errors.length) {
 } else {
   log(`  ✓ всё чисто (файлов знаний: ${kbFiles.length})`);
 }
-for (const w of warn) log('  ⚠ ' + w);
 
 log(`\nГотово. Патч ${latestPatch.name} от ${latestPatch.date.slice(0, 10)}. Героев: ${Object.keys(heroesOut).length}, предметов: ${Object.keys(itemsOut).length}.`);

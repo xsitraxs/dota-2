@@ -61,6 +61,7 @@
   "earth_spirit": ["roam_ganker", "heavy_lockdown", "silence"],
   "earthshaker": ["teamfight_ultimate", "burst_magical", "heavy_lockdown"],
   "elder_titan": ["teamfight_ultimate", "armor_reduce", "burst_magical"],
+  "ember_spirit": ["burst_magical", "gap_close", "waveclear", "roam_ganker"],
   "enchantress": ["lane_sustain", "summons"],
   "enigma": ["summons", "teamfight_ultimate", "tower_pressure"],
   "faceless_void": ["teamfight_ultimate", "late_scaler", "burst_physical"],
