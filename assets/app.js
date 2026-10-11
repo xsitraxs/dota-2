@@ -4,7 +4,7 @@
  * знания: data/kb/*.json (планы героев, теги, правила, тайминги).
  */
 import {
-  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist,
+  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
   heroDamage, heroHp, heroMana, heroArmor,
 } from './analysis.js';
 
@@ -13,6 +13,9 @@ const DATA = {
   tagsKb: { vocabulary: {}, heroes: {} }, rules: { rules: {}, combos: [] },
   timings: { events: [], notes: [] }, plans: {},
 };
+
+/** Сколько карточек предметов рисуем сразу: остальное подгружается по скроллу или кнопкой. */
+const ITEM_PAGE = 60;
 
 const state = {
   tab: 'draft',
@@ -26,6 +29,7 @@ const state = {
   roleFilter: null,
   onlyMid: false,
   itemSearch: '',
+  itemsShown: ITEM_PAGE,
   patch: null,
   timer: { running: false, start: 0, offset: 0 },
   checks: {},
@@ -121,7 +125,7 @@ function itemRows(list) {
     </div>`;
   }).join('');
 }
-function abilityCard(key, heroSlug) {
+function abilityCard(key) {
   if (/_empty\d*$/.test(key)) return ''; // служебные слоты вроде invoker_empty1
   const a = DATA.abilities[key];
   if (!a) return '';
@@ -407,10 +411,10 @@ function renderHeroCard(h) {
 
     <h3>Способности</h3>
     <div class="stack">
-      ${slots.map((x) => abilityCard(x.key, h.slug)).join('')}
+      ${slots.map((x) => abilityCard(x.key)).join('')}
     </div>
     ${h.extra.length ? (h.extra.length > 2
-      ? `<h3>Связанные способности и стойки</h3><div class="stack">${h.extra.map((k) => abilityCard(k, h.slug)).join('')}</div>`
+      ? `<h3>Связанные способности и стойки</h3><div class="stack">${h.extra.map((k) => abilityCard(k)).join('')}</div>`
       : `<h3>Связанные способности и стойки</h3><div class="stack small muted">${h.extra.map((k) => esc(DATA.abilities[k]?.dname || k)).join(' · ')}</div>`) : ''}
 
     ${plan ? `<hr class="sep">
@@ -430,28 +434,89 @@ function renderHeroCard(h) {
 
 /* ------------------------------ вкладка «Предметы» ------------------------------ */
 
-function renderItems() {
+/** Полный отфильтрованный список: поиск всегда идёт по всем предметам, а не по нарисованным. */
+function itemsFiltered() {
   const q = state.itemSearch.trim().toLowerCase();
-  const list = Object.entries(DATA.items)
-    .filter(([k, it]) => !it.recipe)
+  return Object.entries(DATA.items)
+    .filter(([, it]) => !it.recipe)
     .filter(([k, it]) => !q || it.dname.toLowerCase().includes(q) || k.includes(q))
     .sort((a, b) => (b[1].cost || 0) - (a[1].cost || 0));
+}
+
+function itemCardHTML([, it]) {
+  return `<div class="ability item-card">
+    <div class="spread"><div class="nm">${esc(it.dname)}</div><div class="cost" style="color:var(--gold);font-weight:700">${it.cost ?? ''}</div></div>
+    <div class="meta">${esc(it.qual || '')}${it.tier ? ` · тир ${esc(it.tier)}` : ''}${it.behavior ? ` · ${esc(it.behavior)}` : ''}</div>
+    ${(it.abilities || []).map((a) => `<div class="desc"><b>${esc(a.title)}</b> <span class="muted tiny">(${a.type === 'active' ? 'актив' : 'пассив'})</span><br>${esc(a.description)}</div>`).join('')}
+    ${it.notes ? `<div class="tiny muted" style="margin-top:6px">${esc(it.notes)}</div>` : ''}
+    ${it.patchNotes && it.patchNotes.length ? `<div class="tiny" style="margin-top:6px;color:var(--gold)">7.41: ${it.patchNotes.slice(0, 2).map(esc).join('; ')}</div>` : ''}
+    ${it.components && it.components.length ? `<div class="tiny muted" style="margin-top:6px">собирается из: ${it.components.map((c) => esc(DATA.items[c]?.dname || c)).join(' + ')}</div>` : ''}
+  </div>`;
+}
+
+function itemsPagerHTML(total, shown) {
+  if (shown >= total) return `<p class="tiny muted" id="itemPager" style="margin-top:10px">Показаны все ${total}.</p>`;
+  const step = Math.min(ITEM_PAGE, total - shown);
+  return `<div class="row" id="itemPager" style="margin-top:12px">
+    <button class="btn ghost" data-items-more="${step}">Показать ещё ${step}</button>
+    <span class="muted small">показано ${shown} из ${total}</span>
+  </div>`;
+}
+
+function renderItems() {
+  const list = itemsFiltered();
+  const shown = Math.min(state.itemsShown, list.length);
   return `<div class="panel">
     <div class="head row">
       <input class="search" id="itemSearch" placeholder="Поиск предмета…" value="${esc(state.itemSearch)}">
       <span class="muted small">${list.length} предметов</span>
     </div>
-    <div class="cols-3 grid">
-      ${list.map(([k, it]) => `<div class="ability item-card">
-        <div class="spread"><div class="nm">${esc(it.dname)}</div><div class="cost" style="color:var(--gold);font-weight:700">${it.cost ?? ''}</div></div>
-        <div class="meta">${esc(it.qual || '')}${it.tier ? ` · тир ${esc(it.tier)}` : ''}${it.behavior ? ` · ${esc(it.behavior)}` : ''}</div>
-        ${(it.abilities || []).map((a) => `<div class="desc"><b>${esc(a.title)}</b> <span class="muted tiny">(${a.type === 'active' ? 'актив' : 'пассив'})</span><br>${esc(a.description)}</div>`).join('')}
-        ${it.notes ? `<div class="tiny muted" style="margin-top:6px">${esc(it.notes)}</div>` : ''}
-        ${it.patchNotes && it.patchNotes.length ? `<div class="tiny" style="margin-top:6px;color:var(--gold)">7.41: ${it.patchNotes.slice(0, 2).map(esc).join('; ')}</div>` : ''}
-        ${it.components && it.components.length ? `<div class="tiny muted" style="margin-top:6px">собирается из: ${it.components.map((c) => esc(DATA.items[c]?.dname || c)).join(' + ')}</div>` : ''}
-      </div>`).join('')}
+    <div class="cols-3 grid" id="itemGrid">
+      ${list.slice(0, shown).map(itemCardHTML).join('')}
     </div>
+    ${itemsPagerHTML(list.length, shown)}
   </div>`;
+}
+
+/** Догружает следующую порцию карточек, не перерисовывая уже показанные. */
+function showMoreItems(step = ITEM_PAGE) {
+  const grid = document.getElementById('itemGrid');
+  if (!grid) return;
+  const list = itemsFiltered();
+  const shown = Math.min(state.itemsShown, list.length);
+  const next = Math.min(shown + step, list.length);
+  if (next > shown) {
+    grid.insertAdjacentHTML('beforeend', list.slice(shown, next).map(itemCardHTML).join(''));
+    state.itemsShown = next;
+  }
+  const pager = document.getElementById('itemPager');
+  if (pager) pager.outerHTML = itemsPagerHTML(list.length, next);
+  if (next >= list.length) stopItemsLazy();
+}
+
+let itemsObserver = null;
+
+/** Подгрузка по скроллу: рядом с концом списка висит невидимый «часовой». */
+function mountItemsLazy() {
+  stopItemsLazy();
+  // В jsdom/старых браузерах IntersectionObserver нет — остаётся кнопка «Показать ещё».
+  if (typeof IntersectionObserver !== 'function') return;
+  const grid = document.getElementById('itemGrid');
+  if (!grid || state.itemsShown >= itemsFiltered().length) return;
+  // Пустой блок высотой 1px: `display:none`-элемент не имеет бокса и наблюдатель его не увидит.
+  const sentinel = document.createElement('div');
+  sentinel.id = 'itemsSentinel';
+  sentinel.style.cssText = 'height:1px;margin-top:-1px';
+  grid.after(sentinel);
+  itemsObserver = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) showMoreItems();
+  }, { rootMargin: '800px 0px' });
+  itemsObserver.observe(sentinel);
+}
+
+function stopItemsLazy() {
+  if (itemsObserver) { itemsObserver.disconnect(); itemsObserver = null; }
+  document.getElementById('itemsSentinel')?.remove();
 }
 
 /* ------------------------------ вкладка «Патч» ------------------------------ */
@@ -492,22 +557,39 @@ function renderPatch() {
 
 function upcomingEvents(elapsed) {
   const out = [];
-  for (const ev of DATA.timings.events) {
+  for (const [idx, ev] of DATA.timings.events.entries()) {
     const at = parseAt(ev.at);
     if (ev.every) {
       const step = parseAt(ev.every);
       const n = elapsed <= at ? at : at + Math.ceil((elapsed - at) / step) * step;
-      out.push({ ev, next: n });
+      out.push({ ev, next: n, idx });
     } else if (elapsed < at) {
-      out.push({ ev, next: at });
+      out.push({ ev, next: at, idx });
     }
   }
   return out.sort((a, b) => a.next - b.next);
 }
 
+/** Строка одного события: индекс в DATA.timings.events служит ключом для точечных обновлений. */
+function upcomingRowHTML({ ev, next, idx }, elapsed) {
+  const left = next - elapsed;
+  return `<div class="timer-row ${left <= 20 ? 'soon' : ''}" data-ev="${idx}">
+      <span class="tag-pill">${esc(KIND_RU[ev.kind] || ev.kind)}</span>
+      <div><b>${esc(ev.title)}</b><div class="tiny muted">${esc(ev.text.split('.')[0])}</div></div>
+      <span class="in">${fmtTime(left)}</span>
+    </div>`;
+}
+/** Идентификатор нарисованного набора событий: пока он тот же, структуру DOM трогать не нужно. */
+const upcomingKey = (rows) => rows.map((r) => r.idx).join(',');
+function renderUpcomingHTML(rows, elapsed) {
+  return rows.map((r) => upcomingRowHTML(r, elapsed)).join('');
+}
+
 function renderTimers() {
   const groups = {};
   for (const ev of DATA.timings.events) (groups[ev.kind] ||= []).push(ev);
+  const elapsed = timerElapsed();
+  const rows = upcomingEvents(elapsed).slice(0, 8);
 
   return `<div class="grid cols-2">
     <div class="stack">
@@ -523,8 +605,8 @@ function renderTimers() {
       </div>
       <div class="panel">
         <h2>Ближайшие события</h2>
-        <div class="stack" id="upcoming">
-          ${renderUpcomingHTML()}
+        <div class="stack" id="upcoming" data-ev-rows="${upcomingKey(rows)}">
+          ${renderUpcomingHTML(rows, elapsed)}
         </div>
       </div>
     </div>
@@ -590,10 +672,11 @@ function render() {
   const view = $('#view');
   if (state.tab === 'draft') view.innerHTML = renderDraft();
   else if (state.tab === 'heroes') view.innerHTML = renderHeroes();
-  else if (state.tab === 'items') view.innerHTML = renderItems();
+  else if (state.tab === 'items') { view.innerHTML = renderItems(); mountItemsLazy(); }
   else if (state.tab === 'patch') view.innerHTML = renderPatch();
   else if (state.tab === 'timers') view.innerHTML = renderTimers();
   else view.innerHTML = renderAbout();
+  if (state.tab !== 'items') stopItemsLazy();
   if (state.tab === 'heroes' && state.selectedHero) {
     const card = $('#heroCard');
     if (card && typeof card.scrollIntoView === 'function') card.scrollIntoView({ block: 'start', behavior: 'smooth' });
@@ -688,18 +771,7 @@ function renderClockHTML() {
   return `<div class="clock ${isDay ? 'day' : 'night'}" id="clock">${fmtTime(elapsed)}</div>
     <div class="small muted" id="clockPhase">${isDay ? 'день' : 'ночь'} · цикл 5 минут</div>`;
 }
-function renderUpcomingHTML() {
-  const elapsed = timerElapsed();
-  return upcomingEvents(elapsed).slice(0, 8).map(({ ev, next }) => {
-    const left = next - elapsed;
-    return `<div class="timer-row ${left <= 20 ? 'soon' : ''}">
-      <span class="tag-pill">${esc(KIND_RU[ev.kind] || ev.kind)}</span>
-      <div><b>${esc(ev.title)}</b><div class="tiny muted">${esc(ev.text.split('.')[0])}</div></div>
-      <span class="in">${fmtTime(left)}</span>
-    </div>`;
-  }).join('');
-}
-/** Тик таймера обновляет только часы и список событий — без пересборки всего DOM. */
+/** Тик таймера обновляет только часы и счётчики «через X:XX» — без пересборки всего DOM. */
 function updateTimerDOM() {
   const clock = document.getElementById('clock');
   if (!clock) return;
@@ -709,8 +781,27 @@ function updateTimerDOM() {
   clock.className = `clock ${isDay ? 'day' : 'night'}`;
   const phase = document.getElementById('clockPhase');
   if (phase) phase.textContent = `${isDay ? 'день' : 'ночь'} · цикл 5 минут`;
+
   const up = document.getElementById('upcoming');
-  if (up) up.innerHTML = renderUpcomingHTML();
+  if (!up) return;
+  const rows = upcomingEvents(elapsed).slice(0, 8);
+  const key = upcomingKey(rows);
+  // Состав и порядок событий те же — правим только текстовые узлы и подсветку «скоро».
+  if (up.dataset.evRows === key) {
+    const nodes = up.querySelectorAll('.timer-row');
+    rows.forEach((r, i) => {
+      const row = nodes[i];
+      if (!row) return;
+      const left = r.next - elapsed;
+      const cell = row.querySelector('.in');
+      if (cell) cell.textContent = fmtTime(left);
+      row.classList.toggle('soon', left <= 20);
+    });
+    return;
+  }
+  // Событие прошло или сменился порядок — только тогда пересобираем список.
+  up.innerHTML = renderUpcomingHTML(rows, elapsed);
+  up.dataset.evRows = key;
 }
 let timerLoop = null;
 function startTimerLoop() {
@@ -745,8 +836,23 @@ function loadDraft() {
     state.enemies = arr(raw.enemies, 5);
     state.enemyMid = valid(raw.enemyMid);
     state.allies = arr(raw.allies, 4);
-    state.checks = raw.checks && typeof raw.checks === 'object' ? raw.checks : {};
+    state.checks = raw.checks && typeof raw.checks === 'object' && !Array.isArray(raw.checks) ? raw.checks : {};
   } catch { /* игнорируем */ }
+}
+
+/**
+ * Чистит сохранённые галочки: оставляет только «true» и только те пункты,
+ * которые чеклист может выдать хоть на каком-то драфте. Иначе ключи от старых
+ * драфтов копятся в localStorage бессрочно.
+ * @returns {number} сколько ключей удалено
+ */
+function pruneChecks() {
+  const universe = checklistUniverse(DATA);
+  let dropped = 0;
+  for (const key of Object.keys(state.checks)) {
+    if (state.checks[key] !== true || !universe.has(key)) { delete state.checks[key]; dropped++; }
+  }
+  return dropped;
 }
 
 /* ------------------------------ план текстом ------------------------------ */
@@ -789,7 +895,15 @@ function planAsText() {
 function bindEvents() {
   document.addEventListener('click', async (e) => {
     const tab = e.target.closest('#tabs button');
-    if (tab) { state.tab = tab.dataset.tab; if (state.tab === 'timers') startTimerLoop(); render(); return; }
+    if (tab) {
+      state.tab = tab.dataset.tab;
+      if (state.tab === 'timers') startTimerLoop();
+      if (state.tab === 'items') state.itemsShown = ITEM_PAGE; // первый рендер вкладки — только первая порция
+      render(); return;
+    }
+
+    const moreItems = e.target.closest('[data-items-more]');
+    if (moreItems) { showMoreItems(Number(moreItems.dataset.itemsMore) || ITEM_PAGE); return; }
 
     const pick = e.target.closest('[data-pick]');
     if (pick) { const [group, idx] = pick.dataset.pick.split(':'); openPicker({ group, idx: Number(idx) }); return; }
@@ -845,18 +959,35 @@ function bindEvents() {
     }
 
     const itemChipEl = e.target.closest('[data-item]');
-    if (itemChipEl) { state.tab = 'items'; state.itemSearch = DATA.items[itemChipEl.dataset.item]?.dname || itemChipEl.dataset.item; render(); return; }
+    if (itemChipEl) {
+      state.tab = 'items';
+      state.itemSearch = DATA.items[itemChipEl.dataset.item]?.dname || itemChipEl.dataset.item;
+      state.itemsShown = ITEM_PAGE;
+      render(); return;
+    }
   });
 
   document.addEventListener('input', (e) => {
     if (e.target.id === 'heroSearch') { state.heroSearch = e.target.value; const pos = e.target.selectionStart; render(); const inp = $('#heroSearch'); if (inp) { inp.focus(); inp.setSelectionRange(pos, pos); } }
-    if (e.target.id === 'itemSearch') { state.itemSearch = e.target.value; const pos = e.target.selectionStart; render(); const inp = $('#itemSearch'); if (inp) { inp.focus(); inp.setSelectionRange(pos, pos); } }
+    if (e.target.id === 'itemSearch') {
+      state.itemSearch = e.target.value;
+      state.itemsShown = ITEM_PAGE; // новый запрос — снова показываем первую порцию
+      const pos = e.target.selectionStart;
+      render();
+      const inp = $('#itemSearch');
+      if (inp) { inp.focus(); inp.setSelectionRange(pos, pos); }
+    }
   });
 
   document.addEventListener('change', (e) => {
     if (e.target.matches('[data-enemy-mid]')) { state.enemyMid = e.target.value; saveDraft(); render(); }
     if (e.target.id === 'patchSelect') { state.patch = e.target.value; render(); }
-    if (e.target.matches('[data-check]')) { state.checks[e.target.dataset.check] = e.target.checked; saveDraft(); }
+    if (e.target.matches('[data-check]')) {
+      // Храним только отмеченные пункты: снятая галочка удаляет ключ, а не пишет false.
+      if (e.target.checked) state.checks[e.target.dataset.check] = true;
+      else delete state.checks[e.target.dataset.check];
+      saveDraft();
+    }
   });
 }
 
@@ -866,6 +997,7 @@ function bindEvents() {
   try {
     await loadData();
     loadDraft();
+    if (pruneChecks()) saveDraft(); // выкинули мусор из старых галочек — сразу фиксируем это в хранилище
     $('#patchBadge').textContent = `патч ${DATA.meta.latestPatch}`;
     $('#metaLine').textContent = `данные от ${String(DATA.meta.latestPatchDate).slice(0, 10)} · ${DATA.meta.heroes} героев · ${DATA.meta.items} предметов`;
     bindEvents();

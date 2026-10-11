@@ -37,6 +37,14 @@ jobs:
         with:
           node-version: 22
 
+      # dev-зависимости: eslint (линтер) и jsdom (прогон интерфейса).
+      - name: Install dev dependencies
+        run: npm ci
+
+      # Гейт стиля: базовые правила ESLint (no-unused-vars, eqeqeq, recommended).
+      - name: Lint
+        run: npm run lint
+
       # Гейт: движок разбора должен работать на тех данных, которые уедут в прод.
       - name: Test engine on shipped data
         run: node tools/test_engine.mjs
@@ -44,7 +52,6 @@ jobs:
       # Гейт интерфейса: jsdom-прогон против тех же файлов (сервер поднимается на время шага).
       - name: Test UI on shipped data
         run: |
-          npm ci
           python3 -m http.server 8000 >/dev/null 2>&1 &
           sleep 1
           node tools/test_ui.mjs

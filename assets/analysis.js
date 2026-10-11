@@ -39,7 +39,7 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
  */
 export function laneReport(me, them, ctx) {
   if (!me || !them) return null;
-  const { tagsKb, rules, plans } = ctx;
+  const { tagsKb, plans } = ctx;
   const myTags = (tagsKb.heroes && tagsKb.heroes[me.slug]) || [];
   const theirTags = (tagsKb.heroes && tagsKb.heroes[them.slug]) || [];
   const has = (arr, t) => arr.includes(t);
@@ -361,15 +361,40 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
   };
 }
 
+/** Пункты чеклиста, которые включаются тегами угроз. Порядок фиксирован — он же порядок в списке. */
+const CHECKLIST_BY_TAG = [
+  { tags: ['roam_ganker'], text: 'Вард на проходе к миду к 3-4 минуте (50 золота против одной смерти)' },
+  { tags: ['invis'], text: 'Сентри/дасты в инвентаре до 10-й минуты' },
+  { tags: ['silence', 'heavy_lockdown'], text: 'План на диспел: циклон/Manta или БКБ в первом крупном закупе' },
+  { tags: ['burst_magical'], text: 'Рейндаропы и маг. wand на линии важнее лишнего урона' },
+  { tags: ['save'], text: 'Порядок файта: сначала сайленс/хекс на спасающего, потом бурст' },
+];
+
+/** Пункт про комбо-предупреждение — первое предложение совета верхнего комбо. */
+const comboSentence = (advice) => `Запомни комбо-предупреждение: ${String(advice || '').split('.')[0]}`;
+
+const timingChecklist = (data) => ((data && data.timings && data.timings.checklist) || []);
+
 /** Чеклист на игру — из угроз, комбо и таймингов (data/kb/timings.json → checklist). */
 export function buildChecklist({ threats, combos, data }) {
+  const tags = new Set((threats || []).map((t) => t.tag));
   const list = [];
-  if (threats.some((t) => t.tag === 'roam_ganker')) list.push('Вард на проходе к миду к 3-4 минуте (50 золота против одной смерти)');
-  if (threats.some((t) => t.tag === 'invis')) list.push('Сентри/дасты в инвентаре до 10-й минуты');
-  if (threats.some((t) => t.tag === 'silence' || t.tag === 'heavy_lockdown')) list.push('План на диспел: циклон/Manta или БКБ в первом крупном закупе');
-  if (threats.some((t) => t.tag === 'burst_magical')) list.push('Рейндаропы и маг. wand на линии важнее лишнего урона');
-  if (threats.some((t) => t.tag === 'save')) list.push('Порядок файта: сначала сайленс/хекс на спасающего, потом бурст');
-  if (combos.length) list.push(`Запомни комбо-предупреждение: ${combos[0].advice.split('.')[0]}`);
-  list.push(...((data && data.timings && data.timings.checklist) || []));
+  for (const rule of CHECKLIST_BY_TAG) {
+    if (rule.tags.some((t) => tags.has(t))) list.push(rule.text);
+  }
+  if (combos && combos.length) list.push(comboSentence(combos[0].advice));
+  list.push(...timingChecklist(data));
   return list;
+}
+
+/**
+ * Все пункты, которые чеклист может выдать хоть на каком-то драфте.
+ * Интерфейс сверяет с этим множеством галочки из localStorage, чтобы не копить
+ * ключи от старых драфтов и прошлых версий базы знаний.
+ */
+export function checklistUniverse(data) {
+  const list = CHECKLIST_BY_TAG.map((rule) => rule.text);
+  for (const combo of (data && data.rules && data.rules.combos) || []) list.push(comboSentence(combo.advice));
+  list.push(...timingChecklist(data));
+  return new Set(list);
 }

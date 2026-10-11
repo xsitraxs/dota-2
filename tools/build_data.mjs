@@ -173,7 +173,7 @@ for (const pk of patchKeysForNotes) {
 // ---- 2. Способности: только те, что нужны героям ----
 const neededAbilityKeys = new Set();
 const heroSlots = {}; // slug -> {slots:[{i,key}], extra:[key]}
-for (const [id, h] of Object.entries(rawHeroes)) {
+for (const h of Object.values(rawHeroes)) {
   const slug = slugify(h.name);
   const list = (rawHeroAbilities[h.name] || {}).abilities || [];
   const slots = [];

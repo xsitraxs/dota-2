@@ -6,10 +6,14 @@
   "description": "Драфт-помощник и справочник по Dota 2 патча 7.41 для мидового игрока",
   "scripts": {
     "serve": "python3 -m http.server 8000",
+    "lint": "eslint .",
     "test": "node tools/test_engine.mjs",
     "test:ui": "node tools/test_ui.mjs"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
     "jsdom": "^30.1.2"
   }
 }
