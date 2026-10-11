@@ -1,4 +1,6 @@
 # Кэш сборщика данных (скачанные архивы источников)
 tools/.cache/
+# Каталог, который собирает workflow GitHub Pages перед публикацией
+_site/
 *.tar.gz
 node_modules/

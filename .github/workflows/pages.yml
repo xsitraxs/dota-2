@@ -1,0 +1,61 @@
+name: GitHub Pages
+
+# Публикует приложение на https://xsitraxs.github.io/dota-2/
+# Приложение чисто статическое: index.html + assets/ + data/ (сборщик фронта не нужен).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Один деплой за раз; прерывать текущий не надо — иначе можно получить битый сайт.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Гейт: движок разбора должен работать на тех данных, которые уедут в прод.
+      - name: Test engine on shipped data
+        run: node tools/test_engine.mjs
+
+      - name: Stage site
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r assets data _site/
+          echo "files: $(find _site -type f | wc -l)"
+          du -sh _site
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
