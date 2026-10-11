@@ -8,11 +8,18 @@
 
 const ATTR_KEY = { str: 'base_str', agi: 'base_agi', int: 'base_int', all: null };
 
-/** Средний урон автоатаки: база + основной атрибут (для универсалов — 0.7 за каждый пункт любого из трёх). */
+/**
+ * Урон универсала за каждый пункт силы, ловкости и интеллекта. Патч 7.38: «Universal Heroes'
+ * damage per attribute decreased from 0.7 to 0.45» (патчноуты dotaconstants и dota2.com/patches/7.38);
+ * в 7.39–7.41f множитель не менялся.
+ */
+export const UNIVERSAL_DAMAGE_PER_ATTRIBUTE = 0.45;
+
+/** Средний урон автоатаки: база + основной атрибут (для универсалов — 0.45 за каждый пункт любого из трёх). */
 export function heroDamage(h) {
   const base = ((h.stats.base_attack_min || 0) + (h.stats.base_attack_max || 0)) / 2;
   const attr = h.primary_attr === 'all'
-    ? 0.7 * ((h.stats.base_str || 0) + (h.stats.base_agi || 0) + (h.stats.base_int || 0))
+    ? UNIVERSAL_DAMAGE_PER_ATTRIBUTE * ((h.stats.base_str || 0) + (h.stats.base_agi || 0) + (h.stats.base_int || 0))
     : h.stats[ATTR_KEY[h.primary_attr]] || 0;
   return base + attr;
 }
@@ -260,7 +267,8 @@ export function counterPicks({ enemies, enemyMid, data, limit = 6, exclude = [] 
   const { heroes, plans, tagsKb, rules } = data;
   const tagRules = rules.rules;
   const enemySet = enemies.filter(Boolean);
-  const skip = new Set(exclude.filter(Boolean));
+  // Героя, уже взятого противником, взять нельзя: такие пики не предлагаем никогда.
+  const skip = new Set([...exclude.filter(Boolean), ...enemySet]);
   const results = [];
   for (const [slug, plan] of Object.entries(plans)) {
     if (slug.startsWith('_') || !plan.mid) continue;
@@ -366,7 +374,7 @@ const CHECKLIST_BY_TAG = [
   { tags: ['roam_ganker'], text: 'Вард на проходе к миду к 3-4 минуте (50 золота против одной смерти)' },
   { tags: ['invis'], text: 'Сентри/дасты в инвентаре до 10-й минуты' },
   { tags: ['silence', 'heavy_lockdown'], text: 'План на диспел: циклон/Manta или БКБ в первом крупном закупе' },
-  { tags: ['burst_magical'], text: 'Рейндаропы и маг. wand на линии важнее лишнего урона' },
+  { tags: ['burst_magical'], text: 'Рейндропы и маг. wand на линии важнее лишнего урона' },
   { tags: ['save'], text: 'Порядок файта: сначала сайленс/хекс на спасающего, потом бурст' },
 ];
 

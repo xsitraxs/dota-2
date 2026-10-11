@@ -8,6 +8,7 @@ name: GitHub Pages
 #                         (только index.html + assets/ + data/) и деплоит его;
 #   • «Deploy from a branch» — GitHub сам публикует ветку main, воркфлоу
 #                         ограничивается проверками и не лезет в деплой.
+# Политику (права, условия публикации, закрепление действий по SHA) проверяет tools/test_ci.mjs.
 on:
   push:
     branches: [main]
@@ -15,41 +16,53 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# По умолчанию у токена нет никаких прав: каждый job ниже получает только то, что ему нужно.
+permissions: {}
 
-# Один деплой за раз; прерывать текущий не надо — иначе можно получить битый сайт.
+# Прогоны одной ветки или одного PR не копятся: новый коммит в PR отменяет устаревшую проверку,
+# а прогоны main идут по очереди (текущий не прерывается). Группа зависит от ветки/PR, поэтому
+# проверка из PR больше не может вытеснить ожидающую публикацию main (раньше у всех прогонов
+# была одна группа «pages», и новый прогон отменял ожидающий).
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Сборка и тесты выполняют код репозитория и dev-зависимостей — им только чтение:
+    # contents — checkout, pages — узнать режим публикации (GET /repos/{repo}/pages).
+    permissions:
+      contents: read
+      pages: read
     outputs:
       pages_mode: ${{ steps.pages_mode.outputs.mode }}
+      deploy: ${{ steps.pages_mode.outputs.deploy }}
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # Токен не сохраняется в .git/config: тестам и зависимостям он не нужен.
+          persist-credentials: false
 
       - name: Setup Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
 
-      # dev-зависимости: eslint (линтер) и jsdom (прогон интерфейса).
+      # dev-зависимости: eslint (линтер), jsdom (прогон интерфейса), yaml (проверка этого файла).
+      # Скрипты установки пакетов не запускаем: ни одному из них они не нужны, а для цепочки
+      # поставок это лишняя точка исполнения чужого кода.
       - name: Install dev dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       # Гейт стиля: базовые правила ESLint (no-unused-vars, eqeqeq, recommended).
       - name: Lint
         run: npm run lint
 
-      # Гейт: движок разбора должен работать на тех данных, которые уедут в прод.
-      - name: Test engine on shipped data
-        run: node tools/test_engine.mjs
+      # Гейт: движок, данные и база знаний, политика этого workflow — на том, что уедет в прод.
+      - name: Test engine, data and CI policy
+        run: npm test
 
       # Гейт распознавания: синтетические «скриншоты» собираются ImageMagick из тех же иконок.
       - name: Install ImageMagick
@@ -61,21 +74,42 @@ jobs:
       # Гейт интерфейса: jsdom-прогон против тех же файлов (сервер поднимается на время шага).
       - name: Test UI on shipped data
         run: |
-          python3 -m http.server 8000 >/dev/null 2>&1 &
-          sleep 1
-          node tools/test_ui.mjs
+          python3 -m http.server 8000 --bind 127.0.0.1 >/dev/null 2>&1 &
+          for _ in $(seq 1 40); do curl -fsS -o /dev/null http://127.0.0.1:8000/ && break; sleep 0.25; done
+          npm run test:ui
 
+      # Режим публикации и решение «публиковать ли». Ошибка API на push/dispatch — явный сбой,
+      # а не молчаливое «Pages выключен»: иначе сайт тихо перестал бы обновляться.
       - name: Detect Pages source
         id: pages_mode
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mode=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.build_type' 2>/dev/null || echo none)
+          err="${RUNNER_TEMP:-/tmp}/pages-api-error.txt"
+          if out=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.build_type' 2>"$err"); then
+            mode="$out"
+          elif grep -q 'HTTP 404' "$err"; then
+            mode=none
+          else
+            cat "$err" >&2
+            if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+              echo "::warning::Не удалось прочитать настройки Pages; на pull request публикации всё равно нет"
+              mode=unknown
+            else
+              echo "::error::Не удалось прочитать настройки Pages (нужно право pages: read) — публикация не выполнена, перезапустите workflow"
+              exit 1
+            fi
+          fi
+          deploy=false
+          if [ "$mode" = "workflow" ] && [ "$GITHUB_EVENT_NAME" != "pull_request" ] && [ "$GITHUB_REF" = "refs/heads/main" ]; then
+            deploy=true
+          fi
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
-          echo "Settings → Pages → Source: $mode"
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+          echo "Settings → Pages → Source: $mode; публикация в этом прогоне: $deploy"
 
       - name: Stage site
-        if: steps.pages_mode.outputs.mode == 'workflow'
+        if: steps.pages_mode.outputs.deploy == 'true'
         run: |
           mkdir -p _site
           cp index.html _site/
@@ -84,27 +118,43 @@ jobs:
           du -sh _site
 
       - name: Configure Pages
-        if: steps.pages_mode.outputs.mode == 'workflow'
+        if: steps.pages_mode.outputs.deploy == 'true'
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
 
       - name: Upload artifact
-        if: steps.pages_mode.outputs.mode == 'workflow'
+        if: steps.pages_mode.outputs.deploy == 'true'
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: _site
 
       - name: Note
-        if: steps.pages_mode.outputs.mode != 'workflow'
+        if: steps.pages_mode.outputs.deploy != 'true'
+        env:
+          MODE: ${{ steps.pages_mode.outputs.mode }}
         run: |
-          echo "Pages публикуется из ветки (Source: Deploy from a branch) — GitHub соберёт сайт сам."
-          echo "Проверки движка и интерфейса пройдены, деплой через Actions не требуется."
+          case "$MODE" in
+            legacy) echo "Pages публикуется из ветки (Source: Deploy from a branch) — GitHub соберёт сайт сам. Проверки пройдены." ;;
+            workflow) echo "Source: GitHub Actions, но это не push/запуск в main — выполнены только проверки, без публикации." ;;
+            none) echo "GitHub Pages в репозитории не включён — выполнены только проверки." ;;
+            *) echo "Режим публикации не определён ($MODE) — выполнены только проверки." ;;
+          esac
           echo "Чтобы деплоить чистый артефакт (без tools/ и README), поставьте Source: GitHub Actions."
 
   deploy:
     needs: build
-    # Деплой только с main: на pull request выполняются одни проверки.
-    if: needs.build.outputs.pages_mode == 'workflow' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    # Публикация — только с main и никогда из pull request. Решение вычисляет build, но условия
+    # продублированы здесь: job не запустится, даже если вывод build окажется неожиданным.
+    if: needs.build.outputs.deploy == 'true' && needs.build.outputs.pages_mode == 'workflow' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    # Права на запись — только здесь: этот job не выполняет код репозитория, а лишь публикует
+    # проверенный артефакт (pages: write — деплой, id-token: write — подтверждение источника).
+    permissions:
+      pages: write
+      id-token: write
+    # Один деплой за раз; текущий не прерываем — иначе можно получить битый сайт.
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

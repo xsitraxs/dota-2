@@ -18,7 +18,8 @@ const DATA = path.join(ROOT, 'data');
 const J = (p) => JSON.parse(fs.readFileSync(path.join(DATA, p), 'utf8'));
 
 const {
-  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse, heroDamage,
+  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
+  heroDamage, heroHp, heroMana, heroArmor,
 } = await import(path.join(ROOT, 'assets', 'analysis.js'));
 
 const heroes = J('heroes.json');
@@ -49,15 +50,30 @@ ok(Object.keys(items).length > 400, 'предметы 7.41 собраны', Stri
 const planHeroes = Object.keys(plans).filter((k) => !k.startsWith('_'));
 ok(planHeroes.length >= 36, 'мидовых планов в базе', String(planHeroes.length));
 
-// 0. формулы статов: урон универсала = база + 0.7 за каждый пункт любого из трёх атрибутов
+// 0. формулы статов. Константы — из патчноутов (dotaconstants build/patchnotes.json, dota2.com/patches):
+//    7.38 «Universal Heroes' damage per attribute decreased from 0.7 to 0.45» (в 7.39–7.41f не менялось);
+//    7.33 «HP per point of Strength increased from 20 to 22»; 7.27 «Armor per agility … to 1/6»;
+//    12 маны за интеллект. Числа записаны здесь явно: тест сверяет формулы движка с источником,
+//    а не с самим движком.
 {
+  const avg = (h) => (h.stats.base_attack_min + h.stats.base_attack_max) / 2;
   const bane = heroes['bane'];
-  const expected = ((bane.stats.base_attack_min + bane.stats.base_attack_max) / 2)
-    + 0.7 * (bane.stats.base_str + bane.stats.base_agi + bane.stats.base_int);
-  ok(Math.abs(heroDamage(bane) - expected) < 0.01, 'урон универсала = база + 0.7×сумма атрибутов', `bane=${heroDamage(bane).toFixed(1)} (ожидалось ${expected.toFixed(1)})`);
+  const expected = avg(bane) + 0.45 * (bane.stats.base_str + bane.stats.base_agi + bane.stats.base_int);
+  ok(Math.abs(heroDamage(bane) - expected) < 0.01, 'урон универсала = база + 0.45×(сила+ловкость+интеллект) (с 7.38)', `bane=${heroDamage(bane).toFixed(1)} (ожидалось ${expected.toFixed(1)})`);
   const qop = heroes['queenofpain'];
-  const qopExpected = ((qop.stats.base_attack_min + qop.stats.base_attack_max) / 2) + qop.stats.base_int;
-  ok(Math.abs(heroDamage(qop) - qopExpected) < 0.01, 'урон интового героя = база + интеллект', `qop=${heroDamage(qop).toFixed(1)}`);
+  ok(Math.abs(heroDamage(qop) - (avg(qop) + qop.stats.base_int)) < 0.01, 'урон интового героя = база + интеллект', `qop=${heroDamage(qop).toFixed(1)}`);
+  const byAttr = { str: 'base_str', agi: 'base_agi', int: 'base_int' };
+  const wrongPrimary = Object.values(heroes).filter((h) => h.primary_attr !== 'all'
+    && Math.abs(heroDamage(h) - (avg(h) + h.stats[byAttr[h.primary_attr]])) > 1e-9);
+  ok(wrongPrimary.length === 0, 'урон силовиков, ловкачей и интовиков = база + основной атрибут (все герои)', wrongPrimary.map((h) => h.slug).join(', '));
+  const universals = Object.values(heroes).filter((h) => h.primary_attr === 'all');
+  ok(universals.length > 0 && universals.every((h) => Math.abs(heroDamage(h) - (avg(h) + 0.45 * (h.stats.base_str + h.stats.base_agi + h.stats.base_int))) < 1e-9),
+    `формула универсала верна для всех ${universals.length} универсалов`);
+  const axe = heroes['axe'];
+  ok(heroHp(axe) === axe.stats.base_health + 22 * axe.stats.base_str, 'HP = база + 22×сила', `axe=${heroHp(axe)}`);
+  ok(heroMana(qop) === qop.stats.base_mana + 12 * qop.stats.base_int, 'мана = база + 12×интеллект', `qop=${heroMana(qop)}`);
+  const pa = heroes['phantom_assassin'];
+  ok(Math.abs(heroArmor(pa) - (pa.stats.base_armor + pa.stats.base_agi / 6)) < 1e-9, 'броня = база + ловкость/6', `pa=${heroArmor(pa).toFixed(2)}`);
 }
 
 // 1. целостность планов
@@ -99,6 +115,27 @@ ok(combos.length >= 2, 'комбо-предупреждения срабатыв
 // 5. рекомендации по пикам
 const picks = counterPicks({ enemies: ['huskar', 'riki', 'tidehunter', 'oracle', 'medusa'], enemyMid: 'huskar', data, limit: 5 });
 ok(picks.length >= 3, 'есть рекомендации по пикам', picks.map((p) => `${p.name}:${p.score}`).join(' '));
+ok(!picks.some((p) => ['huskar', 'riki', 'tidehunter', 'oracle', 'medusa'].includes(p.slug)),
+  'героя противника не предлагают взять себе (раньше в этом драфте рекомендовался Huskar)');
+{
+  // Свойство на сотнях случайных драфтов (детерминированный ГПСЧ): рекомендации никогда не включают
+  // героев противника, своего героя и союзников, без повторов и не длиннее limit.
+  let seed = 41;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const all = Object.keys(heroes);
+  const pickN = (n, used) => { const out = []; while (out.length < n) { const s = all[Math.floor(rnd() * all.length)]; if (!used.has(s)) { used.add(s); out.push(s); } } return out; };
+  let violations = 0;
+  for (let k = 0; k < 300; k++) {
+    const used = new Set();
+    const enemies = pickN(1 + Math.floor(rnd() * 5), used);
+    const [me] = pickN(1, used);
+    const allies = pickN(Math.floor(rnd() * 5), used);
+    const res = counterPicks({ enemies, enemyMid: enemies[0], data, limit: 6, exclude: [me, ...allies] });
+    const bad = res.filter((p) => enemies.includes(p.slug) || p.slug === me || allies.includes(p.slug));
+    if (bad.length || new Set(res.map((p) => p.slug)).size !== res.length || res.length > 6) violations++;
+  }
+  ok(violations === 0, 'на 300 случайных драфтах рекомендации не содержат занятых героев и повторов', `нарушений: ${violations}`);
+}
 
 // 6. закуп и чеклист
 const plan = buildPlan({ heroSlug: 'queenofpain', enemySlugs: ['riki', 'clinkz', 'huskar'], data });

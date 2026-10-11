@@ -7,14 +7,18 @@
   "scripts": {
     "serve": "python3 -m http.server 8000",
     "lint": "eslint .",
-    "test": "node tools/test_engine.mjs",
+    "test": "node tools/test_engine.mjs && node tools/test_data.mjs && node tools/test_ci.mjs",
     "test:ui": "node tools/test_ui.mjs",
     "test:recognize": "node tools/test_recognize.mjs"
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.12.0",
     "globals": "^17.13.0",
-    "jsdom": "^30.1.2"
+    "jsdom": "^30.1.2",
+    "yaml": "^2.9.1"
   }
 }
