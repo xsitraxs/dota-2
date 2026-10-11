@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Драфт-помощник Dota 2 — патч 7.41</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">
+      <h1>Драфт-помощник</h1>
+      <span class="badge" id="patchBadge">патч —</span>
+      <span class="sub" id="metaLine">данные загружаются…</span>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="draft" class="active">Драфт</button>
+      <button data-tab="heroes">Герои</button>
+      <button data-tab="items">Предметы</button>
+      <button data-tab="patch">Патч 7.41</button>
+      <button data-tab="timers">Тайминги</button>
+      <button data-tab="about">Как это работает</button>
+    </nav>
+  </header>
+
+  <main id="view">
+    <div class="panel"><h2>Загрузка данных</h2><p class="muted">Читаю игровые данные 7.41…</p></div>
+  </main>
+
+  <footer class="foot">
+    Данные: официальные игровые константы Dota 2 (odota/dotaconstants) + иконки героев (M-Hasan-Ibrahim/Dota2HeroInfoAndIcons).
+    Разбор строится на цифрах клиента и механиках 7.41, без сторонних «винрейтов».
+  </footer>
+</div>
+<div id="modalRoot"></div>
+<script type="module" src="assets/app.js"></script>
+</body>
+</html>
