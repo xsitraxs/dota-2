@@ -9,16 +9,19 @@
  *
  * Требуется jsdom: npm install
  *
- * Сценарий: загрузка данных 7.41, выбор драфта (QoP против Huskar/Riki/Tidehunter/Oracle),
- * вердикт по лейну, угрозы, закуп, чеклист, все вкладки, таймер, сохранение в localStorage.
+ * Сценарий: загрузка данных, выбор драфта (QoP против Huskar/Riki/Tidehunter/Oracle),
+ * вердикт по лейну, угрозы, закуп, чеклист, все вкладки, таймер, сохранение в localStorage;
+ * затем устойчивость: испорченное хранилище, скриншот с пустыми и неузнаваемыми ячейками,
+ * ошибки загрузки шаблонов и изображения, уникальность героев в драфте.
+ * Любая ошибка скрипта страницы или console.error в jsdom — провал теста.
  */
 
 import { JSDOM, VirtualConsole } from 'jsdom';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { convert, readImage } from './imagemagick.mjs';
 
 const BASE = process.argv[2] || process.env.SITE_URL || 'http://127.0.0.1:8000/';
 
@@ -26,8 +29,15 @@ const base = BASE.endsWith('/') ? BASE : BASE + '/';
 const get = async (p) => (await fetch(base + p)).text();
 const problems = [];
 
-// Ожидаемые количества берём из самих данных — тесты не должны падать от новых героев/предметов.
-const heroesCount = Object.keys(JSON.parse(await get('data/heroes.json'))).length;
+// Ожидаемые количества и версии берём из самих данных — тесты не должны падать от новых героев,
+// предметов или следующего патча.
+const heroesData = JSON.parse(await get('data/heroes.json'));
+const heroesCount = Object.keys(heroesData).length;
+const meta = JSON.parse(await get('data/meta.json'));
+const series = meta.patchSeries || meta.latestPatch;
+const patchKeys = Object.keys(JSON.parse(await get('data/patchnotes.json')));
+const latestVersion = patchKeys.filter((k) => k === series || (k.startsWith(series) && /^[a-z]+$/.test(k.slice(series.length))))
+  .sort((a, b) => a.length - b.length || a.localeCompare(b)).pop();
 const itemsCount = Object.values(JSON.parse(await get('data/items.json'))).filter((i) => !i.recipe).length;
 let midCount = 0;
 for (const f of JSON.parse(await get('data/kb_index.json')).files) {
@@ -50,12 +60,16 @@ vc.on('error', (...a) => problems.push('console.error: ' + a.join(' ')));
 /**
  * Новый экземпляр приложения: свои virtualConsole-обработчики уже навешены на problems.
  * withObserver — заглушка IntersectionObserver (в jsdom его нет), колбэк доступен как window.__io.
+ * rawDraft — строка в localStorage как есть (испорченный JSON и т. п.).
+ * fetchOverride(url, realFetch) — подмена ответов сервера (ошибки, изменённые файлы).
+ * fakeMedia — заглушки Image, URL.createObjectURL и 2D-контекста canvas для загрузки файла.
  */
-function bootApp(seedDraft, { withObserver = false } = {}) {
+function bootApp(seedDraft, { withObserver = false, rawDraft = null, fetchOverride = null, fakeMedia = null } = {}) {
   const d = new JSDOM(html, {
     url: base, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc,
     beforeParse(window) {
-      window.fetch = (u, o) => globalThis.fetch(new URL(u, base).href, o);
+      const realFetch = (u, o) => globalThis.fetch(new URL(u, base).href, o);
+      window.fetch = fetchOverride ? (u, o) => fetchOverride(String(u), realFetch, o) : realFetch;
       window.Response = globalThis.Response;
       window.Headers = globalThis.Headers;
       window.Element.prototype.scrollIntoView = function () {};
@@ -66,12 +80,61 @@ function bootApp(seedDraft, { withObserver = false } = {}) {
       // получает пиксели через window.__dpShot (см. раздел «Скриншот»).
       window.HTMLCanvasElement.prototype.getContext = () => null;
       if (withObserver) window.IntersectionObserver = class { constructor(cb) { window.__io = cb; } observe() {} disconnect() {} };
+      if (fakeMedia) installFakeMedia(window, fakeMedia);
     },
   });
   // Скрипт приложения стартует синхронно, но читает localStorage только после загрузки данных,
   // поэтому подсеять состояние можно сразу после создания окна.
   if (seedDraft) d.window.localStorage.setItem('dp.draft', JSON.stringify(seedDraft));
+  if (rawDraft !== null) d.window.localStorage.setItem('dp.draft', rawDraft);
   return d;
+}
+
+/**
+ * Заглушки браузерных API для пути «файл → пиксели»: Image декодирует «картинку» заданного размера
+ * (или падает с onerror), canvas отдаёт 2D-контекст, getImageData — нули нужного размера.
+ * Счётчики вызовов — в media.calls.
+ */
+function installFakeMedia(window, media) {
+  media.calls = { create: 0, revoke: 0, canvas: [] };
+  window.URL.createObjectURL = () => { media.calls.create++; return `blob:fake/${media.calls.create}`; };
+  window.URL.revokeObjectURL = () => { media.calls.revoke++; };
+  window.Image = class {
+    set src(v) {
+      this._src = v;
+      setTimeout(() => {
+        if (media.decode === 'fail') { if (this.onerror) this.onerror(new window.Event('error')); return; }
+        this.naturalWidth = media.width;
+        this.naturalHeight = media.height;
+        if (this.onload) this.onload(new window.Event('load'));
+      }, 5);
+    }
+    get src() { return this._src; }
+  };
+  const ctx = (canvas) => ({
+    canvas, imageSmoothingQuality: 'low', lineWidth: 1, strokeStyle: '', fillStyle: '',
+    drawImage() {}, putImageData() {}, fillRect() {}, strokeRect() {},
+    getImageData: (x, y, w, h) => ({ width: w, height: h, data: new window.Uint8ClampedArray(w * h * 4) }),
+  });
+  window.HTMLCanvasElement.prototype.getContext = function getContext() {
+    media.calls.canvas.push([this.width, this.height]);
+    return ctx(this);
+  };
+  window.ImageData = class { constructor(data, w, h) { this.data = data; this.width = w; this.height = h; } };
+}
+
+/** Ждать, пока приложение загрузит данные (бейдж серии патча из meta.json). */
+async function waitLoaded(win, ms = 30000) {
+  const until = Date.now() + ms;
+  const ready = () => (win.document.querySelector('#patchBadge')?.textContent || '').includes(`патч ${series}`);
+  while (Date.now() < until && !ready()) await t(150);
+  return ready();
+}
+/** Ждать условия (опрос), вернуть, выполнилось ли оно. */
+async function waitFor(cond, ms = 30000) {
+  const until = Date.now() + ms;
+  while (Date.now() < until && !cond()) await t(100);
+  return cond();
 }
 
 const dom = bootApp();
@@ -84,12 +147,14 @@ const click = (el) => { if (!el) throw new Error('нет элемента для
 const type = (el, v) => { if (!el) throw new Error('нет поля ввода'); el.value = v; el.dispatchEvent(new window.Event('input', { bubbles: true })); };
 const check = (cond, label) => { console.log(`${cond ? '  ✓' : '  ✗'} ${label}`); if (!cond) problems.push('проверка: ' + label); };
 
-const deadline = Date.now() + 30000;
-while (Date.now() < deadline && !/патч 7\.41/.test($('#patchBadge')?.textContent || '')) await t(150);
+await waitLoaded(window);
 
 console.log('\n1. Загрузка');
-check(/патч 7\.41/.test($('#patchBadge')?.textContent || ''), `бейдж: ${$('#patchBadge')?.textContent?.trim()}`);
-check(/данные от/.test($('#metaLine')?.textContent || ''), `строка данных: ${$('#metaLine')?.textContent?.trim()}`);
+check(($('#patchBadge')?.textContent || '').trim() === `патч ${series}`, `бейдж — серия патча: ${$('#patchBadge')?.textContent?.trim()}`);
+const metaLine = $('#metaLine')?.textContent || '';
+check(metaLine.includes(`серия ${series}`) && metaLine.includes(`патчноуты до ${latestVersion}`)
+  && metaLine.includes(`${heroesCount} героев`) && metaLine.includes(`${meta.items} предметов`),
+  `строка данных: серия и буквенная версия раздельно — ${metaLine.trim()}`);
 check(/Как пользоваться/.test($('#view')?.textContent || ''), 'стартовый экран драфта');
 
 console.log('\n2. Драфт: QoP против Huskar/Riki/Tidehunter/Oracle');
@@ -194,8 +259,7 @@ const seeded = {
 };
 const dom2 = bootApp({ me: 'queenofpain', enemies: ['huskar', null, null, null, null], enemyMid: 'huskar', allies: [], checks: seeded });
 const w2 = dom2.window;
-const deadline2 = Date.now() + 30000;
-while (Date.now() < deadline2 && !/патч 7\.41/.test(w2.document.querySelector('#patchBadge')?.textContent || '')) await t(150);
+await waitLoaded(w2);
 const cleaned = JSON.parse(w2.localStorage.getItem('dp.draft') || '{}').checks || {};
 check(cleaned['Сентри/дасты в инвентаре до 10-й минуты'] === true, 'нужный пункт чеклиста остаётся');
 check(!('Галочка из старого драфта' in cleaned), 'несуществующий ключ вычищается из localStorage');
@@ -207,8 +271,7 @@ const w3 = dom3.window;
 const $3 = (s) => w3.document.querySelector(s);
 const $$3 = (s) => [...w3.document.querySelectorAll(s)];
 const click3 = (el) => el.dispatchEvent(new w3.MouseEvent('click', { bubbles: true }));
-const deadline3 = Date.now() + 30000;
-while (Date.now() < deadline3 && !/патч 7\.41/.test($3('#patchBadge')?.textContent || '')) await t(150);
+await waitLoaded(w3);
 click3($3('[data-tab="items"]')); await t(300);
 check($$3('.item-card').length === itemPage, `на вкладке снова первая порция (${itemPage})`);
 check($3('#itemsSentinel') !== null, 'страж подгрузки стоит после карточек');
@@ -231,9 +294,9 @@ console.log('\n7. Распознавание скриншота во вклад�
       '-resize', `${CARD}x${CARD}!`, ')', '-geometry', `+${PAD + i * (CARD + GAP)}+${PAD}`, '-composite');
   });
   const png = path.join(tmp, 'ui-strip.png');
-  execFileSync('convert', [...args, png], { maxBuffer: 64 * 1024 * 1024 });
-  const dims = execFileSync('identify', ['-format', '%w %h', png]).toString().trim().split(' ').map(Number);
-  const data = new Uint8Array(execFileSync('convert', [png, '-depth', '8', 'rgba:-'], { maxBuffer: 256 * 1024 * 1024 }));
+  convert([...args, png]);
+  const { width: stripW, height: stripH, data } = readImage(png);
+  const dims = [stripW, stripH];
   fs.rmSync(tmp, { recursive: true, force: true });
 
   const dom4 = bootApp();
@@ -241,8 +304,7 @@ console.log('\n7. Распознавание скриншота во вклад�
   const $4 = (s) => w4.document.querySelector(s);
   const $$4 = (s) => [...w4.document.querySelectorAll(s)];
   const click4 = (el) => el.dispatchEvent(new w4.MouseEvent('click', { bubbles: true }));
-  const deadline4 = Date.now() + 30000;
-  while (Date.now() < deadline4 && !/патч 7\.41/.test($4('#patchBadge')?.textContent || '')) await t(150);
+  await waitLoaded(w4);
 
   click4($4('[data-tab="shot"]'));
   await t(150);
@@ -309,6 +371,311 @@ console.log('\n7. Распознавание скриншота во вклад�
   while (Date.now() < regionDeadline && $$4('[data-shot-pick]').length !== 3) await t(200);
   check($$4('[data-shot-pick]').length === 3, `нарезка области 300×108 на 3×1 дала ${$$4('[data-shot-pick]').length} ячейки`);
   check($4('#shotX').value === '10' && $4('#shotW').value === '300', 'поля области сохраняют введённые значения');
+}
+
+/** Полоса карточек для вкладки «Скриншот»: слаг героя, null — пустой слот, 'rose:' — не герой. */
+function makeShot(slots, { card = 88, gap = 6, pad = 10 } = {}) {
+  const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'uishot-'));
+  const W = pad * 2 + slots.length * card + (slots.length - 1) * gap;
+  const H = pad * 2 + card;
+  const args = ['-size', `${W}x${H}`, 'xc:#0d1016'];
+  slots.forEach((slot, i) => {
+    const src = slot === null ? ['-size', `${card}x${card}`, 'xc:#2a3140']
+      : slot.endsWith(':') ? [slot, '-resize', `${card}x${card}!`]
+        : [path.join(ROOT, 'data', 'icons', `${slot}.webp`), '-crop', '144x144+56+0', '+repage', '-resize', `${card}x${card}!`];
+    args.push('(', ...src, ')', '-geometry', `+${pad + i * (card + gap)}+${pad}`, '-composite');
+  });
+  const png = path.join(tmpDir, 'shot.png');
+  convert([...args, '-alpha', 'off', png]);
+  const img = readImage(png);
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+  return img;
+}
+/** Удобные обёртки над окном jsdom. */
+function ui(win) {
+  const q = (s) => win.document.querySelector(s);
+  const qa = (s) => [...win.document.querySelectorAll(s)];
+  return {
+    q, qa,
+    click: (el) => { if (!el) throw new Error('нет элемента для клика'); el.dispatchEvent(new win.MouseEvent('click', { bubbles: true })); },
+    choose: (el, v) => { el.value = v; el.dispatchEvent(new win.Event('change', { bubbles: true })); },
+    set: (sel, v) => { const el = q(sel); el.value = String(v); el.dispatchEvent(new win.Event('input', { bubbles: true })); },
+    saved: () => JSON.parse(win.localStorage.getItem('dp.draft') || '{}'),
+    picks: () => qa('[data-shot-pick]').map((el) => el.value),
+    statuses: () => qa('[data-shot-status]').map((el) => el.dataset.shotStatus),
+    // Индикатор ищем и по тексту: так проверка не зависит от разметки конкретной версии.
+    idle: () => !q('#shotBusy') && !/Распознаю карточки/.test(q('#view')?.textContent || ''),
+    text: () => q('#view').textContent,
+  };
+}
+const knownSlug = (s) => s === null || Object.prototype.hasOwnProperty.call(heroesData, s);
+
+console.log('\n8. Испорченное хранилище (общий localStorage у всех сайтов *.github.io)');
+{
+  const dom8 = bootApp({
+    me: 'constructor',
+    enemies: ['__proto__', 'toString', 'huskar', 'huskar', 'queenofpain'],
+    enemyMid: 'hasOwnProperty',
+    allies: ['valueOf', 'queenofpain', 'lion'],
+    checks: ['не объект'],
+  });
+  const u = ui(dom8.window);
+  check(await waitLoaded(dom8.window), 'приложение загрузилось');
+  await t(200);
+  check(!/Ошибка/.test(u.text()) && u.q('[data-pick="me:0"]') !== null, 'унаследованные имена (constructor, __proto__, toString…) не роняют интерфейс: свой герой пуст');
+  const names = u.qa('.hero-mini .nm').map((el) => el.textContent.trim());
+  check(names.filter((n) => n === 'Huskar').length === 1 && names.filter((n) => n === 'Queen of Pain').length === 1 && names.includes('Lion'),
+    `повторы между слотами отброшены: ${names.join(', ')}`);
+  check(['huskar', 'queenofpain'].includes(u.q('[data-enemy-mid]')?.value), `мид противника — из списка противников: ${u.q('[data-enemy-mid]')?.value}`);
+  for (const raw of ['{не json', '[1,2,3]', 'null', '"строка"']) {
+    const d = bootApp(null, { rawDraft: raw });
+    const ok8 = await waitLoaded(d.window);
+    await t(150);
+    check(ok8 && /Как пользоваться/.test(d.window.document.querySelector('#view').textContent), `хранилище «${raw}» → обычный стартовый экран`);
+  }
+}
+
+console.log('\n9. Скриншот с пустыми и неузнаваемыми ячейками → «Не определён» и верное заполнение драфта');
+{
+  const slots = ['axe', null, 'invoker', 'rose:', 'sniper'];
+  const shotImg = makeShot(slots);
+  const dom9 = bootApp();
+  const w9 = dom9.window;
+  const u = ui(w9);
+  await waitLoaded(w9);
+  u.click(u.q('[data-tab="shot"]'));
+  await t(100);
+  w9.__dpShot(shotImg, 'частично заполненный драфт');
+  const done = await waitFor(() => u.idle() && u.q('#shotList'));
+  check(done, 'распознавание завершилось: нет «Распознаю карточки…», список показан (раньше UI зависал на пустой ячейке)');
+  check(!u.q('#shotError') && !/Ошибка интерфейса/.test(u.text()), 'без ошибок рендера и распознавания');
+  check(u.picks().join(',') === 'axe,,invoker,,sniper', `ячейки: ${u.picks().map((p) => p || '«не определён»').join(', ')}`);
+  check(u.statuses().join(',') === 'ok,empty,ok,weak,ok', `статусы: ${u.statuses().join(', ')}`);
+  check(/Распознано героев: 3 из 5/.test(u.text()), 'заголовок считает только распознанных героев (3 из 5)');
+  const weakRow = u.qa('[data-shot-status="weak"]')[0];
+  check(weakRow && /не определён/.test(weakRow.textContent) && weakRow.querySelectorAll('[data-shot-alt]').length > 0,
+    'неузнаваемая карточка: «не определён» и подсказки-кандидаты вместо фиктивного героя');
+  const emptyRow = u.qa('[data-shot-status="empty"]')[0];
+  check(emptyRow && /пустая ячейка/.test(emptyRow.textContent) && emptyRow.querySelectorAll('[data-shot-alt]').length === 0,
+    'пустая ячейка: без близости и без кандидатов');
+
+  u.click(u.q('[data-shot="fill-enemies"]'));
+  await t(120);
+  check(JSON.stringify(u.saved().enemies) === JSON.stringify(['axe', 'invoker', 'sniper', null, null]),
+    `в противники — только распознанные герои по порядку: ${JSON.stringify(u.saved().enemies)}`);
+  check(/Добавлено в противники: 3/.test(u.q('#shotNotice')?.textContent || ''), `итог: ${u.q('#shotNotice')?.textContent}`);
+  u.click(u.q('[data-shot="fill-enemies"]'));
+  await t(120);
+  check(JSON.stringify(u.saved().enemies) === JSON.stringify(['axe', 'invoker', 'sniper', null, null]) && /уже в драфте или повтор: 3/.test(u.q('#shotNotice')?.textContent || ''),
+    'повторное заполнение не дублирует героев');
+
+  u.choose(u.q('[data-shot-pick="3"]'), 'lion');
+  await t(80);
+  check(u.statuses()[3] === 'manual' && u.picks()[3] === 'lion', 'неузнаваемой ячейке героя можно выбрать вручную');
+  u.click(u.q('[data-shot="fill-allies"]'));
+  await t(120);
+  check(JSON.stringify(u.saved().allies) === JSON.stringify(['lion', null, null, null]) && /Добавлено в союзники: 1 · уже в драфте или повтор: 3/.test(u.q('#shotNotice')?.textContent || ''),
+    `в союзники — только ручной выбор, занятые герои пропущены: ${JSON.stringify(u.saved().allies)}`);
+
+  u.choose(u.q('[data-shot-pick="0"]'), '');
+  await t(80);
+  check(u.picks()[0] === '' && u.statuses()[0] === 'cleared', '«— не определён —» остаётся выбранным (раньше ячейка возвращалась к автоматическому герою)');
+  u.choose(u.q('[data-shot-pick="1"]'), 'oracle');
+  u.choose(u.q('[data-shot-pick="3"]'), 'oracle');
+  await t(80);
+  u.click(u.q('[data-tab="draft"]'));
+  await t(80);
+  u.click(u.q('[data-action="reset"]'));
+  await t(80);
+  u.click(u.q('[data-tab="shot"]'));
+  await t(80);
+  u.click(u.q('[data-shot="fill-enemies"]'));
+  await t(120);
+  check(JSON.stringify(u.saved().enemies) === JSON.stringify(['oracle', 'invoker', 'sniper', null, null]),
+    `один герой в двух ячейках попадает в драфт один раз, «не определён» пропускается: ${JSON.stringify(u.saved().enemies)}`);
+
+  // Ручная нарезка ровно по карточкам: те же статусы.
+  u.set('#shotX', 10); u.set('#shotY', 10); u.set('#shotW', shotImg.width - 20); u.set('#shotH', 88);
+  u.set('#shotCols', 5); u.set('#shotRows', 1);
+  u.click(u.q('[data-shot="resplit"]'));
+  await waitFor(() => u.idle() && /вручную/.test(u.text()));
+  check(u.statuses().join(',') === 'ok,empty,ok,weak,ok' && u.picks().join(',') === 'axe,,invoker,,sniper', `ручная нарезка 5×1: ${u.statuses().join(', ')}`);
+  // Область за краем кадра и колонки сверх предела обрезаются, интерфейс показывает реальные значения.
+  u.set('#shotX', 300); u.set('#shotY', 10); u.set('#shotW', 5000); u.set('#shotH', 5000); u.set('#shotCols', 1000); u.set('#shotRows', 0);
+  u.click(u.q('[data-shot="resplit"]'));
+  await waitFor(() => u.idle() && u.qa('[data-shot-pick]').length === 24);
+  check(u.q('#shotCols').value === '24' && u.q('#shotRows').value === '1' && u.qa('[data-shot-pick]').length === 24,
+    `колонки 1000 → ${u.q('#shotCols').value}, строки 0 → ${u.q('#shotRows').value}, ячеек ${u.qa('[data-shot-pick]').length}`);
+  check(Number(u.q('#shotX').value) + Number(u.q('#shotW').value) <= shotImg.width && Number(u.q('#shotY').value) + Number(u.q('#shotH').value) <= shotImg.height,
+    `область урезана по кадру: x=${u.q('#shotX').value} ш=${u.q('#shotW').value} y=${u.q('#shotY').value} в=${u.q('#shotH').value}`);
+  check(!u.q('#shotError') && !/Ошибка интерфейса/.test(u.text()), 'узкие ячейки за краем кадра не вызывают ошибок');
+
+  // Однотонный кадр: сетки нет — понятное сообщение вместо «нарезка задана вручную».
+  u.click(u.q('[data-shot="reset"]'));
+  await t(60);
+  w9.__dpShot({ width: 400, height: 225, data: new Uint8Array(400 * 225 * 4).fill(30) }, 'пустой кадр');
+  await waitFor(() => u.idle() && u.q('#shotGridInfo'));
+  check(/автоматически не найдена/.test(u.q('#shotGridInfo')?.textContent || '') && /Карточки героев не найдены/.test(u.text()),
+    'кадр без карточек: «сетка не найдена» и подсказка про ручную нарезку');
+  check(!u.q('[data-shot="fill-enemies"]'), 'без распознанных героев кнопок заполнения нет');
+  const saved9 = u.saved();
+  check([saved9.me, ...(saved9.enemies || []), ...(saved9.allies || [])].every(knownSlug), 'в хранилище только известные герои');
+}
+
+console.log('\n10. Ошибки загрузки шаблонов и посторонние слаги в шаблонах');
+{
+  const shotImg = makeShot(['axe', 'invoker', 'sniper']);
+  let failOnce = true;
+  const dom10 = bootApp(null, {
+    fetchOverride: (u, real, o) => {
+      if (u.includes('templates.json') && failOnce) { failOnce = false; return Promise.resolve(new Response('сбой', { status: 500 })); }
+      return real(u, o);
+    },
+  });
+  const w10 = dom10.window;
+  const u = ui(w10);
+  await waitLoaded(w10);
+  u.click(u.q('[data-tab="shot"]'));
+  await t(60);
+  w10.__dpShot(shotImg, 'кадр');
+  await waitFor(() => u.idle() && u.q('#shotError'));
+  check(/HTTP 500/.test(u.q('#shotError')?.textContent || '') && u.idle(), `ошибка загрузки шаблонов видна, индикатор снят: ${u.q('#shotError')?.textContent}`);
+  u.click(u.q('[data-shot="auto"]'));
+  await waitFor(() => u.idle() && u.q('#shotList'));
+  check(u.picks().join(',') === 'axe,invoker,sniper' && !u.q('#shotError'), 'повторная попытка загружает шаблоны заново и распознаёт кадр');
+
+  // Шаблоны с неизвестным слагом: у Axe подписи «чужого» героя not_a_hero, своего шаблона нет.
+  const tplJson = JSON.parse(await get('data/templates.json'));
+  const spoof = { ...tplJson, heroes: { ...tplJson.heroes, not_a_hero: tplJson.heroes.axe, constructor: tplJson.heroes.axe } };
+  delete spoof.heroes.axe;
+  const dom10b = bootApp(null, {
+    fetchOverride: (u2, real, o) => (u2.includes('templates.json')
+      ? Promise.resolve(new Response(JSON.stringify(spoof), { status: 200, headers: { 'Content-Type': 'application/json' } }))
+      : real(u2, o)),
+  });
+  const ub = ui(dom10b.window);
+  await waitLoaded(dom10b.window);
+  ub.click(ub.q('[data-tab="shot"]'));
+  await t(60);
+  dom10b.window.__dpShot(shotImg, 'кадр');
+  await waitFor(() => ub.idle() && ub.q('#shotList'));
+  ub.click(ub.q('[data-shot="fill-enemies"]'));
+  await t(120);
+  const enemies10 = ub.saved().enemies || [];
+  check(enemies10.every(knownSlug) && !enemies10.includes('not_a_hero') && !enemies10.includes('constructor'),
+    `слаги не из данных приложения в драфт не попадают: ${JSON.stringify(enemies10)}`);
+  check(!ub.qa('[data-shot-alt]').some((el) => /not_a_hero|constructor/.test(el.dataset.shotAlt)), 'и не предлагаются подсказками');
+}
+
+console.log('\n11. Загрузка файла скриншота: ошибки и очень большие кадры');
+{
+  const media = { decode: 'fail', width: 0, height: 0 };
+  const dom11 = bootApp(null, { fakeMedia: media });
+  const w11 = dom11.window;
+  const u = ui(w11);
+  await waitLoaded(w11);
+  u.click(u.q('[data-tab="shot"]'));
+  await t(60);
+  const pickFile = (file) => {
+    const input = u.q('#shotFile');
+    Object.defineProperty(input, 'files', { value: [file], configurable: true });
+    input.dispatchEvent(new w11.Event('change', { bubbles: true }));
+  };
+  pickFile(new w11.File(['не картинка'], 'broken.png', { type: 'image/png' }));
+  await waitFor(() => u.q('#shotError'));
+  check(/Не удалось прочитать изображение: формат изображения не поддержан/.test(u.q('#shotError')?.textContent || ''), `битая картинка: ${u.q('#shotError')?.textContent}`);
+  check(media.calls.create === 1 && media.calls.revoke === 1, `object URL освобождён и при ошибке (создано ${media.calls.create}, освобождено ${media.calls.revoke})`);
+  pickFile(new w11.File(['%PDF'], 'doc.pdf', { type: 'application/pdf' }));
+  await waitFor(() => /это не изображение/.test(u.q('#shotError')?.textContent || ''));
+  check(/это не изображение/.test(u.q('#shotError')?.textContent || '') && media.calls.create === 1, 'не-изображение отклоняется сразу, без декодирования');
+
+  media.decode = 'ok';
+  media.width = 3000;
+  media.height = 600;
+  pickFile(new w11.File(['png'], 'huge.png', { type: 'image/png' }));
+  await waitFor(() => u.idle() && /уменьшено с 3000×600/.test(u.text()));
+  check(/2560×512 \(уменьшено с 3000×600\)/.test(u.text()), 'кадр больше 2560 px уменьшается перед распознаванием, это видно в интерфейсе');
+  check(media.calls.canvas.some(([cw, ch]) => cw === 2560 && ch === 512) && !media.calls.canvas.some(([cw]) => cw === 3000),
+    'полноразмерный canvas 3000×600 не создаётся');
+  check(media.calls.revoke === media.calls.create, `object URL освобождён после загрузки (${media.calls.revoke}/${media.calls.create})`);
+  check(/автоматически не найдена/.test(u.text()) && !/Ошибка интерфейса/.test(u.text()), 'предпросмотр с canvas и пустой результат рисуются без ошибок');
+}
+
+console.log('\n12. Сброс во время распознавания и стоимость предпросмотра');
+{
+  const shotImg = makeShot(['axe', 'invoker', 'sniper', 'pudge']);
+  const media = { decode: 'ok', width: 1, height: 1 };
+  const dom = bootApp(null, { fakeMedia: media });
+  const w = dom.window;
+  const u = ui(w);
+  await waitLoaded(w);
+  u.click(u.q('[data-tab="shot"]'));
+  await t(60);
+  w.__dpShot(shotImg, 'кадр');
+  u.click(u.q('[data-shot="reset"]')); // сброс раньше, чем распознавание успело начаться
+  await t(1500);
+  check(u.idle() && !u.q('#shotList') && u.q('#shotDrop') && /Ctrl\+V/.test(u.q('#shotDrop').textContent),
+    'сброс во время распознавания: индикатор снят, устаревший результат не появляется');
+  w.__dpShot(shotImg, 'кадр');
+  await waitFor(() => u.idle() && u.q('#shotList'));
+  const fullSize = () => media.calls.canvas.filter(([cw, ch]) => cw === shotImg.width && ch === shotImg.height).length;
+  const before = fullSize();
+  u.choose(u.q('[data-shot-pick="0"]'), 'lion');
+  u.choose(u.q('[data-shot-pick="1"]'), 'oracle');
+  await t(100);
+  check(u.picks().join(',') === 'lion,oracle,sniper,pudge', 'после повторной загрузки распознавание и правки работают');
+  check(before === 1 && fullSize() === 1, `полноразмерная копия кадра одна на кадр, а не на каждую миниатюру и перерисовку (создано ${fullSize()})`);
+}
+
+console.log('\n13. Уникальность героев в драфте, переходы к предметам, герои без иконок');
+{
+  const enemies = ['huskar', 'riki', 'tidehunter', 'oracle', null];
+  const dom12 = bootApp({ me: 'queenofpain', enemies, enemyMid: 'huskar', allies: ['lion', null, null, null] });
+  const w12 = dom12.window;
+  const u = ui(w12);
+  await waitLoaded(w12);
+  await t(150);
+  const recs = u.qa('[data-set-me]').map((el) => el.dataset.setMe);
+  check(recs.length > 0 && !recs.some((s) => enemies.includes(s) || s === 'lion' || s === 'queenofpain'),
+    `рекомендации пиков без занятых героев: ${recs.join(', ')}`);
+  u.click(u.q('[data-tab="heroes"]'));
+  await t(150);
+  u.click(u.q('[data-hero="huskar"]'));
+  await t(200);
+  check(!u.q('#heroCard [data-set-me]') && /Уже в драфте: у противников/.test(u.q('#heroCard')?.textContent || ''),
+    'карточка героя противника не предлагает поставить его себе');
+  const stale = w12.document.createElement('button');
+  stale.dataset.setMe = 'huskar';
+  w12.document.body.appendChild(stale);
+  u.click(stale);
+  await t(100);
+  check(u.saved().me === undefined || u.saved().me === 'queenofpain', 'устаревшая кнопка «Поставить себе» для героя противника ничего не меняет');
+  check(JSON.parse(w12.localStorage.getItem('dp.draft') || '{}').me !== 'huskar', 'свой герой не совпадает с героем противника');
+  u.click(u.q('[data-tab="draft"]'));
+  await t(150);
+  const chip = u.q('.item-chip[data-item]');
+  const itemName = chip ? chip.firstChild.textContent.trim() : '';
+  u.click(chip);
+  await t(250);
+  check(u.q('#itemSearch')?.value === itemName && u.qa('.item-card').some((el) => el.textContent.includes(itemName)),
+    `клик по предмету в закупе открывает его в справочнике: «${itemName}»`);
+
+  // Герои без иконки в источнике: буквенный аватар вместо картинки (и никаких чужих портретов).
+  const noIcon = JSON.parse(await get('data/icons.json'));
+  const missing = Object.values(heroesData).filter((h) => !noIcon[h.slug]);
+  u.click(u.q('[data-tab="heroes"]'));
+  await t(150);
+  for (const h of missing) {
+    const card = u.q(`.pick[data-hero="${h.slug}"]`);
+    const ph = card && card.querySelector('.avatar .ph');
+    check(ph && !card.querySelector('img') && ph.textContent.trim().length > 0 && /нет иконки/.test(ph.title),
+      `${h.localized_name}: буквенный аватар «${ph ? ph.textContent.trim() : '—'}», картинки нет`);
+  }
+  u.click(u.q('[data-tab="about"]'));
+  await t(150);
+  check(missing.every((h) => u.text().includes(h.localized_name)) && /нет иконки|Без иконки/.test(u.text()),
+    `«Как это работает» честно перечисляет героев без иконок: ${missing.map((h) => h.localized_name).join(', ')}`);
 }
 
 console.log(problems.length ? `\nПРОБЛЕМЫ (${problems.length}):\n - ` + problems.join('\n - ') : '\nПроблем не найдено.');

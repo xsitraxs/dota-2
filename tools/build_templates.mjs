@@ -6,14 +6,14 @@
  * подписи нескольких кадрирований — в игре карточка героя обрезана по-разному
  * (квадратный портрет в экране пика, 16:9 в драфт-экране).
  *
- * Из инструментов нужен ImageMagick (`convert`): он декодирует webp в сырые байты.
+ * Из инструментов нужен ImageMagick (`convert` из IM6 или `magick` из IM7): он декодирует webp в сырые байты.
  * Запуск: node tools/build_templates.mjs   →   data/templates.json
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { buildSignature, signatureToHex, SIG_SIZE } from '../assets/recognize.js';
+import { convert, imageMagickAvailable } from './imagemagick.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ICONS = path.join(ROOT, 'data', 'icons');
@@ -29,23 +29,41 @@ const VARIANTS = [
 ];
 
 function raw(file, crop, colorspace) {
-  return execFileSync('convert', [
+  return convert([
     file, '-crop', crop, '+repage', '-resize', `${SIG_SIZE}x${SIG_SIZE}!`,
     '-depth', '8', '-alpha', 'off', `${colorspace}:-`,
   ], { maxBuffer: 1024 * 1024 });
 }
 
-const files = fs.readdirSync(ICONS).filter((f) => f.endsWith('.webp')).sort();
-if (!files.length) {
+if (!imageMagickAvailable) {
+  console.error('Нужен ImageMagick (convert или magick) — установите его и повторите.');
+  process.exit(1);
+}
+
+// Подписи строим только для героев из данных и только по иконкам из манифеста icons.json:
+// посторонний файл в data/icons (например, оставшийся от переименованного героя) не должен
+// превратиться в «героя», которого распознавание сможет вернуть.
+const heroesData = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8'));
+const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'icons.json'), 'utf8'));
+const entries = Object.entries(manifest)
+  .filter(([slug, file]) => Object.prototype.hasOwnProperty.call(heroesData, slug) && fs.existsSync(path.join(ICONS, file)))
+  .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+if (!entries.length) {
   console.error('Нет иконок в data/icons — сначала запусти node tools/build_data.mjs');
   process.exit(1);
+}
+const listed = new Set(entries.map(([, file]) => file));
+const strays = fs.readdirSync(ICONS).filter((f) => f.endsWith('.webp') && !listed.has(f));
+if (strays.length) console.warn(`⚠ файлы вне манифеста icons.json пропущены: ${strays.join(', ')}`);
+const withoutIcon = Object.keys(heroesData).filter((slug) => !entries.some(([s]) => s === slug));
+if (withoutIcon.length) {
+  console.warn(`⚠ без иконки — на скриншоте не распознаются: ${withoutIcon.map((s) => heroesData[s].localized_name).join(', ')}`);
 }
 
 const heroes = {};
 let total = 0;
 const t0 = Date.now();
-for (const file of files) {
-  const slug = file.replace(/\.webp$/, '');
+for (const [slug, file] of entries) {
   const src = path.join(ICONS, file);
   const sigs = [];
   for (const v of VARIANTS) {

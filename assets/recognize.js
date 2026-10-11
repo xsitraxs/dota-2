@@ -7,6 +7,13 @@
  *   • цветовая сигнатура 4×4 блока (48 байт): средний RGB блока после нормировки яркости.
  * Близость = 0.7·dHash + 0.3·цвет. Пустые (плоские) ячейки помечаются и в сравнении не участвуют.
  *
+ * Итог по ячейке — статус: «empty» (пустой слот), «ok» (уверенное совпадение: близость лучшего
+ * героя не выше MATCH_MAX_SCORE, отрыв от второго не меньше MATCH_MIN_MARGIN и отношение
+ * лучшей близости ко второй не больше MATCH_MAX_RATIO) или «weak» (слабое совпадение: кандидаты
+ * есть, но героя нельзя выдавать за распознанного). Пороги откалиброваны на синтетических кадрах:
+ * настоящие совпадения против «чужих» героев — когда героя на карточке нет среди шаблонов
+ * (leave-one-out) — и проверены на посторонних картинках (надписи, узоры, градиенты).
+ *
  * Автопоиск сетки: по профилям яркости и градиента находится область содержимого, затем шаг
  * решётки (перебор шагов с фазировкой по профилю плюс «попадание в границы») и полосы карточек
  * (например, два ряда команд на экране пика). Из нескольких кандидатов сетка выбирается по
@@ -21,6 +28,33 @@ export const SIG_SIZE = 32; // сторона нормализованной к�
 const DHASH_W = 17;
 const DHASH_H = 16;
 const COLOR_BLOCKS = 4;
+/** Длина подписи в hex: 32 байта dHash + 48 байт цвета. */
+const SIG_HEX_LEN = ((DHASH_W - 1) * DHASH_H / 8 + COLOR_BLOCKS * COLOR_BLOCKS * 3) * 2;
+
+/** Разброс яркости (2–98 перцентили) всей ячейки, ниже которого она плоская — сравнивать нечего. */
+const FLAT_RANGE = 12;
+/**
+ * То же для центральных 60% ячейки: пустой слот с рамкой или с захваченным фоном по краям
+ * не плоский целиком, но его середина однородна. У настоящих портретов (все 124 иконки × 4 кадра,
+ * в том числе затемнённые и размытые) разброс центра не ниже ~27, у пустых слотов — 0–11.
+ */
+const CENTER_FLAT_RANGE = 14;
+
+/** Уверенное совпадение: близость лучшего героя не больше порога… */
+export const MATCH_MAX_SCORE = 0.25;
+/** …он заметно лучше второго кандидата (у «чужих» героев отрыв почти всегда < 0.045)… */
+export const MATCH_MIN_MARGIN = 0.05;
+/**
+ * …и лучше в разы, а не на фиксированную величину: s1/s2 у «чужих» героев не ниже ~0.82,
+ * у 95% настоящих совпадений — не выше ~0.66. Одного отрыва мало: надписи вроде «BAN» или
+ * «Radiant» и градиенты давали «Sven» с отрывом ~0.06 при отношении ~0.8.
+ */
+export const MATCH_MAX_RATIO = 0.75;
+
+/** Предел колонок/строк ручной нарезки (интерфейс и тесты используют одно значение). */
+export const MAX_GRID = 24;
+/** Меньше этого (после уменьшения для профилей) сетку искать не по чему. */
+const MIN_GRID_SIDE = 16;
 
 /** Яркость из RGBA-буфера (ImageData.data). */
 export function grayFromRGBA(data, width, height) {
@@ -31,20 +65,36 @@ export function grayFromRGBA(data, width, height) {
   return out;
 }
 
+/** Нижний и верхний перцентили по гистограмме 0..255 (сортировать значения на каждую подпись дорого). */
+function histRange(hist, count, frac = 0.02) {
+  const target = count * frac;
+  let lo = 0;
+  let hi = 255;
+  let acc = 0;
+  for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= target) { lo = v; break; } }
+  acc = 0;
+  for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc >= target) { hi = v; break; } }
+  return { lo, hi };
+}
+
 /**
  * Приводит произвольный прямоугольник изображения к 32×32 (усреднение по площади).
- * @returns {{gray: Uint8Array, rgb: Uint8Array}}
+ * Прямоугольник, целиком лежащий вне кадра (или с нечисловыми координатами), даёт пустую
+ * плоскую выборку с пометкой outside: раньше индекс в таком случае уходил за конец строки
+ * и читались пиксели соседних строк.
+ * @returns {{gray: Uint8Array, rgb: Uint8Array, flat: boolean, centerFlat: boolean, outside?: boolean}}
  */
 export function sampleRect(img, rect) {
   const { width, height, data } = img;
+  const gray = new Uint8Array(SIG_SIZE * SIG_SIZE);
+  const rgb = new Uint8Array(SIG_SIZE * SIG_SIZE * 3);
   const x0 = Math.max(0, Math.floor(rect.x));
   const y0 = Math.max(0, Math.floor(rect.y));
   const x1 = Math.min(width, Math.ceil(rect.x + rect.w));
   const y1 = Math.min(height, Math.ceil(rect.y + rect.h));
-  const bw = Math.max(1, x1 - x0);
-  const bh = Math.max(1, y1 - y0);
-  const gray = new Uint8Array(SIG_SIZE * SIG_SIZE);
-  const rgb = new Uint8Array(SIG_SIZE * SIG_SIZE * 3);
+  if (!(x1 > x0 && y1 > y0)) return { gray, rgb, flat: true, centerFlat: true, outside: true };
+  const bw = x1 - x0;
+  const bh = y1 - y0;
   for (let y = 0; y < SIG_SIZE; y++) {
     const sy0 = y0 + Math.floor((bh * y) / SIG_SIZE);
     const sy1 = Math.max(sy0 + 1, y0 + Math.floor((bh * (y + 1)) / SIG_SIZE));
@@ -64,22 +114,21 @@ export function sampleRect(img, rect) {
   }
   // Автоуровни: скриншоты бывают темнее/светлее исходных иконок. Растягиваем диапазон по
   // процентилям (крайние значения отбрасываем — там шум), одинаково для всех каналов.
-  let lo = 0;
-  let hi = 255;
-  {
-    // Процентили по гистограмме: сортировать 1024 значения на каждую подпись слишком дорого.
-    const hist = new Uint16Array(256);
-    for (let i = 0; i < gray.length; i++) hist[gray[i]]++;
-    const target = gray.length * 0.02;
-    let acc = 0;
-    for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= target) { lo = v; break; } }
-    acc = 0;
-    for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc >= target) { hi = v; break; } }
-  }
+  const hist = new Uint16Array(256);
+  for (let i = 0; i < gray.length; i++) hist[gray[i]]++;
+  const { lo, hi } = histRange(hist, gray.length);
+  // Середина ячейки (до растяжения): у пустого слота она однородна, даже если по краям
+  // в ячейку попали рамка слота или фон между карточками.
+  const c0 = Math.round(SIG_SIZE * 0.2);
+  const c1 = SIG_SIZE - c0;
+  const centerHist = new Uint16Array(256);
+  for (let y = c0; y < c1; y++) for (let x = c0; x < c1; x++) centerHist[gray[y * SIG_SIZE + x]]++;
+  const center = histRange(centerHist, (c1 - c0) * (c1 - c0));
+  const centerFlat = center.hi - center.lo < CENTER_FLAT_RANGE;
   // Плоский патч (фон, пустой слот): сравнивать нечего — иначе серый прямоугольник
   // «похож» на случайного героя по цвету и портит и выбор сетки, и результат.
-  const flat = hi - lo < 12;
-  if (hi - lo >= 12) {
+  const flat = hi - lo < FLAT_RANGE;
+  if (!flat) {
     const scale = 255 / (hi - lo);
     for (let i = 0; i < gray.length; i++) {
       gray[i] = Math.max(0, Math.min(255, (gray[i] - lo) * scale));
@@ -89,7 +138,7 @@ export function sampleRect(img, rect) {
       }
     }
   }
-  return { gray, rgb, flat };
+  return { gray, rgb, flat, centerFlat };
 }
 
 /** Уменьшение 32×32 → 17×16 усреднением (тот же алгоритм в сборщике шаблонов и в браузере). */
@@ -216,33 +265,80 @@ export function cellCropRects(rect, opts = {}) {
 }
 
 /**
+ * Подписи шаблонов, разобранные из hex. Разбор 620 подписей на каждый вызов заметно тормозил
+ * перебор кандидатов сетки (recognizeCells вызывается для каждого), поэтому результат кэшируется
+ * по объекту шаблонов — объект считается неизменяемым. Записи с неверным форматом пропускаются:
+ * испорченный templates.json не должен ронять распознавание.
+ */
+const PREPARED = new WeakMap();
+function prepareTemplates(templates) {
+  const cacheable = templates !== null && typeof templates === 'object';
+  if (cacheable && PREPARED.has(templates)) return PREPARED.get(templates);
+  const out = [];
+  for (const [slug, hexes] of Object.entries(cacheable ? templates : {})) {
+    if (!Array.isArray(hexes)) continue;
+    const sigs = hexes
+      .filter((hex) => typeof hex === 'string' && hex.length === SIG_HEX_LEN && /^[0-9a-f]+$/i.test(hex))
+      .map(signatureFromHex);
+    if (sigs.length) out.push({ slug, sigs });
+  }
+  if (cacheable) PREPARED.set(templates, out);
+  return out;
+}
+
+/** Проверка входа: ImageData-подобный объект с буфером нужной длины. */
+function assertImage(img) {
+  const ok = img && Number.isInteger(img.width) && Number.isInteger(img.height) && img.width > 0 && img.height > 0
+    && img.data && img.data.length >= img.width * img.height * 4;
+  if (!ok) throw new TypeError('распознавание: нужен кадр {width, height, data} с RGBA-пикселями');
+}
+
+/**
+ * Решение по ячейке из списка кандидатов. Героя выдаём за распознанного, только если совпадение
+ * и близкое, и однозначное; иначе статус «weak» — кандидаты остаются подсказками для ручного выбора.
+ * @returns {{status: 'ok'|'weak', slug: string|null, margin: number}}
+ */
+export function classifyMatch(candidates) {
+  if (!Array.isArray(candidates) || !candidates.length) return { status: 'weak', slug: null, margin: 0 };
+  const best = candidates[0].score;
+  const second = candidates.length > 1 ? candidates[1].score : 1;
+  const margin = Math.round((second - best) * 1000) / 1000;
+  const ok = best <= MATCH_MAX_SCORE && margin >= MATCH_MIN_MARGIN && best <= MATCH_MAX_RATIO * second;
+  return { status: ok ? 'ok' : 'weak', slug: ok ? candidates[0].slug : null, margin };
+}
+
+/** Лучшая близость ячейки; для пустой ячейки или без кандидатов — 1 (хуже некуда). */
+const topScore = (cell) => (cell.candidates && cell.candidates.length ? cell.candidates[0].score : 1);
+
+/**
  * Распознаёт героев в ячейках скриншота. Двумя проходами: сначала грубо (центральное окно)
  * отбираем пул похожих героев, затем уточняем для них кадрирование и масштаб. Так полный
  * перебор окон по всем 124 героям не нужен и распознавание укладывается в сотни миллисекунд.
+ *
+ * Каждая ячейка получает статус: empty (кандидатов нет), ok (slug — распознанный герой)
+ * или weak (slug = null, кандидаты — только подсказки).
+ *
+ * opts.emptyRule: 'strict' (по умолчанию) — пустой считается и ячейка с однородной серединой;
+ * 'flat' — только целиком плоская (прежнее правило). Оценка кандидатов сетки в recognizeScreenshot
+ * использует 'flat', чтобы выбор сетки остался прежним: строгое правило там отбраковывало верные
+ * сетки экрана драфта, где пустых слотов больше половины.
  */
 export function recognizeCells(img, cells, templates, opts = {}) {
+  assertImage(img);
   const topK = opts.topK || 3;
   const weights = opts.weights || { dhash: 0.7, color: 0.3 };
   const refinePool = opts.refinePool ?? 16;
-  const prepared = Object.entries(templates).map(([slug, hexes]) => ({
-    slug,
-    sigs: hexes.map(signatureFromHex),
-  }));
+  const strict = opts.emptyRule !== 'flat';
+  const prepared = prepareTemplates(templates);
   return cells.map((rect) => {
     const sampled = sampleRect(img, rect);
-    if (sampled.flat) return { rect, candidates: [], empty: true };
+    if (sampled.flat || (strict && sampled.centerFlat)) return { rect, candidates: [], empty: true, status: 'empty', slug: null, margin: 0 };
+    // Без шаблонов сравнивать не с чем: ячейка не пустая, но и героя назвать нельзя.
+    if (!prepared.length) return { rect, candidates: [], empty: false, status: 'weak', slug: null, margin: 0 };
     // Плоские края ячейки (фон, полоса подписи, пустота между рядами) в сравнение не берём.
     const base = flatFreeRect(sampled.gray, rect);
-    const windows = cellCropRects(base, opts);
-    const scoreOf = (cand, win) => {
-      const sig = buildSignature(sampleRect(img, win));
-      let best = { d: 1, variant: 0 };
-      cand.sigs.forEach((t, i) => {
-        const d = scoreDistance(sig, t, weights, best.d);
-        if (d < best.d) best = { d, variant: i };
-      });
-      return best;
-    };
+    // Подпись каждого окна считаем один раз на ячейку, а не заново для каждого героя пула.
+    const windowSigs = cellCropRects(base, opts).map((win) => buildSignature(sampleRect(img, win)));
     // Грубый проход по центральному окну отбирает пул похожих героев, затем для каждого героя
     // пула выбирается лучшее окно кадрирования — так компенсируется смещение рамки карточки.
     const coarseSig = buildSignature(sampleRect(img, centerCrop(base, 0.92)));
@@ -258,16 +354,20 @@ export function recognizeCells(img, cells, templates, opts = {}) {
     const pool = coarse.slice(0, refinePool);
     const refined = pool.map((cand) => {
       let best = { d: 1, variant: 0 };
-      for (const win of windows) {
-        const r = scoreOf(cand, win);
-        if (r.d < best.d) best = r;
+      for (const sig of windowSigs) {
+        let win = { d: 1, variant: 0 };
+        cand.sigs.forEach((t, i) => {
+          const d = scoreDistance(sig, t, weights, win.d);
+          if (d < win.d) win = { d, variant: i };
+        });
+        if (win.d < best.d) best = win;
       }
       return { slug: cand.slug, score: Math.round(best.d * 1000) / 1000, variant: best.variant };
     }).sort((a, b) => a.score - b.score);
 
     const rest = coarse.slice(refinePool).map((c) => ({ slug: c.slug, score: Math.round(c.score * 1000) / 1000, variant: 0 }));
-    const ranked = refined.concat(rest);
-    return { rect, candidates: ranked.slice(0, Math.max(topK, 5)) };
+    const candidates = refined.concat(rest).slice(0, Math.max(topK, 5));
+    return { rect, candidates, empty: false, ...classifyMatch(candidates) };
   });
 }
 
@@ -531,8 +631,11 @@ export function gridCandidates(img, opts = {}) {
   // всего 2–4 пикселя, и при сильном сжатии решётка по ним уже не находится.
   const maxW = opts.maxWidth || 960;
   const scale = Math.min(1, maxW / img.width);
-  const w = Math.max(16, Math.round(img.width * scale));
-  const h = Math.max(16, Math.round(img.height * scale));
+  const w = Math.round(img.width * scale);
+  const h = Math.round(img.height * scale);
+  // Слишком маленький (или слишком узкий после уменьшения) кадр: профили не из чего строить,
+  // а растягивать сетку до 16 px значило бы вернуть ячейки за пределами изображения.
+  if (w < MIN_GRID_SIDE || h < MIN_GRID_SIDE) return [];
   const gray = new Float32Array(w * h);
   const sx = img.width / w;
   const sy = img.height / h;
@@ -771,8 +874,11 @@ function shiftRect(rect, dx, dy) {
 }
 
 export function recognizeScreenshot(img, templates, opts = {}) {
+  assertImage(img);
   const verifyLimit = opts.verifyLimit || 20;
-  const candidates = gridCandidates(img, opts);
+  const prepared = prepareTemplates(templates);
+  // Без шаблонов отличить верную сетку от неверной нечем — честно возвращаем «сетка не найдена».
+  const candidates = prepared.length ? gridCandidates(img, opts) : [];
   if (!candidates.length) return { grid: null, cells: [], confidence: 0, candidates: 0 };
 
   // Отсеиваем заведомо неверные рамки: карточка героя — почти квадрат и не бывает пустой.
@@ -783,12 +889,12 @@ export function recognizeScreenshot(img, templates, opts = {}) {
     const sampleLimit = Math.min(verifyLimit, 8);
     const step = Math.max(1, Math.floor(grid.cells.length / sampleLimit));
     const sample = grid.cells.filter((_, i) => i % step === 0).slice(0, sampleLimit);
-    const top = recognizeCells(img, sample, templates, { topK: 1, refinePool: 4, scales: [1], shifts: [[0, 0]], squares: false });
+    const top = recognizeCells(img, sample, templates, { topK: 1, refinePool: 4, scales: [1], shifts: [[0, 0]], squares: false, emptyRule: 'flat' });
     const emptyFrac = top.filter((r) => r.empty).length / Math.max(1, top.length);
     // Оценка рамки — медиана по непустым ячейкам: верная сетка даёт ровные уверенные совпадения,
     // смещённая — «никакие» почти на всех карточках.
     const filled = top.filter((r) => !r.empty);
-    const med = filled.length ? median(filled.map((r) => r.candidates[0].score)) : 1;
+    const med = filled.length ? median(filled.map(topScore)) : 1;
     const cov = coveredFrac(grid.cells, grid.meta.box);
     const fit = fitPenalty(grid.cells, grid.meta.box);
     // Итоговая оценка кандидата: качество совпадений плюс штрафы за неполное покрытие
@@ -801,15 +907,14 @@ export function recognizeScreenshot(img, templates, opts = {}) {
   const pool = plausible.length ? plausible : scored;
   // У лучших кандидатов уточняем общую фазу сетки и пересчитываем их оценку.
   const weights = opts.weights || { dhash: 0.7, color: 0.3 };
-  const prepared = Object.entries(templates).map(([slug, hexes]) => ({ slug, sigs: hexes.map(signatureFromHex) }));
   for (const cand of [...pool].sort((a, b) => a.rank - b.rank).slice(0, 5)) {
     const phase = gridPhase(img, cand.grid.cells, prepared, weights);
     cand.phase = phase;
     if (phase.dx || phase.dy) {
       const shifted = cand.grid.cells.map((r) => shiftRect(r, phase.dx, phase.dy));
-      const top = recognizeCells(img, shifted, templates, { topK: 1, refinePool: 4, scales: [1, 0.9], shifts: [[0, 0]], squares: false });
+      const top = recognizeCells(img, shifted, templates, { topK: 1, refinePool: 4, scales: [1, 0.9], shifts: [[0, 0]], squares: false, emptyRule: 'flat' });
       const filled = top.filter((r) => !r.empty);
-      cand.med = filled.length ? median(filled.map((r) => r.candidates[0].score)) : 1;
+      cand.med = filled.length ? median(filled.map(topScore)) : 1;
       cand.rank = cand.med + 0.15 * (1 - cand.cov) + 0.08 * cand.fit;
     }
   }
@@ -823,10 +928,12 @@ export function recognizeScreenshot(img, templates, opts = {}) {
 
   const phase = best.phase || { dx: 0, dy: 0 };
   const gridCells = best.grid.cells.map((r) => shiftRect(r, phase.dx, phase.dy));
-  const cells = recognizeCells(img, gridCells, templates, opts);
+  const cells = recognizeCells(img, gridCells, templates, { ...opts, emptyRule: 'strict' });
+  // Все ячейки пустые (однотонный кадр, экран без карточек): сетки «из пустоты» не показываем.
+  if (cells.every((c) => c.empty)) return { grid: null, cells: [], confidence: 0, candidates: candidates.length };
   // Уверенность считаем по непустым ячейкам: пустые слоты (баны, свободные места) — это норма,
   // а не признак плохой сетки.
-  const scores = cells.filter((c) => !c.empty).map((c) => c.candidates[0].score);
+  const scores = cells.filter((c) => !c.empty).map(topScore);
   const med = scores.length ? median(scores) : 1;
   const confidence = Math.max(0, Math.min(1, (0.28 - med) / 0.08));
   return {
@@ -878,16 +985,53 @@ function fitPenalty(cells, box) {
 
 /** Равномерная нарезка прямоугольника на сетку cols×rows (ручной режим интерфейса). */
 export function splitRect(rect, cols, rows) {
+  const nc = clampGridSize(cols, 1);
+  const nr = clampGridSize(rows, 1);
   const cells = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
+  for (let r = 0; r < nr; r++) {
+    for (let c = 0; c < nc; c++) {
       cells.push({
-        x: rect.x + (rect.w * c) / cols,
-        y: rect.y + (rect.h * r) / rows,
-        w: rect.w / cols,
-        h: rect.h / rows,
+        x: rect.x + (rect.w * c) / nc,
+        y: rect.y + (rect.h * r) / nr,
+        w: rect.w / nc,
+        h: rect.h / nr,
       });
     }
   }
   return cells;
+}
+
+/** Число колонок/строк ручной нарезки: целое от 1 до MAX_GRID; нечисло → fallback. */
+export function clampGridSize(value, fallback = 1) {
+  const n = Math.round(Number(value));
+  if (!Number.isFinite(n) || n < 1) return Math.min(MAX_GRID, Math.max(1, Math.round(Number(fallback)) || 1));
+  return Math.min(MAX_GRID, n);
+}
+
+/**
+ * Ручная рамка, приведённая к кадру: целые пиксели, левый верхний угол внутри изображения,
+ * правый нижний — не дальше его края, размер не меньше 1×1. Нечисловой угол считается нулём,
+ * а нечисловой или неположительный размер — «до края кадра».
+ */
+export function clampRegion(region, width, height) {
+  const W = Math.max(1, Math.floor(Number(width)) || 1);
+  const H = Math.max(1, Math.floor(Number(height)) || 1);
+  const num = (v) => {
+    const n = v === null || v === undefined || v === '' ? NaN : Number(v);
+    return Number.isFinite(n) ? n : NaN;
+  };
+  const r = region && typeof region === 'object' ? region : {};
+  const x = Math.min(W - 1, Math.max(0, Math.round(num(r.x)) || 0));
+  const y = Math.min(H - 1, Math.max(0, Math.round(num(r.y)) || 0));
+  const rw = Math.round(num(r.w));
+  const rh = Math.round(num(r.h));
+  const w = Math.min(W - x, rw >= 1 ? rw : W - x);
+  const h = Math.min(H - y, rh >= 1 ? rh : H - y);
+  return { x, y, w, h };
+}
+
+/** Ячейки ручной нарезки: рамка обрезается по кадру, колонки и строки — по MAX_GRID. */
+export function manualCells(img, region, cols, rows) {
+  const r = clampRegion(region, img.width, img.height);
+  return splitRect(r, clampGridSize(cols, 1), clampGridSize(rows, 1));
 }

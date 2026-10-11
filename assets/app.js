@@ -7,7 +7,9 @@ import {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
   heroDamage, heroHp, heroMana, heroArmor,
 } from './analysis.js';
-import { recognizeScreenshot, recognizeCells, splitRect } from './recognize.js';
+import {
+  recognizeScreenshot, recognizeCells, manualCells, clampRegion, clampGridSize, MAX_GRID,
+} from './recognize.js';
 
 const DATA = {
   heroes: {}, abilities: {}, items: {}, patchnotes: {}, icons: {}, meta: {},
@@ -18,6 +20,8 @@ const DATA = {
 
 /** Сколько карточек предметов рисуем сразу: остальное подгружается по скроллу или кнопкой. */
 const ITEM_PAGE = 60;
+/** Самая длинная сторона кадра для распознавания: больше — только медленнее (подписи 32×32). */
+const SHOT_MAX_SIDE = 2560;
 
 const state = {
   tab: 'draft',
@@ -46,7 +50,9 @@ const state = {
     region: null,     // { x, y, w, h } — область, которая режется вручную
     regionEdited: false, // пользователь сам задал область (её не перетирает автопоиск)
     manual: false,    // последний результат получен ручной нарезкой
-    picks: {},        // правки распознавания: индекс ячейки → слаг героя
+    picks: {},        // правки распознавания: индекс ячейки → слаг героя или null («не определён»)
+    notice: '',       // итог последнего заполнения драфта
+    scaledFrom: null, // исходный размер кадра, если он был уменьшен перед распознаванием
   },
 };
 
@@ -58,6 +64,12 @@ const ATTR_RU = { str: 'Сила', agi: 'Ловкость', int: 'Интелле
 const KIND_RU = { rune: 'Руны', objective: 'Объективы', rhythm: 'Ритм карты', neutral: 'Нейтралки' };
 
 const $ = (sel, root = document) => root.querySelector(sel);
+/**
+ * Известный приложению герой: только собственные ключи DATA.heroes. Проверка через `DATA.heroes[s]`
+ * пропускала унаследованные имена ('constructor', 'toString', '__proto__'), и испорченный
+ * localStorage ронял интерфейс при загрузке.
+ */
+const isHero = (s) => typeof s === 'string' && Object.prototype.hasOwnProperty.call(DATA.heroes, s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const byName = (a, b) => a.localeCompare(b, 'ru');
 
@@ -70,6 +82,35 @@ function fmtTime(sec) {
 function parseAt(str) {
   const [m, s] = String(str).split(':').map(Number);
   return m * 60 + (s || 0);
+}
+
+/**
+ * Порядок версий патча: серия (7.41) раньше своих буквенных версий (7.41a … 7.41f),
+ * серии сравниваются как числа (7.9 < 7.10), а не как строки.
+ */
+function parsePatch(v) {
+  const m = /^(\d+)\.(\d+)([a-z]*)$/.exec(String(v));
+  return m ? [Number(m[1]), Number(m[2]), m[3]] : null;
+}
+function comparePatch(a, b) {
+  const pa = parsePatch(a);
+  const pb = parsePatch(b);
+  if (!pa || !pb) return String(a).localeCompare(String(b));
+  return pa[0] - pb[0] || pa[1] - pb[1] || pa[2].length - pb[2].length || pa[2].localeCompare(pb[2]);
+}
+/** Серия патча (7.41) — из meta; буквенную версию (7.41f) в неё не подмешиваем. */
+function patchSeries() {
+  return String(DATA.meta.patchSeries || DATA.meta.latestPatch || '');
+}
+/** Последняя версия текущей серии в патчноутах: 7.41 → 7.41f (или сама серия, если букв ещё нет). */
+function latestPatchVersion() {
+  const series = patchSeries();
+  if (DATA.meta.latestVersion) return String(DATA.meta.latestVersion);
+  const own = Object.keys(DATA.patchnotes).filter((k) => {
+    const p = parsePatch(k);
+    return p && `${p[0]}.${p[1]}` === series;
+  });
+  return own.sort(comparePatch).pop() || series;
 }
 
 /* ------------------------------ загрузка ------------------------------ */
@@ -90,18 +131,34 @@ async function loadData() {
     if (!f.startsWith('plans')) continue;
     Object.assign(DATA.plans, await get(`data/kb/${f}`));
   }
-  state.patch = Object.keys(DATA.patchnotes).sort().pop();
+  state.patch = Object.keys(DATA.patchnotes).sort(comparePatch).pop() || null;
 }
 
 /* ------------------------------ распознавание скриншота ------------------------------ */
 
-/** Подписи героев для распознавания: грузятся один раз и кэшируются в памяти. */
-async function ensureTemplates() {
-  if (DATA.templates) return DATA.templates;
-  const res = await fetch('data/templates.json');
-  if (!res.ok) throw new Error(`data/templates.json: HTTP ${res.status}`);
-  DATA.templates = (await res.json()).heroes;
-  return DATA.templates;
+/**
+ * Подписи героев для распознавания: грузятся один раз и кэшируются в памяти. Оставляем только
+ * героев из данных приложения — распознавание не может вернуть неизвестный слаг. Неудачная
+ * загрузка не кэшируется: следующая попытка запросит файл снова.
+ */
+let templatesLoading = null;
+function ensureTemplates() {
+  if (DATA.templates) return Promise.resolve(DATA.templates);
+  if (!templatesLoading) {
+    templatesLoading = (async () => {
+      const res = await fetch('data/templates.json');
+      if (!res.ok) throw new Error(`data/templates.json: HTTP ${res.status}`);
+      const json = await res.json();
+      const raw = json && typeof json.heroes === 'object' && json.heroes ? json.heroes : null;
+      if (!raw) throw new Error('data/templates.json: нет раздела heroes с подписями');
+      const known = {};
+      for (const [slug, sigs] of Object.entries(raw)) if (isHero(slug) && Array.isArray(sigs) && sigs.length) known[slug] = sigs;
+      if (!Object.keys(known).length) throw new Error('data/templates.json: нет подписей ни для одного героя из данных');
+      DATA.templates = known;
+      return known;
+    })().finally(() => { templatesLoading = null; });
+  }
+  return templatesLoading;
 }
 
 /** Уменьшенная копия кадра для предпросмотра: распознавание работает по полному изображению. */
@@ -113,14 +170,12 @@ function shotPreviewSize(image, maxW = 900) {
 /**
  * Ячейки ручной нарезки: область и число колонок/строк берём из состояния, а по умолчанию —
  * из найденной автоматически рамки, чтобы правку можно было начать с готового результата.
+ * Рамка обрезается по кадру, колонки и строки — по MAX_GRID (см. recognize.js → manualCells).
  */
 function shotManualCells() {
   const img = state.shot.image;
   if (!img) return [];
-  const region = state.shot.region || { x: 0, y: 0, w: img.width, h: img.height };
-  const cols = Math.max(1, Math.min(24, Math.round(state.shot.cols) || 1));
-  const rows = Math.max(1, Math.min(24, Math.round(state.shot.rows) || 1));
-  return splitRect(region, cols, rows);
+  return manualCells(img, state.shot.region || { x: 0, y: 0, w: img.width, h: img.height }, state.shot.cols, state.shot.rows);
 }
 
 /** Распознавание кадра и подготовка состояния: автопоиск сетки либо ручная нарезка. */
@@ -136,74 +191,120 @@ function shotRecognize({ manual = false } = {}) {
     shot.result = recognizeScreenshot(shot.image, DATA.templates, { topK: 5 });
     shot.manual = false;
     const cells = shot.result.cells;
-    if (cells && cells.length && !shot.regionEdited) {
+    if (cells && cells.length && shot.result.grid && !shot.regionEdited) {
       const xs = cells.map((c) => c.rect.x);
       const ys = cells.map((c) => c.rect.y);
       const xe = cells.map((c) => c.rect.x + c.rect.w);
       const ye = cells.map((c) => c.rect.y + c.rect.h);
-      shot.region = {
+      // Сдвиг фазы сетки может вынести крайнюю ячейку за край кадра — поля области показывают
+      // уже обрезанную по кадру рамку, с которой ручная нарезка и начнётся.
+      shot.region = clampRegion({
         x: Math.min(...xs), y: Math.min(...ys),
         w: Math.max(...xe) - Math.min(...xs), h: Math.max(...ye) - Math.min(...ys),
-      };
-      shot.cols = shot.result.grid.cols;
-      shot.rows = shot.result.grid.rows;
+      }, shot.image.width, shot.image.height);
+      shot.cols = clampGridSize(shot.result.grid.cols, 1);
+      shot.rows = clampGridSize(shot.result.grid.rows, 1);
     }
   }
   shot.picks = {};
+  shot.notice = '';
 }
 
-/** Запуск распознавания с перерисовкой «идёт распознавание…» (тяжёлый проход — вне текущего кадра). */
+/**
+ * Запуск распознавания с перерисовкой «идёт распознавание…» (тяжёлый проход — вне текущего кадра).
+ * Каждый запуск получает номер: результат устаревшего запуска (кадр сменили или сбросили, пока
+ * шла загрузка шаблонов) отбрасывается и не перетирает состояние нового.
+ */
+let shotRunSeq = 0;
 function shotRun(options = {}) {
   const shot = state.shot;
   if (!shot.image) return;
+  const runId = ++shotRunSeq;
+  const image = shot.image;
   shot.busy = true;
   shot.error = '';
   render();
   setTimeout(() => {
-    try {
-      ensureTemplates().then(() => {
+    ensureTemplates()
+      .then(() => {
+        if (runId !== shotRunSeq || state.shot.image !== image) return;
         shotRecognize(options);
-        shot.busy = false;
-        render();
-      }).catch((err) => {
-        shot.busy = false;
-        shot.error = err.message;
+      })
+      .catch((err) => {
+        if (runId !== shotRunSeq) return;
+        state.shot.error = `Распознавание не удалось: ${err.message}`;
+      })
+      .finally(() => {
+        if (runId !== shotRunSeq) return;
+        state.shot.busy = false;
         render();
       });
-    } catch (err) {
-      shot.busy = false;
-      shot.error = err.message;
-      render();
-    }
   }, 30);
 }
 
-/** Итоговый список героев: правки пользователя поверх распознанных. */
+/** Отменяет ожидающие запуски распознавания (сброс кадра). */
+function shotCancelRuns() { shotRunSeq++; }
+
+/**
+ * Итоговый список ячеек: правки пользователя поверх распознанного.
+ * status: 'ok' — герой распознан уверенно; 'weak' — слабое совпадение (героя не подставляем,
+ * кандидаты — подсказки); 'empty' — пустая ячейка; 'manual' — герой выбран вручную;
+ * 'cleared' — пользователь сам отметил ячейку как «не определён».
+ * В slug попадает только известный приложению герой — иначе null.
+ */
 function shotHeroes() {
   const shot = state.shot;
-  if (!shot.result) return [];
-  return shot.result.cells.map((cell, i) => ({
-    index: i,
-    rect: cell.rect,
-    slug: shot.picks[i] !== undefined ? shot.picks[i] : cell.candidates[0].slug,
-    score: cell.candidates[0].score,
-    candidates: cell.candidates,
-    edited: shot.picks[i] !== undefined,
-  }));
+  const cells = shot.result && Array.isArray(shot.result.cells) ? shot.result.cells : [];
+  return cells.map((cell, i) => {
+    const candidates = (Array.isArray(cell.candidates) ? cell.candidates : []).filter((c) => c && isHero(c.slug));
+    const auto = cell.status === 'ok' && isHero(cell.slug) ? cell.slug : null;
+    const edited = Object.prototype.hasOwnProperty.call(shot.picks, i);
+    const picked = edited && isHero(shot.picks[i]) ? shot.picks[i] : null;
+    const slug = edited ? picked : auto;
+    let status = cell.empty ? 'empty' : auto ? 'ok' : 'weak';
+    if (edited) status = picked ? 'manual' : 'cleared';
+    return {
+      index: i,
+      rect: cell.rect,
+      slug,
+      status,
+      score: candidates.length ? candidates[0].score : null,
+      margin: typeof cell.margin === 'number' ? cell.margin : null,
+      candidates,
+      edited,
+    };
+  });
 }
 
-/** Заполнение драфта по порядку ячеек: пустые слоты заполняются сверху вниз. */
+/**
+ * Заполнение драфта по порядку ячеек: свободные слоты группы заполняются сверху вниз.
+ * Берутся только уверенно распознанные или выбранные вручную герои; герой, который уже стоит
+ * в драфте (у себя, у противников или у союзников) или повторяется на скриншоте, пропускается.
+ */
 function shotFill(group) {
-  const heroes = shotHeroes().map((h) => h.slug).filter(Boolean);
   const slots = group === 'enemies' ? state.enemies : state.allies;
-  let k = 0;
-  for (let i = 0; i < slots.length && k < heroes.length; i++) {
-    if (slots[i]) continue;
-    slots[i] = heroes[k++];
+  const taken = new Set([state.me, ...state.enemies, ...state.allies].filter(Boolean));
+  const queue = [];
+  let duplicates = 0;
+  for (const row of shotHeroes()) {
+    if (!row.slug) continue;
+    if (taken.has(row.slug)) { duplicates++; continue; }
+    taken.add(row.slug);
+    queue.push(row.slug);
   }
+  let added = 0;
+  for (let i = 0; i < slots.length && added < queue.length; i++) {
+    if (slots[i]) continue;
+    slots[i] = queue[added++];
+  }
+  const noRoom = queue.length - added;
   if (group === 'enemies' && !state.enemyMid && state.enemies.filter(Boolean).length) {
     state.enemyMid = state.enemies.filter(Boolean)[0];
   }
+  const parts = [`Добавлено в ${group === 'enemies' ? 'противники' : 'союзники'}: ${added}`];
+  if (duplicates) parts.push(`уже в драфте или повтор: ${duplicates}`);
+  if (noRoom) parts.push(`не хватило свободных слотов: ${noRoom}`);
+  state.shot.notice = parts.join(' · ');
   saveDraft();
   render();
 }
@@ -211,18 +312,17 @@ function shotFill(group) {
 /* ------------------------------ helpers ------------------------------ */
 
 function heroBySlug(slug) {
-  const h = DATA.heroes[slug];
-  if (!h) return null;
-  return h;
+  return isHero(slug) ? DATA.heroes[slug] : null;
 }
+/** Иконка героя или буквенный аватар цвета атрибута (для героев без иконки в источнике). */
 function iconHTML(slug, cls = '') {
-  const h = DATA.heroes[slug];
+  const h = heroBySlug(slug);
   if (!h) return '';
-  const file = DATA.icons[slug];
-  if (file) return `<img class="${cls}" src="data/icons/${file}" alt="${esc(h.localized_name)}" loading="lazy">`;
-  const color = { str: '#f0703a', agi: '#6ecf5a', int: '#5aa9e6', all: '#c9a3f5' }[h.primary_attr];
-  const letters = h.localized_name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
-  return `<div class="ph ${cls}" style="background:${color}" title="${esc(h.localized_name)} (нет иконки)">${letters}</div>`;
+  const file = Object.prototype.hasOwnProperty.call(DATA.icons, slug) ? DATA.icons[slug] : null;
+  if (typeof file === 'string' && file) return `<img class="${esc(cls)}" src="data/icons/${esc(file)}" alt="${esc(h.localized_name)}" loading="lazy">`;
+  const color = { str: '#f0703a', agi: '#6ecf5a', int: '#5aa9e6', all: '#c9a3f5' }[h.primary_attr] || '#8d9aad';
+  const letters = String(h.localized_name || slug).split(/\s+/).map((w) => w[0] || '').join('').slice(0, 2).toUpperCase();
+  return `<div class="ph ${esc(cls)}" style="background:${color}" title="${esc(h.localized_name)} (нет иконки)">${esc(letters)}</div>`;
 }
 function heroMini(slug, removable = true, slotIdx = null, group = 'enemies') {
   const h = heroBySlug(slug);
@@ -231,7 +331,7 @@ function heroMini(slug, removable = true, slotIdx = null, group = 'enemies') {
     ${iconHTML(slug)}
     <div style="min-width:0">
       <div class="nm">${esc(h.localized_name)}</div>
-      <div class="rl">${ATTR_RU[h.primary_attr]} · ${h.roles.map((r) => ROLE_RU[r] || r).slice(0, 2).join(', ')}</div>
+      <div class="rl">${esc(ATTR_RU[h.primary_attr] || '')} · ${esc((h.roles || []).map((r) => ROLE_RU[r] || r).slice(0, 2).join(', '))}</div>
     </div>
     ${removable ? `<button data-remove="${group}:${slotIdx}" title="Убрать">✕</button>` : ''}
   </div>`;
@@ -261,8 +361,8 @@ function abilityCard(key) {
   if (!a) return '';
   const meta = [
     a.dmg_type ? `тип урона: ${esc(a.dmg_type)}` : null,
-    a.mc !== null && a.mc !== undefined ? `мана: ${Array.isArray(a.mc) ? a.mc.join(' / ') : a.mc}` : null,
-    a.cd !== null && a.cd !== undefined ? `КД: ${Array.isArray(a.cd) ? a.cd.join(' / ') : a.cd}` : null,
+    a.mc !== null && a.mc !== undefined ? `мана: ${esc(Array.isArray(a.mc) ? a.mc.join(' / ') : a.mc)}` : null,
+    a.cd !== null && a.cd !== undefined ? `КД: ${esc(Array.isArray(a.cd) ? a.cd.join(' / ') : a.cd)}` : null,
     a.bkbpierce === 'Yes' ? 'пробивает BKB' : null,
     a.dispellable === 'Yes' ? 'снимается диспелом' : null,
   ].filter(Boolean).join(' · ');
@@ -290,7 +390,7 @@ function renderDraft() {
   const combos = enemies.length ? combosFor(enemies, DATA) : [];
   const picks = enemies.length ? counterPicks({
     enemies, enemyMid, data: DATA, limit: 6,
-    exclude: [state.me, ...state.allies.filter(Boolean)],
+    exclude: [state.me, ...state.allies.filter(Boolean), ...enemies],
   }) : [];
   const plan = me ? buildPlan({ heroSlug: me, enemySlugs: enemies, data: DATA }) : null;
   const checklist = buildChecklist({ threats, combos, data: DATA });
@@ -434,7 +534,7 @@ function renderDraft() {
         <h2>Кого ещё можно взять против их драфта</h2>
         <div class="stack">
           ${picks.map((p) => `<div class="row" style="justify-content:space-between">
-            <div class="row">${iconHTML(p.slug)}<b>${esc(p.name)}</b><span class="tiny muted">очки: ${p.score}</span></div>
+            <div class="row">${iconHTML(p.slug, 'ico-sm')}<b>${esc(p.name)}</b><span class="tiny muted">очки: ${p.score}</span></div>
             <div class="row tiny muted" style="flex:1 1 260px">${p.reasons.map(esc).join(' · ') || 'нейтрально'}</div>
             <button class="btn sm ghost" data-set-me="${esc(p.slug)}">Поставить себе</button>
           </div>`).join('')}
@@ -452,6 +552,15 @@ function renderDraft() {
       </div>
     </div>
   </div>`;
+}
+
+/** Где герой уже стоит в драфте: 'me', 'enemies', 'allies' или null. */
+function draftOwner(slug) {
+  if (!slug) return null;
+  if (state.me === slug) return 'me';
+  if (state.enemies.includes(slug)) return 'enemies';
+  if (state.allies.includes(slug)) return 'allies';
+  return null;
 }
 
 function guessEnemyMid(enemies) {
@@ -482,7 +591,7 @@ function heroFiltered() {
 
 function renderHeroes() {
   const list = heroFiltered();
-  const hero = state.selectedHero ? DATA.heroes[state.selectedHero] : null;
+  const hero = heroBySlug(state.selectedHero);
   return `
   <div class="panel">
     <div class="head row">
@@ -518,10 +627,12 @@ function renderHeroCard(h) {
     <div class="row" style="align-items:flex-start;gap:16px">
       <div style="flex:0 0 220px">
         <div class="avatar">${iconHTML(h.slug)}</div>
-        <div class="row tiny muted" style="margin-top:6px">${ATTR_RU[h.primary_attr]} · ${esc(h.attack_type)}</div>
-        <div class="row tiny muted">${h.roles.map((r) => ROLE_RU[r] || r).join(' · ')}</div>
+        <div class="row tiny muted" style="margin-top:6px">${esc(ATTR_RU[h.primary_attr] || '')} · ${esc(h.attack_type)}</div>
+        <div class="row tiny muted">${esc((h.roles || []).map((r) => ROLE_RU[r] || r).join(' · '))}</div>
         <div class="row" style="margin-top:8px">
-          <button class="btn sm gold" data-set-me="${esc(h.slug)}">Поставить себе в драфт</button>
+          ${draftOwner(h.slug) && draftOwner(h.slug) !== 'me'
+    ? `<span class="tiny muted">Уже в драфте: ${draftOwner(h.slug) === 'enemies' ? 'у противников' : 'у союзников'}</span>`
+    : `<button class="btn sm gold" data-set-me="${esc(h.slug)}">Поставить себе в драфт</button>`}
         </div>
       </div>
       <div style="flex:1 1 420px">
@@ -562,7 +673,7 @@ function renderHeroCard(h) {
         ${loses.length ? `<span class="muted">Тяжело против: ${loses.map((b) => esc(DATA.heroes[b]?.localized_name || b)).join(', ')}</span>` : ''}
       </div>` : ''}
 
-    ${notes.length ? `<h3>Изменения в патче 7.41</h3><ul class="tight small">${notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
+    ${notes.length ? `<h3>Изменения в серии ${esc(patchSeries())} (до ${esc(latestPatchVersion())})</h3><ul class="tight small">${notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
   </div>`;
 }
 
@@ -583,7 +694,7 @@ function itemCardHTML([, it]) {
     <div class="meta">${esc(it.qual || '')}${it.tier ? ` · тир ${esc(it.tier)}` : ''}${it.behavior ? ` · ${esc(it.behavior)}` : ''}</div>
     ${(it.abilities || []).map((a) => `<div class="desc"><b>${esc(a.title)}</b> <span class="muted tiny">(${a.type === 'active' ? 'актив' : 'пассив'})</span><br>${esc(a.description)}</div>`).join('')}
     ${it.notes ? `<div class="tiny muted" style="margin-top:6px">${esc(it.notes)}</div>` : ''}
-    ${it.patchNotes && it.patchNotes.length ? `<div class="tiny" style="margin-top:6px;color:var(--gold)">7.41: ${it.patchNotes.slice(0, 2).map(esc).join('; ')}</div>` : ''}
+    ${it.patchNotes && it.patchNotes.length ? `<div class="tiny" style="margin-top:6px;color:var(--gold)">${esc(patchSeries())}: ${it.patchNotes.slice(0, 2).map(esc).join('; ')}</div>` : ''}
     ${it.components && it.components.length ? `<div class="tiny muted" style="margin-top:6px">собирается из: ${it.components.map((c) => esc(DATA.items[c]?.dname || c)).join(' + ')}</div>` : ''}
   </div>`;
 }
@@ -656,7 +767,7 @@ function stopItemsLazy() {
 /* ------------------------------ вкладка «Патч» ------------------------------ */
 
 function renderPatch() {
-  const versions = Object.keys(DATA.patchnotes).sort();
+  const versions = Object.keys(DATA.patchnotes).sort(comparePatch);
   const v = state.patch && DATA.patchnotes[state.patch] ? state.patch : versions[versions.length - 1];
   state.patch = v;
   const note = DATA.patchnotes[v] || { general: [], items: {}, heroes: {} };
@@ -775,8 +886,11 @@ function renderAbout() {
     <ul class="tight small">
       <li><b>Игровые константы</b> — открытый датасет <a href="https://github.com/odota/dotaconstants" target="_blank" rel="noreferrer">odota/dotaconstants</a>
         (герои, способности с цифрами, предметы, патчноуты). Версия: ${esc(DATA.meta.constantsVersion)}.</li>
-      <li><b>Иконки героев</b> — репозиторий <a href="https://github.com/M-Hasan-Ibrahim/Dota2HeroInfoAndIcons" target="_blank" rel="noreferrer">Dota2HeroInfoAndIcons</a>.</li>
-      <li><b>Патч</b>: ${esc(DATA.meta.latestPatch)} (от ${esc(String(DATA.meta.latestPatchDate).slice(0, 10))}). Героев: ${DATA.meta.heroes}, предметов: ${DATA.meta.items}.</li>
+      <li><b>Иконки героев</b> — репозиторий <a href="https://github.com/M-Hasan-Ibrahim/Dota2HeroInfoAndIcons" target="_blank" rel="noreferrer">Dota2HeroInfoAndIcons</a>:
+        есть для ${Object.keys(DATA.heroes).length - heroesWithoutIcons().length} из ${Object.keys(DATA.heroes).length} героев.
+        ${heroesWithoutIcons().length ? `Без иконки (показан буквенный аватар, на скриншоте не распознаются): ${esc(heroesWithoutIcons().join(', '))} — в источнике их нет.` : ''}</li>
+      <li><b>Патч</b>: серия ${esc(patchSeries())} (вышла ${esc(String(DATA.meta.latestPatchDate).slice(0, 10))}), последняя версия в патчноутах — ${esc(latestPatchVersion())}.
+        Героев: ${DATA.meta.heroes}, предметов: ${DATA.meta.items}. Данные собраны ${esc(String(DATA.meta.generatedAt || '').slice(0, 10))}.</li>
     </ul>
     <h3>Что считает движок</h3>
     <ul class="tight small">
@@ -795,7 +909,8 @@ function renderAbout() {
     </ul>
     <h3>Обновить базу данных</h3>
     <p class="small muted">Локально: <code>node tools/build_data.mjs</code> — скачает свежие константы и иконки, пересоберёт <code>data/</code>
-      и провалидирует файлы знаний (все ссылки на героев, способности и предметы). Запуск сайта: <code>python3 -m http.server 8000</code> в корне репозитория.</p>
+      и провалидирует файлы знаний (все ссылки на героев, способности, предметы и теги); <code>--cached</code> — собрать из уже скачанного.
+      Затем <code>node tools/build_templates.mjs</code> пересчитает подписи для распознавания. Запуск сайта: <code>python3 -m http.server 8000</code> в корне репозитория.</p>
   </div>`;
 }
 
@@ -804,13 +919,21 @@ function renderAbout() {
 function render() {
   document.querySelectorAll('#tabs button').forEach((b) => b.classList.toggle('active', b.dataset.tab === state.tab));
   const view = $('#view');
-  if (state.tab === 'draft') view.innerHTML = renderDraft();
-  else if (state.tab === 'shot') { view.innerHTML = renderShot(); mountShot(); }
-  else if (state.tab === 'heroes') view.innerHTML = renderHeroes();
-  else if (state.tab === 'items') { view.innerHTML = renderItems(); mountItemsLazy(); }
-  else if (state.tab === 'patch') view.innerHTML = renderPatch();
-  else if (state.tab === 'timers') view.innerHTML = renderTimers();
-  else view.innerHTML = renderAbout();
+  try {
+    if (state.tab === 'draft') view.innerHTML = renderDraft();
+    else if (state.tab === 'shot') { view.innerHTML = renderShot(); mountShot(); }
+    else if (state.tab === 'heroes') view.innerHTML = renderHeroes();
+    else if (state.tab === 'items') { view.innerHTML = renderItems(); mountItemsLazy(); }
+    else if (state.tab === 'patch') view.innerHTML = renderPatch();
+    else if (state.tab === 'timers') view.innerHTML = renderTimers();
+    else view.innerHTML = renderAbout();
+  } catch (err) {
+    // Ошибка рендера не прячется: она видна на экране и в консоли, а интерфейс не «зависает»
+    // на прошлом кадре (например, на «Распознаю карточки…»).
+    console.error(err);
+    view.innerHTML = `<div class="panel"><h2>Ошибка интерфейса</h2><p class="small warn">${esc(err && err.message)}</p>
+      <p class="small muted">Переключи вкладку или обнови страницу. Если ошибка повторяется — сообщи о ней вместе с шагами.</p></div>`;
+  }
   if (state.tab !== 'items') stopItemsLazy();
   if (state.tab === 'heroes' && state.selectedHero) {
     const card = $('#heroCard');
@@ -896,25 +1019,46 @@ function openPicker(target) {
 
 /* ------------------------------ вкладка «Скриншот» ------------------------------ */
 
+/** Подписи статусов ячейки (см. shotHeroes). */
+const SHOT_STATUS_RU = {
+  ok: '',
+  manual: 'выбран вручную',
+  weak: 'не определён: слабое совпадение — выбери героя сам',
+  empty: 'пустая ячейка',
+  cleared: 'отмечено как «не определён»',
+};
+
 /** Строка результата: миниатюра ячейки, список героев и ближайшие альтернативы. */
-function shotRowHTML(row) {
-  const heroes = Object.values(DATA.heroes).sort((a, b) => byName(a.localized_name, b.localized_name));
-  const alts = row.candidates.slice(1, 4)
+function shotRowHTML(row, heroOptions) {
+  // Кандидаты — подсказки: для слабого совпадения первым идёт лучший кандидат, для уверенного — следующие.
+  const alts = row.candidates
     .filter((c) => c.slug !== row.slug)
-    .map((c) => `<button class="chip" data-shot-alt="${row.index}:${esc(c.slug)}" title="Близость ${c.score}">${esc(DATA.heroes[c.slug]?.localized_name || c.slug)}</button>`)
+    .slice(0, 3)
+    .map((c) => `<button class="chip" data-shot-alt="${row.index}:${esc(c.slug)}" title="Близость ${esc(c.score)}">${esc(DATA.heroes[c.slug].localized_name)}</button>`)
     .join('');
-  const unsure = !row.edited && row.score > 0.26;
-  return `<div class="shot-row">
+  const statusText = SHOT_STATUS_RU[row.status] || '';
+  const warn = row.status === 'weak' || row.status === 'cleared';
+  const info = [
+    `ячейка ${row.index + 1}`,
+    row.score === null ? null : `близость ${row.score}`,
+    statusText ? (warn ? `<span class="warn">${esc(statusText)}</span>` : esc(statusText)) : null,
+  ].filter(Boolean).join(' · ');
+  return `<div class="shot-row" data-shot-status="${esc(row.status)}">
     <canvas class="shot-thumb" data-shot-thumb="${row.index}" width="52" height="52"></canvas>
     <div class="shot-info">
       <select class="shot-pick" data-shot-pick="${row.index}">
-        <option value="">— не определён —</option>
-        ${heroes.map((h) => `<option value="${h.slug}"${h.slug === row.slug ? ' selected' : ''}>${esc(h.localized_name)}</option>`).join('')}
+        <option value=""${row.slug ? '' : ' selected'}>— не определён —</option>
+        ${heroOptions.map((h) => `<option value="${esc(h.slug)}"${h.slug === row.slug ? ' selected' : ''}>${esc(h.localized_name)}</option>`).join('')}
       </select>
-      <div class="small muted">ячейка ${row.index + 1} · близость ${row.score}${row.edited ? ' · правка' : ''}${unsure ? ' · <span class="warn">не уверен</span>' : ''}</div>
-      ${alts ? `<div class="chips" style="margin-top:4px">${alts}</div>` : ''}
+      <div class="small muted">${info}</div>
+      ${alts ? `<div class="chips" style="margin-top:4px">${row.slug ? '' : '<span class="tiny muted">возможно:</span>'}${alts}</div>` : ''}
     </div>
   </div>`;
+}
+
+/** Герои без иконки: их нет среди шаблонов, поэтому на скриншоте они не распознаются. */
+function heroesWithoutIcons() {
+  return Object.values(DATA.heroes).filter((h) => !DATA.icons[h.slug]).map((h) => h.localized_name).sort(byName);
 }
 
 function renderShot() {
@@ -922,10 +1066,22 @@ function renderShot() {
   const result = shot.result;
   const rows = shotHeroes();
   const found = rows.filter((r) => r.slug).length;
-  const gridInfo = result && result.grid
-    ? `Сетка ${result.grid.cols}×${result.grid.rows} (${result.grid.meta.colMode}/${result.grid.meta.rowMode})`
-      + `${result.confidence === null ? '' : `, уверенность ${Math.round(result.confidence * 100)}%`}`
-    : (result ? 'Нарезка задана вручную.' : 'Кадр ещё не распознан.');
+  const empty = rows.filter((r) => r.status === 'empty').length;
+  const unsure = rows.filter((r) => r.status === 'weak').length;
+  const heroOptions = Object.values(DATA.heroes).sort((a, b) => byName(a.localized_name, b.localized_name));
+  const cols = clampGridSize(shot.cols, 1);
+  const rowsN = clampGridSize(shot.rows, 1);
+  let gridInfo = 'Кадр ещё не распознан.';
+  if (result && result.grid) {
+    const meta = result.grid.meta || {};
+    gridInfo = `Сетка ${esc(result.grid.cols)}×${esc(result.grid.rows)}${meta.colMode ? ` (${esc(meta.colMode)}/${esc(meta.rowMode)})` : ''}`
+      + `${typeof result.confidence === 'number' ? `, уверенность ${Math.round(result.confidence * 100)}%` : ''}.`;
+  } else if (result && shot.manual) {
+    gridInfo = `Нарезка задана вручную: ${cols}×${rowsN}.`;
+  } else if (result) {
+    gridInfo = '<span class="warn">Сетка карточек автоматически не найдена.</span> Задай колонки, строки и область вручную.';
+  }
+  const noIcons = heroesWithoutIcons();
   const busy = shot.busy;
   return `
   <div class="grid cols-2">
@@ -940,44 +1096,49 @@ function renderShot() {
     : '<div class="shot-empty"><b>Ctrl+V</b> · перетащи файл сюда · <label class="btn sm ghost">выбрать файл<input type="file" id="shotFile" accept="image/*" hidden></label></div>'}
         </div>
         ${shot.image ? `<div class="row small muted" style="margin-top:8px">
-          <span>${esc(shot.name || 'скриншот')} · ${shot.image.width}×${shot.image.height}</span>
+          <span>${esc(shot.name || 'скриншот')} · ${shot.image.width}×${shot.image.height}${shot.scaledFrom ? ` (уменьшено с ${esc(shot.scaledFrom.width)}×${esc(shot.scaledFrom.height)})` : ''}</span>
           <button class="btn sm ghost" data-shot="reset">Другой скриншот</button>
         </div>` : ''}
-        ${busy ? '<p class="small">Распознаю карточки…</p>' : ''}
-        ${shot.error ? `<p class="small warn">${esc(shot.error)}</p>` : ''}
+        ${busy ? '<p class="small" id="shotBusy">Распознаю карточки…</p>' : ''}
+        ${shot.error ? `<p class="small warn" id="shotError">${esc(shot.error)}</p>` : ''}
+        ${noIcons.length ? `<p class="tiny muted">Без иконки и потому не распознаются: ${esc(noIcons.join(', '))} — выбери их вручную в списке ячейки.</p>` : ''}
       </div>
       ${shot.image ? `
       <div class="panel">
         <h2>Сетка карточек</h2>
         <div class="row small">
-          <label class="lbl">колонок <input class="num" id="shotCols" type="number" min="1" max="24" value="${shot.cols || 1}"></label>
-          <label class="lbl">строк <input class="num" id="shotRows" type="number" min="1" max="24" value="${shot.rows || 1}"></label>
+          <label class="lbl">колонок <input class="num" id="shotCols" type="number" min="1" max="${MAX_GRID}" value="${cols}"></label>
+          <label class="lbl">строк <input class="num" id="shotRows" type="number" min="1" max="${MAX_GRID}" value="${rowsN}"></label>
           <button class="btn sm" data-shot="resplit">Нарезать заново</button>
           <button class="btn sm ghost" data-shot="auto">Автопоиск</button>
         </div>
         <div class="row small" style="margin-top:6px">
           <span class="muted">область:</span>
-          <label class="lbl">x <input class="num" id="shotX" type="number" min="0" value="${Math.round(shot.region ? shot.region.x : 0)}"></label>
-          <label class="lbl">y <input class="num" id="shotY" type="number" min="0" value="${Math.round(shot.region ? shot.region.y : 0)}"></label>
-          <label class="lbl">ш <input class="num" id="shotW" type="number" min="1" value="${Math.round(shot.region ? shot.region.w : shot.image.width)}"></label>
-          <label class="lbl">в <input class="num" id="shotH" type="number" min="1" value="${Math.round(shot.region ? shot.region.h : shot.image.height)}"></label>
+          <label class="lbl">x <input class="num" id="shotX" type="number" min="0" max="${shot.image.width - 1}" value="${Math.round(shot.region ? shot.region.x : 0)}"></label>
+          <label class="lbl">y <input class="num" id="shotY" type="number" min="0" max="${shot.image.height - 1}" value="${Math.round(shot.region ? shot.region.y : 0)}"></label>
+          <label class="lbl">ш <input class="num" id="shotW" type="number" min="1" max="${shot.image.width}" value="${Math.round(shot.region ? shot.region.w : shot.image.width)}"></label>
+          <label class="lbl">в <input class="num" id="shotH" type="number" min="1" max="${shot.image.height}" value="${Math.round(shot.region ? shot.region.h : shot.image.height)}"></label>
         </div>
-        <p class="small muted">${gridInfo}. Если автопоиск ошибся, задай колонки, строки и область вручную —
-          удобно нарезать по одному ряду карточек (например, ряд одной команды) и заполнять драфт по частям.</p>
+        <p class="small muted" id="shotGridInfo">${gridInfo} Если автопоиск ошибся, задай колонки, строки и область вручную —
+          удобно нарезать по одному ряду карточек (например, ряд одной команды) и заполнять драфт по частям.
+          Область, выходящая за край кадра, обрезается по нему.</p>
       </div>` : ''}
     </div>
     <div class="stack">
       ${result ? `
       <div class="panel">
         <h2>Распознано героев: ${found} из ${rows.length}</h2>
-        <div class="stack" id="shotList">${rows.map((r) => shotRowHTML(r)).join('')}</div>
-        <div class="row" style="margin-top:10px">
+        ${rows.length && (empty || unsure) ? `<p class="small muted">Пустых ячеек: ${empty} · не определено: ${unsure}. Неуверенные совпадения
+          не подставляются автоматически — выбери героя в списке или кнопкой-подсказкой.</p>` : ''}
+        ${rows.length ? `<div class="stack" id="shotList">${rows.map((r) => shotRowHTML(r, heroOptions)).join('')}</div>` : '<p class="small muted" id="shotList">Карточки героев не найдены.</p>'}
+        ${found ? `<div class="row" style="margin-top:10px">
           <button class="btn sm" data-shot="fill-enemies">В противники</button>
           <button class="btn sm" data-shot="fill-allies">В союзники</button>
           <button class="btn sm ghost" data-shot="open-draft">Открыть драфт</button>
-        </div>
-        <p class="small muted">Заполняются пустые слоты драфта по порядку ячеек. Любого героя можно
-          поправить списком или кнопкой-альтернативой, затем пересобрать драфт кнопкой ещё раз.</p>
+        </div>` : ''}
+        ${shot.notice ? `<p class="small" id="shotNotice">${esc(shot.notice)}</p>` : ''}
+        <p class="small muted">Заполняются свободные слоты драфта по порядку ячеек — только распознанные уверенно
+          или выбранные вручную герои; повторы и герои, уже стоящие в драфте, пропускаются.</p>
       </div>` : `
       <div class="panel">
         <h2>Как это работает</h2>
@@ -986,98 +1147,121 @@ function renderShot() {
             (dHash) и средние цвета.</li>
           <li>Сетка карточек ищется по профилям яркости и градиента, затем фаза сетки подгоняется
             по узнаваемости карточек.</li>
-          <li>Каждая ячейка сравнивается с локальными иконками всех героев; в ответе — ближайшие
-            кандидаты, так что ошибку видно и легко поправить руками.</li>
+          <li>Каждая ячейка сравнивается с локальными иконками всех героев. Героя подставляем, только если
+            совпадение и близкое, и однозначное; иначе ячейка остаётся «не определён» с подсказками.</li>
         </ol>
       </div>`}
     </div>
   </div>`;
 }
 
+/**
+ * Полноразмерная копия кадра в canvas — одна на кадр: из неё рисуются и предпросмотр, и все
+ * миниатюры (раньше на каждую миниатюру копировался весь кадр).
+ */
+let shotCanvasCache = { image: null, canvas: null };
+function shotSourceCanvas() {
+  const img = state.shot.image;
+  if (!img) return null;
+  if (shotCanvasCache.image === img) return shotCanvasCache.canvas;
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const ctx = canvas.getContext && canvas.getContext('2d');
+  if (!ctx) return null;
+  const pixels = new Uint8ClampedArray(img.data.buffer, img.data.byteOffset, img.width * img.height * 4);
+  ctx.putImageData(new ImageData(pixels, img.width, img.height), 0, 0);
+  shotCanvasCache = { image: img, canvas };
+  return canvas;
+}
+
 /** Рисует предпросмотр: кадр, найденную сетку и миниатюры ячеек. */
 function mountShot() {
   const shot = state.shot;
   if (state.tab !== 'shot' || !shot.image) return;
-  try {
-    const preview = document.getElementById('shotPreview');
-    if (preview) {
-      const size = shotPreviewSize(shot.image);
-      preview.width = size.w;
-      preview.height = size.h;
-      const ctx = preview.getContext && preview.getContext('2d');
-      const src = document.createElement('canvas');
-      src.width = shot.image.width;
-      src.height = shot.image.height;
-      const sctx = src.getContext && src.getContext('2d');
-      if (ctx && sctx) {
-        sctx.putImageData(new ImageData(new Uint8ClampedArray(shot.image.data), shot.image.width, shot.image.height), 0, 0);
-        ctx.drawImage(src, 0, 0, size.w, size.h);
-        const rows = shotHeroes();
-        ctx.lineWidth = 2;
-        for (const row of rows) {
-          const r = row.rect;
-          ctx.strokeStyle = row.slug ? 'rgba(110, 207, 90, 0.95)' : 'rgba(240, 112, 58, 0.95)';
-          ctx.fillStyle = 'rgba(110, 207, 90, 0.12)';
-          ctx.fillRect(r.x * size.k, r.y * size.k, r.w * size.k, r.h * size.k);
-          ctx.strokeRect(r.x * size.k, r.y * size.k, r.w * size.k, r.h * size.k);
-        }
-      }
-      const thumbs = document.querySelectorAll('[data-shot-thumb]');
-      for (const el of thumbs) {
-        const row = shotHeroes()[Number(el.dataset.shotThumb)];
-        if (!row) continue;
-        const tctx = el.getContext && el.getContext('2d');
-        if (!tctx) continue;
-        const r = row.rect;
-        const side = Math.min(r.w, r.h);
-        const crop = { x: r.x + (r.w - side) / 2, y: r.y + (r.h - side) / 2, w: side, h: side };
-        const sc = document.createElement('canvas');
-        sc.width = shot.image.width;
-        sc.height = shot.image.height;
-        const sctx = sc.getContext && sc.getContext('2d');
-        if (!sctx) continue;
-        sctx.putImageData(new ImageData(new Uint8ClampedArray(shot.image.data), shot.image.width, shot.image.height), 0, 0);
-        tctx.drawImage(sc, crop.x, crop.y, crop.w, crop.h, 0, 0, el.width, el.height);
-      }
-    }
-  } catch { /* нет canvas (jsdom) — предпросмотр просто не рисуется */ }
+  const preview = document.getElementById('shotPreview');
+  const ctx = preview && preview.getContext && preview.getContext('2d');
+  if (!ctx) return; // нет canvas (jsdom, старый браузер) — предпросмотр просто не рисуется
+  const src = shotSourceCanvas();
+  if (!src) return;
+  const size = shotPreviewSize(shot.image);
+  preview.width = size.w;
+  preview.height = size.h;
+  ctx.drawImage(src, 0, 0, size.w, size.h);
+  const rows = shotHeroes();
+  ctx.lineWidth = 2;
+  for (const row of rows) {
+    const r = row.rect;
+    const ok = row.status === 'ok' || row.status === 'manual';
+    ctx.strokeStyle = ok ? 'rgba(110, 207, 90, 0.95)' : row.status === 'empty' ? 'rgba(141, 154, 173, 0.8)' : 'rgba(240, 112, 58, 0.95)';
+    ctx.fillStyle = ok ? 'rgba(110, 207, 90, 0.12)' : 'rgba(240, 112, 58, 0.08)';
+    ctx.fillRect(r.x * size.k, r.y * size.k, r.w * size.k, r.h * size.k);
+    ctx.strokeRect(r.x * size.k, r.y * size.k, r.w * size.k, r.h * size.k);
+  }
+  for (const el of document.querySelectorAll('[data-shot-thumb]')) {
+    const row = rows[Number(el.dataset.shotThumb)];
+    const tctx = row && el.getContext && el.getContext('2d');
+    if (!tctx) continue;
+    const r = row.rect;
+    const side = Math.min(r.w, r.h);
+    tctx.drawImage(src, r.x + (r.w - side) / 2, r.y + (r.h - side) / 2, side, side, 0, 0, el.width, el.height);
+  }
 }
 
 /** Кладёт пиксели кадра в состояние и запускает распознавание. */
-function shotUseImage(image, name = 'скриншот') {
+function shotUseImage(image, name = 'скриншот', scaledFrom = null) {
   const shot = state.shot;
   shot.image = image;
   shot.name = name;
   shot.result = null;
   shot.picks = {};
   shot.region = null;
+  shot.regionEdited = false; // ручная область прошлого кадра к новому кадру не относится
   shot.manual = false;
   shot.error = '';
+  shot.notice = '';
+  shot.scaledFrom = scaledFrom;
   shotRun();
 }
 
-/** Разбор файла/вставки: File → пиксели через canvas. */
+/**
+ * Разбор файла/вставки: File → пиксели через canvas. Очень большие кадры уменьшаются до
+ * SHOT_MAX_SIDE по длинной стороне: распознавание работает с подписями 32×32, а лишние
+ * мегапиксели только замедляют его (и упираются в лимит размера canvas на мобильных).
+ */
 async function shotLoadBlob(blob, name) {
-  const shot = state.shot;
+  let url = null;
   try {
-    const url = URL.createObjectURL(blob);
+    if (!blob) throw new Error('файл не получен');
+    if (blob.type && !blob.type.startsWith('image/')) throw new Error(`это не изображение (${blob.type})`);
+    url = URL.createObjectURL(blob);
     const img = new Image();
     await new Promise((resolve, reject) => {
       img.onload = resolve;
       img.onerror = () => reject(new Error('формат изображения не поддержан'));
       img.src = url;
     });
+    const srcW = img.naturalWidth;
+    const srcH = img.naturalHeight;
+    if (!srcW || !srcH) throw new Error('изображение пустое');
+    const k = Math.min(1, SHOT_MAX_SIDE / Math.max(srcW, srcH));
+    const w = Math.max(1, Math.round(srcW * k));
+    const h = Math.max(1, Math.round(srcH * k));
     const canvas = document.createElement('canvas');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
-    const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    URL.revokeObjectURL(url);
-    shotUseImage({ width: data.width, height: data.height, data: new Uint8Array(data.data) }, name);
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext && canvas.getContext('2d');
+    if (!ctx) throw new Error('браузер не дал доступ к canvas');
+    if (k < 1) ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, 0, 0, w, h);
+    const data = ctx.getImageData(0, 0, w, h);
+    const pixels = new Uint8Array(data.data.buffer, data.data.byteOffset, data.data.length);
+    shotUseImage({ width: data.width, height: data.height, data: pixels }, name, k < 1 ? { width: srcW, height: srcH } : null);
   } catch (err) {
-    shot.error = `Не удалось прочитать изображение: ${err.message}`;
+    state.shot.error = `Не удалось прочитать изображение: ${err.message}`;
     render();
+  } finally {
+    if (url) URL.revokeObjectURL(url);
   }
 }
 
@@ -1149,19 +1333,30 @@ function loadDraft() {
   try {
     const raw = JSON.parse(localStorage.getItem('dp.draft') || 'null');
     if (!raw) return;
-    // Сохранённое состояние могло быть записано другой версией или испорчено —
-    // принимаем только известных героев и корректные массивы, иначе рендер упадёт.
-    const valid = (s) => (typeof s === 'string' && DATA.heroes[s] ? s : null);
+    // Сохранённое состояние могло быть записано другой версией или испорчено (у всех сайтов
+    // на *.github.io одно хранилище) — принимаем только известных героев, без повторов между
+    // слотами, и корректные массивы, иначе рендер упадёт или драфт окажется противоречивым.
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return;
+    const seen = new Set();
+    const take = (s) => {
+      if (!isHero(s) || seen.has(s)) return null;
+      seen.add(s);
+      return s;
+    };
     const arr = (list, n) => {
-      const out = (Array.isArray(list) ? list : []).slice(0, n).map(valid);
+      const out = (Array.isArray(list) ? list : []).slice(0, n).map(take);
       while (out.length < n) out.push(null);
       return out;
     };
-    state.me = valid(raw.me);
+    state.me = take(raw.me);
     state.enemies = arr(raw.enemies, 5);
-    state.enemyMid = valid(raw.enemyMid);
     state.allies = arr(raw.allies, 4);
-    state.checks = raw.checks && typeof raw.checks === 'object' && !Array.isArray(raw.checks) ? raw.checks : {};
+    state.enemyMid = isHero(raw.enemyMid) && state.enemies.includes(raw.enemyMid) ? raw.enemyMid : null;
+    const checks = {};
+    if (raw.checks && typeof raw.checks === 'object' && !Array.isArray(raw.checks)) {
+      for (const [k, v] of Object.entries(raw.checks)) if (v === true) checks[k] = true;
+    }
+    state.checks = checks;
   } catch { /* игнорируем */ }
 }
 
@@ -1185,7 +1380,7 @@ function pruneChecks() {
 function planAsText() {
   const enemies = state.enemies.filter(Boolean);
   const enemyMid = state.enemyMid && state.enemies.includes(state.enemyMid) ? state.enemyMid : guessEnemyMid(enemies);
-  const lines = ['=== План на игру (Dota 2, патч ' + DATA.meta.latestPatch + ') ==='];
+  const lines = [`=== План на игру (Dota 2, патч ${patchSeries()}, патчноуты до ${latestPatchVersion()}) ===`];
   if (state.me) lines.push(`Мой герой: ${DATA.heroes[state.me]?.localized_name || state.me}`);
   if (enemies.length) lines.push(`Враги: ${enemies.map((s) => DATA.heroes[s]?.localized_name || s).join(', ')}`);
   if (state.me && enemyMid) {
@@ -1234,29 +1429,26 @@ function bindEvents() {
     if (shotBtn) {
       const act = shotBtn.dataset.shot;
       if (act === 'reset') {
-        state.shot = { ...state.shot, image: null, result: null, picks: {}, region: null, regionEdited: false, error: '' };
+        shotCancelRuns(); // результат незавершённого распознавания старого кадра больше не нужен
+        state.shot = {
+          ...state.shot, image: null, result: null, picks: {}, region: null, regionEdited: false,
+          error: '', busy: false, notice: '', manual: false, scaledFrom: null,
+        };
         render();
         return;
       }
       if (act === 'auto') { shotRun({ manual: false }); return; }
       if (act === 'resplit') {
         const shot = state.shot;
-        shot.cols = Math.max(1, Number($('#shotCols')?.value) || shot.cols || 1);
-        shot.rows = Math.max(1, Number($('#shotRows')?.value) || shot.rows || 1);
-        if (shot.image) {
-          const img = shot.image;
-          const px = Number($('#shotX')?.value);
-          const py = Number($('#shotY')?.value);
-          const pw = Number($('#shotW')?.value);
-          const ph = Number($('#shotH')?.value);
-          shot.region = {
-            x: Math.max(0, Math.min(img.width - 1, Number.isFinite(px) ? px : 0)),
-            y: Math.max(0, Math.min(img.height - 1, Number.isFinite(py) ? py : 0)),
-            w: Math.max(1, Math.min(img.width, Number.isFinite(pw) && pw > 0 ? pw : img.width)),
-            h: Math.max(1, Math.min(img.height, Number.isFinite(ph) && ph > 0 ? ph : img.height)),
-          };
-          shot.regionEdited = true;
-        }
+        if (!shot.image) return;
+        // Колонки/строки — целые 1…MAX_GRID, область — внутри кадра: в состоянии и в полях
+        // формы остаётся ровно то, что реально режется.
+        shot.cols = clampGridSize($('#shotCols')?.value, shot.cols || 1);
+        shot.rows = clampGridSize($('#shotRows')?.value, shot.rows || 1);
+        shot.region = clampRegion({
+          x: $('#shotX')?.value, y: $('#shotY')?.value, w: $('#shotW')?.value, h: $('#shotH')?.value,
+        }, shot.image.width, shot.image.height);
+        shot.regionEdited = true;
         shotRun({ manual: true });
         return;
       }
@@ -1269,7 +1461,12 @@ function bindEvents() {
     const shotAlt = e.target.closest('[data-shot-alt]');
     if (shotAlt) {
       const [idx, slug] = shotAlt.dataset.shotAlt.split(':');
-      state.shot.picks[Number(idx)] = slug;
+      const i = Number(idx);
+      const cells = state.shot.result ? state.shot.result.cells : [];
+      if (isHero(slug) && Number.isInteger(i) && i >= 0 && i < cells.length) {
+        state.shot.picks[i] = slug;
+        state.shot.notice = '';
+      }
       render();
       return;
     }
@@ -1290,7 +1487,13 @@ function bindEvents() {
     }
 
     const setMe = e.target.closest('[data-set-me]');
-    if (setMe) { state.me = setMe.dataset.setMe; state.tab = 'draft'; saveDraft(); render(); return; }
+    if (setMe) {
+      const slug = setMe.dataset.setMe;
+      const owner = draftOwner(slug);
+      // Один герой не может стоять в двух слотах драфта: занятого у противников или союзников не ставим.
+      if (!isHero(slug) || (owner && owner !== 'me')) return;
+      state.me = slug; state.tab = 'draft'; saveDraft(); render(); return;
+    }
 
     const heroBtn = e.target.closest('[data-hero]');
     if (heroBtn) { state.selectedHero = heroBtn.dataset.hero; render(); return; }
@@ -1351,8 +1554,12 @@ function bindEvents() {
   document.addEventListener('change', (e) => {
     if (e.target.matches('[data-shot-pick]')) {
       const idx = Number(e.target.dataset.shotPick);
-      if (e.target.value) state.shot.picks[idx] = e.target.value;
-      else delete state.shot.picks[idx];
+      const cells = state.shot.result ? state.shot.result.cells : [];
+      if (Number.isInteger(idx) && idx >= 0 && idx < cells.length) {
+        // «— не определён —» — тоже правка: ячейка больше не подставляет найденного автоматически героя.
+        state.shot.picks[idx] = isHero(e.target.value) ? e.target.value : null;
+        state.shot.notice = '';
+      }
       render();
       return;
     }
@@ -1407,8 +1614,12 @@ function bindShotDrop() {
     await loadData();
     loadDraft();
     if (pruneChecks()) saveDraft(); // выкинули мусор из старых галочек — сразу фиксируем это в хранилище
-    $('#patchBadge').textContent = `патч ${DATA.meta.latestPatch}`;
-    $('#metaLine').textContent = `данные от ${String(DATA.meta.latestPatchDate).slice(0, 10)} · ${DATA.meta.heroes} героев · ${DATA.meta.items} предметов`;
+    $('#patchBadge').textContent = `патч ${patchSeries()}`;
+    const patchTab = $('#tabs [data-tab="patch"]');
+    if (patchTab) patchTab.textContent = `Патч ${patchSeries()}`;
+    document.title = `Драфт-помощник Dota 2 — патч ${patchSeries()}`;
+    $('#metaLine').textContent = `серия ${patchSeries()} от ${String(DATA.meta.latestPatchDate).slice(0, 10)} · патчноуты до ${latestPatchVersion()}`
+      + ` · ${DATA.meta.heroes} героев · ${DATA.meta.items} предметов`;
     bindEvents();
     bindShotDrop();
     render();
