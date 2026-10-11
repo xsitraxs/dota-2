@@ -82,8 +82,8 @@ export function laneReport(me, them, ctx) {
     score += v;
     factors.push({
       label: 'Удобство добивания',
-      me: `${me.stats.attack_point}s` + (me.stats.projectile_speed ? ` / ${me.stats.projectile_speed}` : ''),
-      them: `${them.stats.attack_point}s` + (them.stats.projectile_speed ? ` / ${them.stats.projectile_speed}` : ''),
+      me: `${animMe.toFixed(2)}s до удара`,
+      them: `${animThem.toFixed(2)}s до удара`,
       note: animMe < animThem ? 'у тебя быстрее анимация и полёт снаряда — денаить легче' : 'их анимация удобнее: следи за добиванием',
       value: v,
     });
@@ -106,7 +106,7 @@ export function laneReport(me, them, ctx) {
   const tagChecks = [
     ['gap_close', has(myTags, 'gap_close'), has(theirTags, 'gap_close'), 'Дистанция закрывается', 'у тебя есть чем доехать до цели', 'у него есть чем доехать до тебя', 0.8],
     ['poke_lane', has(myTags, 'poke_lane'), has(theirTags, 'poke_lane'), 'Харрас на линии', 'ты душишь его с дистанции', 'он харрасит тебя без ответа', 0.8],
-    ['lane_sustain', has(myTags, 'lane_sustain'), has(theirTags, 'lane_sustain'), 'Састен на линии', 'размены тебе не страшны', 'он восстанавливается быстрее тебя', 0.7],
+    ['lane_sustain', has(myTags, 'lane_sustain'), has(theirTags, 'lane_sustain'), 'Реген (састейн) на линии', 'размены тебе не страшны', 'он восстанавливается быстрее тебя', 0.7],
     ['burst_magical', false, has(theirTags, 'burst_magical'), 'Угроза маг. бурста', '', 'одна связка может быть смертельной — держи дистанцию', -1.0],
     ['burst_physical', false, has(theirTags, 'burst_physical'), 'Угроза физ. урона', '', 'не подпускай под автоатаки', -0.9],
     ['waveclear', has(myTags, 'waveclear'), has(theirTags, 'waveclear'), 'Контроль волны', 'ты быстрее выдавливаешь волну и идёшь к рунам', 'он первым уходит на руны и ганги', 0.5],

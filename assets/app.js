@@ -24,7 +24,7 @@ const state = {
   heroSearch: '',
   attrFilter: null,
   roleFilter: null,
-  onlyMid: true,
+  onlyMid: false,
   itemSearch: '',
   patch: null,
   timer: { running: false, start: 0, offset: 0 },
@@ -122,6 +122,7 @@ function itemRows(list) {
   }).join('');
 }
 function abilityCard(key, heroSlug) {
+  if (/_empty\d*$/.test(key)) return ''; // служебные слоты вроде invoker_empty1
   const a = DATA.abilities[key];
   if (!a) return '';
   const meta = [
@@ -368,7 +369,7 @@ function renderHeroCard(h) {
   const s = h.stats;
   const notes = h.notes || [];
   const tags = tagsOf(h.slug);
-  const slots = h.slots.filter((x) => x.i <= 5);
+  const slots = h.slots.filter((x) => x.i <= 5 && !/_empty\d*$/.test(x.key));
   const ult = h.slots.find((x) => x.i === 5);
   const beats = plan?.beats || [];
   const loses = plan?.loses_to || [];
@@ -406,7 +407,9 @@ function renderHeroCard(h) {
     <div class="stack">
       ${slots.map((x) => abilityCard(x.key, h.slug)).join('')}
     </div>
-    ${h.extra.length ? `<h3>Связанные способности и стойки</h3><div class="stack small muted">${h.extra.map((k) => esc(DATA.abilities[k]?.dname || k)).join(' · ')}</div>` : ''}
+    ${h.extra.length ? (h.extra.length > 2
+      ? `<h3>Связанные способности и стойки</h3><div class="stack">${h.extra.map((k) => abilityCard(k, h.slug)).join('')}</div>`
+      : `<h3>Связанные способности и стойки</h3><div class="stack small muted">${h.extra.map((k) => esc(DATA.abilities[k]?.dname || k)).join(' · ')}</div>`) : ''}
     ${ult ? '' : ''}
 
     ${plan ? `<hr class="sep">
@@ -438,7 +441,7 @@ function renderItems() {
       <span class="muted small">${list.length} предметов</span>
     </div>
     <div class="cols-3 grid">
-      ${list.slice(0, 220).map(([k, it]) => `<div class="ability">
+      ${list.slice(0, 220).map(([k, it]) => `<div class="ability item-card">
         <div class="spread"><div class="nm">${esc(it.dname)}</div><div class="cost" style="color:var(--gold);font-weight:700">${it.cost ?? ''}</div></div>
         <div class="meta">${esc(it.qual || '')}${it.tier ? ` · тир ${esc(it.tier)}` : ''}${it.behavior ? ` · ${esc(it.behavior)}` : ''}</div>
         ${(it.abilities || []).map((a) => `<div class="desc"><b>${esc(a.title)}</b> <span class="muted tiny">(${a.type === 'active' ? 'актив' : 'пассив'})</span><br>${esc(a.description)}</div>`).join('')}

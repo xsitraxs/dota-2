@@ -1,0 +1,15 @@
+{
+  "name": "dota-2-draft-helper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Драфт-помощник и справочник по Dota 2 патча 7.41 для мидового игрока",
+  "scripts": {
+    "serve": "python3 -m http.server 8000",
+    "test": "node tools/test_engine.mjs",
+    "test:ui": "node tools/test_ui.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.2"
+  }
+}
