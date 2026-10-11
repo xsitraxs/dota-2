@@ -1,0 +1,89 @@
+name: GitHub Pages
+
+# Публикует приложение на https://xsitraxs.github.io/dota-2/
+# Приложение чисто статическое: index.html + assets/ + data/ (сборщик фронта не нужен).
+#
+# Воркфлоу подстраивается под настройку Settings → Pages → Source:
+#   • «GitHub Actions»  — прогоняет проверки, собирает чистый артефакт
+#                         (только index.html + assets/ + data/) и деплоит его;
+#   • «Deploy from a branch» — GitHub сам публикует ветку main, воркфлоу
+#                         ограничивается проверками и не лезет в деплой.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Один деплой за раз; прерывать текущий не надо — иначе можно получить битый сайт.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      pages_mode: ${{ steps.pages_mode.outputs.mode }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Гейт: движок разбора должен работать на тех данных, которые уедут в прод.
+      - name: Test engine on shipped data
+        run: node tools/test_engine.mjs
+
+      - name: Detect Pages source
+        id: pages_mode
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mode=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.build_type' 2>/dev/null || echo none)
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Settings → Pages → Source: $mode"
+
+      - name: Stage site
+        if: steps.pages_mode.outputs.mode == 'workflow'
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r assets data _site/
+          echo "files: $(find _site -type f | wc -l)"
+          du -sh _site
+
+      - name: Configure Pages
+        if: steps.pages_mode.outputs.mode == 'workflow'
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        if: steps.pages_mode.outputs.mode == 'workflow'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Note
+        if: steps.pages_mode.outputs.mode != 'workflow'
+        run: |
+          echo "Pages публикуется из ветки (Source: Deploy from a branch) — GitHub соберёт сайт сам."
+          echo "Проверки движка пройдены, деплой через Actions не требуется."
+          echo "Чтобы деплоить чистый артефакт (без tools/ и README), поставьте Source: GitHub Actions."
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.pages_mode == 'workflow'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
