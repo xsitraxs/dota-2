@@ -154,7 +154,10 @@ function renderDraft() {
   const lane = me && enemyMid ? laneReport(DATA.heroes[me], DATA.heroes[enemyMid], ctx) : null;
   const threats = enemies.length ? threatsFor(enemies, DATA) : [];
   const combos = enemies.length ? combosFor(enemies, DATA) : [];
-  const picks = enemies.length ? counterPicks({ enemies, enemyMid, data: DATA, limit: 6 }) : [];
+  const picks = enemies.length ? counterPicks({
+    enemies, enemyMid, data: DATA, limit: 6,
+    exclude: [state.me, ...state.allies.filter(Boolean)],
+  }) : [];
   const plan = me ? buildPlan({ heroSlug: me, enemySlugs: enemies, data: DATA }) : null;
   const checklist = buildChecklist({ threats, combos, data: DATA });
 
@@ -185,7 +188,7 @@ function renderDraft() {
         ${enemies.length ? `<div class="row small" style="margin-top:10px">
           <span class="muted">Их мид:</span>
           <select class="search" data-enemy-mid style="padding:6px 8px">
-            ${enemies.map((s) => `<option value="${esc(s)}" ${s === enemyMid ? 'selected' : ''}>${esc(DATA.heroes[s].localized_name)}</option>`).join('')}
+            ${enemies.map((s) => `<option value="${esc(s)}" ${s === enemyMid ? 'selected' : ''}>${esc(DATA.heroes[s]?.localized_name || s)}</option>`).join('')}
           </select>
         </div>` : ''}
       </div>
@@ -303,8 +306,8 @@ function renderDraft() {
       <div class="panel">
         <h2>Чеклист на игру</h2>
         <div class="stack small">
-          ${checklist.map((c, i) => `<label class="checkline">
-            <input type="checkbox" data-check="${i}" ${state.checks[i] ? 'checked' : ''}>
+          ${checklist.map((c) => `<label class="checkline">
+            <input type="checkbox" data-check="${esc(c)}" ${state.checks[c] ? 'checked' : ''}>
             <span>${esc(c)}</span>
           </label>`).join('')}
         </div>
@@ -370,7 +373,6 @@ function renderHeroCard(h) {
   const notes = h.notes || [];
   const tags = tagsOf(h.slug);
   const slots = h.slots.filter((x) => x.i <= 5 && !/_empty\d*$/.test(x.key));
-  const ult = h.slots.find((x) => x.i === 5);
   const beats = plan?.beats || [];
   const loses = plan?.loses_to || [];
 
@@ -410,7 +412,6 @@ function renderHeroCard(h) {
     ${h.extra.length ? (h.extra.length > 2
       ? `<h3>Связанные способности и стойки</h3><div class="stack">${h.extra.map((k) => abilityCard(k, h.slug)).join('')}</div>`
       : `<h3>Связанные способности и стойки</h3><div class="stack small muted">${h.extra.map((k) => esc(DATA.abilities[k]?.dname || k)).join(' · ')}</div>`) : ''}
-    ${ult ? '' : ''}
 
     ${plan ? `<hr class="sep">
       <h3>Мидовый план</h3>
@@ -441,7 +442,7 @@ function renderItems() {
       <span class="muted small">${list.length} предметов</span>
     </div>
     <div class="cols-3 grid">
-      ${list.slice(0, 220).map(([k, it]) => `<div class="ability item-card">
+      ${list.map(([k, it]) => `<div class="ability item-card">
         <div class="spread"><div class="nm">${esc(it.dname)}</div><div class="cost" style="color:var(--gold);font-weight:700">${it.cost ?? ''}</div></div>
         <div class="meta">${esc(it.qual || '')}${it.tier ? ` · тир ${esc(it.tier)}` : ''}${it.behavior ? ` · ${esc(it.behavior)}` : ''}</div>
         ${(it.abilities || []).map((a) => `<div class="desc"><b>${esc(a.title)}</b> <span class="muted tiny">(${a.type === 'active' ? 'актив' : 'пассив'})</span><br>${esc(a.description)}</div>`).join('')}
@@ -505,10 +506,6 @@ function upcomingEvents(elapsed) {
 }
 
 function renderTimers() {
-  const t = state.timer;
-  const elapsed = t.running ? (Date.now() - t.start) / 1000 + t.offset : t.offset;
-  const isDay = Math.floor(elapsed / 300) % 2 === 0;
-  const up = upcomingEvents(elapsed).slice(0, 8);
   const groups = {};
   for (const ev of DATA.timings.events) (groups[ev.kind] ||= []).push(ev);
 
@@ -516,8 +513,7 @@ function renderTimers() {
     <div class="stack">
       <div class="panel">
         <h2>Живой таймер</h2>
-        <div class="clock ${isDay ? 'day' : 'night'}">${fmtTime(elapsed)}</div>
-        <div class="small muted">${isDay ? 'день' : 'ночь'} · цикл 5 минут</div>
+        ${renderClockHTML()}
         <div class="row" style="margin-top:10px">
           <button class="btn gold" data-timer="start">▶ Старт (синхрон с рогом)</button>
           <button class="btn ghost" data-timer="stop">Стоп</button>
@@ -527,15 +523,8 @@ function renderTimers() {
       </div>
       <div class="panel">
         <h2>Ближайшие события</h2>
-        <div class="stack">
-          ${up.map(({ ev, next }) => {
-            const left = next - elapsed;
-            return `<div class="timer-row ${left <= 20 ? 'soon' : ''}">
-              <span class="tag-pill">${esc(KIND_RU[ev.kind] || ev.kind)}</span>
-              <div><b>${esc(ev.title)}</b><div class="tiny muted">${esc(ev.text.split('.')[0])}</div></div>
-              <span class="in">${fmtTime(left)}</span>
-            </div>`;
-          }).join('')}
+        <div class="stack" id="upcoming">
+          ${renderUpcomingHTML()}
         </div>
       </div>
     </div>
@@ -609,7 +598,6 @@ function render() {
     const card = $('#heroCard');
     if (card && typeof card.scrollIntoView === 'function') card.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
-  saveDraft();
 }
 
 /* ------------------------------ выбор героя ------------------------------ */
@@ -635,7 +623,22 @@ function openPicker(target) {
   </div>`;
   document.getElementById('modalRoot').appendChild(modal);
   const draw = () => {
+    // Герой уже занят в другом слоте — не показываем его (дубликаты в драфте не нужны).
+    const used = new Set();
+    if (group === 'me') {
+      state.enemies.filter(Boolean).forEach((s) => used.add(s));
+      state.allies.filter(Boolean).forEach((s) => used.add(s));
+    } else if (group === 'enemies') {
+      if (state.me) used.add(state.me);
+      state.enemies.forEach((s, i) => { if (s && i !== idx) used.add(s); });
+      state.allies.filter(Boolean).forEach((s) => used.add(s));
+    } else {
+      if (state.me) used.add(state.me);
+      state.enemies.filter(Boolean).forEach((s) => used.add(s));
+      state.allies.forEach((s, i) => { if (s && i !== idx) used.add(s); });
+    }
     const list = Object.values(DATA.heroes)
+      .filter((h) => !used.has(h.slug))
       .filter((h) => !attr || h.primary_attr === attr)
       .filter((h) => !onlyMid || DATA.plans[h.slug]?.mid)
       .filter((h) => !q || h.localized_name.toLowerCase().includes(q))
@@ -666,6 +669,7 @@ function openPicker(target) {
       else if (group === 'enemies') state.enemies[idx] = slug;
       else if (group === 'allies') state.allies[idx] = slug;
       if (group === 'enemies' && !state.enemyMid) state.enemyMid = slug;
+      saveDraft();
       modal.remove();
       render();
     }
@@ -674,11 +678,45 @@ function openPicker(target) {
 
 /* ------------------------------ таймер ------------------------------ */
 
+function timerElapsed() {
+  const t = state.timer;
+  return t.running ? (Date.now() - t.start) / 1000 + t.offset : t.offset;
+}
+function renderClockHTML() {
+  const elapsed = timerElapsed();
+  const isDay = Math.floor(elapsed / 300) % 2 === 0;
+  return `<div class="clock ${isDay ? 'day' : 'night'}" id="clock">${fmtTime(elapsed)}</div>
+    <div class="small muted" id="clockPhase">${isDay ? 'день' : 'ночь'} · цикл 5 минут</div>`;
+}
+function renderUpcomingHTML() {
+  const elapsed = timerElapsed();
+  return upcomingEvents(elapsed).slice(0, 8).map(({ ev, next }) => {
+    const left = next - elapsed;
+    return `<div class="timer-row ${left <= 20 ? 'soon' : ''}">
+      <span class="tag-pill">${esc(KIND_RU[ev.kind] || ev.kind)}</span>
+      <div><b>${esc(ev.title)}</b><div class="tiny muted">${esc(ev.text.split('.')[0])}</div></div>
+      <span class="in">${fmtTime(left)}</span>
+    </div>`;
+  }).join('');
+}
+/** Тик таймера обновляет только часы и список событий — без пересборки всего DOM. */
+function updateTimerDOM() {
+  const clock = document.getElementById('clock');
+  if (!clock) return;
+  const elapsed = timerElapsed();
+  const isDay = Math.floor(elapsed / 300) % 2 === 0;
+  clock.textContent = fmtTime(elapsed);
+  clock.className = `clock ${isDay ? 'day' : 'night'}`;
+  const phase = document.getElementById('clockPhase');
+  if (phase) phase.textContent = `${isDay ? 'день' : 'ночь'} · цикл 5 минут`;
+  const up = document.getElementById('upcoming');
+  if (up) up.innerHTML = renderUpcomingHTML();
+}
 let timerLoop = null;
 function startTimerLoop() {
   if (timerLoop) return;
   timerLoop = setInterval(() => {
-    if (state.tab === 'timers') render();
+    if (state.tab === 'timers') updateTimerDOM();
   }, 1000);
 }
 
@@ -695,11 +733,19 @@ function loadDraft() {
   try {
     const raw = JSON.parse(localStorage.getItem('dp.draft') || 'null');
     if (!raw) return;
-    state.me = raw.me || null;
-    state.enemies = Array.isArray(raw.enemies) && raw.enemies.length === 5 ? raw.enemies : [null, null, null, null, null];
-    state.enemyMid = raw.enemyMid || null;
-    state.allies = Array.isArray(raw.allies) && raw.allies.length === 4 ? raw.allies : [null, null, null, null];
-    state.checks = raw.checks || {};
+    // Сохранённое состояние могло быть записано другой версией или испорчено —
+    // принимаем только известных героев и корректные массивы, иначе рендер упадёт.
+    const valid = (s) => (typeof s === 'string' && DATA.heroes[s] ? s : null);
+    const arr = (list, n) => {
+      const out = (Array.isArray(list) ? list : []).slice(0, n).map(valid);
+      while (out.length < n) out.push(null);
+      return out;
+    };
+    state.me = valid(raw.me);
+    state.enemies = arr(raw.enemies, 5);
+    state.enemyMid = valid(raw.enemyMid);
+    state.allies = arr(raw.allies, 4);
+    state.checks = raw.checks && typeof raw.checks === 'object' ? raw.checks : {};
   } catch { /* игнорируем */ }
 }
 
@@ -709,8 +755,8 @@ function planAsText() {
   const enemies = state.enemies.filter(Boolean);
   const enemyMid = state.enemyMid && state.enemies.includes(state.enemyMid) ? state.enemyMid : guessEnemyMid(enemies);
   const lines = ['=== План на игру (Dota 2, патч ' + DATA.meta.latestPatch + ') ==='];
-  if (state.me) lines.push(`Мой герой: ${DATA.heroes[state.me].localized_name}`);
-  if (enemies.length) lines.push(`Враги: ${enemies.map((s) => DATA.heroes[s].localized_name).join(', ')}`);
+  if (state.me) lines.push(`Мой герой: ${DATA.heroes[state.me]?.localized_name || state.me}`);
+  if (enemies.length) lines.push(`Враги: ${enemies.map((s) => DATA.heroes[s]?.localized_name || s).join(', ')}`);
   if (state.me && enemyMid) {
     const lane = laneReport(DATA.heroes[state.me], DATA.heroes[enemyMid], { tagsKb: DATA.tagsKb, rules: DATA.rules, plans: DATA.plans });
     lines.push(`\nМИД: ${lane.verdict.title} (${lane.score > 0 ? '+' : ''}${lane.score})`);
@@ -734,7 +780,7 @@ function planAsText() {
     }
     if (plan.skills.length) lines.push('\nСПОСОБНОСТИ: ' + plan.skills.map(([k]) => DATA.abilities[k]?.dname || k).join(' → '));
   }
-  lines.push('\nТАЙМИНГИ: вода 2:00/4:00 · руна силы 6:00 и каждые 2 мин · святилище 7:00 (200 опыта) · Торментор 20:00 (+10 мин) · баунти каждые 4 минуты');
+  if (DATA.timings.plan_summary) lines.push('\nТАЙМИНГИ: ' + DATA.timings.plan_summary);
   return lines.join('\n');
 }
 
@@ -756,11 +802,12 @@ function bindEvents() {
         state.enemies[Number(idx)] = null;
         if (state.enemyMid === removed) state.enemyMid = null;
       } else if (group === 'allies') state.allies[Number(idx)] = null;
+      saveDraft();
       render(); return;
     }
 
     const setMe = e.target.closest('[data-set-me]');
-    if (setMe) { state.me = setMe.dataset.setMe; state.tab = 'draft'; render(); return; }
+    if (setMe) { state.me = setMe.dataset.setMe; state.tab = 'draft'; saveDraft(); render(); return; }
 
     const heroBtn = e.target.closest('[data-hero]');
     if (heroBtn) { state.selectedHero = heroBtn.dataset.hero; render(); return; }
@@ -786,8 +833,8 @@ function bindEvents() {
     const action = e.target.closest('[data-action]');
     if (action) {
       const a = action.dataset.action;
-      if (a === 'reset') { state.me = null; state.enemies = [null, null, null, null, null]; state.enemyMid = null; state.allies = [null, null, null, null]; state.checks = {}; render(); }
-      if (a === 'clear-me') { state.me = null; render(); }
+      if (a === 'reset') { state.me = null; state.enemies = [null, null, null, null, null]; state.enemyMid = null; state.allies = [null, null, null, null]; state.checks = {}; saveDraft(); render(); }
+      if (a === 'clear-me') { state.me = null; saveDraft(); render(); }
       if (a === 'copy') {
         const text = planAsText();
         try { await navigator.clipboard.writeText(text); action.textContent = 'Скопировано ✓'; setTimeout(() => render(), 1200); }
@@ -807,7 +854,7 @@ function bindEvents() {
   });
 
   document.addEventListener('change', (e) => {
-    if (e.target.matches('[data-enemy-mid]')) { state.enemyMid = e.target.value; render(); }
+    if (e.target.matches('[data-enemy-mid]')) { state.enemyMid = e.target.value; saveDraft(); render(); }
     if (e.target.id === 'patchSelect') { state.patch = e.target.value; render(); }
     if (e.target.matches('[data-check]')) { state.checks[e.target.dataset.check] = e.target.checked; saveDraft(); }
   });

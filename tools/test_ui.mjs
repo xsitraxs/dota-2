@@ -21,6 +21,15 @@ const base = BASE.endsWith('/') ? BASE : BASE + '/';
 const get = async (p) => (await fetch(base + p)).text();
 const problems = [];
 
+// Ожидаемые количества берём из самих данных — тесты не должны падать от новых героев/предметов.
+const heroesCount = Object.keys(JSON.parse(await get('data/heroes.json'))).length;
+const itemsCount = Object.values(JSON.parse(await get('data/items.json'))).filter((i) => !i.recipe).length;
+let midCount = 0;
+for (const f of JSON.parse(await get('data/kb_index.json')).files) {
+  if (!f.startsWith('plans')) continue;
+  midCount += Object.values(JSON.parse(await get('data/kb/' + f))).filter((p) => p && p.mid).length;
+}
+
 let html = await get('index.html');
 const analysis = (await get('assets/analysis.js')).replace(/^export\s+/gm, '');
 const app = (await get('assets/app.js')).replace(/^import\s*\{[\s\S]*?\}\s*from\s*'\.\/analysis\.js';/m, '');
@@ -63,7 +72,7 @@ check(/Как пользоваться/.test($('#view')?.textContent || ''), 'с
 console.log('\n2. Драфт: QoP против Huskar/Riki/Tidehunter/Oracle');
 click($('[data-pick="me:0"]')); await t(150);
 check($('#pickerGrid') !== null, 'пикер открылся');
-check($$('#pickerGrid .pick').length === 36, `мидовых в пикере: ${$$('#pickerGrid .pick').length}`);
+check($$('#pickerGrid .pick').length === midCount, `мидовых в пикере: ${$$('#pickerGrid .pick').length} (в данных: ${midCount})`);
 type($('#pickerSearch'), 'queen'); await t(150);
 check($$('#pickerGrid .pick').length === 1, 'поиск сузил список до 1');
 click($('[data-choose="queenofpain"]')); await t(250);
@@ -77,6 +86,10 @@ for (let i = 0; i < enemies.length; i++) {
   click($(`[data-choose="${enemies[i]}"]`)); await t(200);
 }
 check(/Huskar/.test($('#view').textContent) && /Riki/.test($('#view').textContent), 'враги в слотах');
+click($('[data-pick="enemies:4"]')); await t(120);
+type($('#pickerSearch'), 'huskar'); await t(120);
+check($$('#pickerGrid .pick').length === 0, 'занятый герой не предлагается в другом слоте');
+click($('[data-close]')); await t(60);
 const sel = $('[data-enemy-mid]');
 check(sel?.value === 'huskar', `их мид: ${sel?.value}`);
 check(/Тяжёлый лейн/.test($('.verdict')?.textContent || ''), `вердикт: ${$('.verdict')?.textContent?.trim().slice(0, 60)}`);
@@ -88,18 +101,20 @@ check($$('[data-set-me]').length >= 2, `рекомендаций пиков: ${$
 check($$('input[data-check]').length >= 4, `пунктов чеклиста: ${$$('input[data-check]').length}`);
 
 console.log('\n3. Интерактив');
-click($('input[data-check]')); await t(150);
-check(JSON.parse(window.localStorage.getItem('dp.draft') || '{}').checks?.[0] === true, 'галочка сохраняется в localStorage');
+const firstCheck = $('input[data-check]');
+click(firstCheck); await t(150);
+const savedChecks = JSON.parse(window.localStorage.getItem('dp.draft') || '{}').checks || {};
+check(savedChecks[firstCheck.dataset.check] === true, 'галочка сохраняется в localStorage');
 const draftText = $('#view').textContent;
 click($('[data-tab="heroes"]')); await t(300);
-check($$('.pick[data-hero]').length === 127, `героев в справочнике: ${$$('.pick[data-hero]').length}`);
+check($$('.pick[data-hero]').length === heroesCount, `героев в справочнике: ${$$('.pick[data-hero]').length}`);
 type($('#heroSearch'), 'invoker'); await t(250);
 check($$('.pick[data-hero]').length === 1, 'поиск героя работает');
 click($('.pick[data-hero]')); await t(400);
 check($$('.ability').length >= 13 && /Cold Snap/.test($('#view').textContent), `карточка Invoker: способностей ${$$('.ability').length}, есть вызываемые заклинания`);
 click($('[data-tab="items"]')); await t(400);
 const allItems = $$('.item-card').length;
-check(allItems > 100, `предметов в списке: ${allItems}`);
+check(allItems === itemsCount, `предметов в списке: ${allItems} (без рецептов в данных: ${itemsCount})`);
 type($('#itemSearch'), 'blink'); await t(250);
 check($$('.item-card').length >= 1 && $$('.item-card').length <= 4, `поиск «blink» → ${$$('.item-card').length} (Blink/Swift/Overwhelming)`);
 click($('[data-tab="patch"]')); await t(400);

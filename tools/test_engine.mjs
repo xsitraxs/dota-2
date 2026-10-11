@@ -18,7 +18,7 @@ const DATA = path.join(ROOT, 'data');
 const J = (p) => JSON.parse(fs.readFileSync(path.join(DATA, p), 'utf8'));
 
 const {
-  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist,
+  laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, heroDamage,
 } = await import(path.join(ROOT, 'assets', 'analysis.js'));
 
 const heroes = J('heroes.json');
@@ -41,9 +41,24 @@ const ok = (cond, label, extra = '') => {
 };
 
 console.log(`\nДанные: патч ${meta.latestPatch} (${String(meta.latestPatchDate).slice(0, 10)}), константы ${meta.constantsVersion}`);
-ok(Object.keys(heroes).length === 127, 'в базе 127 героев', String(Object.keys(heroes).length));
+// Количество героев растёт с патчами — требуем «не меньше базы 7.41» и согласованность meta.json,
+// чтобы тесты не падали при выходе нового героя.
+ok(Object.keys(heroes).length >= 127, 'в базе все герои 7.41 (или новее)', String(Object.keys(heroes).length));
+ok(Object.keys(heroes).length === meta.heroes, 'meta.json согласована с heroes.json');
 ok(Object.keys(items).length > 400, 'предметы 7.41 собраны', String(Object.keys(items).length));
-ok(Object.keys(plans).length >= 36, 'мидовых планов в базе', String(Object.keys(plans).length));
+const planHeroes = Object.keys(plans).filter((k) => !k.startsWith('_'));
+ok(planHeroes.length >= 36, 'мидовых планов в базе', String(planHeroes.length));
+
+// 0. формулы статов: урон универсала = база + 0.7 за каждый пункт любого из трёх атрибутов
+{
+  const bane = heroes['bane'];
+  const expected = ((bane.stats.base_attack_min + bane.stats.base_attack_max) / 2)
+    + 0.7 * (bane.stats.base_str + bane.stats.base_agi + bane.stats.base_int);
+  ok(Math.abs(heroDamage(bane) - expected) < 0.01, 'урон универсала = база + 0.7×сумма атрибутов', `bane=${heroDamage(bane).toFixed(1)} (ожидалось ${expected.toFixed(1)})`);
+  const qop = heroes['queenofpain'];
+  const qopExpected = ((qop.stats.base_attack_min + qop.stats.base_attack_max) / 2) + qop.stats.base_int;
+  ok(Math.abs(heroDamage(qop) - qopExpected) < 0.01, 'урон интового героя = база + интеллект', `qop=${heroDamage(qop).toFixed(1)}`);
+}
 
 // 1. целостность планов
 let badAbility = 0;
