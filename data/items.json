@@ -67,6 +67,7 @@
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "25"
    },
    {
@@ -131,6 +132,7 @@
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "25"
    },
    {
@@ -183,6 +185,7 @@
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "25"
    },
    {
@@ -255,6 +258,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "9"
    }
   ],
@@ -274,6 +278,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "15"
    }
   ],
@@ -293,6 +298,7 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "4"
    }
   ],
@@ -314,6 +320,7 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "7"
    }
   ],
@@ -337,6 +344,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "20"
    }
   ],
@@ -356,10 +364,12 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "4"
    },
    {
     "key": "bonus_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "4"
    }
   ],
@@ -408,6 +418,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "24"
    }
   ],
@@ -427,6 +438,7 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "10"
    }
   ],
@@ -446,10 +458,12 @@
   "attrib": [
    {
     "key": "bonus_speed",
+    "display": "+ {value} Attack Speed",
     "value": "10"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "10"
    }
   ],
@@ -516,6 +530,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "2"
    },
    {
@@ -545,6 +560,7 @@
   "attrib": [
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "0.6"
    },
    {
@@ -571,6 +587,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Bonuses from multiple Wind Laces do not stack."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -578,6 +597,7 @@
   "attrib": [
    {
     "key": "movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "15"
    }
   ],
@@ -597,6 +617,7 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "2"
    }
   ],
@@ -666,10 +687,12 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "140"
    },
    {
     "key": "bonus_night_vision",
+    "display": "+ {value} Bonus Night Vision",
     "value": "400"
    },
    {
@@ -697,6 +720,7 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "3"
    }
   ],
@@ -716,6 +740,7 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "3"
    }
   ],
@@ -735,6 +760,7 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "3"
    }
   ],
@@ -760,6 +786,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "1"
    },
    {
@@ -783,6 +810,7 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "6"
    }
   ],
@@ -802,6 +830,7 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "6"
    }
   ],
@@ -821,6 +850,7 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "6"
    }
   ],
@@ -840,6 +870,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "2"
    }
   ],
@@ -859,6 +890,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "4"
    }
   ],
@@ -878,6 +910,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6"
    }
   ],
@@ -897,6 +930,7 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "10"
    }
   ],
@@ -916,6 +950,7 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "10"
    }
   ],
@@ -935,6 +970,7 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    }
   ],
@@ -954,6 +990,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "15"
    }
   ],
@@ -973,6 +1010,7 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "20"
    }
   ],
@@ -992,6 +1030,7 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "35"
    }
   ],
@@ -1017,6 +1056,7 @@
   "attrib": [
    {
     "key": "lifesteal_percent",
+    "display": "+ {value}% Lifesteal",
     "value": "18"
    }
   ],
@@ -1042,6 +1082,7 @@
   "attrib": [
    {
     "key": "spell_lifesteal",
+    "display": "+ {value}% Spell Lifesteal",
     "value": "15"
    }
   ],
@@ -1063,6 +1104,7 @@
   "attrib": [
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "1.25"
    }
   ],
@@ -1082,6 +1124,7 @@
   "attrib": [
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "0.7"
    }
   ],
@@ -1094,6 +1137,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -1101,6 +1147,7 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "45"
    }
   ],
@@ -1175,6 +1222,7 @@
    },
    {
     "key": "tooltip_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "10"
    }
   ],
@@ -1202,6 +1250,7 @@
    },
    {
     "key": "tooltip_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "18"
    }
   ],
@@ -1209,7 +1258,7 @@
    "Cost increased from 800g to 900g",
    "Magic Resistance bonus decreased from +20% to +18%",
    "Returning as a Tier 3 Neutral Artifact",
-   "Passive: Immolate. Burns enemy units in a 375 unit radius for 40 damage per second. Illusions deal 25 damage per second ",
+   "Passive: Immolate. Burns enemy units in a 375 unit radius for 40 damage per second. Illusions deal 25 damage per second",
    "Dormant Curio increases damage from 40 to 52 and illusion damage from 25 to 32.5"
   ]
  },
@@ -1227,6 +1276,7 @@
   "attrib": [
    {
     "key": "bonus_evasion",
+    "display": "+ {value}% Evasion",
     "value": "15"
    }
   ],
@@ -1350,6 +1400,7 @@
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "3"
    },
    {
@@ -1382,6 +1433,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "5"
    },
    {
@@ -1450,6 +1502,7 @@
   "attrib": [
    {
     "key": "hp_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "0.4"
    },
    {
@@ -1585,6 +1638,7 @@
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "50"
    },
    {
@@ -1913,18 +1967,22 @@
    },
    {
     "key": "observer_vision_range_tooltip",
+    "display": "OBSERVER VISION RANGE: {value}",
     "value": "1600"
    },
    {
     "key": "observer_duration_minutes_tooltip",
+    "display": "OBSERVER DURATION (MINUTES): {value}",
     "value": "6"
    },
    {
     "key": "sentry_duration_minutes_tooltip",
+    "display": "SENTRY DURATION (MINUTES): {value}",
     "value": "8"
    },
    {
     "key": "true_sight_range",
+    "display": "SENTRY TRUE SIGHT RANGE: {value}",
     "value": "1050"
    },
    {
@@ -2090,6 +2148,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": false,
   "components": [
@@ -2105,6 +2166,7 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "90"
    },
    {
@@ -2117,6 +2179,7 @@
    },
    {
     "key": "tp_cooldown",
+    "display": "TOWN PORTAL SCROLL COOLDOWN: {value}",
     "value": "40"
    }
   ],
@@ -2129,6 +2192,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": false,
   "components": [
@@ -2145,6 +2211,7 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "110"
    },
    {
@@ -2157,10 +2224,12 @@
    },
    {
     "key": "tp_cooldown",
+    "display": "TOWN PORTAL SCROLL COOLDOWN: {value}",
     "value": "40"
    },
    {
     "key": "tp_channel_time",
+    "display": "TOWN PORTAL SCROLL CHANNEL TIME: {value}",
     "value": "2"
    }
   ],
@@ -2176,6 +2245,9 @@
    "No Target"
   ],
   "notes": "",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": 8,
   "components": [
@@ -2193,14 +2265,17 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "50"
    },
    {
     "key": "bonus_damage_melee",
+    "display": "+ {value} Damage (MELEE)",
     "value": "18"
    },
    {
     "key": "bonus_damage_range",
+    "display": "+ {value} Damage (RANGED)",
     "value": "12"
    },
    {
@@ -2217,6 +2292,7 @@
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "4"
    }
   ],
@@ -2238,6 +2314,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "40"
    }
   ],
@@ -2257,6 +2334,7 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "25"
    }
   ],
@@ -2276,6 +2354,7 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "25"
    }
   ],
@@ -2295,6 +2374,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "55"
    }
   ],
@@ -2314,6 +2394,7 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "60"
    }
   ],
@@ -2333,6 +2414,7 @@
   "attrib": [
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "4.5"
    }
   ],
@@ -2354,6 +2436,7 @@
   "attrib": [
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "12"
    }
   ],
@@ -2373,6 +2456,7 @@
   "attrib": [
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.75"
    }
   ],
@@ -2394,6 +2478,7 @@
   "attrib": [
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "6"
    }
   ],
@@ -2413,6 +2498,7 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "25"
    }
   ],
@@ -2432,6 +2518,7 @@
   "attrib": [
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "250"
    }
   ],
@@ -2451,10 +2538,12 @@
   "attrib": [
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "175"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "175"
    }
   ],
@@ -2474,6 +2563,7 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "250"
    }
   ],
@@ -2493,6 +2583,7 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "125"
    }
   ],
@@ -2512,6 +2603,7 @@
   "attrib": [
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "125"
    }
   ],
@@ -2531,6 +2623,9 @@
    "No Target"
   ],
   "notes": "Power Treads can be built using a Belt of Strength, Band of Elvenskin, or a Robe of the Magi.",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": false,
   "components": [
@@ -2548,18 +2643,22 @@
   "attrib": [
    {
     "key": "bonus_movement_speed_ranged",
+    "display": "+ {value} Move Speed (Ranged Heroes)",
     "value": "45"
    },
    {
     "key": "bonus_movement_speed_melee",
+    "display": "+ {value} Move Speed (Melee Heroes)",
     "value": "55"
    },
    {
     "key": "bonus_stat",
+    "display": "+ {value} Selected Attribute",
     "value": "10"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "25"
    }
   ],
@@ -2603,14 +2702,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "5.5"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.25"
    },
    {
@@ -2653,22 +2755,27 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "450"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "450"
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "8"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "7"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "3"
    },
    {
@@ -2723,6 +2830,7 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "40"
    },
    {
@@ -2754,14 +2862,17 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "35"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.25"
    }
   ],
@@ -2808,18 +2919,22 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "40"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "12"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.5"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "5"
    },
    {
@@ -2836,6 +2951,7 @@
    },
    {
     "key": "projectile_speed",
+    "display": "+ {value} Projectile Speed",
     "value": "300"
    }
   ],
@@ -2860,10 +2976,12 @@
   "attrib": [
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "5.5"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.25"
    }
   ],
@@ -2885,14 +3003,17 @@
   "attrib": [
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "5"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "7"
    }
   ],
@@ -2969,22 +3090,27 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "5"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "2"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "2"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "0.75"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "50"
    }
   ],
@@ -3022,22 +3148,27 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "5"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "2"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "2"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "6"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "1.75"
    }
   ],
@@ -3075,22 +3206,27 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "5"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "2"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "2"
    },
    {
     "key": "bonus_max_mana_percentage",
+    "display": "+ {value}% Max Mana",
     "value": "3"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.0"
    }
   ],
@@ -3142,6 +3278,7 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "5"
    },
    {
@@ -3190,10 +3327,12 @@
   "attrib": [
    {
     "key": "armor",
+    "display": "+ {value} Armor",
     "value": "1"
    },
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "0.75"
    },
    {
@@ -3333,6 +3472,7 @@
   "attrib": [
    {
     "key": "armor",
+    "display": "+ {value} Armor",
     "value": "1"
    },
    {
@@ -3383,6 +3523,7 @@
   "attrib": [
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "0.25"
    },
    {
@@ -3454,6 +3595,7 @@
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "7"
    },
    {
@@ -3478,6 +3620,7 @@
    },
    {
     "key": "use_cooldown",
+    "display": "COOLDOWN: {value}",
     "value": "13"
    }
   ],
@@ -3534,10 +3677,12 @@
   "attrib": [
    {
     "key": "health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "14"
    },
    {
     "key": "magic_resistance",
+    "display": "+ {value}% Magic Resistance",
     "value": "20"
    },
    {
@@ -3617,14 +3762,17 @@
   "attrib": [
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.0"
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "2"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "2"
    },
    {
@@ -3694,6 +3842,7 @@
   "attrib": [
    {
     "key": "health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "0.5"
    },
    {
@@ -3745,10 +3894,12 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "30"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "8.5"
    },
    {
@@ -3804,18 +3955,22 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "35"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "20"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.5"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "12"
    },
    {
@@ -3881,14 +4036,17 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "25"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "70"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "4"
    },
    {
@@ -3901,6 +4059,7 @@
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "20"
    },
    {
@@ -3956,14 +4115,17 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "20"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "15"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.75"
    },
    {
@@ -4016,14 +4178,17 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.5"
    },
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "20"
    },
    {
@@ -4075,14 +4240,17 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "30"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "3.0"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "35"
    },
    {
@@ -4132,14 +4300,17 @@
   "attrib": [
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "300"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.5"
    },
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "225"
    }
   ],
@@ -4183,10 +4354,12 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "175"
    },
    {
@@ -4242,22 +4415,27 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "15"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "20"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "15"
    },
    {
     "key": "base_attack_range",
+    "display": "+ {value} Attack Range (Ranged Only)",
     "value": "130"
    },
    {
@@ -4328,14 +4506,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6 / 7 / 8 / 9 / 10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200 / 210 / 220 / 230 / 240"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "350 / 375 / 400 / 425 / 450"
    },
    {
@@ -4348,6 +4529,7 @@
    },
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "60 / 90 / 120 / 150 / 180"
    }
   ],
@@ -4387,14 +4569,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6 / 7 / 8 / 9 / 10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200 / 210 / 220 / 230 / 240"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "350 / 375 / 400 / 425 / 450"
    },
    {
@@ -4407,6 +4592,7 @@
    },
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "60 / 90 / 120 / 150 / 180"
    }
   ],
@@ -4432,14 +4618,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6 / 7 / 8 / 9 / 10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200 / 210 / 220 / 230 / 240"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "350 / 375 / 400 / 425 / 450"
    },
    {
@@ -4452,6 +4641,7 @@
    },
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "60 / 90 / 120 / 150 / 180"
    }
   ],
@@ -4477,14 +4667,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6 / 7 / 8 / 9 / 10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200 / 210 / 220 / 230 / 240"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "350 / 375 / 400 / 425 / 450"
    },
    {
@@ -4497,6 +4690,7 @@
    },
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "60 / 90 / 120 / 150 / 180"
    }
   ],
@@ -4522,14 +4716,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6 / 7 / 8 / 9 / 10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200 / 210 / 220 / 230 / 240"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "350 / 375 / 400 / 425 / 450"
    },
    {
@@ -4542,6 +4739,7 @@
    },
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "60 / 90 / 120 / 150 / 180"
    }
   ],
@@ -4589,10 +4787,12 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "6 / 12 / 18"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2 / 3 / 4"
    },
    {
@@ -4656,10 +4856,12 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "6 / 12 / 18"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2 / 3 / 4"
    },
    {
@@ -4723,10 +4925,12 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "6 / 12 / 18"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2 / 3 / 4"
    },
    {
@@ -4789,14 +4993,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "175"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "175"
    }
   ],
@@ -4962,10 +5169,12 @@
   "attrib": [
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "14"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "7.0"
    },
    {
@@ -4981,7 +5190,7 @@
    "Reset Cooldowns no longer refreshes items",
    "Health Regen bonus increased from +12 to +14",
    "Mana Regen bonus increased from +6 to +7",
-   "Reset Cooldowns cooldown decreased from 180/190/200/210s to 180s ",
+   "Reset Cooldowns cooldown decreased from 180/190/200/210s to 180s",
    "No longer scales with uses",
    "Reset Cooldowns mana cost decreased from 400 to 325",
    "Reset Cooldowns no longer refreshes items",
@@ -5027,10 +5236,12 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "30"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "10"
    },
    {
@@ -5090,10 +5301,12 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "40"
    },
    {
     "key": "hp_regen",
+    "display": "+ {value}% Max Health Regen",
     "value": "1"
    },
    {
@@ -5147,10 +5360,12 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "10"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "24"
    },
    {
@@ -5259,10 +5474,12 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "17"
    },
    {
     "key": "bonus_aoe",
+    "display": "+ {value} Area of Effect",
     "value": "75"
    },
    {
@@ -5304,7 +5521,7 @@
    "Now also provides +75 Area of Effect",
    "Area of Effect bonuses from multiple Chasm Stones or its upgrades do not stack",
    "Arctic Blast damage increased from 200 to 260",
-   "Arctic Blast radius decreased from 900 to 825 ",
+   "Arctic Blast radius decreased from 900 to 825",
    "Effective spell radius unchanged due to item's built-in Area of Effect bonus",
    "Arctic Blast no longer increases damage taken from spells",
    "Freezing Aura no longer reduces Health Restoration and Incoming Heal Amplification by 25%",
@@ -5345,18 +5562,22 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "625"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "450"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "15"
    },
    {
     "key": "spell_lifesteal",
+    "display": "+ {value}% Spell Lifesteal",
     "value": "20"
    },
    {
@@ -5385,7 +5606,7 @@
    "Health bonus increased from +450 to +650",
    "Now also provides +15 Intelligence",
    "Bloodpact no longer applies a basic dispel",
-   "Bloodpact no longer multiplies spell lifesteal bonus by 3. Now increases spell lifesteal to 60% instead ",
+   "Bloodpact no longer multiplies spell lifesteal bonus by 3. Now increases spell lifesteal to 60% instead",
    "Spell Lifesteal during Bloodpact decreased from 75% to 60%",
    "Bloodpact no longer has a 30s self debuff preventing repeated usage of Bloodpact",
    "Now also provides passive Spell Weakness Aura",
@@ -5440,14 +5661,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "16"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "6.5"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "4.25"
    },
    {
@@ -5504,18 +5728,22 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "10"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "6.5"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "4.0"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "250"
    },
    {
@@ -5569,22 +5797,27 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "6"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "6"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "24"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "10"
    },
    {
     "key": "mana_regen_multiplier",
+    "display": "+ {value}% Mana Regen Amplification",
     "value": "25"
    },
    {
@@ -5636,10 +5869,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "75"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "10"
    },
    {
@@ -5652,6 +5887,7 @@
    },
    {
     "key": "slow_pct",
+    "display": "MOVEMENT SLOW: {value}%",
     "value": "10"
    },
    {
@@ -5704,10 +5940,12 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "250"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "300"
    },
    {
@@ -5728,6 +5966,7 @@
    },
    {
     "key": "cooldown_duration",
+    "display": "COOLDOWN: {value}",
     "value": "105.0 / 125.0 / 145.0 / 165.0"
    },
    {
@@ -5769,21 +6008,24 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "16"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "10"
    },
    {
     "key": "mana_regen_multiplier",
+    "display": "+ {value}% Mana Regen Amplification",
     "value": "20"
    }
   ],
   "patchNotes": [
    "Mana Regen Amplification bonus decreased from +40% to +30%",
    "Mana Regen Amplification bonus decreased from +50% to +40%",
-   "Now also modifies incoming healing ",
+   "Now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Health Restoration bonus decreased from 20% to 16%",
    "Mana Regen Amplification decreased from 30% to 20%",
@@ -5797,6 +6039,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Combines Sange, Yasha and Kaya together."
+  ],
   "mc": false,
   "cd": false,
   "components": [
@@ -5809,42 +6054,52 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "30"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "30"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "30"
    },
    {
     "key": "status_resistance",
+    "display": "+ {value}% Status Resistance",
     "value": "30"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "30"
    },
    {
     "key": "movement_speed_percent_bonus",
+    "display": "+ {value}% Movement Speed",
     "value": "10"
    },
    {
     "key": "hp_regen_amp",
+    "display": "+ {value}% Health Regen and Lifesteal Amp",
     "value": "30"
    },
    {
     "key": "mana_regen_multiplier",
+    "display": "+ {value}% Mana Regen Amplification",
     "value": "30"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "30"
    },
    {
     "key": "magic_damage_attack",
+    "display": "+ {value} Magic Damage Attack",
     "value": "30"
    }
   ],
@@ -5911,14 +6166,17 @@
   "attrib": [
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.75"
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "10"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "2"
    },
    {
@@ -5951,7 +6209,7 @@
    }
   ],
   "patchNotes": [
-   "Soul Release no longer has a separate value for incoming heal reduction ",
+   "Soul Release no longer has a separate value for incoming heal reduction",
    "Still reduces incoming heals due to Health Restoration changes",
    "When in Stash, no longer grants charges from nearby hero deaths"
   ]
@@ -5999,18 +6257,22 @@
   "attrib": [
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.5"
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "3"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "6"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "150"
    },
    {
@@ -6073,10 +6335,12 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "250"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "4.5"
    },
    {
@@ -6140,14 +6404,17 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "250"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "12"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "6"
    },
    {
@@ -6231,10 +6498,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "15"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "7"
    },
    {
@@ -6279,10 +6548,12 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "425"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "425"
    }
   ],
@@ -6315,10 +6586,12 @@
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "8.5"
    },
    {
     "key": "tooltip_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "18"
    },
    {
@@ -6376,14 +6649,17 @@
   "attrib": [
    {
     "key": "bonus_spell_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "20"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "10"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "250"
    },
    {
@@ -6450,14 +6726,17 @@
   "attrib": [
    {
     "key": "bonus_spell_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "12"
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "5"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "250"
    },
    {
@@ -6543,14 +6822,17 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "6"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "450"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "450"
    },
    {
@@ -6630,6 +6912,7 @@
    },
    {
     "key": "bonus_damage_base",
+    "display": "+ {value} Damage",
     "value": "100"
    }
   ],
@@ -6676,10 +6959,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "50"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "50"
    },
    {
@@ -6692,6 +6977,7 @@
    },
    {
     "key": "melee_attack_range",
+    "display": "+ {value} Attack Range (Melee Only)",
     "value": "50"
    }
   ],
@@ -6725,6 +7011,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "55"
    },
    {
@@ -6741,6 +7028,7 @@
    },
    {
     "key": "evasion",
+    "display": "+ {value}% Evasion",
     "value": "25"
    },
    {
@@ -6774,18 +7062,22 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "30"
    },
    {
     "key": "bonus_evasion",
+    "display": "+ {value}% Evasion",
     "value": "35"
    },
    {
     "key": "bonus_attack_speed_pct",
+    "display": "+ {value}% Base Attack Speed Percentage",
     "value": "20"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "30"
    }
   ],
@@ -6832,6 +7124,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "88"
    },
    {
@@ -6885,10 +7178,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "30"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "10"
    },
    {
@@ -6964,14 +7259,17 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "50"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "7.5"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.75"
    },
    {
@@ -7048,22 +7346,27 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "10"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "26"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "15"
    },
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value}% Movement Speed",
     "value": "10"
    },
    {
@@ -7129,6 +7432,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "32"
    },
    {
@@ -7178,14 +7482,17 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "15"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "10"
    },
    {
     "key": "base_attack_range",
+    "display": "+ {value} Attack Range (Ranged Only)",
     "value": "130"
    }
   ],
@@ -7233,18 +7540,22 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "15"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "25"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "6"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "5"
    },
    {
@@ -7297,10 +7608,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "25"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "35"
    },
    {
@@ -7363,10 +7676,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "70"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "35"
    },
    {
@@ -7422,18 +7737,22 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "16"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "16"
    },
    {
     "key": "status_resistance",
+    "display": "+ {value}% Status Resistance",
     "value": "16"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "20"
    },
    {
@@ -7442,14 +7761,17 @@
    },
    {
     "key": "movement_speed_percent_bonus",
+    "display": "+ {value}% Movement Speed",
     "value": "12"
    },
    {
     "key": "hp_regen_amp",
+    "display": "+ {value}% Health Restoration",
     "value": "16"
    },
    {
     "key": "slow_resistance",
+    "display": "+ {value}% Slow Resistance",
     "value": "30"
    }
   ],
@@ -7472,30 +7794,37 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "16"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "16"
    },
    {
     "key": "slow_resistance",
+    "display": "+ {value}% Slow Resistance",
     "value": "25"
    },
    {
     "key": "mana_regen_multiplier",
+    "display": "+ {value}% Mana Regen Amplification",
     "value": "30"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "12"
    },
    {
     "key": "hp_regen_amp",
+    "display": "+ {value}% Health Restoration",
     "value": "16"
    },
    {
     "key": "manacost_reduction",
+    "display": "+ {value}% Mana Cost/Mana Loss Reduction",
     "value": "25"
    }
   ],
@@ -7518,18 +7847,22 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "16"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "16"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "20"
    },
    {
     "key": "mana_regen_multiplier",
+    "display": "+ {value}% Mana Regen Amplification",
     "value": "30"
    },
    {
@@ -7538,14 +7871,17 @@
    },
    {
     "key": "movement_speed_percent_bonus",
+    "display": "+ {value}% Movement Speed",
     "value": "12"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "12"
    },
    {
     "key": "cast_speed_pct",
+    "display": "+ {value}% Cast Speed Bonus",
     "value": "25"
    }
   ],
@@ -7583,14 +7919,17 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "25"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "25"
    },
    {
     "key": "lifesteal_percent",
+    "display": "+ {value}% Lifesteal",
     "value": "25"
    },
    {
@@ -7655,10 +7994,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "25"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "90"
    },
    {
@@ -7722,6 +8063,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "35"
    },
    {
@@ -7750,7 +8092,7 @@
    }
   ],
   "patchNotes": [
-   "Cold Attack no longer has a separate value for incoming heal reduction ",
+   "Cold Attack no longer has a separate value for incoming heal reduction",
    "Still reduces incoming heals due to Health Restoration changes",
    "Cold Attack health restoration reduction increased from 40% to 50%",
    "Cold Attack attack speed slow increased from 20% to 25%"
@@ -7788,24 +8130,27 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "16"
    },
    {
     "key": "slow_resistance",
+    "display": "+ {value}% Slow Resistance",
     "value": "25"
    },
    {
     "key": "hp_regen_amp",
+    "display": "+ {value}% Health Restoration",
     "value": "12"
    }
   ],
   "patchNotes": [
    "Slow Resistance bonus increased from +20% to +25%",
-   "Now also modifies incoming healing ",
+   "Now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Status Resistance bonus increased from +15% to +16%",
    "Slow Resistance bonus increased from +25% to +30%",
-   "Now also modifies incoming healing ",
+   "Now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Health Restoration bonus decreased from 16% to 12%",
    "Health Restoration bonus decreased from 20% to 16%"
@@ -7849,14 +8194,17 @@
   "attrib": [
    {
     "key": "bonus_stats",
+    "display": "+ {value} All Attributes",
     "value": "6"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "6"
    },
    {
     "key": "bonus_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "6"
    },
    {
@@ -7928,14 +8276,17 @@
   "attrib": [
    {
     "key": "bonus_stats",
+    "display": "+ {value} All Attributes",
     "value": "21"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "7"
    },
    {
     "key": "bonus_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "7"
    },
    {
@@ -7996,10 +8347,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "25"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "25"
    },
    {
@@ -8075,18 +8428,22 @@
   "attrib": [
    {
     "key": "bonus_hp",
+    "display": "+ {value} Health",
     "value": "450"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "200"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "12"
    },
    {
     "key": "bonus_aoe",
+    "display": "+ {value} Area of Effect",
     "value": "75"
    },
    {
@@ -8141,6 +8498,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "55"
    },
    {
@@ -8198,14 +8556,17 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "16"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "15"
    },
    {
     "key": "movement_speed_percent_bonus",
+    "display": "+ {value}% Movement Speed",
     "value": "10"
    }
   ],
@@ -8245,10 +8606,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "20"
    },
    {
     "key": "lifesteal_percent",
+    "display": "+ {value}% Lifesteal",
     "value": "22"
    },
    {
@@ -8333,10 +8696,12 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "15"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
@@ -8408,10 +8773,12 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "40"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
@@ -8489,6 +8856,7 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} All Attributes",
     "value": "24"
    },
    {
@@ -8574,10 +8942,12 @@
   "attrib": [
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "6"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "2"
    },
    {
@@ -8618,6 +8988,9 @@
    "No Target"
   ],
   "notes": "Does not work on Meepo clones.",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": 55,
   "components": [
@@ -8640,14 +9013,17 @@
   "attrib": [
    {
     "key": "bonus_movement",
+    "display": "+ {value} Movement Speed",
     "value": "45"
    },
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "0.25"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "125"
    },
    {
@@ -8707,18 +9083,22 @@
   "attrib": [
    {
     "key": "bonus_cooldown",
+    "display": "+ {value}% Cooldown Reduction",
     "value": "25"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "450"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "450"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "6"
    }
   ],
@@ -8834,11 +9214,12 @@
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "7"
    }
   ],
   "patchNotes": [
-   "Now also modifies incoming healing ",
+   "Now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Corrosion health restoration reduction increased from 16% to 18%"
   ]
@@ -8879,7 +9260,7 @@
    }
   ],
   "patchNotes": [
-   "Now also modifies incoming healing ",
+   "Now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Frost no longer applies when attacking allies",
    "Frost health restoration reduction increased from 13% to 15%"
@@ -8918,14 +9299,17 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.8"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "14"
    }
   ],
@@ -8956,6 +9340,7 @@
   "attrib": [
    {
     "key": "bonus_magical_armor",
+    "display": "+ {value}% Magic Resistance",
     "value": "18"
    },
    {
@@ -8964,14 +9349,17 @@
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "5.5"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.5"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "12"
    },
    {
@@ -9055,6 +9443,7 @@
    },
    {
     "key": "bonus_str",
+    "display": "+ {value} Strength",
     "value": "8"
    },
    {
@@ -9098,6 +9487,9 @@
    "No Target"
   ],
   "notes": "",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": 30,
   "components": [
@@ -9128,6 +9520,7 @@
    },
    {
     "key": "bonus_str",
+    "display": "+ {value} Strength",
     "value": "8"
    },
    {
@@ -9148,10 +9541,12 @@
    },
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "65"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "18"
    },
    {
@@ -9198,7 +9593,7 @@
   ],
   "patchNotes": [
    "Returning as a Tier 2 Neutral Artifact",
-   "Active: Valor. If cast on an ally, increases their armor by 7 for 8s. If cast on an enemy, decreases their armor by 4 for 8s. Cannot be cast on self. Cast Range: 1000. Mana Cost: 30. Cooldown: 18s ",
+   "Active: Valor. If cast on an ally, increases their armor by 7 for 8s. If cast on an enemy, decreases their armor by 4 for 8s. Cannot be cast on self. Cast Range: 1000. Mana Cost: 30. Cooldown: 18s",
    "Dormant Curio increases duration from 8s to 10.4s"
   ]
  },
@@ -9244,18 +9639,22 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "7"
    },
    {
     "key": "self_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "25"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "200"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "200"
    },
    {
@@ -9331,14 +9730,17 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "3"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "175"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "175"
    },
    {
@@ -9480,14 +9882,17 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "175"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
     "key": "spell_lifesteal",
+    "display": "+ {value}% Spell Lifesteal",
     "value": "18"
    },
    {
@@ -9551,10 +9956,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "35"
    },
    {
     "key": "spell_lifesteal",
+    "display": "+ {value}% Spell Lifesteal",
     "value": "15"
    },
    {
@@ -9613,22 +10020,27 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "40"
    },
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "40"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "7"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.5"
    },
    {
     "key": "projectile_speed",
+    "display": "+ {value} Projectile Speed",
     "value": "300"
    },
    {
@@ -9679,6 +10091,9 @@
    "No Target"
   ],
   "notes": "Mend does not affect units that have been affected by Mend or Mekansm Restore within Guardian Greaves' cooldown.",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": 45,
   "components": [
@@ -9700,18 +10115,22 @@
   "attrib": [
    {
     "key": "bonus_movement",
+    "display": "+ {value} Movement Speed",
     "value": "50"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "5"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "150"
    },
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.0"
    },
    {
@@ -9783,10 +10202,12 @@
   "attrib": [
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "12"
    },
    {
     "key": "bonus_hp",
+    "display": "+ {value} Health",
     "value": "275"
    },
    {
@@ -9894,18 +10315,22 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "35"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "30"
    },
    {
     "key": "slow_resistance",
+    "display": "+ {value}% Slow Resistance",
     "value": "30"
    },
    {
     "key": "hp_regen_amp",
+    "display": "+ {value}% Health Restoration",
     "value": "16"
    },
    {
@@ -9935,7 +10360,7 @@
   ],
   "patchNotes": [
    "Slow Resistance bonus increased from +25% to +30%",
-   "Now also modifies incoming healing ",
+   "Now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Health Restoration bonus decreased from 20% to 16%",
    "Strength bonus increased from +26 to +30"
@@ -9980,14 +10405,17 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "9"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "6.5"
    },
    {
     "key": "bonus_evasion",
+    "display": "+ {value}% Evasion",
     "value": "25"
    },
    {
@@ -10043,18 +10471,22 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "3"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "3"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "9"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "3"
    },
    {
@@ -10079,6 +10511,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": 13,
   "components": [
@@ -10096,10 +10531,12 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "65"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "14"
    },
    {
@@ -10158,6 +10595,7 @@
   "attrib": [
    {
     "key": "fade_time",
+    "display": "FADE TIME: {value}",
     "value": "1.25"
    },
    {
@@ -10228,6 +10666,7 @@
    },
    {
     "key": "bonus_magical_armor",
+    "display": "+ {value}% Magic Resistance",
     "value": "20"
    },
    {
@@ -10441,10 +10880,12 @@
   "attrib": [
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "75"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1.25"
    }
   ],
@@ -10499,10 +10940,12 @@
   "attrib": [
    {
     "key": "bonus_cooldown",
+    "display": "+ {value}% Cooldown Reduction",
     "value": "10"
    },
    {
     "key": "bonus_health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "10"
    }
   ],
@@ -10522,14 +10965,17 @@
   "attrib": [
    {
     "key": "bonus_gpm",
+    "display": "+GPM BONUS {value}",
     "value": "75 / 100"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "200 / 250"
    },
    {
     "key": "bonus_damage",
+    "display": "- {value} Attack Damage",
     "value": "-30 / -60"
    }
   ],
@@ -10542,6 +10988,9 @@
   "tier": null,
   "behavior": "Unit Target",
   "notes": "Does not trigger spell block or spell reflect.",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": 75,
   "cd": 8,
   "components": null,
@@ -10560,6 +11009,7 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "115"
    },
    {
@@ -10572,6 +11022,7 @@
    },
    {
     "key": "hp_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "30"
    }
   ],
@@ -10655,14 +11106,17 @@
   "attrib": [
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "350"
    },
    {
     "key": "vision_bonus",
+    "display": "+ {value} Bonus Vision",
     "value": "350"
    },
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "10"
    },
    {
@@ -10726,10 +11180,12 @@
   "attrib": [
    {
     "key": "attack_lifesteal",
+    "display": "+ {value}% Lifesteal",
     "value": "12 / 16 / 20"
    },
    {
     "key": "spell_lifesteal",
+    "display": "+ {value}% Spell Lifesteal",
     "value": "8 / 12 / 16"
    }
   ],
@@ -10800,6 +11256,7 @@
   "attrib": [
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "7"
    },
    {
@@ -10880,6 +11337,7 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "20"
    },
    {
@@ -10896,6 +11354,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Increases all outgoing spell damage and debuff duration."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -10903,10 +11364,12 @@
   "attrib": [
    {
     "key": "debuff_amp",
+    "display": "+ {value}% Debuff Duration",
     "value": "10 / 15"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "10 / 20"
    }
   ],
@@ -10961,6 +11424,7 @@
   "attrib": [
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "5"
    },
    {
@@ -11018,10 +11482,12 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "50"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "50"
    },
    {
@@ -11054,6 +11520,9 @@
   "tier": null,
   "behavior": null,
   "notes": "Grants two-thirds value to each attribute for Universal Heroes",
+  "hint": [
+   "Increases both non-primary attributes."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -11061,6 +11530,7 @@
   "attrib": [
    {
     "key": "secondary_stats",
+    "display": "+SECONDARY STATS {value}",
     "value": "15"
    }
   ],
@@ -11129,6 +11599,7 @@
    },
    {
     "key": "hp_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "25"
    }
   ],
@@ -11188,10 +11659,12 @@
    },
    {
     "key": "bonus_vision",
+    "display": "+BONUS VISION {value}",
     "value": "300"
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "7"
    }
   ],
@@ -11217,14 +11690,17 @@
   "attrib": [
    {
     "key": "bonus_cooldown",
+    "display": "+ {value}% Cooldown Reduction",
     "value": "12"
    },
    {
     "key": "bonus_all_stats",
+    "display": "+ {value} All Attributes",
     "value": "5"
    },
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2"
    }
   ],
@@ -11258,6 +11734,7 @@
    },
    {
     "key": "projectile_bonus",
+    "display": "+ {value}% Attack Projectile Speed",
     "value": "60"
    }
   ],
@@ -11270,6 +11747,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "Increases the wearer's max health, while reducing their max mana."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -11277,10 +11757,12 @@
   "attrib": [
    {
     "key": "max_health",
+    "display": "+ {value} Max Health Increase",
     "value": "1350"
    },
    {
     "key": "max_mana",
+    "display": "- {value} Max Mana",
     "value": "400"
    }
   ],
@@ -11342,6 +11824,7 @@
    },
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "35"
    }
   ],
@@ -11367,14 +11850,17 @@
   "attrib": [
    {
     "key": "scan_cooldown_reduction",
+    "display": "SCAN COOLDOWN REDUCTION: {value}%",
     "value": "50"
    },
    {
     "key": "attack_range",
+    "display": "AURA BONUS ATTACK RANGE (RANGED ONLY): {value}",
     "value": "75"
    },
    {
     "key": "cast_range",
+    "display": "AURA BONUS CAST RANGE: {value}",
     "value": "100"
    },
    {
@@ -11549,6 +12035,7 @@
   "attrib": [
    {
     "key": "all_stats",
+    "display": "+ {value} All Attributes",
     "value": "5"
    },
    {
@@ -11609,14 +12096,17 @@
   "attrib": [
    {
     "key": "melee_attack_range",
+    "display": "+ {value} Attack Range (Melee Only)",
     "value": "50"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "8"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "4"
    }
   ],
@@ -11672,14 +12162,17 @@
   "attrib": [
    {
     "key": "bonus_magic_resistance",
+    "display": "+ {value}% Magic Resistance",
     "value": "20"
    },
    {
     "key": "bonus_spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "6"
    },
    {
     "key": "bonus_armor",
+    "display": "- {value} Armor",
     "value": "2"
    }
   ],
@@ -11868,6 +12361,7 @@
    },
    {
     "key": "illusion_duration",
+    "display": "IMAGE DURATION: {value}",
     "value": "30"
    },
    {
@@ -11876,6 +12370,7 @@
    },
    {
     "key": "outgoing_damage_tooltip",
+    "display": "IMAGE DAMAGE: {value}%",
     "value": "50"
    },
    {
@@ -11884,14 +12379,17 @@
    },
    {
     "key": "tooltip_incoming_damage_total_pct",
+    "display": "IMAGE DAMAGE TAKEN: {value}%",
     "value": "200"
    },
    {
     "key": "bonus_agi",
+    "display": "+ {value} Agility",
     "value": "14"
    },
    {
     "key": "bonus_str",
+    "display": "+ {value} Strength",
     "value": "14"
    }
   ],
@@ -11920,10 +12418,12 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "16"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "14"
    },
    {
@@ -12004,6 +12504,7 @@
   "attrib": [
    {
     "key": "primary_stat",
+    "display": "+ {value} Primary Attribute",
     "value": "40"
    },
    {
@@ -12033,6 +12534,7 @@
   "attrib": [
    {
     "key": "attack_range_bonus",
+    "display": "+ {value} Attack Range (Ranged Only)",
     "value": "250"
    },
    {
@@ -12060,6 +12562,9 @@
    "No Target"
   ],
   "notes": "",
+  "hint": [
+   "Movement speed bonuses from multiple pairs of boots do not stack."
+  ],
   "mc": false,
   "cd": 20,
   "components": null,
@@ -12078,10 +12583,12 @@
   "attrib": [
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "140"
    },
    {
     "key": "bonus_hp_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "60"
    },
    {
@@ -12282,10 +12789,12 @@
   "attrib": [
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "150"
    },
    {
     "key": "bonus_movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "15"
    }
   ],
@@ -12305,14 +12814,17 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "16"
    },
    {
     "key": "bonus_lifesteal",
+    "display": "+ {value}% Lifesteal",
     "value": "16"
    },
    {
     "key": "bonus_spell_lifesteal",
+    "display": "+ {value}% Spell Lifesteal",
     "value": "8"
    },
    {
@@ -12380,18 +12892,22 @@
   "attrib": [
    {
     "key": "armor_reduction",
+    "display": "ARMOR REDUCTION: {value}",
     "value": "2"
    },
    {
     "key": "slow_melee",
+    "display": "SLOW (MELEE): {value}%",
     "value": "8"
    },
    {
     "key": "slow_range",
+    "display": "SLOW (RANGE): {value}%",
     "value": "4"
    },
    {
     "key": "duration",
+    "display": "DURATION: {value}",
     "value": "3"
    }
   ],
@@ -12472,10 +12988,12 @@
   "attrib": [
    {
     "key": "base_attack_damage",
+    "display": "+ {value}% Base Attack Damage",
     "value": "15 / 25"
    },
    {
     "key": "status_resistance",
+    "display": "+ {value}% Status Resistance",
     "value": "10 / 15"
    }
   ],
@@ -12526,14 +13044,17 @@
   "attrib": [
    {
     "key": "attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "26"
    },
    {
     "key": "evasion",
+    "display": "+ {value}% Evasion",
     "value": "16"
    },
    {
     "key": "movment",
+    "display": "+ {value}% Movement Speed",
     "value": "7"
    }
   ],
@@ -12625,7 +13146,7 @@
   ],
   "patchNotes": [
    "Returning as a Tier 1 Neutral Artifact",
-   "Passive: Lifesteal. Attacks heal for 5 health ",
+   "Passive: Lifesteal. Attacks heal for 5 health",
    "This counts as lifesteal and is manipulated by Health Restoration"
   ]
  },
@@ -12649,10 +13170,12 @@
   "attrib": [
    {
     "key": "damage",
+    "display": "+ {value} Damage",
     "value": "45"
    },
    {
     "key": "melee_attack_range",
+    "display": "+ {value} Attack Range (Melee Only)",
     "value": "100"
    },
    {
@@ -12792,10 +13315,12 @@
   "attrib": [
    {
     "key": "base_movement",
+    "display": "+ {value}% Movement Speed",
     "value": "4"
    },
    {
     "key": "base_attack",
+    "display": "+ {value} Attack Speed",
     "value": "18"
    },
    {
@@ -12808,10 +13333,12 @@
    },
    {
     "key": "anim_increase",
+    "display": "+ {value}% Attack Animation Speed",
     "value": "40"
    },
    {
     "key": "projectile_increase",
+    "display": "+ {value}% Attack Projectile Speed",
     "value": "40"
    }
   ],
@@ -12824,6 +13351,9 @@
   "tier": null,
   "behavior": "Unit Target",
   "notes": "Does not trigger spell block or spell reflect.",
+  "hint": [
+   "Dispel Type: Basic Dispel"
+  ],
   "mc": false,
   "cd": 8,
   "components": null,
@@ -12866,6 +13396,7 @@
   "attrib": [
    {
     "key": "model_scale",
+    "display": "+ {value}% Model Scale",
     "value": "60"
    },
    {
@@ -12920,7 +13451,7 @@
   ],
   "patchNotes": [
    "Returning as a Tier 3 Neutral Artifact",
-   "Passive: Bottled Lightning. Every 6s, zaps up to 2 enemies within 700 units, slowing them by 40% for 0.4s and dealing 70 magic damage ",
+   "Passive: Bottled Lightning. Every 6s, zaps up to 2 enemies within 700 units, slowing them by 40% for 0.4s and dealing 70 magic damage",
    "Dormant Curio increases damage from 70 to 91"
   ]
  },
@@ -12938,14 +13469,17 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "50"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "5"
    },
    {
     "key": "manacost_reduction",
+    "display": "+ {value}% Manacost Reduction",
     "value": "5"
    }
   ],
@@ -13038,7 +13572,7 @@
   "patchNotes": [
    "Returning as a Tier 5 Neutral Artifact",
    "Active: Cleanse. Apply basic dispel on all units in a 300 unit radius area. Cast Range: 500. Mana Cost: 150. Cooldown: 40s",
-   "Passive: Subjugate. Your attacks deal bonus magical damage equal to 4% of target's Max Mana ",
+   "Passive: Subjugate. Your attacks deal bonus magical damage equal to 4% of target's Max Mana",
    "Dormant Curio increases damage from 4% to 5.2%",
    "Cleanse cast range increased from 500 to 700",
    "Cleanse: Mana Cost decreased from 150 to 50",
@@ -13127,6 +13661,7 @@
   "attrib": [
    {
     "key": "movespeed",
+    "display": "+ {value} Movement Speed",
     "value": "20"
    },
    {
@@ -13180,7 +13715,7 @@
   ],
   "patchNotes": [
    "Returning as a Tier 2 Neutral Artifact",
-   "Active: Verdurous Dale. Place a 400 unit circle on the ground for 8s that increases health regeneration of allies inside by 8 + 25% of the caster's health regeneration. Cast Range: 350. No Mana Cost. Cooldown: 35s ",
+   "Active: Verdurous Dale. Place a 400 unit circle on the ground for 8s that increases health regeneration of allies inside by 8 + 25% of the caster's health regeneration. Cast Range: 350. No Mana Cost. Cooldown: 35s",
    "Dormant Curio increases health regeneration from 8 to 10.4 and from 25% to 32.5%"
   ]
  },
@@ -13204,6 +13739,7 @@
   "attrib": [
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "200"
    },
    {
@@ -13362,22 +13898,27 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "25"
    },
    {
     "key": "bonus_strength",
+    "display": "+ {value} Strength",
     "value": "25"
    },
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "10"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "2.0"
    },
    {
@@ -13446,14 +13987,17 @@
   "attrib": [
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "125 / 135"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1 / 1.5"
    },
    {
     "key": "mana_reduction_pct",
+    "display": "- {value}% Max Mana",
     "value": "15"
    }
   ],
@@ -13643,6 +14187,9 @@
   "tier": null,
   "behavior": "No Target",
   "notes": "",
+  "hint": [
+   "Activate to redeem a Tier 1 Neutral Item. The resulting neutral item isn't shareable and a hero can only redeem a single token per tier."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -13657,6 +14204,9 @@
   "tier": null,
   "behavior": "No Target",
   "notes": "",
+  "hint": [
+   "Activate to redeem a Tier 2 Neutral Item. The resulting neutral item isn't shareable and a hero can only redeem a single token per tier."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -13671,6 +14221,9 @@
   "tier": null,
   "behavior": "No Target",
   "notes": "",
+  "hint": [
+   "Activate to redeem a Tier 3 Neutral Item. The resulting neutral item isn't shareable and a hero can only redeem a single token per tier."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -13685,6 +14238,9 @@
   "tier": null,
   "behavior": "No Target",
   "notes": "",
+  "hint": [
+   "Activate to redeem a Tier 4 Neutral Item. The resulting neutral item isn't shareable and a hero can only redeem a single token per tier."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -13699,6 +14255,9 @@
   "tier": null,
   "behavior": "No Target",
   "notes": "",
+  "hint": [
+   "Activate to redeem a Tier 5 Neutral Item. The resulting neutral item isn't shareable and a hero can only redeem a single token per tier."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -13726,6 +14285,7 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "35"
    },
    {
@@ -13738,6 +14298,7 @@
    },
    {
     "key": "bonus_slow_resist",
+    "display": "+ {value}% Slow Resistance",
     "value": "20"
    }
   ],
@@ -13796,6 +14357,7 @@
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "50"
    },
    {
@@ -13923,10 +14485,12 @@
   "attrib": [
    {
     "key": "evasion",
+    "display": "+ {value}% Evasion",
     "value": "25"
    },
    {
     "key": "move_speed",
+    "display": "+ {value} Movement Speed",
     "value": "30"
    },
    {
@@ -13960,6 +14524,7 @@
    },
    {
     "key": "magic_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "95"
    }
   ],
@@ -13994,7 +14559,7 @@
   ],
   "patchNotes": [
    "Returning as a Tier 4 Neutral Artifact",
-   "Passive: Magical Damage Block. Blocks 300 magic damage from instances over 75 damage. Cooldown: 12s ",
+   "Passive: Magical Damage Block. Blocks 300 magic damage from instances over 75 damage. Cooldown: 12s",
    "Dormant Curio increases blocked damage from 300 to 390"
   ]
  },
@@ -14025,6 +14590,7 @@
    },
    {
     "key": "magic_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "25"
    },
    {
@@ -14037,6 +14603,7 @@
    },
    {
     "key": "hp_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "7"
    }
   ],
@@ -14165,7 +14732,7 @@
   ],
   "patchNotes": [
    "Reverberate damage threshold increased from 180 to 220",
-   "Reverberate projectile physical damage decreased from 110 to 90 ",
+   "Reverberate projectile physical damage decreased from 110 to 90",
    "From 143 to 117 with Dormant Curio"
   ]
  },
@@ -14221,6 +14788,7 @@
    },
    {
     "key": "radius",
+    "display": "EFFECT RADIUS: {value}",
     "value": "600 / 900 / 1200"
    },
    {
@@ -14229,6 +14797,7 @@
    },
    {
     "key": "health_tooltip",
+    "display": "HITS TO KILL: {value}",
     "value": "6 / 8 / 10"
    },
    {
@@ -14286,6 +14855,9 @@
   "tier": null,
   "behavior": null,
   "notes": "",
+  "hint": [
+   "This item that cannot be dropped or placed in the backpack but can be put into normal inventory slots. When the owner dies, 100% of the gold lost from death is added to the item, and will be refunded when the item is consumed. Right-click to consume and permanently remove the item."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -14316,14 +14888,17 @@
   "attrib": [
    {
     "key": "attack_range",
+    "display": "+ {value} Attack Range (Melee & Ranged)",
     "value": "60 / 90 / 120"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "6 / 10 / 14"
    },
    {
     "key": "bonus_armor",
+    "display": "- {value} Armor",
     "value": "-4 / -6 / -8"
    }
   ],
@@ -14345,14 +14920,17 @@
   "attrib": [
    {
     "key": "movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "15 / 20 / 25 / 30"
    },
    {
     "key": "max_mana",
+    "display": "+ {value} Mana",
     "value": "0 / 100 / 160 / 220"
    },
    {
     "key": "evasion",
+    "display": "+ {value}% Evasion",
     "value": "0 / 0 / 0 / 15"
    }
   ],
@@ -14374,14 +14952,17 @@
   "attrib": [
    {
     "key": "attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "100"
    },
    {
     "key": "magic_damage",
+    "display": "+ {value} Magic Attack Damage",
     "value": "80"
    },
    {
     "key": "incoming_damage",
+    "display": "+ {value}% Incoming Damage",
     "value": "10"
    }
   ],
@@ -14403,14 +14984,17 @@
   "attrib": [
    {
     "key": "mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "0.8 / 1.6 / 2.4 / 3.2"
    },
    {
     "key": "magic_res",
+    "display": "+ {value}% Magic Resistance",
     "value": "0 / 10 / 13 / 16"
    },
    {
     "key": "manacost_reduction",
+    "display": "+ {value}% Mana Cost/Mana Loss Reduction",
     "value": "0 / 0 / 0 / 15"
    }
   ],
@@ -14434,14 +15018,17 @@
   "attrib": [
    {
     "key": "bonus_attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "7 / 15 / 23 / 31"
    },
    {
     "key": "bonus_night_vision",
+    "display": "+ {value} Bonus Night Vision",
     "value": "0 / 125 / 175 / 225"
    },
    {
     "key": "bonus_attack_range",
+    "display": "+ {value} Attack Range (Melee & Ranged)",
     "value": "0 / 0 / 0 / 80"
    }
   ],
@@ -14466,14 +15053,17 @@
   "attrib": [
    {
     "key": "health_bonus",
+    "display": "+ {value} Health",
     "value": "110 / 150 / 190 / 230"
    },
    {
     "key": "health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "0 / 3 / 6 / 9"
    },
    {
     "key": "slow_resist",
+    "display": "+ {value}% Slow Resistance",
     "value": "0 / 0 / 0 / 25"
    }
   ],
@@ -14495,14 +15085,17 @@
   "attrib": [
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "6 / 9 / 12 / 15"
    },
    {
     "key": "armor",
+    "display": "+ {value} Armor",
     "value": "0 / 4 / 6 / 8"
    },
    {
     "key": "knockback_resist",
+    "display": "+ {value}% Knockback Resistance",
     "value": "0 / 0 / 0 / 40"
    }
   ],
@@ -14525,10 +15118,12 @@
   "attrib": [
    {
     "key": "cooldown_reduction",
+    "display": "+ {value}% Cooldown Reduction",
     "value": "15"
    },
    {
     "key": "max_mana",
+    "display": "- {value}% Max Mana",
     "value": "20"
    }
   ],
@@ -14552,6 +15147,7 @@
   "attrib": [
    {
     "key": "movespeed",
+    "display": "+ {value} Movement Speed",
     "value": "115"
    }
   ],
@@ -14573,14 +15169,17 @@
   "attrib": [
    {
     "key": "health_restoration",
+    "display": "+ {value}% Health Restoration",
     "value": "9 / 12 / 15"
    },
    {
     "key": "bat_reduce",
+    "display": "- {value}% Base Attack Time",
     "value": "6 / 9 / 12"
    },
    {
     "key": "intelligence_pct",
+    "display": "- {value}% Intelligence",
     "value": "-9"
    }
   ],
@@ -14588,7 +15187,7 @@
    "Now is a guaranteed option for Strength heroes only",
    "Tiers changed from 4/5 to 2-4",
    "Health Restoration bonus rescaled from +30/40% to +10/15/20%",
-   "Now also modifies incoming healing ",
+   "Now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Base Attack Time Reduction bonus rescaled from 12/18% to 8/12/16%",
    "Intelligence Penalty increased from 5% to 6%",
@@ -14611,10 +15210,12 @@
   "attrib": [
    {
     "key": "bonus_attack_range",
+    "display": "+ {value} Attack Range (Melee & Ranged)",
     "value": "150"
    },
    {
     "key": "bonus_cast_range",
+    "display": "+ {value} Cast Range",
     "value": "275"
    }
   ],
@@ -14640,6 +15241,7 @@
    },
    {
     "key": "max_mana_pct",
+    "display": "+ {value}% Max Mana",
     "value": "15"
    }
   ],
@@ -14661,10 +15263,12 @@
   "attrib": [
    {
     "key": "debuff_amp",
+    "display": "+ {value}% Debuff Duration",
     "value": "8 / 15"
    },
    {
     "key": "spell_amp",
+    "display": "+ {value}% Spell Amplification",
     "value": "5 / 12"
    }
   ],
@@ -14687,14 +15291,17 @@
   "attrib": [
    {
     "key": "bonus_gpm",
+    "display": "+GPM BONUS {value}",
     "value": "65 / 90"
    },
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "150 / 200"
    },
    {
     "key": "bonus_damage",
+    "display": "- {value} Attack Damage",
     "value": "-35 / -70"
    }
   ],
@@ -14719,14 +15326,17 @@
   "attrib": [
    {
     "key": "attack_lifesteal",
+    "display": "+ {value}% Lifesteal",
     "value": "30"
    },
    {
     "key": "spell_lifesteal",
+    "display": "+ {value}% Spell Lifesteal",
     "value": "20"
    },
    {
     "key": "bonus_night_vision",
+    "display": "+ {value} Night Vision",
     "value": "300"
    }
   ],
@@ -14752,14 +15362,17 @@
   "attrib": [
    {
     "key": "cast_range_bonus",
+    "display": "+ {value} Cast Range",
     "value": "125 / 135 / 145"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "1 / 1.5 / 2"
    },
    {
     "key": "mana_reduction_pct",
+    "display": "- {value}% Max Mana",
     "value": "10 / 12 / 14"
    }
   ],
@@ -14785,6 +15398,7 @@
   "attrib": [
    {
     "key": "primary_stat",
+    "display": "+ {value} Primary Attribute",
     "value": "40"
    },
    {
@@ -14810,14 +15424,17 @@
   "attrib": [
    {
     "key": "base_attack_damage",
+    "display": "+ {value}% Base Attack Damage",
     "value": "8 / 12 / 16"
    },
    {
     "key": "status_resistance",
+    "display": "+ {value}% Status Resistance",
     "value": "10 / 12 / 14"
    },
    {
     "key": "attack_speed",
+    "display": "- {value}% Attack Speed",
     "value": "-9"
    }
   ],
@@ -14931,10 +15548,12 @@
    },
    {
     "key": "bonus_damage_hero",
+    "display": "BONUS DAMAGE (HEROES): {value}",
     "value": "16"
    },
    {
     "key": "bonus_damage_creep",
+    "display": "BONUS DAMAGE (CREEPS): {value}",
     "value": "4"
    },
    {
@@ -14988,7 +15607,7 @@
    "Hobble initial damage decreased from 75 to 25",
    "Hobble Max slow decreased from 80% to 50%",
    "Hobble Cast Range decreased from 800 to 650",
-   "Hobble now also modifies incoming healing ",
+   "Hobble now also modifies incoming healing",
    "As a result of Health Restoration changes"
   ]
  },
@@ -15111,7 +15730,7 @@
    }
   ],
   "patchNotes": [
-   "Burn Through: Total Damage decreased from 90 to 80 ",
+   "Burn Through: Total Damage decreased from 90 to 80",
    "From 117 to 104 with Dormant Curio",
    "Burn Through: Damage Threshold increased from 55 to 60"
   ]
@@ -15267,6 +15886,9 @@
    "Instant Cast"
   ],
   "notes": "",
+  "hint": [
+   "Collect to craft new Neutral Items."
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -15442,7 +16064,7 @@
   ],
   "patchNotes": [
    "Pollinate health restoration loss increased from 30% to 50%",
-   "Pollinate now also modifies incoming healing ",
+   "Pollinate now also modifies incoming healing",
    "As a result of Health Restoration changes",
    "Pollinate radius increased from 700 to 900"
   ]
@@ -15610,14 +16232,17 @@
   "attrib": [
    {
     "key": "movement_speed",
+    "display": "+ {value} Movement Speed",
     "value": "30"
    },
    {
     "key": "bonus_night_vision",
+    "display": "+ {value} Bonus Night Vision",
     "value": "250"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "15"
    }
   ],
@@ -15637,14 +16262,17 @@
   "attrib": [
    {
     "key": "attack_speed",
+    "display": "+ {value} Attack Speed",
     "value": "25"
    },
    {
     "key": "magic_resist",
+    "display": "+ {value}% Magic Resistance",
     "value": "15"
    },
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "205"
    }
   ],
@@ -15664,14 +16292,17 @@
   "attrib": [
    {
     "key": "bonus_mana",
+    "display": "+ {value} Mana",
     "value": "200"
    },
    {
     "key": "bonus_hp_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "8"
    },
    {
     "key": "heal_amp",
+    "display": "+ {value}% Heal Amplification",
     "value": "10"
    }
   ],
@@ -15691,14 +16322,17 @@
   "attrib": [
    {
     "key": "bonus_health",
+    "display": "+ {value} Health",
     "value": "240"
    },
    {
     "key": "bonus_mana_regen",
+    "display": "+ {value} Mana Regeneration",
     "value": "3"
    },
    {
     "key": "bonus_armor",
+    "display": "+ {value} Armor",
     "value": "7"
    }
   ],
@@ -15718,6 +16352,7 @@
   "attrib": [
    {
     "key": "item_potency",
+    "display": "+ {value}% Artifact Potency",
     "value": "30"
    }
   ],
@@ -15733,6 +16368,9 @@
    "Instant Cast"
   ],
   "notes": "",
+  "hint": [
+   "Contains gold"
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -15783,10 +16421,12 @@
   "attrib": [
    {
     "key": "agility",
+    "display": "+ {value} Agility",
     "value": "15"
    },
    {
     "key": "damage",
+    "display": "+ {value} Damage",
     "value": "20"
    },
    {
@@ -15875,14 +16515,17 @@
   "attrib": [
    {
     "key": "strength",
+    "display": "+ {value} Strength",
     "value": "15"
    },
    {
     "key": "agility",
+    "display": "+ {value} Agility",
     "value": "30"
    },
    {
     "key": "damage",
+    "display": "+ {value} Damage",
     "value": "25"
    },
    {
@@ -16083,7 +16726,7 @@
    }
   ],
   "patchNotes": [
-   "Pupate duration increased from 4s to 5s ",
+   "Pupate duration increased from 4s to 5s",
    "From 5.2s to 6.5s with Dormant Curio",
    "Pupate bonus magic resistance increased from 35% to 50%",
    "Pupate movement speed bonus increased from 15% to 20%"
@@ -16121,7 +16764,7 @@
    }
   ],
   "patchNotes": [
-   "False Flight duration increased from 5s to 6.5s ",
+   "False Flight duration increased from 5s to 6.5s",
    "From 6.5s to 8.45s with Dormant Curio",
    "False Flight bonus evasion increased from 25% to 35%"
   ]
@@ -16203,7 +16846,7 @@
   ],
   "patchNotes": [
    "New Tier 3 Artifact",
-   "Passive: Salvo. Whenever you cast a spell, 20% of the spell's mana cost is restored over 10s. Tick rate: 2s ",
+   "Passive: Salvo. Whenever you cast a spell, 20% of the spell's mana cost is restored over 10s. Tick rate: 2s",
    "Dormant Curio increases mana restored from 20% to 26%",
    "Mana recovery duration cannot be modified"
   ]
@@ -16241,7 +16884,7 @@
   ],
   "patchNotes": [
    "New Tier 4 Artifact",
-   "Passive: Linger. 30% of damage taken is delayed over 5 seconds. Damage Ticks every 1 second and is lethal ",
+   "Passive: Linger. 30% of damage taken is delayed over 5 seconds. Damage Ticks every 1 second and is lethal",
    "Dormant Curio increases damage delayed from 30% to 39%",
    "Linger delayed damage is now non-lethal if the incoming damage source was non-lethal"
   ]
@@ -16316,11 +16959,11 @@
   ],
   "patchNotes": [
    "New Tier 4 Artifact",
-   "Passive: Enchant. Increases bonuses of the item's Neutral Enchantment by 15%. Every time you craft this item again the bonus is increased by 40% ",
+   "Passive: Enchant. Increases bonuses of the item's Neutral Enchantment by 15%. Every time you craft this item again the bonus is increased by 40%",
    "Dormant Curio increases recraft stat bonus from 40% to 52%",
    "You can select any Enchantments during re-craft and bonus will still keep increasing as long as you keep Enchanter's Bauble",
    "Enchant base Neutral Enchantment bonus decreased from 15% to 10%",
-   "Enchant recraft bonus decreased from 40% to 35% ",
+   "Enchant recraft bonus decreased from 40% to 35%",
    "From 52% to 45.5% with Dormant Curio"
   ]
  },
@@ -16353,7 +16996,7 @@
   ],
   "patchNotes": [
    "New Tier 5 Artifact",
-   "Passive: Balance. Grants 5% mana cost reduction for every hero ability off cooldown and 6% spell amplification for every spell on cooldown ",
+   "Passive: Balance. Grants 5% mana cost reduction for every hero ability off cooldown and 6% spell amplification for every spell on cooldown",
    "Dormant Curio increases mana cost reduction from 5% to 6.5% and spell amplification from 6% to 7.8%",
    "Item spells are affected by both effects, however item cooldowns don't affect the Harmonizer buff",
    "The buff counts only current abilities that have cooldown, even if it's passive",
@@ -16406,16 +17049,16 @@
   ],
   "patchNotes": [
    "New Tier 4 Artifact",
-   "Passive: Spellover. Every 100 spell damage dealt to an enemy deals damage to their surrounding allies in a 300 unit radius. Hero targets deal 40 damage to their allies, other targets deal 15 damage ",
+   "Passive: Spellover. Every 100 spell damage dealt to an enemy deals damage to their surrounding allies in a 300 unit radius. Hero targets deal 40 damage to their allies, other targets deal 15 damage",
    "Dormant Curio increases hero damage from 40 to 52 and non-hero damage from 15 to 19.5",
-   "Spellover now has a 0.1s internal cooldown ",
+   "Spellover now has a 0.1s internal cooldown",
    "Still can proc multiple times from a single instance of high damage",
    "Spellover damage threshold increased from 100 to 200",
-   "Spellover damage from hero targets increased from 40 to 80 ",
+   "Spellover damage from hero targets increased from 40 to 80",
    "From 52 to 104 with Dormant Curio",
-   "Spellover damage from creep targets increased from 15 to 30 ",
+   "Spellover damage from creep targets increased from 15 to 30",
    "From 19.5 to 39 with Dormant Curio",
-   "Spellover non-hero explosion damage decreased from 30 to 20 ",
+   "Spellover non-hero explosion damage decreased from 30 to 20",
    "From 39 to 26 with Dormant Curio",
    "Spellover damage threshold on illusions now only considers pre-amplification damage"
   ]
@@ -16434,6 +17077,7 @@
   "attrib": [
    {
     "key": "health_regen",
+    "display": "+ {value} Health Regeneration",
     "value": "2.25"
    }
   ],
@@ -16457,14 +17101,17 @@
   "attrib": [
    {
     "key": "max_health",
+    "display": "+ {value}% Health",
     "value": "5"
    },
    {
     "key": "max_health_regen",
+    "display": "+ {value}% Max Health Regen",
     "value": "1.5"
    },
    {
     "key": "attack_speed",
+    "display": "- {value}% Attack Speed",
     "value": "-30"
    }
   ],
@@ -16487,14 +17134,17 @@
   "attrib": [
    {
     "key": "bat_reduce",
+    "display": "- {value}% Base Attack Time",
     "value": "18"
    },
    {
     "key": "cast_speed",
+    "display": "+ {value}% Cast Speed Bonus",
     "value": "20"
    },
    {
     "key": "vision_reduce",
+    "display": "- {value}% Vision",
     "value": "20"
    }
   ],
@@ -16593,6 +17243,7 @@
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "2"
    }
   ],
@@ -16629,6 +17280,7 @@
    },
    {
     "key": "bonus_move_speed",
+    "display": "+ {value} Movement Speed",
     "value": "3"
    }
   ],
@@ -16657,6 +17309,7 @@
   "attrib": [
    {
     "key": "bonus_int",
+    "display": "+ {value} Intelligence",
     "value": "2"
    },
    {
@@ -16684,6 +17337,7 @@
   "attrib": [
    {
     "key": "aoe_bonus",
+    "display": "+ {value} Area of Effect",
     "value": "40"
    }
   ],
@@ -16720,7 +17374,7 @@
   ],
   "patchNotes": [
    "New Tier 3 Artifact",
-   "Passive: Brand. Increases spell damage against player controlled units by 9% ",
+   "Passive: Brand. Increases spell damage against player controlled units by 9%",
    "Dormant Curio increases bonus spell damage from 9% to 11.7%",
    "Player controlled units includes heroes and any creep summoned or converted by them"
   ]
@@ -16739,14 +17393,17 @@
   "attrib": [
    {
     "key": "movespeed_pct",
+    "display": "+ {value}% Movement Speed",
     "value": "6 / 8 / 10"
    },
    {
     "key": "bonus_damage",
+    "display": "+ {value} Damage",
     "value": "10 / 15 / 20"
    },
    {
     "key": "hp_regen_reduce",
+    "display": "- {value} Health Regeneration",
     "value": "1.5 / 2.25 / 3"
    }
   ],
@@ -16765,6 +17422,9 @@
    "Instant Cast"
   ],
   "notes": "",
+  "hint": [
+   "Yummy Fish"
+  ],
   "mc": false,
   "cd": false,
   "components": null,
@@ -16789,10 +17449,12 @@
   "attrib": [
    {
     "key": "bonus_agility",
+    "display": "+ {value} Agility",
     "value": "25 / 35"
    },
    {
     "key": "bonus_intellect",
+    "display": "+ {value} Intelligence",
     "value": "10 / 15"
    },
    {

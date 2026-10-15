@@ -85,7 +85,7 @@ hr.sep { border: 0; border-top: 1px solid var(--border); margin: 12px 0; }
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Буквенный аватар героя без иконки занимает всю карточку, как и картинка. */
-.avatar .letters, .avatar .ph {
+.avatar .ph {
   position: absolute; inset: 0; display: grid; place-items: center;
   font-weight: 800; font-size: 22px; color: #0b0e13; letter-spacing: 1px;
 }
@@ -199,7 +199,6 @@ ul.plain { list-style: none; margin: 0; padding: 0; }
 .timer-row .in { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--gold); }
 .timer-row.soon { animation: flash 1s ease-in-out infinite; border-color: var(--danger); }
 @keyframes flash { 0%,100% { background: var(--panel-2); } 50% { background: #2a1a1a; } }
-.timer-row.done { opacity: .45; }
 
 .btn {
   background: linear-gradient(180deg, #2b3342, #222836); border: 1px solid var(--border);

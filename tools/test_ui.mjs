@@ -678,5 +678,190 @@ console.log('\n13. Уникальность героев в драфте, пер
     `«Как это работает» честно перечисляет героев без иконок: ${missing.map((h) => h.localized_name).join(', ')}`);
 }
 
+console.log('\n14. Правки аудита: закуп, карточки, порядок способностей, патчноут, поиск и таймер');
+{
+  const plansKb = {};
+  for (const f of JSON.parse(await get('data/kb_index.json')).files) {
+    if (f.startsWith('plans')) Object.assign(plansKb, JSON.parse(await get('data/kb/' + f)));
+  }
+  const qopSituational = (plansKb.queenofpain.items.situational || []).map(([key]) => key);
+  const itemsData = JSON.parse(await get('data/items.json'));
+  const abilitiesData = JSON.parse(await get('data/abilities.json'));
+  const heroesRaw = heroesData;
+
+  const dom14 = bootApp({ me: 'queenofpain', enemies: ['riki', 'clinkz', 'huskar', null, null], enemyMid: 'huskar' });
+  const w14 = dom14.window;
+  const u = ui(w14);
+  const scrolled = [];
+  w14.Element.prototype.scrollIntoView = function () { scrolled.push(this.id || this.className); };
+  await waitLoaded(w14);
+  await t(200);
+
+  // Ситуативный закуп драфта: курируемые предметы плана героя не теряются в адаптации под теги врага.
+  const chips = u.qa('[data-item]').map((el) => el.dataset.item);
+  const curatedShown = qopSituational.filter((k) => chips.includes(k));
+  check(qopSituational.length > 0 && curatedShown.length === qopSituational.length,
+    `ситуативный закуп содержит все ${qopSituational.length} предметов плана героя (найдено ${curatedShown.length})`);
+  // Порядок способностей: ультимейт описан один раз, отдельной строки-дубля нет.
+  const skillsBlock = (u.text().split('Порядок способностей')[1] || '').split('Стартовый закуп')[0];
+  const ultName = abilitiesData[Object.keys(abilitiesData).find((k) => k === 'queenofpain_sonic_wave')]?.dname || 'Sonic Wave';
+  check((skillsBlock.match(new RegExp(ultName, 'g')) || []).length === 1,
+    `ультимейт «${ultName}» в порядке способностей ровно один раз`);
+  const skillKeys = (plansKb.queenofpain.skills || []).map(([k]) => k);
+  check(skillKeys.every((k) => !abilitiesData[k] || !abilitiesData[k].granted),
+    'в порядке способностей плана нет способностей, выдаваемых шардом/агханимом');
+
+  // Справочник предметов: характеристики и мана/КД видны, карточка не пустая.
+  u.click(u.q('[data-tab="items"]'));
+  await t(300);
+  u.set('#itemSearch', 'blink');
+  await t(300);
+  const blinkCard = u.qa('.item-card').find((el) => /Blink Dagger/.test(el.textContent));
+  const blink = Object.values(itemsData).find((it) => it.dname === 'Blink Dagger');
+  check(blinkCard && blink && String(blink.attrib[0]?.value) && blinkCard.textContent.includes(String(blink.attrib[0].value)),
+    `карточка Blink Dagger показывает числовую характеристику (${blink ? blink.attrib[0]?.value : '—'})`);
+  u.set('#itemSearch', 'black king bar');
+  await t(300);
+  const bkbCard = u.qa('.item-card').find((el) => /Black King Bar/.test(el.textContent));
+  check(bkbCard && /перезарядка/.test(bkbCard.textContent) && /мана/.test(bkbCard.textContent),
+    `карточка Black King Bar показывает ману и перезарядку: ${bkbCard ? bkbCard.textContent.replace(/\s+/g, ' ').slice(0, 90) : '—'}`);
+  const withHint = Object.values(itemsData).find((it) => it.hint && it.hint.length && !it.abilities.length);
+  u.set('#itemSearch', withHint ? withHint.dname : 'tier');
+  await t(300);
+  check(!withHint || u.qa('.item-card').some((el) => el.textContent.includes(withHint.hint[0].slice(0, 24))),
+    `подсказка источника видна в карточке «${withHint ? withHint.dname : '—'}»`);
+
+  // Справочник героев: связанные способности идут карточками с описанием, пустых записей нет.
+  u.click(u.q('[data-tab="heroes"]'));
+  await t(200);
+  u.set('#heroSearch', 'zuus');
+  await t(250);
+  const scrolledBefore = scrolled.length;
+  u.set('#heroSearch', 'zuu'); // выбор уже сделан: ввод следующих букв не должен прокручивать страницу
+  await t(250);
+  check(scrolled.length === scrolledBefore, 'ввод в поиске героя не прокручивает страницу к карточке');
+  u.click(u.q('.pick[data-hero]'));
+  await t(300);
+  check(scrolled.length > scrolledBefore, 'выбор героя прокручивает к его карточке');
+  const zuusCard = u.q('#heroCard');
+  const zuusExtra = heroesRaw.zuus.extra.filter((k) => abilitiesData[k] && (abilitiesData[k].dname || abilitiesData[k].desc));
+  check(zuusExtra.length === 0 || zuusExtra.every((k) => zuusCard.textContent.includes(abilitiesData[k].dname)),
+    `связанные способности Zeus показаны: ${zuusExtra.map((k) => abilitiesData[k].dname).join(', ')}`);
+  // Записи без названия и описания (rubick_hidden1, dawnbreaker_land) и служебные слоты
+  // (Stolen Spell, Invoked Spell) в карточке героя не показываются вовсе.
+  const technical = Object.entries(abilitiesData)
+    .filter(([, a]) => !a.dname && !a.desc).map(([k]) => k);
+  u.set('#heroSearch', 'rubick');
+  await t(250);
+  u.click(u.q('.pick[data-hero="rubick"]'));
+  await t(300);
+  // Служебные слоты (*_empty1/2: Stolen Spell, Invoked Spell) не должны попадать в список
+  // способностей героя отдельной карточкой — только как часть описания ульты.
+  const serviceNames = ['Stolen Spell', 'Invoked Spell', 'Devoured Ability', 'Souvenir Slot'];
+  const cardNames = u.qa('#heroCard .ability .nm').map((el) => el.textContent.trim());
+  check(technical.length > 0 && cardNames.length > 0
+    && !cardNames.some((n) => serviceNames.some((s) => n.startsWith(s))),
+    `в карточке Rubick ${cardNames.length} способностей, служебных слотов среди них нет (${cardNames.join(' / ')})`);
+  // Способность, выдаваемая шардом, помечена и не выглядит как слот прокачки.
+  u.set('#heroSearch', 'tinker');
+  await t(250);
+  u.click(u.q('.pick[data-hero="tinker"]'));
+  await t(300);
+  check(/выдаёт шард|выдаёт агханим/.test(u.text()) && u.text().includes(abilitiesData.tinker_warp_grenade.dname),
+    'карточка Tinker: шард-способность помечена («выдаёт шард»), а не показана как качаемая');
+
+  // Патчноут: без сырых HTML-тегов и без падения на записи-массиве (как misc у 7.40).
+  const patchnotes = JSON.parse(await get('data/patchnotes.json'));
+  const rawTags = Object.values(patchnotes).some((n) => JSON.stringify(n).match(/<br>|<span|<font/));
+  check(!rawTags, 'в patchnotes.json не осталось HTML-разметки источника');
+  const noteTags = Object.values(patchnotes).flatMap((n) => Object.values(n.heroes || {}))
+    .some((v) => Object.entries(Array.isArray(v) ? {} : v).some(([ab]) => !/^[a-z0-9_]+$/.test(ab) && ab.length > 40));
+  check(!noteTags, 'в патчноуте записи героев — по способностям, а не абзацы текста');
+  u.click(u.q('[data-tab="patch"]'));
+  await t(400);
+  check(!/<br>|<span|<font/.test(u.text()) && u.text().length > 800, 'вкладка «Патч» печатает текст без HTML-тегов');
+  // «Прочее» в патчноутах — массив строк (как misc у 7.40–7.41f): раньше такие записи роняли вкладку.
+  // Показывается одна версия патча, поэтому сверяем только её записи «прочее» (они приходят массивами).
+  const shownVersion = u.q('#patchSelect')?.value;
+  const miscNotes = (patchnotes[shownVersion] && patchnotes[shownVersion].heroes && patchnotes[shownVersion].heroes.misc) || [];
+  const compactText = (v) => String(v).replace(/\s+/g, '');
+  const shownMisc = miscNotes.filter((line) => compactText(u.text()).includes(compactText(line).slice(0, 40)));
+  check(miscNotes.length > 0 && shownMisc.length === miscNotes.length,
+    `записи «прочее» патча ${shownVersion} показаны (${shownMisc.length} из ${miscNotes.length})`);
+
+  // Запись героя-массивом (как «misc» в данных 7.40) раньше роняла вкладку с TypeError.
+  const arraysInData = Object.values(patchnotes).some((n) => Object.values(n.heroes || {}).some((v) => Array.isArray(v)));
+  check(arraysInData, 'в патчноутах есть запись-массив (её и должен переживать интерфейс, а не падать)');
+  const domPatch = bootApp({ me: 'queenofpain' }, {
+    fetchOverride: async (url, realFetch) => {
+      if (!String(url).includes('patchnotes.json')) return realFetch(url);
+      const res = await realFetch(url);
+      const json = await res.json();
+      // Запись героя приходит массивом строк (как «misc»): раньше renderPatch падал на ней с TypeError.
+      for (const note of Object.values(json)) if (note.heroes) note.heroes.axe = ['Berserker’s Call: тест записи-массива'];
+      return new Response(JSON.stringify(json), { headers: { 'content-type': 'application/json' } });
+    },
+  });
+  const uPatch = ui(domPatch.window);
+  await waitLoaded(domPatch.window);
+  uPatch.click(uPatch.q('[data-tab="patch"]'));
+  await t(400);
+  const compact = (v) => String(v).replace(/\s+/g, '');
+  check(!/Ошибка интерфейса/.test(uPatch.text()) && uPatch.text().length > 800
+    && compact(uPatch.text()).includes(compact('Berserker\u2019s Call: тест записи-массива')),
+    'вкладка «Патч» печатает запись героя-массив, а не падает с TypeError');
+
+  // Пикер: поиск по слагу, закрытие по Escape, «мидовые» из планов.
+  u.click(u.q('[data-tab="draft"]'));
+  await t(200);
+  u.click(u.q('[data-pick="enemies:3"]'));
+  await t(150);
+  const search = u.q('#pickerSearch');
+  // queenofpain не берём: он выбран своим героем и в пикере его быть не должно.
+  const bySlug = ['antimage', 'furion', 'nevermore', 'zuus', 'slark'];
+  const foundBySlug = bySlug.filter((slug) => {
+    search.value = slug;
+    search.dispatchEvent(new w14.Event('input', { bubbles: true }));
+    const grid = u.qa('#pickerGrid .pick').map((el) => el.dataset.choose);
+    return grid.length === 1 && grid[0] === slug;
+  });
+  check(foundBySlug.length === bySlug.length, `поиск в пикере находит героя по слагу: ${foundBySlug.join(', ')}`);
+  search.dispatchEvent(new w14.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  await t(100);
+  check(u.q('#pickerGrid') === null, 'Escape закрывает пикер');
+  w14.document.dispatchEvent(new w14.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  await t(60);
+
+  // Таймер: повторный «Старт» не сбрасывает идущий отсчёт.
+  u.click(u.q('[data-tab="timers"]'));
+  await t(200);
+  u.click(u.q('[data-timer="start"]'));
+  await t(1300);
+  const beforeRestart = u.q('.clock').textContent;
+  u.click(u.q('[data-timer="start"]'));
+  await t(200);
+  const afterRestart = u.q('.clock').textContent;
+  const secs = (v) => { const [m, sec] = v.split(':').map(Number); return m * 60 + sec; };
+  check(secs(afterRestart) >= secs(beforeRestart), `повторный «Старт» не сбрасывает таймер: ${beforeRestart} → ${afterRestart}`);
+
+  // Скриншот: правка координат области не теряется при перерисовке списка ячеек.
+  const shotImg = makeShot(['axe', 'invoker', 'sniper', 'pudge']);
+  const media14 = { decode: 'ok', width: 1, height: 1 };
+  const dom14b = bootApp(null, { fakeMedia: media14 });
+  const w14b = dom14b.window;
+  const u14b = ui(w14b);
+  await waitLoaded(w14b);
+  u14b.click(u14b.q('[data-tab="shot"]'));
+  await t(60);
+  w14b.__dpShot(shotImg, 'кадр');
+  await waitFor(() => u14b.idle() && u14b.q('#shotList'));
+  u14b.set('#shotX', 12);
+  u14b.set('#shotW', 300);
+  u14b.choose(u14b.q('[data-shot-pick="0"]'), 'lion'); // перерисовка формы
+  await t(200);
+  check(u14b.q('#shotX')?.value === '12' && u14b.q('#shotW')?.value === '300',
+    `координаты области сохраняются при правке ячейки: x=${u14b.q('#shotX')?.value}, ш=${u14b.q('#shotW')?.value}`);
+}
+
 console.log(problems.length ? `\nПРОБЛЕМЫ (${problems.length}):\n - ` + problems.join('\n - ') : '\nПроблем не найдено.');
 process.exit(problems.length ? 1 : 0);

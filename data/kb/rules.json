@@ -14,7 +14,7 @@
     "Не фарми в одиночку в их лесу, пока нет детекта: там ты просто подарок",
     "Ставь сентри до того, как он придёт, а не после смерти"
    ],
-   "picks": ["bounty_hunter", "slardar", "zuus", "bloodseeker"]
+   "picks": ["zuus"]
   },
   "illusions": {
    "severity": 2,
@@ -31,7 +31,7 @@
     "Смотри на поведение: настоящий держится аккуратнее и не идёт вперёд первым",
     "Забирай AOE-урон вместо лишнего сингл-таргета"
    ],
-   "picks": ["leshrac", "lina", "zuus", "sand_king", "medusa"]
+   "picks": ["leshrac", "lina", "zuus"]
   },
   "summons": {
    "severity": 2,
@@ -45,7 +45,7 @@
     "Держи свою линию чистой: затопленная волна = потерянный темп и золото",
     "Убивай саммонов раньше, чем они дойдут до башни — это дешёвый счётчик золота"
    ],
-   "picks": ["leshrac", "lina", "zuus", "sand_king"]
+   "picks": ["leshrac", "lina", "zuus"]
   },
   "silence": {
    "severity": 3,
@@ -122,7 +122,7 @@
     "На лейне рейндропы и маг. wand важнее лишнего урона",
     "Считай их кулдауны: после ульты у тебя есть окно 30+ секунд на агрессию"
    ],
-   "picks": ["huskar", "morphling", "antimage", "medusa", "life_stealer"]
+   "picks": ["huskar", "morphling", "medusa"]
   },
   "burst_physical": {
    "severity": 3,
@@ -139,7 +139,7 @@
     "Против физики броня эффективнее, чем просто HP",
     "Дизарм/Halberd — самый дешёвый способ выключить их кора в файт"
    ],
-   "picks": ["axe", "bristleback", "tidehunter", "abyssal_underlord"]
+   "picks": ["dragon_knight", "medusa"]
   },
   "evasion": {
    "severity": 2,
@@ -161,7 +161,7 @@
     ["nullifier", "снимает активные баффы защиты"]
    ],
    "actions": ["Один Break в нужный момент ломает героя сильнее, чем 5000 золота в урон"],
-   "picks": ["viper", "doom_bringer"]
+   "picks": ["viper"]
   },
   "disables_passives": {
    "severity": 2,
@@ -187,7 +187,7 @@
     "Без среза лечения ваш бурст просто «не долетает»",
     "Фокусь одного: размазанный урон они отлечат обратно"
    ],
-   "picks": ["necrolyte", "doom_bringer", "ancient_apparition"]
+   "picks": ["necrolyte"]
   },
   "save": {
    "severity": 3,
@@ -203,7 +203,7 @@
     "Фокусь того, кто спасает, а не того, кого спасают",
     "Порядок всегда один: сначала сайленс/хекс, потом бурст"
    ],
-   "picks": ["silencer", "doom_bringer", "skywrath_mage"]
+   "picks": []
   },
   "poke_lane": {
    "severity": 2,
@@ -234,7 +234,7 @@
     "Не трать ресурсы на бесполезные трейды: фарми, держи волну, жди ганг",
     "Такой герой наказывается числом, а не скиллом 1v1"
    ],
-   "picks": ["huskar", "viper", "razor", "lina"]
+   "picks": ["huskar", "viper", "lina"]
   },
   "waveclear": {
    "severity": 1,
@@ -360,7 +360,7 @@
     ["pipe", "если амплификация работает по всей команде"]
    ],
    "actions": ["Покупай БКБ раньше обычного тайминга: амплифицированный бурст ломает привычные безопасные дистанции"],
-   "picks": ["antimage", "huskar", "morphling", "medusa"]
+   "picks": ["huskar", "morphling", "medusa"]
   },
   "armor_reduce": {
    "severity": 2,
@@ -372,7 +372,7 @@
     ["heavens_halberd", "броня + дизарм"]
    ],
    "actions": ["Против минус брони покупай броню, а не HP: она множится"],
-   "picks": ["bristleback", "axe", "tidehunter", "abyssal_underlord"]
+   "picks": ["dragon_knight"]
   }
  },
  "combos": [

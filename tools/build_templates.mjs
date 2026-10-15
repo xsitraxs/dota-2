@@ -6,34 +6,38 @@
  * подписи нескольких кадрирований — в игре карточка героя обрезана по-разному
  * (квадратный портрет в экране пика, 16:9 в драфт-экране).
  *
+ * Кадрирование и приведение к 32×32 идут через тот же код, что и распознавание
+ * (recognize.js → sampleRect: усреднение по площади + автоуровни 2–98 перцентилей).
+ * Раньше подпись считалась отдельной веткой на `convert -resize 32x32!`: без автоуровней
+ * собственная иконка героя отличалась от своего же шаблона почти на 0.09 близости, и пороги
+ * уверенного совпадения приходилось мерить с этой поправкой.
+ *
  * Из инструментов нужен ImageMagick (`convert` из IM6 или `magick` из IM7): он декодирует webp в сырые байты.
  * Запуск: node tools/build_templates.mjs   →   data/templates.json
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildSignature, signatureToHex, SIG_SIZE } from '../assets/recognize.js';
-import { convert, imageMagickAvailable } from './imagemagick.mjs';
+import { buildSignature, signatureToHex, sampleRect, SIG_SIZE } from '../assets/recognize.js';
+import { readImage, imageMagickAvailable } from './imagemagick.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ICONS = path.join(ROOT, 'data', 'icons');
 const OUT = path.join(ROOT, 'data', 'templates.json');
 
-/** Кадрирования исходной иконки 256×144: полный кадр, три квадрата и приближенный центр. */
+/**
+ * Кадрирования иконки: полный кадр, три квадрата по высоте (в экране пика портрет обрезан
+ * квадратом: слева/по центру/справа) и приближенный центр. Доли, а не пиксели: так скрипт
+ * переживёт иконку другого размера.
+ *   side = h; zoomSide = 0.75·h — для иконки 256×144 это те же 144×144 и 108×108, что и раньше.
+ */
 const VARIANTS = [
-  { name: 'full', crop: '256x144+0+0' },
-  { name: 'sq_left', crop: '144x144+0+0' },
-  { name: 'sq_center', crop: '144x144+56+0' },
-  { name: 'sq_right', crop: '144x144+112+0' },
-  { name: 'zoom', crop: '108x108+74+18' },
+  { name: 'full', rect: ({ w, h }) => ({ x: 0, y: 0, w, h }) },
+  { name: 'sq_left', rect: ({ h }) => ({ x: 0, y: 0, w: h, h }) },
+  { name: 'sq_center', rect: ({ w, h }) => ({ x: (w - h) / 2, y: 0, w: h, h }) },
+  { name: 'sq_right', rect: ({ w, h }) => ({ x: w - h, y: 0, w: h, h }) },
+  { name: 'zoom', rect: ({ w, h }) => { const side = 0.75 * h; return { x: (w - side) / 2, y: (h - side) / 2, w: side, h: side }; } },
 ];
-
-function raw(file, crop, colorspace) {
-  return convert([
-    file, '-crop', crop, '+repage', '-resize', `${SIG_SIZE}x${SIG_SIZE}!`,
-    '-depth', '8', '-alpha', 'off', `${colorspace}:-`,
-  ], { maxBuffer: 1024 * 1024 });
-}
 
 if (!imageMagickAvailable) {
   console.error('Нужен ImageMagick (convert или magick) — установите его и повторите.');
@@ -65,11 +69,16 @@ let total = 0;
 const t0 = Date.now();
 for (const [slug, file] of entries) {
   const src = path.join(ICONS, file);
+  const icon = readImage(src); // {width, height, data: RGBA} — тот же вход, что у распознавания
+  // Кадрирования задаются долями от размера иконки: readImage отдаёт width/height, а не w/h.
+  const size = { w: icon.width, h: icon.height };
   const sigs = [];
   for (const v of VARIANTS) {
-    const gray = new Uint8Array(raw(src, v.crop, 'gray'));
-    const rgb = new Uint8Array(raw(src, v.crop, 'rgb'));
-    sigs.push(signatureToHex(buildSignature({ gray, rgb })));
+    const sample = sampleRect(icon, v.rect(size));
+    // Пустая (вне кадра или однородная) выборка дала бы вырожденную подпись, по которой
+    // герой не распознается ни на одном скриншоте: говорим об этом прямо.
+    if (sample.flat) console.warn(`⚠ ${slug}: кадр «${v.name}» вышел пустым — проверьте иконку ${file}`);
+    sigs.push(signatureToHex(buildSignature(sample)));
   }
   heroes[slug] = sigs;
   total += sigs.length;
@@ -80,7 +89,7 @@ const meta = {
   variants: VARIANTS.map((v) => v.name),
   algo: 'dhash17x16(256b) + color4x4(48B)',
   source: 'data/icons/*.webp',
-  note: 'сгенерировано tools/build_templates.mjs (нужен ImageMagick)',
+  note: 'сгенерировано tools/build_templates.mjs: sampleRect (усреднение + автоуровни) + buildSignature — тот же путь, что и при распознавании',
   heroes: Object.keys(heroes).length,
   signatures: total,
 };
