@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "python3 -m http.server 8000",
     "lint": "eslint .",
-    "test": "node tools/test_engine.mjs && node tools/test_data.mjs && node tools/test_ci.mjs",
+    "test": "node tools/test_engine.mjs && node tools/test_data.mjs && node tools/test_tags.mjs && node tools/test_ci.mjs",
     "test:ui": "node tools/test_ui.mjs",
     "test:recognize": "node tools/test_recognize.mjs"
   },

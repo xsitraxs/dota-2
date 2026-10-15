@@ -19,7 +19,7 @@ const J = (p) => JSON.parse(fs.readFileSync(path.join(DATA, p), 'utf8'));
 
 const {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
-  heroDamage, heroHp, heroMana, heroArmor,
+  heroDamage, heroHp, heroMana, heroArmor, archetypeFor,
 } = await import(path.join(ROOT, 'assets', 'analysis.js'));
 
 const heroes = J('heroes.json');
@@ -31,8 +31,9 @@ const rules = J('kb/rules.json');
 const timings = J('kb/timings.json');
 const plans = {};
 for (const f of J('kb_index.json').files) if (f.startsWith('plans')) Object.assign(plans, J('kb/' + f));
+const archetypes = J('kb/archetypes.json');
 
-const data = { heroes, abilities, items, tagsKb, rules, plans, timings, meta };
+const data = { heroes, abilities, items, tagsKb, rules, plans, timings, meta, archetypes };
 const ctx = { tagsKb, rules, plans };
 
 let failed = 0;
@@ -149,7 +150,52 @@ ok(curatedSituational.length > 0 && curatedSituational.every((key) => plan.items
 ok(new Set(plan.items.situational.map((i) => i.key)).size === plan.items.situational.length, 'в ситуативном закупе нет повторов по ключу');
 ok(plan.items.situational.every((i) => items[i.key]), 'ситуативные предметы существуют');
 const generic = buildPlan({ heroSlug: 'largo', enemySlugs: ['riki'], data });
-ok(!generic.curated && generic.items.core.length > 0, 'для героя без плана есть универсальная сборка');
+ok(!generic.curated && generic.items.core.length > 0, 'для героя без плана есть сборка по роли');
+
+// 6.1 архетипы ролей: у 91 героя нет курируемого плана, и закуп им собирается по роли героя,
+// а не одним универсальным списком (раньше это был bottle+treads+BKB для всех).
+{
+  const archetypes = JSON.parse(fs.readFileSync('data/kb/archetypes.json', 'utf8'));
+  const names = Object.keys(archetypes.archetypes);
+  ok(names.length >= 4, `архетипов в базе: ${names.join(', ')}`);
+  const noPlan = Object.keys(heroes).filter((s) => !plans[s]);
+  const unresolved = noPlan.filter((s) => !archetypeFor(heroes[s], archetypes));
+  ok(unresolved.length === 0, `у каждого героя без плана есть роль (без роли: ${unresolved.length}${unresolved.length ? ` — ${unresolved.join(', ')}` : ''})`);
+  const badItems = [];
+  for (const [name, a] of Object.entries(archetypes.archetypes)) {
+    for (const group of ['start', 'early', 'core']) for (const [key] of a[group] || []) if (!items[key]) badItems.push(`${name}.${group}:${key}`);
+    for (const [attr, pair] of Object.entries(a.statByAttr || {})) if (!items[pair[0]]) badItems.push(`${name}.statByAttr.${attr}:${pair[0]}`);
+    for (const [attr, list] of Object.entries(a.coreByAttr || {})) for (const [key] of list || []) if (!items[key]) badItems.push(`${name}.coreByAttr.${attr}:${key}`);
+  }
+  ok(badItems.length === 0, `все предметы архетипов есть в данных (нет: ${badItems.join(', ') || 'нет'})`);
+
+  // Закуп поддержки, керри и оффлейнера обязан различаться: это и есть смысл архетипов.
+  const support = buildPlan({ heroSlug: 'crystal_maiden', enemySlugs: ['riki'], data });
+  const carry = buildPlan({ heroSlug: 'antimage', enemySlugs: ['riki'], data });
+  const offlane = buildPlan({ heroSlug: 'axe', enemySlugs: ['riki'], data });
+  const keys = (p, group) => p.items[group].map((i) => i.key).join(',');
+  ok(support.archetype && support.archetype.name === 'support' && support.items.start.some((i) => i.key === 'ward_observer'),
+    `поддержке предлагаются варды: ${keys(support, 'start')}`);
+  ok(carry.archetype && carry.archetype.name === 'carry' && carry.items.start.some((i) => i.key === 'quelling_blade'),
+    `керри получает добивание: ${keys(carry, 'start')}`);
+  ok(offlane.archetype && offlane.archetype.name === 'offlane' && offlane.items.core.some((i) => i.key === 'blink'),
+    `оффлейнер получает инициацию: ${keys(offlane, 'core')}`);
+  ok(keys(support, 'start') !== keys(carry, 'start') && keys(carry, 'core') !== keys(support, 'core'),
+    'закуп разных ролей не совпадает');
+  ok(carry.items.core.some((i) => i.key === 'manta'), `керри-ловкач получает предмет под атрибут: ${keys(carry, 'core')}`);
+  const strCarry = buildPlan({ heroSlug: 'sven', enemySlugs: [], data });
+  ok(strCarry.items.core.some((i) => i.key === 'armlet'), `керри-силовик получает свой предмет: ${keys(strCarry, 'core')}`);
+  const allCarry = buildPlan({ heroSlug: 'brewmaster', enemySlugs: [], data });
+  ok(allCarry.items.core.some((i) => i.key === 'diffusal_blade'), `универсал получает свой предмет: ${keys(allCarry, 'core')}`);
+  ok(support.items.core.every((i) => /роль/.test(i.source || '')), 'источник предметов роли подписан в закупе');
+  ok(!support.skills.length || !support.skills.some(([k]) => abilities[k] && abilities[k].granted),
+    'в порядок прокачки роли не попадают способности за шард/агханим');
+  ok(support.curve && support.tips.length >= 2, 'у сборки по роли есть кривая и советы');
+  const lich = buildPlan({ heroSlug: 'nyx_assassin', enemySlugs: [], data });
+  ok(lich.archetype && lich.archetype.name === 'roam' && lich.archetype.why, `переназначенная роль объяснена: ${lich.archetype && lich.archetype.why}`);
+  const curated = buildPlan({ heroSlug: 'queenofpain', enemySlugs: [], data });
+  ok(curated.curated && !curated.archetype, 'у курируемого плана архетип не подмешивается');
+}
 const checklist = buildChecklist({ threats, combos, data });
 ok(checklist.length >= 8, 'чеклист собирается', String(checklist.length));
 ok(new Set(checklist).size === checklist.length, 'в чеклисте нет дублей');

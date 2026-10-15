@@ -233,6 +233,53 @@ export function validateKb({ heroes, items, abilities, kb }) {
   const loses = new Map();
 
   for (const [file, data] of Object.entries(kb)) {
+    if (file === 'archetypes.json') {
+      // Закуп по роли героя (data/kb/archetypes.json). Файл намеренно назван не на «plans»:
+      // это не план конкретного героя, и валидатор планов не должен принимать его ключи за слаги.
+      const archetypes = (data && data.archetypes) || {};
+      if (!Object.keys(archetypes).length) errors.push('archetypes.json: нет ни одного архетипа');
+      for (const [name, a] of Object.entries(archetypes)) {
+        const where = `archetypes.json[${name}]`;
+        if (!a || typeof a !== 'object') {
+          errors.push(`${where}: архетип должен быть объектом`);
+          continue;
+        }
+        for (const group of ['start', 'early', 'core']) {
+          const list = a[group];
+          if (!Array.isArray(list) || !list.length) errors.push(`${where}.${group}: пустая группа предметов`);
+          const seen = new Set();
+          for (const it of list || []) {
+            checkItem(`${where}.${group}`, it);
+            if (!Array.isArray(it) || !String(it[1] || '').trim()) errors.push(`${where}.${group}: у предмета нет объяснения`);
+            const key = itemKey(it);
+            if (seen.has(key)) errors.push(`${where}.${group}: предмет «${key}» указан дважды`);
+            seen.add(key);
+          }
+        }
+        // Формат: statByAttr.<атрибут> — одна пара [предмет, объяснение], coreByAttr.<атрибут> — список пар.
+        const ATTRS = ['str', 'agi', 'int', 'all'];
+        for (const [attr, pair] of Object.entries(a.statByAttr || {})) {
+          if (!ATTRS.includes(attr)) errors.push(`${where}.statByAttr: неизвестный атрибут «${attr}»`);
+          if (!Array.isArray(pair) || pair.length !== 2 || typeof pair[1] !== 'string') {
+            errors.push(`${where}.statByAttr.${attr}: нужна пара [предмет, объяснение]`);
+            continue;
+          }
+          checkItem(`${where}.statByAttr.${attr}`, pair);
+        }
+        for (const [attr, list] of Object.entries(a.coreByAttr || {})) {
+          if (!ATTRS.includes(attr)) errors.push(`${where}.coreByAttr: неизвестный атрибут «${attr}»`);
+          for (const it of list || []) checkItem(`${where}.coreByAttr.${attr}`, it);
+        }
+        if (!a.curve || String(a.curve).length < 40) errors.push(`${where}.curve: нет описания, как играть роль`);
+        if (!Array.isArray(a.tips) || a.tips.length < 2) errors.push(`${where}.tips: меньше двух советов по роли`);
+      }
+      for (const [slug, o] of Object.entries((data && data.overrides) || {})) {
+        checkHero(`archetypes.json.overrides[${slug}]`, slug);
+        if (!archetypes[o.archetype]) errors.push(`archetypes.json.overrides[${slug}]: нет архетипа «${o.archetype}»`);
+        if (!String((o && o.why) || '').trim()) errors.push(`archetypes.json.overrides[${slug}]: роль меняется без объяснения`);
+      }
+      continue;
+    }
     if (file.startsWith('plans')) {
       for (const [slug, plan] of Object.entries(data || {})) {
         if (slug.startsWith('_')) continue;

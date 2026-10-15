@@ -180,7 +180,17 @@ check($$('#pickerGrid .pick').length === 0, 'занятый герой не пр
 click($('[data-close]')); await t(60);
 const sel = $('[data-enemy-mid]');
 check(sel?.value === 'huskar', `их мид: ${sel?.value}`);
-check(/Тяжёлый лейн/.test($('.verdict')?.textContent || ''), `вердикт: ${$('.verdict')?.textContent?.trim().slice(0, 60)}`);
+{
+  // Вердикт — один из четырёх шаблонов движка; конкретный зависит от тегов тегов драфта, поэтому
+  // проверяем не название, а согласованность: тон шаблона должен совпадать со знаком оценки.
+  const v = $('.verdict');
+  const score = Number(($('.verdict .score')?.textContent || '').trim());
+  const tone = [...(v?.classList || [])].find((c) => ['good', 'even', 'bad'].includes(c));
+  const expected = score >= 1.5 ? 'good' : score > -1.5 ? 'even' : 'bad';
+  check(/Комфортный лейн|Лёгкий перевес|Ровный лейн|Тяжёлый лейн|Лейн проигран по цифрам/.test(v?.textContent || '')
+    && tone === expected && Number.isFinite(score),
+    `вердикт «${(v?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 70)}», оценка ${score}, тон ${tone}`);
+}
 check($$('.factors tr').length >= 9, `строк в таблице факторов: ${$$('.factors tr').length}`);
 check($$('.threat').length >= 8, `угроз: ${$$('.threat').length}`);
 check($$('.item-row').length >= 12, `строк закупа: ${$$('.item-row').length}`);
@@ -861,6 +871,43 @@ console.log('\n14. Правки аудита: закуп, карточки, по
   await t(200);
   check(u14b.q('#shotX')?.value === '12' && u14b.q('#shotW')?.value === '300',
     `координаты области сохраняются при правке ячейки: x=${u14b.q('#shotX')?.value}, ш=${u14b.q('#shotW')?.value}`);
+}
+
+console.log('\n15. Закуп по роли героя, когда курируемого плана нет');
+{
+  const archetypes = JSON.parse(await get('data/kb/archetypes.json'));
+  const support = archetypes.archetypes.support;
+  const dom15 = bootApp({ me: 'crystal_maiden', enemies: ['riki', 'clinkz', null, null, null], enemyMid: null });
+  const w15 = dom15.window;
+  const u15 = ui(w15);
+  await waitLoaded(w15);
+  await t(250);
+  // Панель плана обязана честно сказать, что план собран по роли, а не курирован под патч.
+  check(/закуп собран по его роли/.test(u15.text()) && /Поддержка/.test(u15.text()),
+    'панель плана объясняет сборку по роли');
+  const chips15 = u15.qa('[data-item]').map((el) => el.dataset.item);
+  const roleItems = support.start.map(([k]) => k).concat(support.early.map(([k]) => k));
+  check(roleItems.every((k) => chips15.includes(k)),
+    `предметы роли поддержки видны в закупе: ${roleItems.filter((k) => chips15.includes(k)).length} из ${roleItems.length}`);
+  check(support.start.some(([k]) => k === 'ward_observer') && chips15.includes('ward_observer'),
+    'поддержке предлагаются обзорные варды');
+  const tips15 = u15.text();
+  check(support.tips.filter((t) => tips15.includes(t.slice(0, 30))).length >= 1, 'советы по роли показаны в панели плана');
+  // Тот же герой в справочнике показывает, по какой роли собран закуп.
+  u15.click(u15.q('[data-tab="heroes"]'));
+  await t(200);
+  u15.set('#heroSearch', 'crystal_maiden');
+  await t(250);
+  u15.click(u15.q('.pick[data-hero="crystal_maiden"]'));
+  await t(300);
+  check(/закуп по роли/.test(u15.q('#heroCard')?.textContent || ''), 'в карточке героя видно, по какой роли собран закуп');
+  // У героя с курируемым планом вместо роли — отметка о плане.
+  u15.set('#heroSearch', 'queenofpain');
+  await t(250);
+  u15.click(u15.q('.pick[data-hero="queenofpain"]'));
+  await t(300);
+  const card15 = u15.q('#heroCard')?.textContent || '';
+  check(/мидовый план есть/.test(card15) && !/закуп по роли/.test(card15), 'у героя с планом роли не подмешивается');
 }
 
 console.log(problems.length ? `\nПРОБЛЕМЫ (${problems.length}):\n - ` + problems.join('\n - ') : '\nПроблем не найдено.');
