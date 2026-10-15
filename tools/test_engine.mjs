@@ -140,7 +140,13 @@ ok(!picks.some((p) => ['huskar', 'riki', 'tidehunter', 'oracle', 'medusa'].inclu
 // 6. закуп и чеклист
 const plan = buildPlan({ heroSlug: 'queenofpain', enemySlugs: ['riki', 'clinkz', 'huskar'], data });
 ok(plan.items.start.length > 0 && plan.items.core.length > 0, 'закуп собирается', `ситуативных: ${plan.items.situational.length}`);
-ok(plan.items.situational.length <= 10, 'ситуативный закуп ограничен по приоритету');
+// Ситуативный закуп = курируемый список героя (он не должен теряться) + до 10 адаптивных ответов на теги.
+const curatedSituational = (plan.plan.items.situational || []).map(([key]) => key);
+ok(plan.items.situational.length <= curatedSituational.length + 10,
+  'ситуативный закуп ограничен по приоритету', `курируемых: ${curatedSituational.length}, всего: ${plan.items.situational.length}`);
+ok(curatedSituational.length > 0 && curatedSituational.every((key) => plan.items.situational.some((i) => i.key === key)),
+  'курируемые ситуативные предметы плана попадают в закуп', `в плане: ${curatedSituational.length}`);
+ok(new Set(plan.items.situational.map((i) => i.key)).size === plan.items.situational.length, 'в ситуативном закупе нет повторов по ключу');
 ok(plan.items.situational.every((i) => items[i.key]), 'ситуативные предметы существуют');
 const generic = buildPlan({ heroSlug: 'largo', enemySlugs: ['riki'], data });
 ok(!generic.curated && generic.items.core.length > 0, 'для героя без плана есть универсальная сборка');

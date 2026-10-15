@@ -8,6 +8,9 @@
   "desc": "Burns an opponent's mana on each attack and deals damage equal to a percentage of the mana burnt.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "percent_damage_per_burn",
@@ -71,6 +74,9 @@
    "7.5",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -127,6 +133,9 @@
    "7",
    "3"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "magic_resistance",
@@ -195,6 +204,9 @@
   "desc": "Attacks slow enemies based on how much mana they are missing. Min slow at 60% mana, up to max slow at 0% mana. No effect if enemy is above 60% mana.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "move_slow_min",
@@ -244,6 +256,9 @@
    "85",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_void_damage_per_mana",
@@ -331,6 +346,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -389,6 +407,9 @@
    "10",
    "5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -447,6 +468,9 @@
   "desc": "After a set number of attacks, Axe will perform a helix counter attack, dealing pure damage to all nearby enemies.",
   "mc": null,
   "cd": "0.3",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -498,6 +522,9 @@
    "75",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -575,6 +602,9 @@
   "desc": "Axe gains Strength based on 50% of his Armor as long as there are no allied heroes within 700 distance from Axe. The effect fades over 3s after approaching an ally.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "armor_pct_as_strength",
@@ -613,6 +643,9 @@
    "12",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_reduction",
@@ -696,6 +729,9 @@
    "13",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "brain_sap_damage",
@@ -739,6 +775,9 @@
    "19",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "nightmare_invuln_time",
@@ -818,6 +857,9 @@
    "110",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "fiend_grip_tick_interval",
@@ -872,6 +914,9 @@
   "desc": "Ends all ongoing Nightmares.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -887,6 +932,9 @@
   "desc": "Every time Bane kills an enemy hero or they die under the effect of Bane's debuff, they receive a Terror for the rest of the game that decreases their status resistance to Bane's subsequent debuffs.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_tick_rate",
@@ -928,6 +976,9 @@
    "10",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -999,6 +1050,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -1067,6 +1121,9 @@
   "desc": "Bloodseeker is invigorated by the wounds of his enemies, gaining bonus movement speed when an enemy hero's health falls below 100%, with the bonuses increasing as their health falls further. If an enemy hero's health falls below 25%, he will also gain vision and True Sight of that hero. Bonuses stack per hero. Unlocks max movement speed for Bloodseeker.",
   "mc": "0",
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "min_bonus_pct",
@@ -1143,6 +1200,9 @@
   "desc": "Bloodseeker restores some life when he kills a unit, equal to 30 health plus a percentage of the units max health.\n\nRestores for half values if an ally kills a nearby enemy hero.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "base_heal",
@@ -1204,6 +1264,9 @@
    "70",
    "65"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -1283,6 +1346,9 @@
    "9",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -1376,6 +1442,9 @@
    "7",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -1424,6 +1493,9 @@
   "desc": "Gives mana regeneration to all friendly units on the map. Allies within a 1200 radius of Crystal Maiden receive more mana regeneration.\n\nCrystal Maiden passively gains mana regen amplification.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "base_mana_regen",
@@ -1481,6 +1553,10 @@
   "desc": "Slides in a direction, creating a crystal clone of herself in her place and disjointing incoming projectiles. If the clone takes enough damage or times out, it shatters, Frostbiting enemies in a 450 AoE around its place. The Clone can also be destroyed by Crystal Maiden's own spells.",
   "mc": "150",
   "cd": "12",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "hop_distance",
@@ -1532,6 +1608,9 @@
   "desc": "A portion of the mana Crystal Maiden spends on her abilities is converted into a physical barrier.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_multiplier",
@@ -1566,6 +1645,9 @@
    "95",
    "90"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitychanneltime",
@@ -1651,6 +1733,9 @@
   "desc": "Immediately stops the Freezing Field",
   "mc": null,
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -1672,6 +1757,9 @@
    "12"
   ],
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "frost_arrows_movement_speed",
@@ -1725,6 +1813,9 @@
    "15",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "wave_speed",
@@ -1821,6 +1912,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "wave_count",
@@ -1899,6 +1993,10 @@
   "desc": "Drow creates a hill of ice beneath her, knocking away nearby enemies. Units on the hill gain flying vision and Drow and her ranged allies gain bonus attack range. Drow gains additional damage while on the Glacier and attacking targets below her.\n\nThe front of the hill obscures vision and cannot be moved through except by Drow. Does not interrupt Multishot when cast.",
   "mc": "50",
   "cd": "25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "shard_width",
@@ -1975,6 +2073,9 @@
   "desc": "Grants Drow bonus agility based on Drow's current agility and level. Nearby ranged heroes received 50% of the bonus agility.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -2003,6 +2104,9 @@
   "desc": "Drow's experiences in battle grant her a chance to launch arrows with incredible accuracy and effectiveness. Pierces through the enemy's defenses, ignoring their base armor. This ability is disabled if there is an enemy hero within 300 range.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chance",
@@ -2049,6 +2153,9 @@
    "16",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -2132,6 +2239,9 @@
    "75"
   ],
   "cd": "5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "totem_damage_percentage",
@@ -2200,6 +2310,9 @@
   "desc": "Causes the earth to shake underfoot, adding additional damage and stuns to nearby enemy units when Earthshaker casts his abilities.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "aftershock_range",
@@ -2246,6 +2359,9 @@
    "120",
    "110"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "echo_slam_damage_range",
@@ -2297,6 +2413,9 @@
   "desc": "Enemies killed with Enchant Totem or Earthshaker's other abilities are sent flying, dealing damage to enemies they hit.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "projectile_body_on_kill",
@@ -2368,6 +2487,9 @@
    "22",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "blade_fury_damage",
@@ -2449,6 +2571,9 @@
   "desc": "Summons a Healing Ward which heals all nearby allied units, based on their max health. The Healing Ward moves at 325 movement speed after being summoned. Lasts 18 seconds.",
   "mc": "120",
   "cd": "60",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "healing_ward_heal_amount",
@@ -2512,6 +2637,9 @@
   "desc": "Gives Juggernaut a chance to deal critical damage with Blade Fury and on each attack.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "blade_dance_crit_chance",
@@ -2545,6 +2673,10 @@
   "desc": "Performs a short Omnislash for 1 seconds.",
   "mc": "150",
   "cd": "25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "duration",
@@ -2573,6 +2705,9 @@
   "desc": "Juggernaut gains a stack of Bladeform every 2s that Juggernaut does not take damage. Each stack grants bonus base Agility and Movement Speed. Stacks fade after 2s upon taking any damage.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_stacks",
@@ -2615,6 +2750,9 @@
    "350"
   ],
   "cd": "120",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_rate_multiplier",
@@ -2681,6 +2819,9 @@
    "110"
   ],
   "cd": "12",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -2749,6 +2890,9 @@
    "17",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "arrow_speed",
@@ -2827,6 +2971,9 @@
   "desc": "Mirana leaps forward into battle, empowering herself with a ferocious roar that grants bonus attack and movement speed. Speed bonus lasts 5 seconds.",
   "mc": "50",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "leap_distance",
@@ -2904,6 +3051,9 @@
   "desc": "When a charge is available, Mirana's next attack will deal bonus magic damage.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycharges",
@@ -2946,6 +3096,9 @@
    "110",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "fade_delay",
@@ -3011,6 +3164,9 @@
    "15",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "speed",
@@ -3069,6 +3225,9 @@
    "11",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_base",
@@ -3162,6 +3321,9 @@
   "desc": "Morphling shifts its form, pulling points from Strength and pouring them into Agility at a rate of 4. The process is reversible.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "points_per_tick",
@@ -3200,6 +3362,9 @@
   "desc": "Morphling shifts its form, pulling points from Agility and pouring them into Strength at a rate of 4. The process is reversible.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "points_per_tick",
@@ -3242,6 +3407,9 @@
    "90",
    "55"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -3278,6 +3446,9 @@
   "desc": "Toggles Morphling's form between his own and the replicated enemy.",
   "mc": "0",
   "cd": "2",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -3293,6 +3464,9 @@
   "desc": "Morphling receives bonus cast range and slow resistance based on his current Strength, and attack range and movement speed based on his current Agility. These bonuses persist if he is morphed into another hero.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "swell_up_duration",
@@ -3366,6 +3540,9 @@
   "desc": "Shadow Fiend razes the ground directly in front of him, dealing damage to enemy units in the area, dealing bonus damage based on his current Necromastery Soul amount. Adds a stacking damage amplifier on the target that causes the enemy to take bonus Shadowraze damage per stack.",
   "mc": "75",
   "cd": "9",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "shadowraze_damage",
@@ -3449,6 +3626,9 @@
   "desc": "Shadow Fiend razes the ground a short distance away from him, dealing damage to enemy units in the area, dealing bonus damage based on his current Necromastery Soul amount. Adds a stacking damage amplifier on the target that causes the enemy to take bonus Shadowraze damage per stack.",
   "mc": "75",
   "cd": "9",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "shadowraze_damage",
@@ -3532,6 +3712,9 @@
   "desc": "Shadow Fiend razes the ground a longer distance away from him, dealing damage to enemy units in the area, dealing bonus damage based on his current Necromastery Soul amount. Adds a stacking damage amplifier on the target that causes the enemy to take bonus Shadowraze damage per stack.",
   "mc": "75",
   "cd": "9",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "shadowraze_damage",
@@ -3623,6 +3806,9 @@
    "75"
   ],
   "cd": "21",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_attack_speed",
@@ -3711,6 +3897,9 @@
   "desc": "Shadow Fiend's presence reduces the armor of nearby enemies.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "presence_armor_reduction",
@@ -3762,6 +3951,9 @@
    "110",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "requiem_radius",
@@ -3846,6 +4038,9 @@
   "desc": "Shadow Fiend steals the soul from units he kills, gaining 1 bonus damage per soul. Hero kills grant 4 souls. On death, he releases 30% of them from bondage.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "necromastery_damage_per_soul",
@@ -3904,6 +4099,9 @@
    "8",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "lance_damage",
@@ -4005,6 +4203,9 @@
    "14",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "illusion_1_damage_out_pct",
@@ -4086,6 +4287,9 @@
    "7",
    "3"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "min_distance",
@@ -4142,6 +4346,9 @@
   "desc": "Whenever an illusion of Phantom Lancer is created, its outgoing damage cannot go below a fixed value for 3 seconds.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "outgoing_floor",
@@ -4165,6 +4372,9 @@
   "desc": "Phantom Lancer has a chance to fracture his presence on an attack, creating an illusion of himself. Illusions also have a chance to fracture further. Illusions created from Phantom Lancer last for 8 seconds, while illusions created from other illusions last 4 seconds.",
   "mc": "undefined",
   "cd": "undefined",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_illusions",
@@ -4241,6 +4451,9 @@
    "10",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -4332,6 +4545,9 @@
    "14",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -4393,6 +4609,9 @@
    "7",
    "6.5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -4431,6 +4650,9 @@
   "desc": "Teleports Puck to a flying Illusory Orb.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -4443,6 +4665,9 @@
   "desc": "Whenever Puck disjoints an attack, it restores 3% of its max health and mana. Dodging a targeted spell projectile restores 3x that amount. Does not apply to attacks by Towers.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_and_health_restore_pct",
@@ -4473,6 +4698,9 @@
    "225"
   ],
   "cd": "75",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "coil_duration",
@@ -4567,6 +4795,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -4635,6 +4866,9 @@
   "desc": "A toxic cloud that deals intense damage and slows movement--harming not only enemy units but Pudge himself.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "rot_radius",
@@ -4696,6 +4930,9 @@
    "18",
    "17"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_block",
@@ -4732,6 +4969,9 @@
   "desc": "Pudge's skin thickens permanently every time he kills an enemy Hero, gaining 2 bonus Strength for each stack.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "flesh_heap_strength_buff_amount",
@@ -4766,6 +5006,9 @@
    "25",
    "20"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "dismember_damage",
@@ -4850,6 +5093,9 @@
    "11",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_min",
@@ -4938,6 +5184,9 @@
    "28",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "drain_length",
@@ -5021,6 +5270,9 @@
   "desc": "There's a chance when attacked, and always when targeted with a spell, to release a forked lightning that strikes the target and other nearby enemies, prioritizing the unit type of the attacker, dealing damage and slowing movement speed.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "strike_pct_chance",
@@ -5094,6 +5346,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -5117,6 +5372,9 @@
    "70",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -5178,6 +5436,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "burrow_width",
@@ -5236,6 +5497,9 @@
    "28",
    "22"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_tick_rate",
@@ -5312,6 +5576,9 @@
    "9",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -5393,6 +5660,9 @@
   "desc": "Sand King's attacks inject a venom that causes enemy units to violently explode when they die that does a flat amount of damage and an additional amount based on the dying units max health.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "caustic_finale_radius",
@@ -5434,6 +5704,9 @@
    "110",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "epicenter_pulses",
@@ -5528,6 +5801,9 @@
    "100"
   ],
   "cd": "3.5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "static_remnant_radius",
@@ -5611,6 +5887,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "electric_vortex_pull_distance",
@@ -5674,6 +5953,9 @@
   "desc": "Casting a spell creates an electrical charge, which is released in a burst on Storm's next attack, dealing damage and slowing nearby enemies.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "overload_aoe",
@@ -5722,6 +6004,9 @@
   "desc": "Storm Spirit becomes volatile electricity, charging across the battlefield until he depletes his mana or reaches his target. The activation mana cost is 25+7.5% of his total mana pool, and the cost per 100 units traveled is 10+0.65% of his total mana pool. Damage is expressed in damage per 100 units traveled.",
   "mc": "30",
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "ball_lightning_initial_mana_percentage",
@@ -5789,6 +6074,9 @@
   "desc": "Storm Spirit gains a charge of 0.2 mana regeneration per kill, and a charge every 3 levels. Loses 2 charges per death. Additionally every time he gains a charge he also gains 0.1 Mana Regen permanently.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "perma_mp_per_kill",
@@ -5835,6 +6123,9 @@
    "15",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -5898,6 +6189,9 @@
   "desc": "Sven strikes with great force, cleaving all nearby enemy units with his attack.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cleave_starting_width",
@@ -5964,6 +6258,9 @@
    "28",
    "24"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movespeed",
@@ -6025,6 +6322,9 @@
    "105",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "gods_strength_damage",
@@ -6065,6 +6365,9 @@
   "desc": "Sven gains additional attack damage from Strength.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage_per_str",
@@ -6096,6 +6399,9 @@
    "17",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -6172,6 +6478,9 @@
    "14",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -6245,6 +6554,9 @@
    "10",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_count",
@@ -6338,6 +6650,10 @@
   "desc": "CHANNELED - Tiny channels to throw random trees within range towards the targeted area. Deals Tiny's attack with Tree Throw bonuses.",
   "mc": "150",
   "cd": "17",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "speed",
@@ -6394,6 +6710,9 @@
   "desc": "Tiny gains Status and Slow Resistance from Strength. Slow Resistance also reduces the impact of Attack Speed slows.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "str_to_slow_resist_pct",
@@ -6417,6 +6736,9 @@
   "desc": "Tiny gains craggy mass, increasing his attack damage, movement speed and armor, and toss power while slowing his attack speed.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_armor",
@@ -6475,6 +6797,9 @@
   "desc": "Throws the tree at the target unit, proccing your attack on it and splashing damage around the target.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "speed",
@@ -6543,6 +6868,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "magic_missile_speed",
@@ -6606,6 +6934,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -6689,6 +7020,9 @@
   "desc": "Vengeful Spirit's presence increases the damage of nearby friendly heroes. Vengeful Spirit herself receives 25% extra bonus.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_base_damage",
@@ -6737,6 +7071,9 @@
   "desc": "Vengeful Spirit is considered both a ranged and a melee attacker to gain the respective bonuses.\n\nWhen killed by an enemy hero, Vengeful Spirit deals 20% bonus damage to her killer until their next death. Only one debuff can exist at a time.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -6763,6 +7100,9 @@
    "38",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_reduction",
@@ -6819,6 +7159,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "fail_stun_duration",
@@ -6890,6 +7233,9 @@
    "10",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "powershot_damage",
@@ -6981,6 +7327,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movespeed_bonus_pct",
@@ -7027,6 +7376,10 @@
   "desc": "Vector Targeted. Summons a strong wind that pushes all enemies in the target area towards the target direction.",
   "mc": "125",
   "cd": "25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "duration",
@@ -7068,6 +7421,9 @@
   "desc": "End your Focus Fire early.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -7088,6 +7444,9 @@
    "40",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilityduration",
@@ -7158,6 +7517,9 @@
   "desc": "Using an ability conjures a stacking Tailwind that gives Windranger a brief burst of movement speed. Movement speed bonus gradually starts fading halfway through the Tailwind duration.\n\nPassively increases Windranger's max movement speed.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movespeed_bonus",
@@ -7201,6 +7563,9 @@
    "100"
   ],
   "cd": "1.6",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "arc_damage",
@@ -7267,6 +7632,9 @@
    "135"
   ],
   "cd": "6",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -7353,6 +7721,9 @@
    "18",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -7445,6 +7816,10 @@
   "desc": "Creates a storm cloud anywhere on the map that automatically casts Lightning Bolt on nearby enemies.",
   "mc": "275",
   "cd": "45",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "cloud_duration",
@@ -7498,6 +7873,10 @@
   "desc": "Zeus gains bonus attack speed and his attacks create Arc Lightnings that deal a percentage of its damage. Can be toggled off to stop this effect.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "attack_speed_bonus",
@@ -7535,6 +7914,9 @@
    "500"
   ],
   "cd": "130",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "sight_radius_day",
@@ -7580,6 +7962,9 @@
   "desc": "Zeus shocks any enemy that he attacks or is hit by his abilities, causing damage equal to a percentage of their current health.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_health_pct",
@@ -7606,6 +7991,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -7688,6 +8076,9 @@
    "7",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cleave_starting_width",
@@ -7781,6 +8172,9 @@
    "16",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -7859,6 +8253,9 @@
   "desc": "",
   "mc": null,
   "cd": "50.5",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_threshold",
@@ -7895,6 +8292,10 @@
   "desc": "Releases a Tidal Wave that spawns behind Kunkka. Deals damage and drags enemies along it. Enemies cannot attack while being dragged.",
   "mc": "75",
   "cd": "12",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "speed",
@@ -7956,6 +8357,9 @@
    "80",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "tooltip_delay",
@@ -8032,6 +8436,9 @@
   "desc": "Returns the marked hero to the X.",
   "mc": "0",
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -8057,6 +8464,9 @@
    "9",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "dragon_slave_damage",
@@ -8128,6 +8538,9 @@
    "9",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "light_strike_array_aoe",
@@ -8181,6 +8594,9 @@
   "desc": "Grants bonus attack and movement speed each time Lina hits an enemy with a spell. Stacks with itself. Lasts 16 seconds.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "fiery_soul_attack_speed_bonus",
@@ -8232,6 +8648,10 @@
   "desc": "Grants Lina unobstructed movement and increases her spell damage and magic resistance. Grants max fiery soul stacks on activation.",
   "mc": "50",
   "cd": "25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "flame_cloak_duration",
@@ -8275,6 +8695,9 @@
   "desc": "Lina's abilities deal an additional 64% damage as burn damage over 4s.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "impact_damage_pct",
@@ -8321,6 +8744,9 @@
    "60",
    "50"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -8396,6 +8822,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -8474,6 +8903,9 @@
    "16",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -8530,6 +8962,9 @@
    "9",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -8608,6 +9043,9 @@
   "desc": "Lion gains 20% debuff duration after killing or assisting in a Hero kill while that Hero is dead.\n\nLion gains 20% spell amplification for 90s after respawning or resurrecting or until he gets a kill or assist.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -8652,6 +9090,9 @@
    "70",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -8743,6 +9184,9 @@
    "10",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "start_radius",
@@ -8811,6 +9255,9 @@
    "16",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movespeed",
@@ -8867,6 +9314,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -8950,6 +9400,9 @@
   "desc": "When taking lethal damage, Shadow Shaman receives a strong dispel and survives as a 1 HP chicken with increased movement speed. Incoming damage is reduced to zero for a short duration and additional chickens are created to confuse the enemy. Cooldown resets when Shadow Shaman respawns.\n\nDISPEL TYPE: Strong Dispel",
   "mc": null,
   "cd": "120",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hex_duration",
@@ -9006,6 +9459,10 @@
   "desc": "Throw a snake jar at the target location, damaging all enemies in the AoE and creating a Massive Serpent Ward that has 4x the base Serpent Ward damage and health there that lasts 15s.",
   "mc": "140",
   "cd": "50",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "ward_duration",
@@ -9065,6 +9522,9 @@
    "105",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "ward_count",
@@ -9154,6 +9614,9 @@
    "23",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_speed",
@@ -9207,6 +9670,9 @@
    "7.5",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "crush_radius",
@@ -9290,6 +9756,9 @@
   "desc": "After 3 attacks, your next attack will bash the target.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -9323,6 +9792,9 @@
   "desc": "Slardar gains bonus movement speed, health regeneration, attack damage, and armor while in a puddle, trail, or river.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "river_speed",
@@ -9366,6 +9838,9 @@
   "desc": "Reduces enemy armor to amplify physical damage and provides True Sight and vision of the targeted unit, revealing invisibility. The enemy unit leaves a trail of water behind it.",
   "mc": "25",
   "cd": "5",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "armor_reduction",
@@ -9428,6 +9903,9 @@
   "desc": "Summons a gush of water to damage an enemy unit, reducing their movement speed and armor.",
   "mc": "100",
   "cd": "12",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "gush_damage",
@@ -9489,6 +9967,9 @@
   "desc": "Thickens Tidehunter's hide to passively block a portion of any incoming physical attack damage. Reduced block amount versus creeps. The hide also removes negative status effects if the damage taken crosses a threshold.\n\nCan be activated to double the block amount at the cost of 40% movement speed. Lasts 4s.\n\nDISPEL TYPE: Strong Dispel",
   "mc": "45",
   "cd": "30",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_reduction",
@@ -9572,6 +10053,9 @@
    "5",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_damage",
@@ -9630,6 +10114,10 @@
   "desc": "Tidehunter attaches a heavy anchor to an enemy hero. The hero is leashed while attached to the anchor. Attempting to move more than 350 units away from the anchor forces the hero to 100 move speed, dragging the anchor behind them. The anchor can be destroyed with 4 hero attacks.",
   "mc": "110",
   "cd": "35",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "attacks_to_destroy",
@@ -9686,6 +10174,9 @@
    "145",
    "140"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -9731,6 +10222,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "model_scale",
@@ -9814,6 +10308,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hero_duration",
@@ -9892,6 +10389,9 @@
   "desc": "Witch Doctor focuses his magic to heal nearby allied units, costing Witch Doctor mana every second Voodoo Restoration is active.",
   "mc": "25",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_per_second",
@@ -9963,6 +10463,9 @@
    "22",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -10024,6 +10527,10 @@
   "desc": "Turns Witch Doctor into a Death Ward briefly with reduced attack speed. He is hidden during this time.",
   "mc": "200",
   "cd": "50",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "duration",
@@ -10052,6 +10559,9 @@
   "desc": "Witch Doctor gets a Gris-Gris, an item that cannot be dropped or placed in the backpack. When the owner dies, 100% of the gold lost from death is added to the item, and will be refunded when the item is consumed. The value of the Gris-Gris is increased by 1 every 3s. \n\n Right-click to consume and permanently remove the item.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "death_gold_lost_reduction_pct_tooltip",
@@ -10082,6 +10592,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -10155,6 +10668,9 @@
    "140"
   ],
   "cd": "7",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -10238,6 +10754,9 @@
    "20",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_reduction",
@@ -10344,6 +10863,9 @@
    "20",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitychanneltime",
@@ -10416,6 +10938,10 @@
   "desc": "Creates an Ice Spire at the target spot, slowing enemies around it. Can take 4 hero hits or 8 creep hits and when destroyed it will create a Frost Blast around it.\n\nChain Frost can be cast on the Spire and can bounce to the Spire and damage the spire by 1 hero attack if there are no other enemies in range.\n\nLich can cast Frost Shield on the Spire. Each Frost Shield tick will heal the spire by 1 hero attack.",
   "mc": "150",
   "cd": "25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "bonus_movespeed",
@@ -10469,6 +10995,9 @@
   "desc": "Sacrifice an allied creep to convert its current health into mana for Lich and give Lich its experience bounty.\n\nBegins the game on cooldown and with no charges.",
   "mc": null,
   "cd": "0",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycharges",
@@ -10520,6 +11049,9 @@
    "80",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -10609,6 +11141,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilityduration",
@@ -10672,6 +11207,9 @@
    "7",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -10729,6 +11267,9 @@
    "15",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -10810,6 +11351,9 @@
   "desc": "Every time Riki strikes his enemy from behind, he deals additional bonus damage equal to a multiple of his Agility.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_multiplier",
@@ -10853,6 +11397,9 @@
   "desc": "Riki fades into the shadows, becoming invisible until he attacks. Hero kills and assists grant additional experience.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "fade_delay",
@@ -10899,6 +11446,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "tick_rate",
@@ -10977,6 +11527,9 @@
    "35",
    "30"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "spawn_count",
@@ -11088,6 +11641,9 @@
    "30",
    "25"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -11154,6 +11710,9 @@
   "desc": "Units in a 600 radius moving away from Enigma have a movespeed penalty.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -11194,6 +11753,9 @@
    "170",
    "160"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -11276,6 +11838,9 @@
    "17",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "miss_rate",
@@ -11352,6 +11917,9 @@
    "31",
    "29"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -11433,6 +12001,9 @@
    "20",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "drop_aoe_radius",
@@ -11509,6 +12080,10 @@
   "desc": "Throws a flare towards an enemy, dealing damage, teleporting them away, rooting them and reducing their Cast and Attack Range for 2 seconds.\n\nThe target is teleported further the closer they are to Tinker.",
   "mc": "80",
   "cd": "15",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "damage",
@@ -11565,6 +12140,9 @@
   "desc": "CHANNELED - Teleport to a target friendly structure. Level 2 allows teleporting to friendly units and Level 3 to friendly heroes.",
   "mc": "75",
   "cd": "50",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "minimun_distance",
@@ -11649,6 +12227,9 @@
    "5",
    "4.5"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitychanneltime",
@@ -11691,6 +12272,9 @@
   "desc": "Tinker gains 1% item cooldown reduction per 3 Intelligence, up to a maximum of 60%.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "int_per_one_cdr",
@@ -11722,6 +12306,9 @@
   "desc": "Consumes a charge to launch a ball of shrapnel that showers the target area in explosive pellets. Enemies are subject to damage and slowed movement. Reveals the targeted area. Shrapnel charges restore every 35 seconds.",
   "mc": "75",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitychargerestoretime",
@@ -11800,6 +12387,9 @@
   "desc": "Sniper increases his accuracy, giving him a chance to deal 20 extra damage and knock back his enemies. Knockback distance increases based on how close the enemy is to Sniper. Headshots briefly slow enemy movement and attack speed by -100%.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -11853,6 +12443,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -11944,6 +12537,10 @@
   "desc": "Launches a grenade at the target area, dealing damage to enemies and knocking them and Sniper back. Enemies affected are disarmed and have their movement slowed after the knockback.",
   "mc": "50",
   "cd": "10",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "damage",
@@ -12007,6 +12604,9 @@
   "desc": "Sniper’s attacks deal bonus damage for every 100 units of distance Sniper is from the target.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage_for_range",
@@ -12034,6 +12634,9 @@
    "15",
    "10"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -12100,6 +12703,9 @@
    "6",
    "5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "area_of_effect",
@@ -12151,6 +12757,9 @@
    "20",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -12219,6 +12828,9 @@
   "desc": "Necrophos stills the hearts of his opponents, causing nearby enemy units to lose a percentage of their max health over time.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "aura_radius",
@@ -12260,6 +12872,10 @@
   "desc": "Necrophos turns into a large Death Pulse towards the target unit's position. Once it arrives to the location, the Death Pulse spreads towards nearby enemies and allies.",
   "mc": "160",
   "cd": "19",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "projectile_multiplier",
@@ -12301,6 +12917,9 @@
   "desc": "Necrophos gains stacking regen for 8 seconds for each unit he kills. Hero kills multiply the effect.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "regen",
@@ -12343,6 +12962,9 @@
    "500"
   ],
   "cd": "100",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_health",
@@ -12408,6 +13030,9 @@
    "26",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "count",
@@ -12466,6 +13091,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -12528,6 +13156,9 @@
    "35",
    "30"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "aoe",
@@ -12626,6 +13257,9 @@
   "desc": "Whenever an enemy unit dies while afflicted by one or more of Warlock's abilities, a minor imp is summoned that lasts for 15 seconds and explodes on death. Imps will automatically seek out nearby units, favoring fatally bonded heroes, and will explode when reaching their prey.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "minor_imp_duration",
@@ -12676,6 +13310,9 @@
    "600"
   ],
   "cd": "165",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "golem_duration",
@@ -12777,6 +13414,9 @@
   "desc": "Beastmaster sends his axes flying and calls them home again, slicing through enemy units and trees along their path. Each axe can hit an enemy once, and amplifies subsequent damage from Beastmaster and his units.",
   "mc": "65",
   "cd": "8",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -12855,6 +13495,9 @@
   "desc": "Beastmaster calls forth a Boar to aid in the battlefield. The Boar has a passive poison attack that slows attack and movement speeds.",
   "mc": "60",
   "cd": "30",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -12948,6 +13591,9 @@
   "desc": "Beastmaster summons 2 hawks that circle around Beastmaster and dive-bombs at enemies with a base attack rate of every 4s, damaging and rooting them. Attack rate increases with the Hawk's attack speed. Prioritizes heroes. ",
   "mc": "50",
   "cd": "30",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -13059,6 +13705,9 @@
   "desc": "Untaps the inner fury of Beastmaster and units he controls, passively increasing their attack speed.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -13092,6 +13741,10 @@
   "desc": "Attacks from Beastmaster or a nearby unit he controls will cause him bang his drum, dealing damage to nearby units and healing Beastmaster and units under his control for a portion of the damage dealt. Every attack decreases the interval between drum hits down to a minimum of 0.5s between hits after 20 attacks. If no attacks are made, the intervals gradually increase.\n\nUsing Primal Roar counts as 10 attacks.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "radius",
@@ -13173,6 +13826,9 @@
    "75",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -13272,6 +13928,9 @@
    "7",
    "5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "strike_damage",
@@ -13365,6 +14024,9 @@
    "8",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "min_blink_range",
@@ -13403,6 +14065,9 @@
    "6.5",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "area_of_effect",
@@ -13451,6 +14116,9 @@
   "desc": "All sources of Spell Lifesteal also apply to Pure Damage. Queen of Pain gains Spell Lifesteal that increases with proximity to her enemies. Lifesteal is at its maximum when the enemy is 150 units or closer to her and at its minimum when the enemy is 800 units or further from her.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "spell_lifesteal",
@@ -13497,6 +14165,9 @@
    "95",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "starting_aoe",
@@ -13577,6 +14248,9 @@
    "19",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -13675,6 +14349,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "base_damage",
@@ -13738,6 +14415,9 @@
    "30"
   ],
   "cd": "5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "can_target",
@@ -13814,6 +14494,9 @@
   "desc": "Venomancer's attacks slow enemies and deal damage over time.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -13860,6 +14543,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "debuff_duration",
@@ -13946,6 +14632,9 @@
    "11",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "speed",
@@ -14004,6 +14693,9 @@
    "20",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -14092,6 +14784,9 @@
   "desc": "Adds the chance for an attack to lock an enemy unit in time while attacking it a second time.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -14143,6 +14838,10 @@
   "desc": "Available for 1.5 seconds after landing Time Walk. If used in this period, you will reverse your time walk back to your previous cast location. Does not affect health or proc scepter hits.",
   "mc": "0",
   "cd": "0.5",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "buff_duration",
@@ -14176,6 +14875,9 @@
   "desc": "Enemy Attack Projectiles targetting Faceless Void or allied heroes within a 1200 radius of him get slowed by 40%, when they get within 500 distance of their target.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_projectile_slow",
@@ -14215,6 +14917,9 @@
    "145",
    "135"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -14272,6 +14977,9 @@
    "10",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "blast_speed",
@@ -14345,6 +15053,9 @@
    "100"
   ],
   "cd": "42",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "skeleton_duration",
@@ -14433,6 +15144,9 @@
   "desc": "Wraith King passively deals bonus damage on an attack with a cooldown.",
   "mc": null,
   "cd": "5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "crit_mult",
@@ -14461,6 +15175,9 @@
   "desc": "Grants Wraith King Lifesteal. When slain Wraith King turns into a free pathing Wraith with Bonus Attack and Movement Speed for a short duration, delaying his death. Wraith King cannot reincarnate after being a Wraith.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "vampiric_aura",
@@ -14502,6 +15219,9 @@
    "150",
    "120"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "reincarnate_time",
@@ -14567,6 +15287,9 @@
    "7",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -14643,6 +15366,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -14701,6 +15427,9 @@
   "desc": "Creates a spirit link between Death Prophet and an enemy unit, draining health from the enemy.",
   "mc": "60",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -14767,6 +15496,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movement_speed_pct",
@@ -14789,6 +15521,9 @@
    "400"
   ],
   "cd": "150",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -14878,6 +15613,9 @@
   "desc": "Throws a dagger slowing the enemy unit's movement speed, dealing 65+30% of Phantom Assassin's attack damage as physical damage and applying attack effects from items and abilities.",
   "mc": "30",
   "cd": "6",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "move_slow",
@@ -14961,6 +15699,9 @@
    "50"
   ],
   "cd": "0.1",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_attack_speed",
@@ -15024,6 +15765,9 @@
   "desc": "Phantom Assassin blurs her body, disjointing incoming projectiles, increasing her movement speed, causing her to be impossible to see until she comes near enemy heroes or towers.",
   "mc": "50",
   "cd": "45",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -15090,6 +15834,10 @@
   "desc": "Phantom Assassin releases sharp blades around her, dealing a percentage of each victim's max health on impact and applying Break.",
   "mc": "80",
   "cd": "14",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "pct_health_damage_initial",
@@ -15143,6 +15891,9 @@
   "desc": "Phantom Assassin focuses inward, increasing her ability to evade enemy attacks.\n\nStacks diminishingly with other sources of Evasion.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "evasion",
@@ -15166,6 +15917,9 @@
   "desc": "Phantom Assassin refines her combat abilities, acquiring a chance of gaining Deadly Focus with each attack. When attacking with Deadly Focus, Phantom Assassin will consume the buff and guarantee a critical hit. Stifling Dagger has a bonus chance to cause Deadly Focus.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "crit_chance",
@@ -15215,6 +15969,9 @@
    "145"
   ],
   "cd": "5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "structure_damage_mod",
@@ -15268,6 +16025,9 @@
    "10",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_heal_amp_pct_allies",
@@ -15336,6 +16096,9 @@
   "desc": "Pugna places a Nether Ward at the target location. The ward will fire at any enemy hero who casts a spell dealing base damage plus the damage multiplier of the mana spent by the enemy hero.",
   "mc": "80",
   "cd": "40",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -15429,6 +16192,9 @@
   "desc": "Pugna can cast spells and use items while channeling.\n\nPugna receives 1.5% spell amplification per destroyed tower.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "tower_scale",
@@ -15454,6 +16220,9 @@
    "205"
   ],
   "cd": "7",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "health_drain",
@@ -15523,6 +16292,9 @@
   "desc": "Templar Assassin becomes highly elusive, gaining a small barrier and bonus to her damage. The damage and avoidance effects are separate, and have a limited number of instances. If a barrier is consumed, a new one is created as long as there are charges left. If an instance of damage would deal more damage than the remaining barrier, all of the damage is absorbed.",
   "mc": "95",
   "cd": "14",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "instances",
@@ -15581,6 +16353,9 @@
    "7",
    "5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -15634,6 +16409,9 @@
   "desc": "Templar Assassin's psi blades slice through the attacked unit, splitting and damaging enemy units directly behind it, while gaining bonus attack range. For each unit it damages, the split damage is reduced by a percentage.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_attack_range",
@@ -15695,6 +16473,9 @@
   "desc": "Springs the trap nearest to Templar Assassin, slowing nearby enemies. \n\nIf the ability is in alt-cast state, springs the trap that is closest to the mouse cursor.",
   "mc": "0",
   "cd": "0.5",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -15711,6 +16492,9 @@
   "desc": "CHANNELED - Allows Templar Assassin to teleport to any Psionic Trap after channeling for 2 seconds, detonating it upon arrival as if it was fully charged and instantly dealing 400 bonus damage. Channeling Psionic Projection does not break Meld.",
   "mc": "50",
   "cd": "10",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "extra_damage",
@@ -15743,6 +16527,9 @@
    "8",
    "5"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "trap_radius",
@@ -15824,6 +16611,9 @@
   "desc": "When remaining stationary and not taking damage for 0.2s, Templar Assassin begins meditating, gaining health and mana regeneration, reaching the maximum bonus after 1.85s of meditating.",
   "mc": "0",
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_attack_range",
@@ -15866,6 +16656,9 @@
   "desc": "Intensifies Viper's venom, adding an effect to his normal attack that applies a stacking movement speed slow and magic resistance deduction while dealing damage over time. Stacks up to 6 times.",
   "mc": "20",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -15947,6 +16740,9 @@
   "desc": "Viper releases a Nethertoxin at the targeted area. Units in that area take an increasing damage over time based on how long they remain in it. Units in it have their attack speed slowed.",
   "mc": "70",
   "cd": "14",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "min_damage",
@@ -16035,6 +16831,9 @@
   "desc": "Viper exudes an infectious toxin that damages and slows the attack speed of any enemy that damages it in a 1200 radius. The acid exudate also increases Viper's resistance to magic.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -16091,6 +16890,10 @@
   "desc": "Viper slams into the ground, releasing a Nethertoxin and splattering each enemy in a 500 AoE for 4 seconds with the effect of Corrosive Skin.",
   "mc": "75",
   "cd": "25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "corrosive_radius",
@@ -16144,6 +16947,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -16170,6 +16976,9 @@
    "40",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -16255,6 +17064,9 @@
    "7",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "beam_damage",
@@ -16326,6 +17138,9 @@
    "30",
    "25"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "rotating_glaives_duration",
@@ -16404,6 +17219,9 @@
   "desc": "Empowers Luna's glaives, causing her attacks to bounce between enemy units. Deals less damage with each bounce.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "range",
@@ -16445,6 +17263,9 @@
   "desc": "Grants attack damage to Luna and nearby allied heroes within 1200 range, with Luna receiving double the attack damage bonuses. At night, Lunar Blessing is global, and Luna is blessed with bonus night vision.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -16472,6 +17293,9 @@
    "250"
   ],
   "cd": "105",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "beams",
@@ -16551,6 +17375,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "start_radius",
@@ -16634,6 +17461,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stun_duration",
@@ -16697,6 +17527,9 @@
   "desc": "The life blood of the Dragon improves Dragon Knight's abilities and items to have increased AoE and causes his attacks to deal additional magic damage to enemy units.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "magic_damage",
@@ -16734,6 +17567,10 @@
   "desc": "Ignites an area, dealing damage over time that lingers on enemies in it. Has reduced cast range when melee.",
   "mc": "80",
   "cd": "20",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "radius",
@@ -16782,6 +17619,9 @@
   "desc": "The life blood of the Dragon improves Dragon Knight's health regeneration and armor. \n\nRegen and armor are increased by 50% during Elder Dragon Form.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "health_regen",
@@ -16810,6 +17650,9 @@
   "desc": "Dragon Knight assumes the form of the Elder Dragon, increasing the range of his abilities, gaining bonus movement speed, and a ranged attack with various properties. The Dragon evolves per level. The bonuses are cumulative. \n\nLevel 1 Green: Grants a corrosive damage over time that can also damage buildings.\n\nLevel 2 Red: Grants splash damage to the dragon's attacks.\n\nLevel 3 Blue: Grants a debuff immunity piercing movement and attack frost slow on attack.",
   "mc": "50",
   "cd": "100",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -16923,6 +17766,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "start_radius",
@@ -17036,6 +17882,9 @@
    "22",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -17094,6 +17943,9 @@
    "8",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -17170,6 +18022,9 @@
   "desc": "Dazzle's abilities apply Weave to both allies and enemies they affect, increasing allied armor and reducing enemy armor. Multiple instances of this effect stack.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "armor_change",
@@ -17231,6 +18086,9 @@
    "60",
    "50"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "min_duration",
@@ -17319,6 +18177,9 @@
   "desc": "Ends Dazzle's sojourn in the Nothl Realm and returns his spirit to his body.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -17344,6 +18205,9 @@
    "20",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -17397,6 +18261,9 @@
    "17",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -17498,6 +18365,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -17585,6 +18455,10 @@
   "desc": "Supercharges Clockwerks abilities:\n\nBattery Assault: Increased radius and affects all enemies in its range.\nPower Cogs: Radius increased, and Clockwerk's armor while near Power Cogs is increased.\nRocket Flares: Increased damage, vision and slow duration, and fire additional rockets to either side of the target.\nHookshot: Stun radius and duration increased.\nJetpack: Moves faster.\n\nClockwerk's movement and attack speed becomes slowed to a crawl after the duration runs out.",
   "mc": "90",
   "cd": "50",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "buff_duration",
@@ -17661,6 +18535,10 @@
   "desc": "Clockwerk activates a jetpack, gaining flying movement, flying vision, and bonus movement speed. Clockwerk has a severely-limited turn rate during this time and cannot attack. Jetpack can be toggled on and off for the duration of the buff.",
   "mc": "75",
   "cd": "16",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "bonus_speed",
@@ -17702,6 +18580,9 @@
    "45",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "latch_radius",
@@ -17786,6 +18667,9 @@
   "desc": "Clockwerk's outgoing damage increases by 0.25% per point of armor.\n\nClockwerk can consume Chainmails to permanently gain +4 armor per Chainmail consumed. Can stack. Self-cast to consume.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_armor",
@@ -17829,6 +18713,9 @@
   "desc": "Toggles Jetpack on and off.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -17849,6 +18736,9 @@
    "140"
   ],
   "cd": "11",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "delay",
@@ -17907,6 +18797,9 @@
    "20",
    "19"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "num_explosions",
@@ -17970,6 +18863,9 @@
    "140"
   ],
   "cd": "4",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -18048,6 +18944,10 @@
   "desc": "Causes Leshrac and all nearby enemies to turn ethereal, preventing them from attacking, slowing them, and making them take more magic damage. Increases Leshrac's speed rather than reducing it. Does not cause Leshrac to take amplified damage.",
   "mc": "75",
   "cd": "25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "duration",
@@ -18081,6 +18981,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "aoe_per_int",
@@ -18103,6 +19006,9 @@
    "70"
   ],
   "cd": "1",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_cost_per_second",
@@ -18162,6 +19068,9 @@
    "10",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "vision_range",
@@ -18233,6 +19142,9 @@
    "35",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "barrier",
@@ -18284,6 +19196,9 @@
    "35",
    "30"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "area_of_effect",
@@ -18382,6 +19297,10 @@
   "desc": "Applies a curse on all enemy heroes within 900 range, displaying them in fog, slowing them, and dealing damage over time based on the number of trees within 250 radius. Treants count as trees for this purpose.",
   "mc": "80",
   "cd": "18",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "duration",
@@ -18428,6 +19347,9 @@
   "desc": "Nature's Prophet gains 2% bonus damage for each nearby tree. Treants also provide this bonus with multiplied values regardless of proximity. Treants also possess this ability.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_tree_pct",
@@ -18463,6 +19385,9 @@
    "190"
   ],
   "cd": "85",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_targets",
@@ -18533,6 +19458,9 @@
    "19",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -18601,6 +19529,9 @@
    "20",
    "15"
   ],
+  "innate": false,
+  "levels": 8,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -18688,6 +19619,9 @@
   "desc": "Lifestealer's attacks deal damage and provide heal for a percentage of his target's max health. He gains permanent max HP whenever he kills a unit.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_leech_percent",
@@ -18739,6 +19673,9 @@
   "desc": "Passively grants Lifestealer Attack Speed.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movement_speed_bonus",
@@ -18765,6 +19702,9 @@
    "65",
    "50"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -18862,6 +19802,9 @@
   "desc": "Lifestealer eats the host body from the inside out, exploding from within.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -18887,6 +19830,9 @@
    "40",
    "30"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -18955,6 +19901,9 @@
    "130"
   ],
   "cd": "9",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -19023,6 +19972,9 @@
    "14",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -19069,6 +20021,10 @@
   "desc": "Passive ability. Causes Dark Seer's next attack on a hero to have True Strike, knock a replica out of the victim, damaging and stunning them based on how far Dark Seer has moved in the past 3 seconds. Max power is reached after 1100 distance moved.",
   "mc": null,
   "cd": "10",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "max_stun",
@@ -19117,6 +20073,9 @@
   "desc": "Dark Seer gains 1 Attack Speed from each point of Intelligence.\n\nWhen Dark Seer levels up, he restores a percentage of his max health and mana.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "int_to_atkspd",
@@ -19144,6 +20103,9 @@
    "375"
   ],
   "cd": "100",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -19242,6 +20204,9 @@
    "20",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_speed_bonus",
@@ -19309,6 +20274,9 @@
   "desc": "Imbues Clinkz's arrows with fire for extra damage.\n\nSkeleton Archers will fire Searing Arrows at targets Clinkz attacks for 50% damage.",
   "mc": "10",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_bonus",
@@ -19347,6 +20315,9 @@
   "desc": "Clinkz consumes the target enemy creep or friendly Skeleton Archer, healing and gaining max health. Does not take Clinkz out of Skeleton Walk.",
   "mc": "50",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -19423,6 +20394,10 @@
   "desc": "CHANNELED - Clinkz channels and shoots multiple piercing arrows in the target direction that hit all enemy units dealing a percentage of Clinkz' attack damage and applying attack modifiers.",
   "mc": "40",
   "cd": "17",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "wave_count",
@@ -19471,6 +20446,10 @@
   "desc": "Summons a row of Burning Skeleton Archers in the target location.",
   "mc": "150",
   "cd": "70",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "range",
@@ -19520,6 +20499,9 @@
    "21",
    "18"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -19609,6 +20591,9 @@
   "desc": "Clinkz and his skeletons apply a stacking debuff that causes their attacks to pierce up to 20% of the target's total physical armor (does not reduce their armor). Clinkz applies 3% per attack, and skeletons apply 1%. \n\nLasts 5 seconds.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -19655,6 +20640,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "heal",
@@ -19713,6 +20701,9 @@
    "30",
    "25"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -19765,6 +20756,9 @@
    "7",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "base_damage",
@@ -19846,6 +20840,9 @@
   "desc": "Degenerates the movement capabilities of enemy units that stray too near, slowing their movement speed.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "speed_bonus",
@@ -19897,6 +20894,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -19968,6 +20968,9 @@
    "2",
    "0"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "distance_damage_pct",
@@ -20021,6 +21024,9 @@
    "18",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "slow_movement_speed",
@@ -20129,6 +21135,9 @@
   "desc": "A cloud of wisps heals Enchantress and any friendly units nearby.",
   "mc": "140",
   "cd": "35",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "heal_duration",
@@ -20216,6 +21225,10 @@
   "desc": "Leaps backward, dodges incoming projectiles, and launches an Impetus attack on the 2 furthest enemy units within Enchantress' attack range + 100.",
   "mc": "60",
   "cd": "10",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "hop_distance",
@@ -20257,6 +21270,10 @@
   "desc": "Enchantress roots an enemy unit. All creeps, ally, enemy and neutral within a radius will gain bonus movement and attack speed and attack the chosen target for 6 seconds.",
   "mc": "75",
   "cd": "20",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "duration",
@@ -20310,6 +21327,9 @@
   "desc": "Enchantress beguiles her enemies, slowing their attacks when she is attacked.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "slow_attack_speed",
@@ -20340,6 +21360,9 @@
   "desc": "Enchantress causes neutral creeps or any unit under her control to deal additional damage to enemy Heroes.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -20357,6 +21380,9 @@
    "13",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "health_cost",
@@ -20449,6 +21475,9 @@
   "desc": "Huskar sets his spears aflame, dealing damage over time with his regular attack. Multiple attacks will stack additional damage. Each attack drains some of Huskar's health.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_health_cost",
@@ -20497,6 +21526,9 @@
   "desc": "Huskar's injuries feed his power, giving increased attack speed, magic resistance and health regen based on missing health. Health regen is a percentage of your strength.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "maximum_attack_speed",
@@ -20585,6 +21617,9 @@
   "desc": "Huskar does not have mana. Mana costs of items are converted into health costs.Huskar's Health Costs are Magical Damage and can be reduced by Magic Resist.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -20601,6 +21636,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "health_cost_percent",
@@ -20712,6 +21750,9 @@
    "9",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -20803,6 +21844,9 @@
    "20",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration_day",
@@ -20881,6 +21925,9 @@
    "33",
    "30"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_heal",
@@ -20927,6 +21974,9 @@
   "desc": "Night Stalker is in his element at night, attacking and moving with great swiftness.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_movement_speed_pct_night",
@@ -20958,6 +22008,9 @@
    "135",
    "130"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -20995,6 +22048,9 @@
    "35",
    "30"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -21061,6 +22117,9 @@
   "desc": "Spins a large web that grants Broodmother a passive movement speed increase and increases her Turn Rate, while in its vicinity, as well as giving free movement.\n\nSpin Web can be cast from anywhere as long as the new web touches an existing web. Webs never expire, and can be manually destroyed. When the maximum limit of webs is exceeded, the oldest web disappears.",
   "mc": "40",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -21144,6 +22203,9 @@
   "desc": "Broodmother's venom cripples enemy units, causing her attacks to slow and giving the affected unit a chance to miss its attacks and extra damage from attacks.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "miss_chance",
@@ -21196,6 +22258,10 @@
   "desc": "",
   "mc": "70",
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "formation_delay",
@@ -21237,6 +22303,9 @@
   "desc": "Whenever Broodmother kills a unit, she and all units under her control in a 600 radius receive a buff for 3s that heals them for a percentage of the victim's health every 0.5 seconds. Healing from creeps is reduced by 40%.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "kill_heal_heroes",
@@ -21279,6 +22348,9 @@
    "8",
    "7"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "buff_duration",
@@ -21373,6 +22445,9 @@
    "105"
   ],
   "cd": "5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -21460,6 +22535,9 @@
    "5",
    "3"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -21511,6 +22589,9 @@
    "16",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -21577,6 +22658,10 @@
   "desc": "Applies Shadow Walk and all of its bonuses to the target ally. Allied fade time is 0.5s. Does not break Bounty Hunter's invisibility when cast.",
   "mc": "50",
   "cd": "15",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "fade_time",
@@ -21605,6 +22690,9 @@
   "desc": "Bounty Hunter receives 20% more kill and assist gold if the dying enemy hero is Big Game. An enemy hero is considered Big Game if they are one of the top 3 net worth heroes on the enemy team.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "kill_assist_gold_bonus_percent",
@@ -21627,6 +22715,9 @@
    "5",
    "4"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "target_damage_amp",
@@ -21706,6 +22797,9 @@
    "28",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -21797,6 +22891,9 @@
    "9",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -21879,6 +22976,9 @@
    "5",
    "3"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "delay",
@@ -21925,6 +23025,9 @@
    "55",
    "40"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "targets_allies",
@@ -21956,6 +23059,9 @@
   "desc": "Whenever Weaver deals damage to an enemy hero with an attack or ability, if he remains within 700 range of them for 1.5s, he establishes a Thread of Fate that briefly slows the enemy and ties Weaver and the enemy together. Each established thread of fate grants bonus damage to Weaver.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "thread_setup_distance",
@@ -22027,6 +23133,9 @@
    "10",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "start_radius",
@@ -22115,6 +23224,9 @@
    "14",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "path_delay",
@@ -22198,6 +23310,9 @@
    "7",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "slow_attack_speed_pct",
@@ -22280,6 +23395,9 @@
    "7",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movement_slow",
@@ -22358,6 +23476,9 @@
   "desc": "Jakiro's attacks launch an attack from each head, but deal less damage each.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "second_attack_delay",
@@ -22389,6 +23510,9 @@
    "80",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -22469,6 +23593,9 @@
   "desc": "Drenches an area in sticky oil, amplifying damage from Batrider's attacks and abilities and slowing the movement speed and turn rate of enemies. Additional casts of Sticky Napalm continue to increase damage, up to 20 stacks. Applies a small amount of damage with each cast.",
   "mc": "22",
   "cd": "3",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_level",
@@ -22570,6 +23697,9 @@
    "16",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_impact",
@@ -22671,6 +23801,9 @@
    "36",
    "30"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_second",
@@ -22729,6 +23862,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -22741,6 +23877,9 @@
   "desc": "Batrider's attacks apply a debuff that deals 20% of the attack damage every 1s for 2s.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "total_ticks",
@@ -22777,6 +23916,9 @@
    "75",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -22843,6 +23985,9 @@
    "14",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -22921,6 +24066,9 @@
    "170"
   ],
   "cd": "15",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_units",
@@ -23025,6 +24173,9 @@
    "14",
    ""
   ],
+  "innate": false,
+  "levels": 5,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "armor",
@@ -23098,6 +24249,9 @@
   "desc": "",
   "mc": "50",
   "cd": "10",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "zealots",
@@ -23139,6 +24293,9 @@
    "130",
    "110"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "heal_amount",
@@ -23193,6 +24350,9 @@
    "18",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -23289,6 +24449,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -23352,6 +24515,9 @@
   "desc": "Spectre disperses part of the damage dealt to her, reflecting it to all nearby enemies. The effect lessens with distance.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_reflection_pct",
@@ -23405,6 +24571,9 @@
   "desc": "Spectre assumes the target Shadow Step or Haunt illusion, destroying it.",
   "mc": "25",
   "cd": "1.5",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cast_dagger_on_target",
@@ -23446,6 +24615,9 @@
   "desc": "Spectre and her illusions deal bonus Pure damage if attacking an enemy that does not have any allied units within a 350 radius around them.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -23477,6 +24649,9 @@
    "150",
    "140"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "scepter_cooldown_reduction_tooltip",
@@ -23568,6 +24743,9 @@
    "11",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_second",
@@ -23649,6 +24827,9 @@
    "6",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -23751,6 +24932,9 @@
    "5",
    "2.5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -23807,6 +24991,9 @@
   "desc": "When Ancient Apparition deals Magic damage to an enemy with his abilities, it is slowed for a short duration. If the target is a Hero, its Strength is also reduced. Multiple instances of this effect stack and have independent durations.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "str_reduction",
@@ -23847,6 +25034,9 @@
    "45",
    "40"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius_min",
@@ -23935,6 +25125,9 @@
   "desc": "Releases the ice blast to explode at the tracer's current location. Can be cast while silenced.",
   "mc": null,
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -23952,6 +25145,9 @@
    "70"
   ],
   "cd": "66",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_gold",
@@ -24040,6 +25236,9 @@
    "37",
    "35"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_second",
@@ -24117,6 +25316,9 @@
    "7",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "burn_damage",
@@ -24170,6 +25372,9 @@
   "desc": "This slot will be replaced with abilities acquired using Devour.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -24182,6 +25387,9 @@
   "desc": "This slot will be replaced with abilities acquired using Devour.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -24202,6 +25410,9 @@
    "130",
    "120"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -24276,6 +25487,9 @@
   "desc": "Doom's attacks curse enemy heroes. After 2.5s, the cursed hero bursts with a pillar of fire, damaging itself and all units in a 66 AoE for 10% of the damage taken from Doom during the curse. The damage and radius of the curse is 66% stronger if the enemy's level is a multiple of 6.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage_pct_base",
@@ -24322,6 +25536,9 @@
    "11",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "shock_radius",
@@ -24400,6 +25617,9 @@
    "10",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_attacks",
@@ -24448,6 +25668,9 @@
   "desc": "Ursa's claws dig deeper wounds in the enemy, causing consecutive attacks to the same enemy to deal more damage. If the same target is not attacked after 8 seconds, the bonus damage is lost.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_reset_time",
@@ -24496,6 +25719,9 @@
   "desc": "Ursa gains bonus damage equal to a percentage of his Current HP.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "health_as_damage_pct",
@@ -24521,6 +25747,9 @@
    "45",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_reduction",
@@ -24583,6 +25812,9 @@
    "16",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movement_speed",
@@ -24679,6 +25911,9 @@
    "18",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movement_speed",
@@ -24722,6 +25957,9 @@
   "desc": "Gives a chance to stun and knockback an enemy unit on an attack. Deals a percentage of movement speed as damage.",
   "mc": null,
   "cd": "1.2",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chance_pct",
@@ -24808,6 +26046,10 @@
   "desc": "Barathrum gains magic resistance and distorts reality around the selected hero, making any unit-targeted spells cast by enemy heroes get redirected towards Spirit Breaker. Can be cast on both allied and enemy heroes, but only spells cast by enemies of Spirit Breaker will be redirected.",
   "mc": "100",
   "cd": "30",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "radius",
@@ -24854,6 +26096,9 @@
   "desc": "Spirit Breaker gains bonus Movement Speed for a duration whenever he stuns an enemy. Effects from multiple stuns stack and have independent durations. Duration pauses during Charge of Darkness.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hero_duration",
@@ -24895,6 +26140,9 @@
    "55",
    "35"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -24940,6 +26188,9 @@
    "6",
    "5.5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -24998,6 +26249,9 @@
    "16",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hits_to_kill_tooltip",
@@ -25089,6 +26343,9 @@
    "80"
   ],
   "cd": "25",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -25140,6 +26397,9 @@
   "desc": "Gyrocopter gains movement speed for a short duration after damaging an enemy with his attacks or abilities.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_movespeed_duration",
@@ -25168,6 +26428,10 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "double_target",
@@ -25202,6 +26466,9 @@
    "65",
    "55"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -25282,6 +26549,9 @@
   "desc": "Sprays high-pressure acid across a target area. Enemy units who step across the contaminated terrain take damage per second and have their armor reduced.",
   "mc": "120",
   "cd": "21",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -25353,6 +26623,9 @@
   "desc": "Alchemist brews up an unstable concoction that he can throw at an enemy hero, to stun and deal damage in an area around the explosion. The longer the concoction brews, the more damage it deals and the longer the stun. Alchemist is faster while charging the concoction. After 5 seconds, the brew reaches its maximum damage and stun time. However, after 5.5 seconds, the concoction will explode on Alchemist himself if not thrown.",
   "mc": "100",
   "cd": "17",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "brew_time",
@@ -25436,6 +26709,9 @@
   "desc": "Alchemist coats his weapons and empowers his spells with an acid that applies a stacking slow and base attack damage reduction to enemies hit.\n\nAttacks apply 2 stacks. Unstable Concoction applies 1 stack per second of brew time.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_stacks",
@@ -25497,6 +26773,10 @@
   "desc": "Alchemist throws a potion at an ally, applying a basic dispel and giving them attack speed, movement speed and HP regen.\n\nDISPEL TYPE: Basic Dispel",
   "mc": "100",
   "cd": "35",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "duration",
@@ -25553,6 +26833,9 @@
   "desc": "Alchemist synthesizes additional gold from his enemies and bounty runes. With each kill, Alchemist earns base bonus gold and extra bonus gold. If Alchemist kills another unit which yields gold within the next 40 seconds, an additional instance of Extra Bonus Gold is added to the total. Additionally, causes bounty runes to yield more gold.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -25625,6 +26908,9 @@
    "100"
   ],
   "cd": "60",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -25694,6 +26980,9 @@
   "desc": "Throw it before it blows up!",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "brew_time",
@@ -25770,6 +27059,9 @@
   "desc": "Allows manipulation of ice elements. Active Quas instances imbue Invoker with bonus hp regeneration. Passively grants bonus strength per level of Quas.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_level",
@@ -25826,6 +27118,9 @@
   "desc": "Allows manipulation of storm elements. Active Wex instances imbue Invoker with bonus movement and attack speed. Passively grants bonus agility per level of Wex.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_level",
@@ -25897,6 +27192,9 @@
   "desc": "Allows manipulation of fire elements. Active Exort instances imbue Invoker with bonus attack damage. Passively grants bonus intelligence per level of Exort.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_level",
@@ -25950,6 +27248,9 @@
   "desc": "Casting Invoke will replace this slot with one of ten unique spells based on Invoker's currently active Quas, Wex, and Exort buffs.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -25962,6 +27263,9 @@
   "desc": "Casting Invoke will replace this slot with one of ten unique spells based on Invoker's currently active Quas, Wex, and Exort buffs.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -25977,6 +27281,9 @@
   "desc": "Combines the properties of the elements currently being manipulated to create a new spell for Invoker to use. Invoke cooldown is reduced by 0.3 seconds for each orb level. Invoker gains a bonus ability point for his orbs at levels 6, 12, and 18.\n\nInvoker's vast knowledge of magic allows him to choose from Multiple Aghanim's Scepter and Shard options. The items must be activated before they can be used, and cannot be changed after they are chosen.\n\n Click the help button to see the list of possible spells.",
   "mc": "0",
   "cd": "7",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": 6,
   "attrib": [
    {
     "key": "max_invoked_spells",
@@ -26018,6 +27325,9 @@
   "desc": "Invoker draws the heat from an enemy, chilling them to their very core for a duration based on the level of Quas. The enemy will take damage and be briefly frozen. Further damage taken in this state will freeze the enemy again, dealing bonus damage. The enemy can only be frozen so often, but the freeze cooldown decreases based on the level of Quas.",
   "mc": "100",
   "cd": "19",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -26105,6 +27415,9 @@
   "desc": "Invoker manipulates the ice and electrical energies around him, rendering his body invisible and gaining health and mana regen. The elemental imbalance created as a consequence slows nearby enemies based on the level of Quas, and slows Invoker as well based on the level of Wex.",
   "mc": "175",
   "cd": "40",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -26206,6 +27519,9 @@
   "desc": "Unleashes a fast moving tornado that picks up enemy units in its path, suspending them helplessly in the air shortly before allowing them to plummet to their doom. Travels further based on the level of Wex. Holds enemies in the air for a duration based on the level of Quas. Deals base damage plus added damage based on levels in Wex.\n\nDISPEL TYPE: Basic Dispel",
   "mc": "140",
   "cd": "27",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "travel_distance",
@@ -26313,6 +27629,9 @@
   "desc": "Invoker builds up a charge of electromagnetic energy at a targeted location which automatically detonates after 2.9 seconds. The detonation covers an area, draining mana based on the level of Wex. Deals damage for each point of mana drained. If EMP drains mana from an enemy hero, Invoker gains 25% of the mana drained.",
   "mc": "125",
   "cd": "27",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "delay",
@@ -26384,6 +27703,9 @@
   "desc": "Invoker infuses an ally with an immense surge of energy, increasing their attack speed based on the level of Wex and their damage based on the level of Exort.",
   "mc": "75",
   "cd": "15",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_attack_speed",
@@ -26450,6 +27772,9 @@
   "desc": "Invoker pulls a flaming meteor from space onto the targeted location. Upon landing, the meteor rolls forward, constantly dealing damage based on the level of Exort, and rolling further based on the level of Wex. Units hit by the meteor will also be set on fire for a short time, receiving additional damage based on the level of Exort.",
   "mc": "200",
   "cd": "50",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "land_time",
@@ -26557,6 +27882,9 @@
   "desc": "Sends a catastrophic ray of fierce energy from the sun at any targeted location, incinerating all enemies standing beneath it once it reaches the earth. Deals damage based on the level of Exort, however this damage is spread evenly over all enemies hit.",
   "mc": "175",
   "cd": "23",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "delay",
@@ -26643,6 +27971,9 @@
   "desc": "Invoker forges a spirit embodying the strength of fire and fortitude of ice. Damage and armor are based on the level of Exort while attack range, health, and duration are based on the level of Quas. The elemental's scorching attack is capable of melting the armor of enemy heroes. The number of spirits spawned is determined by the lower level of Quas and Exort.",
   "mc": "75",
   "cd": "27",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "spirit_damage",
@@ -26799,6 +28130,9 @@
   "desc": "Generates a wall of solid ice directly in front of Invoker for a duration based on the level of Quas. The bitter cold emanating from it greatly slows nearby enemies based on the level of Quas and deals damage each second based on the level of Exort.",
   "mc": "125",
   "cd": "23",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -26905,6 +28239,9 @@
   "desc": "Invoker unleashes a mighty sonic wave in front of him, dealing damage to any enemy unit it collides with based on the level of Exort. The sheer impact from the blast is enough to knock those enemy units back for a duration based on the level of Quas, then disarm their attacks for a duration based on the level of Wex.",
   "mc": "250",
   "cd": "36",
+  "innate": false,
+  "levels": 9,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "travel_distance",
@@ -27016,6 +28353,9 @@
    "18",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -27108,6 +28448,9 @@
    "18"
   ],
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "intellect_damage_pct",
@@ -27196,6 +28539,9 @@
    "14",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -27259,6 +28605,9 @@
   "desc": "Silencer takes less damage from and deals more damage to silenced targets.\n\nIf an enemy Hero dies within 925 range of Silencer or was debuffed by Silencer at the time of death, Silencer permanently steals 1 Intelligence from them. If the victim was silenced, steal an extra 1 Intelligence.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "permanent_int_steal_range",
@@ -27296,6 +28645,9 @@
    "600"
   ],
   "cd": "120",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilityduration",
@@ -27332,6 +28684,9 @@
    "1.5",
    "0"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_pool_damage_pct",
@@ -27373,6 +28728,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "prison_duration",
@@ -27454,6 +28812,9 @@
    "30",
    "27"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "barrier_flat",
@@ -27505,6 +28866,9 @@
   "desc": "Passively grants a chance to restore a percentage of your max mana each time you cast an ability. Restores less mana from spells that modify attacks.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "proc_chance",
@@ -27549,6 +28913,9 @@
    "130",
    "120"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "base_damage",
@@ -27625,6 +28992,9 @@
    "130"
   ],
   "cd": "30",
+  "innate": false,
+  "levels": 6,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "wolf_index",
@@ -27729,6 +29099,9 @@
    "18",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "howl_duration",
@@ -27792,6 +29165,9 @@
   "desc": "Increases the HP regeneration and damage of Lycan and all units under his control.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -27837,6 +29213,10 @@
    "95",
    "85"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "lifesteal_percent",
@@ -27875,6 +29255,9 @@
   "desc": "Lycan and units he controls deal extra damage to neutral creeps.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_amp",
@@ -27897,6 +29280,9 @@
    "95",
    "85"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -27968,6 +29354,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -28044,6 +29433,9 @@
    "15",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -28135,6 +29527,9 @@
   "desc": "Brewmaster can switch stances based on the elements he controls.\n\nWhenever Brewmaster casts an ability, he becomes Brewed Up, increasing his stance power by 150% for 5s. If he casts another ability while Brewed Up, the duration is extended by 2s. After Brewed Up expires, he is hungover and cannot Brew Up again for 9s.\n\nEarth Brawler gains bonus Magic Resistance and Armor.\n\nStorm Brawler gains bonus Evasion and Movement Speed.\n\nFire Brawler gains bonus Attack Speed and chance to critical strike.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "magic_resist",
@@ -28236,6 +29631,9 @@
   "desc": "When Brewmaster drops below 50% Health he gains a Status Resistance buff and his movement speed alternates every 1s between being faster and being slower. The effect becomes stronger at lower health, scaling from 0 up to max values at 20% Health.",
   "mc": "0",
   "cd": "0",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "min_health_threshold",
@@ -28313,6 +29711,9 @@
    "130",
    "120"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -28426,6 +29827,9 @@
    "22",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "disruption_duration",
@@ -28532,6 +29936,9 @@
    "18",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -28588,6 +29995,9 @@
   "desc": "Deals damage in a line, and afflicts enemy units with a poison effect. The poison deals 1/2/4/8/16 times the stack damage based on the number of stacks on the target, up to 5 stacks. Additional stacks cause 60 damage each. This deferred damage is dealt when Shadow Poison's duration is expired, or the Release sub-ability is used.",
   "mc": "40",
   "cd": "2.5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stack_damage",
@@ -28661,6 +30071,9 @@
   "desc": "Releases the poison to do damage on all affected enemies. Units under the effect of Disruption can still be affected by Shadow Poison.",
   "mc": null,
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -28673,6 +30086,10 @@
   "desc": "Cleanses the target allied unit, removing negative buffs for the duration. At the end of the duration, the unit is healed. Units under the effect of Disruption can still be affected by Demonic Cleanse.\n\nDISPEL TYPE: Basic Dispel",
   "mc": "150",
   "cd": "60",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "purge_damage",
@@ -28714,6 +30131,9 @@
    "65",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "purge_damage",
@@ -28769,6 +30189,9 @@
   "desc": "Shadow Demon's Attacks apply a stacking debuff to the enemy for 8 seconds that increases their damage taken.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stack",
@@ -28800,6 +30223,9 @@
    "18",
    "17"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "active_radius",
@@ -28883,6 +30309,9 @@
   "desc": "Links Lone Druid and the Spirit Bear, increasing their movement speed as well as sharing a percentage of their lifesteal with each other.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_movement_speed_druid",
@@ -28951,6 +30380,9 @@
    "23",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -28994,6 +30426,9 @@
   "desc": "Summons a powerful Spirit Bear companion that can equip items.\n\nIf the bear moves 1100 distance away from the Lone Druid, it cannot attack. Lone Druid suffers 20% of his max health as backlash damage if the Spirit Bear dies.\nSpirit Bear has Demolish, Return, Entangling Claws, Savage Roar, and Spirit Link abilities.",
   "mc": "100",
   "cd": "120",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bear_hp",
@@ -29071,6 +30506,9 @@
    "55",
    "50"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_armor",
@@ -29141,6 +30579,9 @@
    "11",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chaos_bolt_speed",
@@ -29234,6 +30675,9 @@
    "9",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -29302,6 +30746,9 @@
   "desc": "Chaos Knight and his illusions' attacks have a chance to deal a critical strike of varying strength with bonus lifesteal. Lifesteal from creeps is reduced.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chance",
@@ -29350,6 +30797,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -29370,6 +30820,9 @@
    "80",
    "75"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "images_count",
@@ -29464,6 +30917,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -29520,6 +30976,9 @@
    "8",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cast_duration",
@@ -29563,6 +31022,9 @@
   "desc": "Steals health from the enemy with each strike and heals all other Meepos for that amount.\n\nReduced to 60% against creeps.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "health_steal_heroes",
@@ -29589,6 +31051,10 @@
   "desc": "Digs into the ground for a short duration, dispelling Meepo and causing him to become invulnerable and untargetable for 3s. Restores 25% of his max health over that duration.\n\nDISPEL TYPE: Basic Dispel",
   "mc": "125",
   "cd": "40",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "duration",
@@ -29620,6 +31086,9 @@
   "desc": "Primary Meepo mounts all other Meepos in a 600 radius around him on top of his shoulders. While in this form, he gains 40% of the other Meepo stats and can Fling them at enemies, dealing damage and slowing them.\n\n When cast, Earthbind generates additional nets and Poof deals 50% more damage for each Meepo on top.",
   "mc": "0",
   "cd": "90",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -29683,6 +31152,9 @@
   "desc": "Meepo summons another Meepo, which levels up and shares items and experience with the main Meepo. Ability cooldowns are independent, but items share cooldowns between Meepos, except Teleport Scrolls. \n\nDamage, attack speed, health, mana, regeneration, mana burn, and proc chance bonuses from items are distributed equally among the amount of Meepos, making them 50% less effective.\n\nIf any Meepo dies, they all die.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "tooltip_clones",
@@ -29739,6 +31211,9 @@
   "desc": "Meepo grants stacking bonuses to himself and his clones based on their terrain. Each Meepo grants his bonus to the other Meepos.\n\nIf there is a tree within 250 range, he receives 1 HP regen.\n\nIf he is standing on dirt, he receives 2% bonus movement speed.\n\nIf he is in the water, his attacks slow the target by 2% for 2 seconds.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "tree_radius",
@@ -29780,6 +31255,10 @@
   "desc": "",
   "mc": "0",
   "cd": "0.5",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "fling_damage",
@@ -29823,6 +31302,9 @@
    "19",
    "17"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_second",
@@ -29915,6 +31397,9 @@
    "9",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -30011,6 +31496,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "heal_per_second",
@@ -30068,6 +31556,10 @@
   "desc": "Treant Protector enchants a tree, which grants him unobstructed vision in that location. The eyes last for 360 seconds and are invisible, but are destroyed if their host tree is destroyed or if they are attacked directly.",
   "mc": "30",
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "vision_aoe",
@@ -30121,6 +31613,9 @@
   "desc": "Grants bonus movement speed when near trees. Treant Protector additionally has Tree Walking if he has not taken damage for 2.75 seconds. While Tree Walking, Nature's Guise can be activated to grant Treant invisibility until he attacks or is no longer near a tree.",
   "mc": null,
   "cd": "36",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -30187,6 +31682,9 @@
    "100",
    "90"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -30239,6 +31737,9 @@
    "9",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stun_duration",
@@ -30295,6 +31796,9 @@
    "110"
   ],
   "cd": "17",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -30376,6 +31880,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "modelscale",
@@ -30447,6 +31954,10 @@
   "desc": "Blasts an enemy unit with a wave of fire, dealing 150 + 1.5x Ogre's Strength in damage and stunning the target. Its mana cost is 35% of Ogre Magi's current mana.",
   "mc": "400",
   "cd": "7",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "stun_duration",
@@ -30498,6 +32009,10 @@
   "desc": "Creates a shield around the target ally, absorbing a percentage of the damage of next 3 attacks from enemy heroes. When damage is absorbed, a fireball is launched at the attacker. Can be cast on towers.",
   "mc": "50",
   "cd": "15",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "damage",
@@ -30554,6 +32069,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_per_str",
@@ -30587,6 +32105,9 @@
   "desc": "Enables Ogre Magi to cast his abilities and items multiple times with each use. Each point of Strength adds to Multicast chance. Every 16 Strength adds 1%.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "multicast_2_times",
@@ -30641,6 +32162,9 @@
    "7",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "decay_damage",
@@ -30724,6 +32248,9 @@
    "9",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_unit",
@@ -30797,6 +32324,9 @@
    "200"
   ],
   "cd": "80",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "tombstone_health",
@@ -30885,6 +32415,9 @@
   "desc": "",
   "mc": null,
   "cd": "480",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "respawn_delay",
@@ -30910,6 +32443,9 @@
    "150"
   ],
   "cd": "140",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "slow",
@@ -30985,6 +32521,9 @@
    "16",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "lift_duration",
@@ -31063,6 +32602,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -31131,6 +32673,9 @@
   "desc": "Rubick's mastery of the arcane allows him to have a larger cast range and bonus spell amplification.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cast_range",
@@ -31164,6 +32709,9 @@
   "desc": "Spells acquired with Spell Steal will replace this slot.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -31176,6 +32724,9 @@
   "desc": "Spells acquired with Spell Steal will replace this slot.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -31192,6 +32743,9 @@
    "10",
    "4"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "projectile_speed",
@@ -31258,6 +32812,9 @@
   "desc": "Chooses the location the target will land when Telekinesis finishes.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -31280,6 +32837,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -31291,6 +32851,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -31306,6 +32869,9 @@
   "desc": "Rubick gains 1 stack of Curiosity per level that grants him 1 base damage, 0.3% Buff/Debuff Duration, and 2 AOE Bonus. \n\nIf Rubick sees an enemy Hero cast an ability within 1200 distance of him, he gains 2 Curiosity for 20 seconds. If an enemy Hero dies while Rubick has Curiosity from them and he damaged them in the last 3 seconds, he gains 1 Curiosity permanently.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "curiosity_per_spell_cast",
@@ -31374,6 +32940,9 @@
   "desc": "Chooses the location you will land when Telekinesis finishes.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -31407,6 +32976,9 @@
    "12",
    "9"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -31490,6 +33062,9 @@
    "20",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "backtrack_time",
@@ -31576,6 +33151,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -31647,6 +33225,10 @@
   "desc": "After a short formation time, creates a wall out of kinetic energy that enemies cannot pass.",
   "mc": "70",
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "wall_width",
@@ -31715,6 +33297,9 @@
   "desc": "Whenever Disruptor takes more than 250 damage from any source within 400 radius, all nearby enemies within take damage equal to 1.5x of Disruptor's Intelligence, and are pushed back up to a 400 distance away.",
   "mc": null,
   "cd": "5",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_threshold",
@@ -31769,6 +33354,9 @@
    "85",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -31826,6 +33414,9 @@
    "13",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "width",
@@ -31897,6 +33488,9 @@
    "8",
    "6.5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_mana_as_damage_pct",
@@ -31963,6 +33557,9 @@
    "12",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "reflect_duration",
@@ -32004,6 +33601,10 @@
   "desc": "Nyx Assassin buries himself beneath the battlefield over a short duration. Once burrowed, Spiked Carapace instantly stuns nearby enemies when cast, the range of Mind Flare and Impale is increased, and Impale's cooldown is decreased. While burrowed, Nyx Assassin is stationary, unable to attack, and invisible. Nyx Assassin gains damage reduction from all damage sources.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "health_regen_rate",
@@ -32055,6 +33656,9 @@
   "desc": "Nyx Assassin's damage on enemies also burns mana as a percentage of the damage dealt.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_burn_pct",
@@ -32084,6 +33688,9 @@
    "70",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -32167,6 +33774,9 @@
   "desc": "Emerge from the burrow.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -32189,6 +33799,9 @@
    "30",
    "25"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "illusion_duration",
@@ -32262,6 +33875,9 @@
    "15",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -32320,6 +33936,9 @@
   "desc": "Naga Siren and her illusions deal bonus damage to enemies and reduce their armor for 4 seconds every 6 attacks.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hits",
@@ -32376,6 +33995,9 @@
   "desc": "CHANNELED - Naga Siren channels for up to 5 seconds, pulling all units affected by Naga's Ensnare in a 1600 range towards her at a speed of 200. Channeling ends when the Ensnared unit is 100 distance away.",
   "mc": "0",
   "cd": "8",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -32424,6 +34046,9 @@
   "desc": "Naga Siren has bonus evasion, increased per every other Naga Siren within 900 radius.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "evasion_per_naga",
@@ -32455,6 +34080,9 @@
    "130",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -32513,6 +34141,9 @@
   "desc": "Release enemy units from your song so they can be targeted again.",
   "mc": null,
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -32533,6 +34164,9 @@
    "175"
   ],
   "cd": "13",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "total_damage",
@@ -32629,6 +34263,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "miss_rate",
@@ -32702,6 +34339,9 @@
    "14",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_restore",
@@ -32768,6 +34408,9 @@
   "desc": "Weakens an enemy's magical resistance, and applies a slow that increases in strength the more the target moves.",
   "mc": "120",
   "cd": "14",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -32829,6 +34472,10 @@
   "desc": "Summons Ignis Fatuus at the targeted area. Alternates on and off, drawing enemies closer with its mesmerising flicker.",
   "mc": "150",
   "cd": "60",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "on_count",
@@ -32910,6 +34557,9 @@
    "80",
    "75"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -32954,6 +34604,9 @@
   "desc": "Release the channel early.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -32966,6 +34619,9 @@
   "desc": "Keeper of the Light gains 1 movement speed for every 3 Intelligence.\n\nWhenever Keeper of the Light moves 300 distance, he leaves behind light that allows him to see 400 range for 3 seconds.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "intelligence_per_speed",
@@ -32999,6 +34655,9 @@
   "desc": "Tethers Io to an allied unit, granting bonus movement speed to both. When Io restores health or mana, the tethered unit gains a portion of that amount. The tether breaks when the allied unit moves too far away, or Io cancels the tether. Tether slows enemies touching it.",
   "mc": "40",
   "cd": "12",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -33100,6 +34759,9 @@
    "120"
   ],
   "cd": "15",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "creep_damage",
@@ -33196,6 +34858,9 @@
    "19",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_attack_speed",
@@ -33272,6 +34937,9 @@
   "desc": "Sends the spirits closer to you. Can be toggled on and off.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -33287,6 +34955,9 @@
   "desc": "Sends the spirits farther away from you. Can be toggled on and off.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -33303,6 +34974,9 @@
    "80",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cast_delay",
@@ -33338,6 +35012,9 @@
   "desc": "Break the link to the tethered unit.",
   "mc": null,
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -33353,6 +35030,9 @@
   "desc": "Io gains outgoing damage amplification the closer it is to full health, and Health Restoration and Healing Amplification the closer it is to zero health.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_amplification",
@@ -33381,6 +35061,9 @@
    "13",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chill_duration",
@@ -33444,6 +35127,9 @@
   "desc": "Visage gathers charges of soul essence each time nearby heroes take more than 100 damage. When the essence is released, it deals base damage as well as damage for each gathered soul charge.",
   "mc": "110",
   "cd": "4",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bolt_speed",
@@ -33522,6 +35208,9 @@
   "desc": "Visage generates a layered barrier that protects him from damage. If he receives damage from a player, one layer is removed, and takes time to recover.\n\nVisage's Familiars are protected by his cloak when within 900 range of him, based on the number of layers Visage has.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "max_layers",
@@ -33588,6 +35277,9 @@
   "desc": "Orders the Familiar closest to Visage to cast Stone Form in its current location, turning into stone and smashing into the ground, stunning and damaging all targets in the area. The Familiar becomes invulnerable, and will regain its health very rapidly. After 6 seconds, the Familiar will automatically leave Stone Form.\n\n Can be alt-cast to order the closest Familiar to the target location to move there and cast Stone Form.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stun_radius",
@@ -33656,6 +35348,9 @@
   "desc": "Visage gains flying movement and bonus movement speed. Upon attacking or casting, the speed and flying movement are lost and Visage and his familiars deal additional attack damage for 2s.",
   "mc": "50",
   "cd": "45.75",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "flight_duration",
@@ -33711,6 +35406,9 @@
    "110",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "familiar_hp",
@@ -33799,6 +35497,9 @@
   "desc": "After a short delay, the Familiar turns into stone and smashes into the ground, stunning and damaging all targets in the area. The Familiar becomes invulnerable, and will regain its health very rapidly. After 6 seconds, the Familiar will automatically leave Stone Form. \n\n Can be alt-cast to order the Familiar to move to the target location and cast Stone Form.",
   "mc": null,
   "cd": "11",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stun_radius",
@@ -33872,6 +35573,9 @@
    "7",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "delay",
@@ -33935,6 +35639,9 @@
    "16",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "pounce_damage",
@@ -34012,6 +35719,9 @@
    "9",
    "7.5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -34089,6 +35799,10 @@
   "desc": "Creates a cloud at the target location. All allies inside the radius are hidden and affected by Shadow Dance.",
   "mc": "75",
   "cd": "75",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "duration",
@@ -34125,6 +35839,9 @@
   "desc": "Slark steals the life essence of enemy heroes with his attacks, draining 1 of each of their attributes and converting them to bonus 3 Agility. If Slark kills an affected enemy hero, he permanently steals 1 Agility.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "agi_gain",
@@ -34170,6 +35887,9 @@
    "40",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_movement_speed",
@@ -34228,6 +35948,9 @@
   "desc": "Medusa magically splits her shot into several arrows. These arrows deal a lower percent of her normal damage.The extra targets will not receive other attack effects (such as critical strike).",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_modifier",
@@ -34291,6 +36014,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -34387,6 +36113,9 @@
    "22",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -34473,6 +36202,10 @@
   "desc": "When Medusa is targeted with a spell, a single-target Mystic Snake is sent back towards the enemy that turns them into stone for 1s.",
   "mc": null,
   "cd": "12",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "damage",
@@ -34499,6 +36232,9 @@
   "desc": "Creates a shield that absorbs 98% of incoming damage in exchange for Medusa's mana. Illusions absorb 60% less damage per point of mana.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_mana",
@@ -34567,6 +36303,9 @@
   "desc": "Any enemy units looking at Medusa will have their movement and attack speed slowed. If 2 seconds of total time is accumulated looking at Medusa while Stone Gaze is active, that unit will turn to stone. Petrified units are stunned, and take bonus physical attack damage.",
   "mc": "250",
   "cd": "90",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -34645,6 +36384,9 @@
   "desc": "Troll Warlord swaps from using ranged to melee attacks. While melee, Troll Warlord's base attack time is improved to 1.4.\n\nTroll Warlord gains 1 armor per 30 bonus attack speed.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_range",
@@ -34686,6 +36428,9 @@
   "desc": "Troll hurls a fistful of five axes in a cone shape over 950 range, slowing and damaging enemy units.",
   "mc": null,
   "cd": "9",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "axe_width",
@@ -34762,6 +36507,9 @@
   "desc": "Troll hurls two axes around him in a close range area of effect, damaging enemy units and causing them to miss some attacks.",
   "mc": null,
   "cd": "9",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -34825,6 +36573,9 @@
   "desc": "With each continuous blow on the same target, Troll gains increased attack speed. If Troll changes targets, the stacks drop to zero.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_speed",
@@ -34858,6 +36609,9 @@
   "desc": "While in melee form, Troll Warlord's attacks have a chance to ensnare, preventing the target from moving or using mobility spells and has additional movement speed.\n\nWhen in ranged form, Troll Warlord's attacks have a chance to Maim the target, dealing bonus damage, and slowing the target's movement and attack speed.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_move_speed",
@@ -34960,6 +36714,9 @@
    "80",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "trance_duration",
@@ -35049,6 +36806,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -35100,6 +36860,9 @@
   "desc": "Centaur strikes a mighty blow at melee range, damaging both himself and a small area around the target. Deals extra damage based on your strength. Centaur cannot die from Double Edge.",
   "mc": "0",
   "cd": "3.5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "edge_damage",
@@ -35148,6 +36911,9 @@
   "desc": "Centaur counters all attacks, dealing damage back to the attacker. Returns a fixed amount plus a percentage of your strength. Deals half damage to towers.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "return_damage",
@@ -35186,6 +36952,10 @@
   "desc": "Centaur hitches a cart behind him. While active, Centaur gains the benefit of Stampede for the current level of Stampede, and can cast Hitch a Ride on a target ally.",
   "mc": "75",
   "cd": "35",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "duration",
@@ -35227,6 +36997,9 @@
   "desc": "Centaur tosses an ally into a cart hitched behind him. While in the cart, the ally is invulnerable and can still cast and attack normally, but cannot move independently or be targeted by opponents. Increases the attack range of melee heroes by 200.",
   "mc": "75",
   "cd": "30",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -35281,6 +37054,9 @@
    "95",
    "90"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -35342,6 +37118,9 @@
   "desc": "Centaur Warrunner gains 40% of his strength as bonus movement speed.\n\n This Movement speed bonus does not stack with bonuses from boots.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "strength_to_movement_pct",
@@ -35378,6 +37157,9 @@
    "11",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "shock_speed",
@@ -35466,6 +37248,9 @@
    "75"
   ],
   "cd": "8",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -35559,6 +37344,9 @@
    "18",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "skewer_speed",
@@ -35655,6 +37443,10 @@
   "desc": "Magnus tosses any enemies in front of him, launching them to his rear. Enemies take damage, spend 0.6 seconds in the air, and are stunned while in the air and an additional amount of time after landing.",
   "mc": "100",
   "cd": "30",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "damage",
@@ -35726,6 +37518,9 @@
   "desc": "Magnus has increased slow resistance and suffers less knockback from enemy's abilities and items.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "knockback_reduction",
@@ -35753,6 +37548,9 @@
    "300"
   ],
   "cd": "115",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "pull_radius",
@@ -35827,6 +37625,9 @@
    "6.5",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "whirling_radius",
@@ -35900,6 +37701,9 @@
    "90"
   ],
   "cd": "4",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chain_radius",
@@ -35958,6 +37762,9 @@
   "desc": "Each time Timbersaw is attacked, he gains increased health regen and armor. Hero attacks are counted as 4x the amount.",
   "mc": "undefined",
   "cd": "undefined",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_armor",
@@ -36020,6 +37827,10 @@
   "desc": "Releases a flame in the direction Timbersaw is facing. Applies a debuff that deals damage per second and slows enemy movement speed. Affects buildings for reduced damage.",
   "mc": "100",
   "cd": "20",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "damage_per_second",
@@ -36080,6 +37891,9 @@
    "150"
   ],
   "cd": "8",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "speed",
@@ -36169,6 +37983,9 @@
   "desc": "Returns the Chakram to Timbersaw.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -36181,6 +37998,9 @@
   "desc": "Whenever Timbersaw destroys a tree, he gains mana.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "mana_restore",
@@ -36209,6 +38029,9 @@
    "24"
   ],
   "cd": "1.75",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "goo_speed",
@@ -36286,6 +38109,9 @@
   "desc": "Sprays enemy units with quills dealing damage in an area of effect around Bristleback. Deals bonus damage for every time a unit was hit by Quill Spray in the last 14 seconds.",
   "mc": "35",
   "cd": "3",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -36339,6 +38165,9 @@
   "desc": "Bristleback takes less damage if hit on the sides or rear. If Bristleback takes enough damage from the rear, he releases a Quill Spray of the current level.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "side_damage_reduction",
@@ -36431,6 +38260,10 @@
   "desc": "Coughs a quill-packed hairball towards the target location. Erupts at the location, hitting enemies with Viscous Nasal Goo stacks and Quill Spray.",
   "mc": "60",
   "cd": "15",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "projectile_speed",
@@ -36474,6 +38307,9 @@
   "desc": "Bristleback works himself up into a fury every time he casts a spell, increasing his movement speed and damage.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_stack",
@@ -36528,6 +38364,9 @@
   "desc": "Bristleback has bonus damage and debuff duration amp against enemy heroes that are behind him.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "amp_pct",
@@ -36556,6 +38395,9 @@
    "17",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "shard_width",
@@ -36639,6 +38481,9 @@
    "17",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "snowball_damage",
@@ -36740,6 +38585,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -36788,6 +38636,10 @@
   "desc": "Tusk reaches out to tag an allied unit, pulling them closer. Once tagged, both Tusk and his tagged ally gain movement speed and armor.",
   "mc": "80",
   "cd": "14",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -36849,6 +38701,10 @@
   "desc": "Kicks the closest enemy unit in the drawn direction, stunning, damaging, and slowing them. Also deals damage to all heroes within 250 radius of its landing area. Cooldown is reduced by 50% if kicking a creep.",
   "mc": "100",
   "cd": "12",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "air_time",
@@ -36915,6 +38771,9 @@
    "13",
    "10"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage",
@@ -36970,6 +38829,9 @@
   "desc": "Launch the snowball toward the target.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -36985,6 +38847,9 @@
   "desc": "Passively slows the attack speed of all enemy heroes within a 350 unit radius.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -37013,6 +38878,9 @@
    "3",
    "2"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -37086,6 +38954,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "launch_radius",
@@ -37159,6 +39030,9 @@
    "110"
   ],
   "cd": "14",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "resist_debuff",
@@ -37210,6 +39084,9 @@
   "desc": "Every time Skywrath Mage deals magical damage to an enemy hero with his abilities, he gains a small magic damage barrier. Each buff stacks independently.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stack_duration",
@@ -37254,6 +39131,9 @@
    "35",
    "15"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -37311,6 +39191,9 @@
    "6",
    "5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "self_damage",
@@ -37384,6 +39267,9 @@
    "8",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -37442,6 +39328,9 @@
   "desc": "Abaddon strikes an enemy, affecting them by a chilling curse, slowing them, causing them to take damage over time, and all attacks against them gain an attack speed boost. Damage over time component to buildings is reduced by 100%.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "slow_duration",
@@ -37513,6 +39402,9 @@
   "desc": "Damaging enemies applies the Withering Mist debuff for 5s. Affected enemies have their Health Restoration reduced by 29.5% if they are below 40% HP.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_threshold_pct",
@@ -37558,6 +39450,9 @@
    "75",
    "65"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_threshold",
@@ -37598,6 +39493,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cast_time",
@@ -37694,6 +39592,9 @@
    "19",
    "17"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -37782,6 +39683,9 @@
   "desc": "Reduces all elements to their basic levels, removing base armor and magic damage resistance from nearby enemy units. The armor reduction is centered around the hero, while the magic armor reduction is centered around Astral Spirit.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -37824,6 +39728,9 @@
   "desc": "Moves the Astral Spirit to target location.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -37836,6 +39743,9 @@
   "desc": "Elder Titan gains armor equal to a percentage of his bonus movement speed.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "armor_from_movespeed",
@@ -37862,6 +39772,9 @@
    "95",
    "90"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "crack_time",
@@ -37951,6 +39864,9 @@
   "desc": "Returns the Astral Spirit to Elder Titan.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -37971,6 +39887,9 @@
    "135"
   ],
   "cd": "18",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -38069,6 +39988,9 @@
    "14",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -38122,6 +40044,9 @@
   "desc": "When attacked a number of times, Legion Commander will counter-attack her target with bonus lifesteal.",
   "mc": null,
   "cd": "0.3",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "trigger_attacks",
@@ -38168,6 +40093,9 @@
   "desc": "When Legion Commander or an allied Hero within 1200 range casts an ability, they gain bonus armor for 6s; allies gain 50% of the value. This bonus stacks independently.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -38209,6 +40137,9 @@
    "55",
    "50"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -38293,6 +40224,9 @@
    "10",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -38386,6 +40320,9 @@
    "18",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -38462,6 +40399,9 @@
    "30",
    "25"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -38528,6 +40468,9 @@
   "desc": "Techies gain a percentage of their mana pool as bonus mana regeneration.\n\nWhen Techies die, they leave behind a barrel that explodes after 1.5s, damaging enemies in an area around it. Damage is based on Techies' max mana.",
   "mc": null,
   "cd": "0",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_mana_as_mana_regen",
@@ -38580,6 +40523,10 @@
   "desc": "Plant a warning sign, causing Proximity Mines within its radius to be invulnerable and deal 15% more damage. Only one sign can exist at a time. Lasts 240 seconds.\n\nWhen an enemy Hero walks within 200 units of a minefield sign, the 1000 units area around the sign will become a minefield for 10 seconds, dealing damage to enemy Heroes any time they move within its area. Minefield Sign is destroyed after this effect ends.",
   "mc": "0",
   "cd": "60",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "aura_radius",
@@ -38645,6 +40592,9 @@
    "170"
   ],
   "cd": "0",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -38730,6 +40680,9 @@
   "desc": "Detonate Reactive Tazer immediately.",
   "mc": null,
   "cd": "0.5",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -38747,6 +40700,9 @@
   "desc": "Detonate your planted M.A.D.",
   "mc": null,
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -38780,6 +40736,9 @@
    "11",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -38846,6 +40805,9 @@
    "9",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -38929,6 +40891,9 @@
    "110"
   ],
   "cd": "32",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -39011,6 +40976,9 @@
    "150"
   ],
   "cd": "0",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "speed_multiplier",
@@ -39068,6 +41036,9 @@
   "desc": "Ember Spirit is continuously burning, dealing damage per second to all nearby enemies at all times.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -39096,6 +41067,9 @@
   "desc": "Sends a Fire Remnant that runs to the target location at 250% Ember Spirit's speed. Using Activate Fire Remnant, Ember Spirit will dash out to all active Fire Remnants, destroying them and dealing damage in an area and then moving to the nearest Remnant. Ember Spirit will end at the Remnant closest to the targeted location.",
   "mc": "0",
   "cd": "0.5",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "speed_multiplier",
@@ -39171,6 +41145,9 @@
    "14",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -39264,6 +41241,9 @@
    "8",
    "4"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -39355,6 +41335,9 @@
   "desc": "Earth Spirit pulls the target Stone Remnant or Allied Unit. Enemies struck by the gripped target will be silenced.\n\nPulled Remnants also deal damage to struck enemies.\n\nCast range is reduced when targeting an ally.",
   "mc": "75",
   "cd": "13",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -39438,6 +41421,9 @@
   "desc": "Call a Stone Remnant to the target location. Stone Remnants have no vision and are invulnerable, and can be used with Earth Spirit's abilities. Calling a Stone Remnant consumes a charge, which recharge over time. Stone Remnant has 7 charges.\n\nEarth Spirit passively gains 3% bonus damage per unused Stone Remnant charge, and gains an additional 7.5% bonus damage for 10s when a Stone Remnant is targeted with an ability (does not stack).",
   "mc": "0",
   "cd": "0",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -39514,6 +41500,10 @@
   "desc": "Earth Spirit temporarily enchants a hero, granting them the properties of a Stone Remnant. After a short duration the remnant shatters, releasing the hero and damaging nearby enemies. \nCan be cast on Stone Remnants. Has a 5 second cooldown when used that way.\nHas a larger cast range when cast on an ally hero.",
   "mc": "150",
   "cd": "45",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "duration",
@@ -39561,6 +41551,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "cast_radius",
@@ -39651,6 +41644,9 @@
    "14",
    "13"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -39737,6 +41733,9 @@
    "20",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -39800,6 +41799,9 @@
   "desc": "Nearby enemy units are weakened, losing a portion of their base damage. If an enemy dies while under this effect, Underlord gains temporary bonus damage.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -39891,6 +41893,9 @@
   "desc": "After an allied hero Teleports, they temporarily gain Damage Reduction and Movement Speed. Allies receive 2x bonuses if teleporting via Fiend's Gate.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_reduction",
@@ -39928,6 +41933,9 @@
    "105",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -40017,6 +42025,9 @@
    "17",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "illusion_duration",
@@ -40105,6 +42116,9 @@
    "80"
   ],
   "cd": "16",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "illusion_duration",
@@ -40181,6 +42195,9 @@
    "135",
    "130"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -40262,6 +42279,10 @@
   "desc": "Costs part of Terrorblade's current HP to cast, providing Terrorblade and nearby illusions bonus movement, HP Regen and attack speed. Does not affect Reflection illusions. Can't be cast while in Metamorphosis and Metamorphosis will remove Demon Zeal.",
   "mc": "0",
   "cd": "45",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "berserk_bonus_attack_speed",
@@ -40318,6 +42339,10 @@
   "desc": "Causes a wave to travel outwards in all directions forcing enemy heroes to become Feared upon impact and dealing damage, and grants Terrorblade Metamorphosis for a short time.",
   "mc": "75",
   "cd": "90",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "fear_duration",
@@ -40369,6 +42394,9 @@
    "75",
    "40"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hit_point_minimum_pct",
@@ -40411,6 +42439,9 @@
   "desc": "Nearby Illusions created by Terrorblade have bonus attack damage.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -40444,6 +42475,9 @@
    "30",
    "25"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_cost_perc",
@@ -40530,6 +42564,9 @@
    "30",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_cost_perc",
@@ -40608,6 +42645,9 @@
    "130"
   ],
   "cd": "30",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_cost_perc_per_second",
@@ -40704,6 +42744,9 @@
   "desc": "Toggles slow forward movement during Sun Ray firing.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -40719,6 +42762,9 @@
   "desc": "Phoenix deals 3.5% of its missing health as magic damage to all enemies in a 400 radius every second.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -40751,6 +42797,9 @@
    "250"
   ],
   "cd": "120",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "aura_radius",
@@ -40820,6 +42869,9 @@
   "desc": "Each fire spirit can be launched independently at a targeted area of effect. Affected enemy units take damage over time and have their attack speed greatly reduced.",
   "mc": "0",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_cost_perc",
@@ -40897,6 +42949,9 @@
   "desc": "Immediately cancels the dive.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -40913,6 +42968,9 @@
   "desc": "Immediately stops the Sun Ray.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -40934,6 +42992,9 @@
    "10",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "channel_time",
@@ -41007,6 +43068,9 @@
    "11",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -41045,6 +43109,9 @@
   "desc": "Burns away impurities, dealing heavy magic damage to the target before causing them to regenerate health over time. The amount of health regenerated over its duration exceeds the amount of initial damage. Can be cast on enemies and allies.",
   "mc": "75",
   "cd": "2.5",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -41116,6 +43183,10 @@
   "desc": "Brings forth rain to the target area. Enemies standing in the area receive damage and have reduced Heal Amplification. Allies in the area heal and have increased incoming Heal Amplification.",
   "mc": "150",
   "cd": "40",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "radius",
@@ -41164,6 +43235,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "enabled",
@@ -41225,6 +43299,9 @@
    "85",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -41271,6 +43348,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -41291,6 +43371,9 @@
    "23",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -41387,6 +43470,9 @@
    "135"
   ],
   "cd": "6",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "projectile_speed",
@@ -41480,6 +43566,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -41546,6 +43635,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "tooltip_seconds",
@@ -41580,6 +43672,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -41652,6 +43747,9 @@
   "desc": "Infuses a lone enemy unit with swirling, volatile energy, dealing damage over time and slowing the target. The damage is not applied if another enemy unit is near the target.",
   "mc": "75",
   "cd": "16",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -41733,6 +43831,9 @@
    "18",
    "17"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -41824,6 +43925,9 @@
   "desc": "Summons a Spark Wraith that slowly materializes and patrols a targeted area until an enemy comes within its range. Once a target has been found the wraith fuses with them, dealing magical damage and slowing the unit.",
   "mc": "80",
   "cd": "4",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -41910,6 +44014,9 @@
   "desc": "Runes of Power fuse to the Self. Arc Warden gains +1.5 all attributes permanently whenever Arc Warden or the Tempest Double activates a Power Rune.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "regeneration_effect",
@@ -41952,6 +44059,9 @@
    "55",
    "50"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -42043,6 +44153,9 @@
    "18",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stun_duration",
@@ -42136,6 +44249,9 @@
    "0.3",
    "0"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "leap_speed",
@@ -42223,6 +44339,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "impact_damage",
@@ -42281,6 +44400,9 @@
   "desc": "Monkey King's attacks awaken the Jingu Bang's power. Upon the fourth hit on the same enemy hero, Monkey King earns 4 charged attacks that have bonus damage and lifesteal.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "required_hits",
@@ -42344,6 +44466,9 @@
   "desc": "Changes Monkey King's shape to deceive opponents, using the environment nearby as inspiration for the disguise. Taking damage, attacking, or using any item or ability breaks Monkey King's disguise. Grants damage immunity for 0.1 seconds upon transforming.",
   "mc": "0",
   "cd": "24.5",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "movespeed",
@@ -42384,6 +44509,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "first_radius",
@@ -42465,6 +44593,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -42480,6 +44611,9 @@
   "desc": "Reverts Monkey King's shape to his original form.",
   "mc": "0",
   "cd": "1",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -42495,6 +44629,9 @@
   "desc": "Monkey King can transform into any one of his soldiers during Wukong's command, taking its place for a 1.5s, becoming indistinguishable from other soldiers, and leaving another soldier in his stead. While transformed, Monkey King is invulnerable, but cannot attack or cast spells",
   "mc": "0",
   "cd": "5",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "transfiguration_duration",
@@ -42531,6 +44668,9 @@
    "160"
   ],
   "cd": "22",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "placement_range",
@@ -42632,6 +44772,9 @@
    "17",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -42705,6 +44848,9 @@
    "13",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "delay",
@@ -42765,6 +44911,9 @@
    "200"
   ],
   "cd": "30",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_damage",
@@ -42837,6 +44986,9 @@
   "desc": "Dark Willow gains 20% bonus Health and Mana Regeneration, increased to 100% while she is untargetable or invulnerable.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_regen_amp",
@@ -42877,6 +45029,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "destination_travel_speed",
@@ -42948,6 +45103,9 @@
    "13",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "dash_range",
@@ -43039,6 +45197,9 @@
    "9",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -43122,6 +45283,9 @@
   "desc": "Pangolier rolls the dice and lets fate decide the outcome for his enemies. Grants a chance to drastically slow their attack speed and reduce armor on any damage dealt by Pangolier's attacks or abilities.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chance_pct",
@@ -43173,6 +45337,10 @@
   "desc": "Pangolier curls into an immobile protective ball, gaining debuff immunity, 80% magic resistance, and allowing him to turn. Can be cast during Rolling Thunder to temporarily hit the brakes. Can cast Rolling Thunder and Shield Crash during Roll Up. If enemies attack Pangolier during this, he will roll away from the attacker, applying Rolling Thunder damage/stun if there are enemies in the way.",
   "mc": "75",
   "cd": "40",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "cast_time_tooltip",
@@ -43258,6 +45426,9 @@
    "90",
    "80"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_pct",
@@ -43335,6 +45506,9 @@
   "desc": "Halt!",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -43351,6 +45525,9 @@
   "desc": "Ends Pangolier's Roll Up early.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -43366,6 +45543,9 @@
   "desc": "Random item and ability effects of enemies near Pangolier have a reduced chance to affect him.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "aura_radius",
@@ -43399,6 +45579,9 @@
    "7",
    "5"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "reflected_stroke",
@@ -43502,6 +45685,9 @@
    "22",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "spawn_time",
@@ -43600,6 +45786,9 @@
    "21",
    "18"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "buff_duration",
@@ -43701,6 +45890,10 @@
   "desc": "",
   "mc": "200",
   "cd": "35",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "illusion_duration",
@@ -43760,6 +45953,9 @@
    "65",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "chain_duration",
@@ -43829,6 +46025,9 @@
   "desc": "Grimstroke's attacks and spells cause affected enemy heroes to leave a trail of Ink behind them and deal less damage to Grimstroke for 4s.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "debuff_duration",
@@ -43865,6 +46064,9 @@
    "13",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_range",
@@ -43966,6 +46168,9 @@
    "13",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "trap_radius",
@@ -44032,6 +46237,9 @@
   "desc": "Hoodwink gains bonus movement speed, phased movement, and tree-walking for a brief time. While active, the redirect chance of Mistwoods Wayfarer is multiplied by 2.",
   "mc": "35",
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "redirect_chance",
@@ -44109,6 +46317,9 @@
   "desc": "Hoodwink turns invisible, increasing her movement speed, and creates a decoy illusion that starts aiming a decreased damage Sharpshooter at the nearest enemy hero. If the illusion is attacked or hit by a targeted ability, it is destroyed and it throws a lesser bushwhack towards the enemy.",
   "mc": "60",
   "cd": "30",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -44176,6 +46387,10 @@
   "desc": "Tosses a boomerang in an arc. Upon contact, it returns to Hoodwink. The boomerang will deal damage as it passes through or hits enemies, and apply a debuff that causes affected enemies to be slowed and be more vulnerable to spell damage.",
   "mc": "125",
   "cd": "20",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "speed",
@@ -44253,6 +46468,9 @@
    "250"
   ],
   "cd": "45",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "arrow_speed",
@@ -44338,6 +46556,9 @@
   "desc": "Release the charged up shot, regain ability to move and attack.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -44350,6 +46571,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -44383,6 +46607,9 @@
    "13",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "start_radius",
@@ -44476,6 +46703,9 @@
    "14",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "phase_duration",
@@ -44554,6 +46784,9 @@
    "130"
   ],
   "cd": "18",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -44632,6 +46865,9 @@
   "desc": "Void Spirit gains 15% more attack damage per point of each attribute, and 30% more HP regen from Strength, attack speed from Agility, and mana regen from Intelligence.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "secondary_stat_bonus_pct",
@@ -44655,6 +46891,9 @@
   "desc": "Void Spirit tears a rift through the astral plane to appear at the target location, attacking all enemies along the path. This attack inflicts a void mark that slows for 1.25 seconds and then detonates.",
   "mc": "90",
   "cd": "0",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -44749,6 +46988,9 @@
    "11",
    "8"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -44832,6 +47074,9 @@
    "16",
    "15"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycharges",
@@ -44930,6 +47175,9 @@
    "16",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -45016,6 +47264,9 @@
   "desc": "Mortimer gobbles up a creep or an allied hero, which he can then spit towards enemies. The unit stays in his belly up to [object Object] seconds.",
   "mc": "120",
   "cd": "40",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -45042,6 +47293,10 @@
   "desc": "Mortimer spits out the unit that's in his mouth, causing impact damage and stun in a large area. The glob leaves a pool of firespit based on the current level of Mortimer Kisses, that slows and applies damage over time. Spit Out has a no minimum launch range.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "scepter",
   "attrib": [
    {
     "key": "projectile_speed",
@@ -45126,6 +47381,9 @@
    "110",
    "100"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "projectile_count",
@@ -45211,6 +47469,9 @@
   "desc": "Snapfire deals more damage to nearby enemies.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_amp_min",
@@ -45254,6 +47515,9 @@
    "12",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -45342,6 +47606,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "crit_mult",
@@ -45418,6 +47685,9 @@
   "desc": "Mars wields his massive shield to block a portion of each physical attack when hit from the front or sides.\n\n Can be toggled, granting phased movement, removing Mars's ability to attack, and locking the direction he is facing. When active, reduces movement speed and re-directs 70% of the attack projectiles aimed at allies towards himself.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "physical_damage_reduction",
@@ -45491,6 +47761,9 @@
   "desc": "Mars gets more HP Regen the more he is outnumbered by enemy heroes in 900 radius.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "health_regen_per_enemy",
@@ -45525,6 +47798,9 @@
    "95",
    "90"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -45616,6 +47892,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "start_width",
@@ -45714,6 +47993,9 @@
    "26",
    "20"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -45802,6 +48084,9 @@
   "desc": "Ringmaster throws one of his daggers to a precise point of his choosing. If he strikes an enemy, the dagger deals impact damage, briefly slows the unit hit, and causes them to bleed. The bleeding deals a percentage of the victim's maximum health in damage every second to heroes and flat damage per second to creeps.",
   "mc": "50",
   "cd": "1",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_impact",
@@ -45895,6 +48180,9 @@
   "desc": "Gather souvenirs from kills and assists.",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -45910,6 +48198,10 @@
   "desc": "Ringmaster shines 3 spotlights that sweep over an area. Enemies in the light have a chance to miss their attacks and are revealed if invisible. Illusions hit by the beam fade away, losing a percentage of their maximum health each second. These effects linger for 0.3 seconds after leaving the light.",
   "mc": "50",
   "cd": "30",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "radius",
@@ -45994,6 +48286,9 @@
    "80",
    "70"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "min_range",
@@ -46083,6 +48378,9 @@
   "desc": "*CRACK*",
   "mc": "0",
   "cd": "0.5",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -46100,6 +48398,9 @@
    "13",
    "11"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -46198,6 +48499,9 @@
    "14",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hammer_damage",
@@ -46291,6 +48595,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "attack_count",
@@ -46363,6 +48670,9 @@
   "desc": "Dawnbreaker recalls her hammer, pulling them together so they meet in the middle.",
   "mc": "0",
   "cd": "0.25",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -46375,6 +48685,9 @@
   "desc": "Whenever the sun comes out, Dawnbreaker gains bonus base damage and vision that decreases throughout the course of the day. If Dawnbreaker causes the day these bonuses are at full power for the entirety of that daytime.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "day_threshold",
@@ -46419,6 +48732,9 @@
    "100",
    "90"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "base_heal",
@@ -46511,6 +48827,9 @@
   "desc": "",
   "mc": null,
   "cd": "2",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -46528,6 +48847,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "landing_radius",
@@ -46616,6 +48938,9 @@
    "16",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "move_speed",
@@ -46709,6 +49034,9 @@
   "desc": "Passively grants Marci lifesteal and bonus attack damage.\n\nWhen cast on an ally, she provides them with 75% of her passive lifesteal and attack damage bonus. Additionally Marci creates a shared all damage barrier for herself and her partner. As Marci attacks heroes, 30% of the damage dealt restores the barrier.",
   "mc": "60",
   "cd": "20",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bodyguard_duration",
@@ -46797,6 +49125,9 @@
   "desc": "Marci whistles to instantly summon her courier to her. If the courier started in the fountain, it will take items from Marci's stash. After teleporting it will transfer these items to Marci and head back to the fountain.\n\nPassively grants all allied couriers 3 bonus levels and 1 bonus health.",
   "mc": null,
   "cd": "215",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_levels",
@@ -46843,6 +49174,9 @@
    "70",
    "60"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -46933,6 +49267,9 @@
    "19",
    "16"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "charge_speed",
@@ -47024,6 +49361,9 @@
    "24",
    "21"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "effect_radius",
@@ -47085,6 +49425,9 @@
   "desc": "The Beast's temper causes every instance of 50 hero damage or more to grant a stack of Uproar. \n\n When activated, Primal Beast releases a roar that slows surrounding enemies and grants the Beast additional attack damage and armor for 7 seconds based on his current stacks of Uproar.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "bonus_damage_per_stack",
@@ -47177,6 +49520,10 @@
   "desc": "Primal Beast throws a rock at the target location that stuns and damages enemies. The rock cannot be thrown within a minimum range of Primal Beast. After landing, the rock splits into 3 additional fragments that land behind the initial target location.\n\n Rock Throw increases stacks of Uproar for each hero hit.",
   "mc": "85",
   "cd": "20",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "base_damage",
@@ -47249,6 +49596,9 @@
   "desc": "Begins the rush to the specified location.",
   "mc": null,
   "cd": "0.3",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -47269,6 +49619,9 @@
    "40",
    "35"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "splash_radius",
@@ -47345,6 +49698,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "hp_per_threshold",
@@ -47403,6 +49759,9 @@
    "12",
    "10"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "AbilityCastRange",
@@ -47499,6 +49858,9 @@
    "26",
    "24"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage",
@@ -47590,6 +49952,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "double_shot_chance",
@@ -47628,6 +49993,10 @@
   "desc": "",
   "mc": "75",
   "cd": "12",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
+  "granted": "shard",
   "attrib": [
    {
     "key": "projectile_speed",
@@ -47684,6 +50053,9 @@
    "60",
    "45"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "duration",
@@ -47724,6 +50096,9 @@
   "desc": "",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "stack_collection_range",
@@ -47762,6 +50137,9 @@
    "15",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "katana_echo_damage",
@@ -47840,6 +50218,9 @@
    "9",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "land_distance",
@@ -47921,6 +50302,9 @@
    "12",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "katana_bleed_duration",
@@ -47992,6 +50376,9 @@
   "desc": "Kez switches between his Kazurai Katana and Shodo Sai.\n\nHe gains different attack capabilities and abilities based on the weapon equipped. The abilities level up together, and when an ability is used, the associated alternate weapon ability also goes on cooldown.\n\nKez deals extra damage on the first Katana hit or ability after switching to Katana, and gains bonus speed after switching to Sai.",
   "mc": null,
   "cd": "8",
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "katana_base_ms",
@@ -48076,6 +50463,9 @@
    "35",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "strike_interval",
@@ -48167,6 +50557,9 @@
    "15",
    "12"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "rush_range",
@@ -48249,6 +50642,9 @@
    "9",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -48326,6 +50722,9 @@
    "12",
    "6"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "sai_proc_vuln_chance",
@@ -48420,6 +50819,9 @@
    "35",
    "30"
   ],
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "blast_radius",
@@ -48505,6 +50907,9 @@
   "desc": "Stop blocking physical attacks.",
   "mc": null,
   "cd": "0",
+  "innate": false,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [],
   "type": null
  },
@@ -48527,6 +50932,9 @@
    "9",
    "7"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "abilitycastrange",
@@ -48618,6 +51026,9 @@
    "16",
    "14"
   ],
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_stomp",
@@ -48691,6 +51102,9 @@
   "desc": "Largo strums a tune to a friendly hero. The hero's items and abilities have reduced mana cost and a percentage of their damage reverberates over the following 5 seconds.\n\nWhen an affected hero spends mana, the remaining buff duration is reduced by 0.5s. Duration is not reduced for Largo himself.",
   "mc": "40",
   "cd": "25",
+  "innate": false,
+  "levels": 4,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "damage_per_second",
@@ -48777,6 +51191,9 @@
   "desc": "Buffs that Largo applies to himself or his team have extended duration.",
   "mc": null,
   "cd": null,
+  "innate": true,
+  "levels": 0,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "buff_amplification",
@@ -48803,6 +51220,9 @@
   "desc": "Largo gets ready to groove. He is disarmed and his ability bar switches to 3 song abilities, each with different effects. Songs are only effective if strummed on the beat.\n\nEvery time he strums successfully, he gains a stack of Groovin'. Each stack gives him bonus armor and reduces the mana cost of every song, but he loses a stack if he misses a beat. Stacks linger for a short duration when Largo's song ends.",
   "mc": "0",
   "cd": "2",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "radius",
@@ -48887,6 +51307,9 @@
    "45"
   ],
   "cd": "0.2",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "double_song",
@@ -48969,6 +51392,9 @@
    "45"
   ],
   "cd": "0.2",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "double_song",
@@ -49042,6 +51468,9 @@
    "45"
   ],
   "cd": "0.2",
+  "innate": false,
+  "levels": 3,
+  "firstLevel": null,
   "attrib": [
    {
     "key": "double_song",

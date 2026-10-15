@@ -150,7 +150,9 @@ const kbIndex = J('kb_index.json');
 const kb = Object.fromEntries(kbIndex.files.map((f) => [f, J(`kb/${f}`)]));
 const plans = Object.assign({}, ...kbIndex.files.filter((f) => f.startsWith('plans')).map((f) => kb[f]));
 {
-  const real = validateKb({ heroes, items, kb });
+  // abilities передаём: с ними валидатор проверяет, что в порядке прокачки планов стоят только
+  // изучаемые способности 7.41 (не врождённые пассивки и не шард-способности — см. ниже).
+  const real = validateKb({ heroes, items, abilities, kb });
   ok(real.errors.length === 0, 'все ссылки базы знаний (герои, способности, предметы, теги) существуют', real.errors.slice(0, 5).join('; '));
   for (const w of real.warnings) console.log(`    ⚠ ${w}`);
   const text = kbTextIssues({ heroes, abilities, items, plans });
@@ -180,6 +182,19 @@ const plans = Object.assign({}, ...kbIndex.files.filter((f) => f.startsWith('pla
   ok(has(/rules\.json\[no_such_tag\]: тег/) && has(/picks: герой «ghost_hero»/), 'правило с тегом вне словаря и неизвестным пиком найдено');
   ok(has(/combos#\d+\]: тег «bogus_tag»/) && has(/предмет «gem_of_nothing»/), 'комбо с неизвестным тегом и предметом найдено');
   ok(has(/timings\.json: предмет «ancient_relic»/), 'предмет в таймингах проверяется');
+
+  // Порядок прокачки: врождённая пассивка (Necromastery) и шард-способность (Warp Flare у Tinker)
+  // не качаются очками. Раньше именно они стояли в планах шести мидовых героев.
+  const nevFile = kbIndex.files.find((f) => f.startsWith('plans') && kb[f].nevermore);
+  const innateKb = clone(kb);
+  innateKb[nevFile].nevermore.skills = [['nevermore_shadowraze1', 'тест'], ['nevermore_necromastery', 'тест']];
+  const innateRes = validateKb({ heroes, items, abilities, kb: innateKb });
+  ok(innateRes.errors.some((e) => /nevermore_necromastery.*врождённая/.test(e)), 'врождённая способность в порядке прокачки найдена');
+  const tinkerFile = kbIndex.files.find((f) => f.startsWith('plans') && kb[f].tinker);
+  const shardKb = clone(kb);
+  shardKb[tinkerFile].tinker.skills = [['tinker_warp_grenade', 'тест']];
+  const shardRes = validateKb({ heroes, items, abilities, kb: shardKb });
+  ok(shardRes.errors.some((e) => /tinker_warp_grenade.*шард/.test(e)), 'шард-способность в порядке прокачки найдена');
 
   const textBroken = {
     furion: { lane: 'Force of Nature даёт пуш и обзор' },

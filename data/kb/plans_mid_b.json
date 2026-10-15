@@ -8,7 +8,7 @@
   "skills": [
    ["tinker_march_of_the_machines", "Макс первым: фарм волн и нейтралов в любой точке карты"],
    ["tinker_laser", "Второй: слепота и урон по цели"],
-   ["tinker_warp_grenade", "Один уровень рано: сброс цели с позиции и эскейп"],
+   ["tinker_deploy_turrets", "Третий: турели держат волну и добивают — ставим перед отходом"],
    ["tinker_rearm", "6 / 12 / 18 — сбрасывает ТОЛЬКО способности (предметы не сбрасываются с 7.41)"]
   ],
   "items": {
@@ -26,7 +26,7 @@
     "Rearm не сбрасывает предметы: не рассчитывай на двойное использование БКБ или Blink",
     "Ты не танк: каждый прыжок вперёд должен иметь план на выход"
   ],
-  "beats": ["nevermore", "zuus", "medusa", "viper"],
+  "beats": [ "medusa", "viper" ],
   "loses_to": ["puck", "storm_spirit", "ember_spirit", "batrider"]
  },
  "arc_warden": {
@@ -124,7 +124,7 @@
   "skills": [
    ["dragon_knight_breathe_fire", "Макс первым: урон, фарм и снижение их урона"],
    ["dragon_knight_dragon_tail", "Второй: стан под добивание и защиту"],
-   ["dragon_knight_dragon_blood", "Один уровень рано: броня и реген на лейне"],
+   ["dragon_knight_wyrms_wrath", "Третий: усиливает способности и предметы (Dragon Blood теперь врождённый)"],
    ["dragon_knight_elder_dragon_form", "6 / 12 / 18 — пуш башен и долгие файты"]
   ],
   "items": {
@@ -181,7 +181,7 @@
   "lane": "Acid Spray даёт тебе золото и заставляет их уйти: добивай в дым. Ты самый богатый герой карты — твоя задача превратить золото в темп, а не в цифру в таблице.",
   "skills": [
    ["alchemist_acid_spray", "Макс первым: урон, -броня и фарм"],
-   ["alchemist_goblins_greed", "Твой источник золота: фармь волны и нейтралов, не простаивай"],
+   ["alchemist_corrosive_weaponry", "Третий: слоу и срез урона стакаются с Acid Spray (Greevil's Greed теперь врождённый)"],
    ["alchemist_unstable_concoction", "Один уровень рано: стан под размены и убийства"],
    ["alchemist_chemical_rage", "6 / 12 / 18 — урон, скорость и живучесть в одном касте"]
   ],
@@ -229,7 +229,7 @@
     "Твоя мать-паучиха умирает легко: не заходи в файты без паучат и БКБ",
     "Пуш важнее киллов: убийство без башни — это просто цифра"
   ],
-  "beats": ["nevermore", "lina", "zuus", "tinker"],
+  "beats": [ "nevermore", "zuus", "tinker" ],
   "loses_to": ["leshrac", "lina", "sniper", "ember_spirit"]
  },
  "meepo": {
@@ -316,7 +316,7 @@
     "Ты не участвуешь в файтах лицом: стой на максимальной дистанции и стреляй по приоритетной цели",
     "Shrapnel — это ещё и обзор: ставь его в кусты и на руны"
   ],
-  "beats": ["viper", "leshrac", "pugna", "tinker"],
+  "beats": [ "viper", "pugna", "tinker" ],
   "loses_to": ["storm_spirit", "ember_spirit", "void_spirit", "furion"]
  },
  "tiny": {
@@ -501,7 +501,7 @@
   "skills": [
    ["medusa_mystic_snake", "Макс первым: урон, кража маны и её восстановление"],
    ["medusa_split_shot", "Второй: фарм и мульти-урон в файтах"],
-   ["medusa_mana_shield", "Один уровень рано и всегда включён: мана — это твой HP"],
+   ["medusa_gorgon_grasp", "Третий: рут по линии — сетап под Mystic Snake и Stone Gaze (Mana Shield теперь врождённый)"],
    ["medusa_stone_gaze", "6 / 12 / 18 — файт-ульт: каменеют все, кто посмотрит"]
   ],
   "items": {

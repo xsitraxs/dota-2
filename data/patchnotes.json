@@ -3,84 +3,71 @@
   "general": [
    "Captains Mode",
    "Changed order of the first and the third ban phases",
-   "First Ban Phase (<font color=\\\"#7CA1CC\\\">First</font> = team with the first pick, <font color=\\\"#F05039\\\">Second</font> = team with the second pick)",
-   "OLD: <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#7CA1CC\\\">First</font>",
-   "NEW: <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#F05039\\\">Second</font>",
+   "First Ban Phase ( First = team with the first pick, Second = team with the second pick)",
+   "OLD: First - Second - Second - First - Second - Second - First",
+   "NEW: First - First - Second - Second - First - Second - Second",
    "Third Ban Phase",
-   "OLD: <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#7CA1CC\\\">First</font>",
-   "NEW: <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#F05039\\\">Second</font> - <font color=\\\"#7CA1CC\\\">First</font> - <font color=\\\"#F05039\\\">Second</font>",
-   "<br>",
+   "OLD: First - Second - Second - First",
+   "NEW: First - Second - First - Second",
    "General Changes",
    "Talents no longer require a skill point to level",
    "Now talents are learned by using their own talent points available at levels 10, 15, 20, 25, 27, 28, 29, and 30",
    "This results in all +2 All Attributes bonuses skilled by level 22",
-   "All Facets that used to have 6 All Attributes bonuses now have 7 bonuses again ",
+   "All Facets that used to have 6 All Attributes bonuses now have 7 bonuses again",
    "Batrider's Arsonist, Magnus' Diminishing Return, Meepo's More Meepo, Monkey King's Simian Stride, Night Stalker's Voidbringer, and Silencer's Synaptic Split",
-   "<br>",
    "Tier 4 Towers now have a Barracks Reinforcement buff. Each allied barracks that has not been destroyed provides +4 armor to both Tier 4 towers",
    "Bonus is for each individual building, totaling in +24 Armor for 6 Barracks",
-   "<br>",
    "Assist Gold Formula Reworked",
    "OLD: 60 + ( ( VictimNetworth * 0.037 ) / NumHeroes )",
    "NEW: 15 + ( ( 50 + ( VictimNetworth * 0.037 ) ) / NumHeroes )",
-   "<br>",
    "Melee Creep: Gold Bounty now increases by 1 per lane creep upgrade interval (every 7:30)",
    "Flagbearer Creep: Gold Bounty now increases by 1 per lane creep upgrade interval",
    "Flagbearer Creep: AoE Bounty Radius increased from 1200 to 1500",
    "Flagbearer Creep: When killed by a player controlled unit, the Flagbearer Creep always grants Bonus Bounty to the killer's hero regardless of the hero's proximity to the Flagbearer Creep",
-   "Flagbearer Creep: Bonus Gold from killing Flagbearers is now classified as creep gold instead of ability gold ",
+   "Flagbearer Creep: Bonus Gold from killing Flagbearers is now classified as creep gold instead of ability gold",
    "Has no gameplay effect, but makes a post game gold breakdown more accurate",
    "Flagbearer Creep: Inspiration Aura no longer affects heroes",
    "Flagbearer Creep: Inspiration Aura now also provides a magic resistance bonus to affected creeps starting with 0% and improving by 4% with every lane creep upgrade interval, up to a maximum of 15 upgrades",
-   "<br>",
    "Courier respawn time decreased from (60s + 6s per Hero Level) to (45s + 5s per Hero Level)",
    "Courier no longer has a 15% movement speed penalty while carrying a Clarity, Enchanted Mango, Faerie Fire, Healing Salve, or Tango",
    "Flying Courier will now go to a more obscure shopping area within range of the Secret Shop when using Go To Secret Shop",
-   "<br>",
    "All illusions now have 800 daytime vision and 400 nighttime vision",
    "Map Objectives",
-   "<span class=\\\"Subtitle\\\">Roshan</span>",
+   "Roshan",
    "Roshan is no longer considered a hero for Lifesteal mechanics. As a result, Physical Lifesteal from damage to Roshan is reduced by 40%, and Spell Lifesteal from damage to Roshan is reduced by 80%",
    "Roar of Retribution: Disarm debuff is no longer dispellable",
    "Slam: No longer has double duration against creeps",
    "Slam: Now deals double damage to creeps",
-   "<br>",
-   "<span class=\\\"Subtitle\\\">Tormentor</span>",
+   "Tormentor",
    "Added a Tormentor Timer near the minimap. Functions similarly to the Roshan Timer. Can be pinged to communicate the current state of Tormentor",
    "Pinging Tormentor's location in world will trigger the same ping as the timer (same behavior the Roshan Timer has)",
    "The minimap now only has one Tormentor icon and reflects where Tormentor is or will spawn",
    "The Shining: Now only starts dealing damage to the surrounding enemies when attacked/damaged",
-   "<br>",
-   "<span class=\\\"Subtitle\\\">Runes</span>",
+   "Runes",
    "Bounty Rune: Now grants gold based on when it was created, not when it was activated",
    "Haste Rune: Duration no longer increases by 3s per rune cycle, and is always 22s now",
    "Invisibility Rune: No longer grants incoming damage reduction",
-   "<br>",
    "Terrain Changes",
    "Extended the streams into both Radiant and Dire bases and added defender's gate to the outside of the respective safe lanes where the stream flows",
    "Removed some trees inside the base near the new safelane defender's gate positions",
    "The Hard camp nearest to Tier 3 towers where the streams used to start has been demoted to a 'medium' camp",
    "Moved the safelane medium amphibian neutral camp closest to the Tier 2 tower up the stream, slightly closer to the respective bases",
-   "<br>",
    "Lowered the Wisdom Shrine areas to low ground, compared to the respective offlanes, filled them with water and connected to the water areas by the Tier 1 towers",
    "Moved Wisdom Shrines and Watchers to the low ground and slightly closer to the Tier 1 towers. These Watchers now have vision over the shrines at night",
    "Hard camps nearest to Wisdom Shrines have been moved slightly back towards the bases",
    "Changed the 'bridges' to actual bridges",
    "Slightly expanded the entrance to the bridge by the Lotus pools and adjusted the area within the nearby water areas",
    "The Hard camp in the 'triangle' has been demoted to a 'medium' camp",
-   "<br>",
    "Twin Gate mana cost decreased from 75 to 30",
    "Twin Gates now refund the mana cost if the teleporting channel was interrupted",
    "Cleared up some areas around the Tormentor locations",
    "The watchers nearest to the mid-lane and near the small water camps south/north of the tier 1 tower have been removed",
    "The watchers in the primary jungles have been repositioned from stairs near the small camp to the cliff above the bounty runes",
    "Added additional blocks preventing flying movement around the edges of the map (e.g. the highground areas behind the Tormentors will no longer be accessible by Batrider during Firefly)",
-   "<br>",
    "Watcher night vision range decreased from 800 to 450",
    "Watcher capture time decreased from 1.5s to 1s",
    "Defender's Gate vision radius increased from 525 to 700",
    "Defender's Gate will now show their vision radius when holding ALT (similarly to Wards, Watchers, etc.)",
-   "<br>",
    "Removed a tree between Dire Safelane Tier 1 tower and the small pull camp",
    "Very slightly adjusted the paths and spawn points of the Radiant Offlane lane creeps, and the position of the Radiant Offlane Tier 2 tower. This results in creeps pathing to the right of the tier 2 tower instead of sometimes splitting up to go around it",
    "Radiant Secret Shop trigger area moved slightly towards the radiant Tier 1 tower and more centered around the shopkeeper",
@@ -103,7 +90,6 @@
    "Sniper's Assassinate can no longer target invulnerable units",
    "Sven's Storm Hammer with Aghanim's Scepter can no longer target invulnerable units, but does affect invulnerable units in the radius",
    "Vengeful Spirit's Nether Swap can no longer target invulnerable units",
-   "<br>",
    "Since Cyclone effects also make the unit invulnerable, all changes mentioned above apply to them as well. As a result, there are these special cases:",
    "Nullifier's Nullify will dispel Cyclone off the target immediately if Cyclone was cast on a unit already affected by the Nullify debuff",
    "Oracle's Fortune's End cannot target Cycloned units, but will dispel Cyclone off the units in AoE around the target",
@@ -218,7 +204,7 @@
     "Multiple instances of Behemoth's Blood don't stack"
    ],
    "heavens_halberd": [
-    "Disarm is now only dispellable by strong dispels ",
+    "Disarm is now only dispellable by strong dispels",
     "Still does not pierce debuff immunity",
     "Disarm no longer has separate disarm durations for melee and ranged targets. Duration is always 3 seconds",
     "Disarm cooldown increased from 18s to 20s"
@@ -235,7 +221,7 @@
     "Energy Charge max charges increased from 20 to 25",
     "Energy Charge cast range increased from 500 to 600",
     "Energy Charge mana restore per charge decreased from 17 to 15",
-    "Energy Charge active now also increases the target's incoming Healing Amplification by 10% for 4s ",
+    "Energy Charge active now also increases the target's incoming Healing Amplification by 10% for 4s",
     "This occurs before the Energy Charge heal"
    ],
    "angels_demise": [
@@ -445,7 +431,7 @@
     "Artifact changes",
     "Mana Burn target's intelligence multiplier decreased from 2/2.5/3/4x to 1/1.5/2/2.5x",
     "Purge can no longer target invulnerable units",
-    "<span class=\\\"New\\\">New Hero?</span>",
+    "New Hero?",
     "Now counts as a Universal melee hero instead of a creep in the following cases",
     "Spirit Bear's attacks now count as melee hero attacks against:",
     "Roshan's Banner, Clinkz' Skeleton Archers, Lich's Ice Spire, Phoenix's Supernova, Pugna's Nether Ward, Templar Assassin's Psionic Traps, and Undying's Tombstone",
@@ -463,7 +449,6 @@
     "Ability order has been changed",
     "OLD: Return, Demolish, Savage Roar, Entangling Claws, Fetch",
     "NEW: Demolish (innate, hidden), Return, Entangling Claws, Savage Roar, Spirit Link, Fetch",
-    "<br>",
     "Base HP rescaled from 1100/1400/1700/2000 to 1500",
     "Base HP Regen decreased from 5/6/7/8 to 3",
     "Base Attack Time rescaled from 1.75/1.65/1.55/1.45s to 1.5s",
@@ -3059,26 +3044,23 @@
    "All innate abilities that used to scale with other abilities now either provide unchangeable bonuses or improve on 'per level' basis",
    "Abilities that improve with hero level have base value and increment value. Some also have amount of levels required for increment",
    "Abilities that improve each level provide their increment value at level 1",
-   "Added UI icon that shows you which parameters increase with hero level and what is the current value ",
+   "Added UI icon that shows you which parameters increase with hero level and what is the current value",
    "Pressing ALT key will show base value and increment of the ability",
    "Some non-innate ability might have this per level UI as well",
    "Abilities that had 'per level up' scaling changed to be 'per level'",
    "This mostly affects heroes reworked in update 7.40 and Largo",
-   "<br>",
    "Flagbearer Creep Experience Bounty increased from 57 to 60",
    "First +1 siege creep timing decreased from 35:00 to 30:00",
    "Second +1 siege creep timing now occurs at 60:00",
-   "<br>",
    "Adjusted the meeting point of the lane creeps toward the offlane",
    "Now offlane creeps are slightly slowed upon leaving the base for a couple of seconds",
    "Safe lane creeps are slightly accelerated upon leaving the base for a couple of seconds",
    "Both of these changes are effective until the 7:30 mark",
-   "<br>",
-   "All sections of currents now give a max movement speed bonus of 150 ",
+   "All sections of currents now give a max movement speed bonus of 150",
    "Previously was only provided by sections on the base and near it, while other sections provided max bonus of 100",
    "Map Objectives",
-   "<span class=\\\"Subtitle\\\">Tormentor</span>",
-   "Tormentor's spawn preference has switched ",
+   "Tormentor",
+   "Tormentor's spawn preference has switched",
    "Now begins in the Bottom Chasm",
    "Unyielding Shield Base barrier increased from 2000 to 3000",
    "Unyielding Shield Barrier upgrade per minute increased from 20 to 50",
@@ -3090,11 +3072,10 @@
    "The Shining damage now increases by 2 per minute",
    "Now has 25% Status Resistance",
    "No longer deals damage to neutral units",
-   "Player that got Aghanim's Shard will no longer receive 175 gold ",
+   "Player that got Aghanim's Shard will no longer receive 175 gold",
    "Total team gold reward decreased from 875 to 700 (total networth change decreased from 2275 to 2100).",
    "Reward if all players have Aghanim's Shard decreased from 455 gold to 415 gold",
-   "<br>",
-   "Roshan's pit preference has switched ",
+   "Roshan's pit preference has switched",
    "Now begins in the Top Pit",
    "Wisdom Shrines and Lotus Pools now reverse their countdowns if heroes from opposing teams enter the area, instead of pausing the countdown",
    "Wisdom Shrine Experience changed from 280 per interval to 200 base and 300 per subsequent shrine (200/500/800 etc)",
@@ -3108,10 +3089,8 @@
    "Tormentor is on the low ground which has three stairs: one leading to the Lotus Pool, one leading to the lane, and one leading to even higher ground area with the Twin Gate",
    "Twin Gate highground area is now smaller and has three stairs: one that leads to new Tormentor area, one that leads back to the lane, and one that goes two levels down straight to the end of the stream",
    "Watcher is now between two stairs: one that goes down to the Tormentor and one that goes up to the Twin Gate",
-   "<br>",
    "Ancient neutral camps near stream ends demoted to medium camps and moved slightly towards bases",
    "Medium neutral camp near offlane defender's gate has been demoted to a small neutral camp",
-   "<br>",
    "The tier 1 safe lane towers have been moved slightly away from their pull camps and where the creeps meet",
    "Radiant safe lane small camp has been slightly moved north away from the lane",
    "Radiant safe lane hard camp's spawn box has been moved towards the offlane to remove a bad ward location",
@@ -3122,29 +3101,27 @@
    "The medium flooded camp near the bounty runes can now evolve twice into an Ancient Camp",
    "Removed several trees from Dire Safelane easy pull camp and Radiant Safelane hard pull camp",
    "Mechanics Changes",
-   "<span class=\\\"Subtitle\\\">Health Restoration</span>",
-   "Health Restoration now applies to all forms of life gain ",
+   "Health Restoration",
+   "Health Restoration now applies to all forms of life gain",
    "Previously, it did not apply to incoming heals",
    "Incoming Heal Amplification now stacks diminishingly with Health Restoration instead of additively with Outgoing Heal Amplification",
-   "Spells that previously had a separate value for incoming heal reduction now only modify Health Restoration ",
-   "* Eye of Skadi's Cold Attack<br>* Spirit Vessel's Soul Release<br>* Omniknight's Guardian Angel with Aghanim's Scepter<br>* Pudge's Rot with Aghanim's Scepter",
-   "As a result of the changes, spells that only modified Health Restoration will now additionally affect incoming heals ",
-   "* Sange<br>* Kaya and Sange<br>* Sange and Yasha<br>* Abyssal Blade<br>* Orb of Frost's Frost<br>* Orb of Corrosion's Corrosion<br>* Crippling Crossbow's Hobble<br>* Jidi Pollen Bag's Pollinate<br>* Item bonus from Crude enchantment<br>* Abaddon’s Withering Mist<br>* Drow Ranger’s Frost Arrows with Aghanim’s Scepter<br>* Slark's Saltwater Shiv",
-   "<br>",
-   "<span class=\\\"Subtitle\\\">Lifesteal and Damage Manipulations</span>",
+   "Spells that previously had a separate value for incoming heal reduction now only modify Health Restoration",
+   "* Eye of Skadi's Cold Attack * Spirit Vessel's Soul Release * Omniknight's Guardian Angel with Aghanim's Scepter * Pudge's Rot with Aghanim's Scepter",
+   "As a result of the changes, spells that only modified Health Restoration will now additionally affect incoming heals",
+   "* Sange * Kaya and Sange * Sange and Yasha * Abyssal Blade * Orb of Frost's Frost * Orb of Corrosion's Corrosion * Crippling Crossbow's Hobble * Jidi Pollen Bag's Pollinate * Item bonus from Crude enchantment * Abaddon’s Withering Mist * Drow Ranger’s Frost Arrows with Aghanim’s Scepter * Slark's Saltwater Shiv",
+   "Lifesteal and Damage Manipulations",
    "Physical and Magical Lifesteal will now take into account overall damage reductions/amplifications when computing how much to lifesteal",
-   "This affects the following:<br><br>* Aeon Disk<br>* Bloodstone<br>* Consecrated Wraps<br>* Veil of Discord<br>* Prophet's Pendulum<br>* Audacious Enchantment<br>* Abaddon's Borrowed Time with Aghanim's Scepter<br>* Beastmaster's Wild Axes<br>* Bounty Hunter's Shadow Walk with talent<br>* Bristleback's Bristleback<br>* Centaur Warrunner's Stampede<br>* Grimstroke's Ink Trail<br>* Grimstroke's Soulbind with talent<br>* Hoodwink's Hunter's Boomerang<br>* Leshrac's Pulse Nova with talent<br>* Lich's Frost Shield<br>* Luna's Lunar Orbit<br>* Kunkka's Admiral's Rum<br>* Mars' Bulwark<br>* Nyx Assassin's Burrow<br>* Ogre Magi's Fire Shield<br>* Oracle's False Promise<br>* Pudge's Flesh Heap<br>* Shadow Demon's Menace<br>* Spectre's Dispersion<br>* Treant Protector's Living Armor<br>* Underlord's Invading Force<br>* Undying's Flesh Golem<br>* Ursa's Enrage<br>* Visage's Gravekeeper's Cloak<br>* Warlock's Golem with talent",
+   "This affects the following: * Aeon Disk * Bloodstone * Consecrated Wraps * Veil of Discord * Prophet's Pendulum * Audacious Enchantment * Abaddon's Borrowed Time with Aghanim's Scepter * Beastmaster's Wild Axes * Bounty Hunter's Shadow Walk with talent * Bristleback's Bristleback * Centaur Warrunner's Stampede * Grimstroke's Ink Trail * Grimstroke's Soulbind with talent * Hoodwink's Hunter's Boomerang * Leshrac's Pulse Nova with talent * Lich's Frost Shield * Luna's Lunar Orbit * Kunkka's Admiral's Rum * Mars' Bulwark * Nyx Assassin's Burrow * Ogre Magi's Fire Shield * Oracle's False Promise * Pudge's Flesh Heap * Shadow Demon's Menace * Spectre's Dispersion * Treant Protector's Living Armor * Underlord's Invading Force * Undying's Flesh Golem * Ursa's Enrage * Visage's Gravekeeper's Cloak * Warlock's Golem with talent",
    "Historically, Lifesteal was calculated before some damage reductions or amplifications were applied. As a result, you could gain health from attacks that dealt no damage (like attacks against a hero affected by Aeon Disk's Combo Breaker). This will not happen anymore",
    "The only amplification that is not taken into account is increased damage against illusions",
-   "<br>",
-   "<span class=\\\"Subtitle\\\">Miscellaneous</span>",
+   "Miscellaneous",
    "All sources of reflection damage now have an ALT-note detailing mechanics of reflected damage",
-   "The following items and abilities deal reflected damage:<br>* Tormentor's Reflect ability<br>* Blade Mail (both active and passive)<br>* Chipped Vest<br>* Rattlecage<br>* Axe's Counter Helix<br>* Bristleback's Quill Spray triggered by Bristleback passive<br>* Centaur Warrunner's Retaliate<br>* Nyx Assassin's Spiked Carapace<br>* Queen of Pain's Scream of Pain<br>* Razor's Storm Surge<br>* Shadow Demon's Disseminate<br>* Spectre's Dispersion<br>* Tidehunter's Anchor Smash triggered by Kraken Shell passive<br>* Viper's Corrosive Skin<br>* Warlock's Fatal Bonds",
+   "The following items and abilities deal reflected damage: * Tormentor's Reflect ability * Blade Mail (both active and passive) * Chipped Vest * Rattlecage * Axe's Counter Helix * Bristleback's Quill Spray triggered by Bristleback passive * Centaur Warrunner's Retaliate * Nyx Assassin's Spiked Carapace * Queen of Pain's Scream of Pain * Razor's Storm Surge * Shadow Demon's Disseminate * Spectre's Dispersion * Tidehunter's Anchor Smash triggered by Kraken Shell passive * Viper's Corrosive Skin * Warlock's Fatal Bonds",
    "Reflected damage cannot be reflected back",
    "Lifesteal and Spell Lifesteal don't apply to reflected damage",
    "Reflected damage doesn't affect Debuff Immune units",
-   "Units with free movement now can miss their attacks when attacking uphill targets ",
-   "Affected units:<br>* Batrider during Firefly<br>* Dragon Knight during Elder Dragon Form with Aghanim's Scepter<br>* Lina during Flame Cloak<br>* Terrorblade's Reflection illusions",
+   "Units with free movement now can miss their attacks when attacking uphill targets",
+   "Affected units: * Batrider during Firefly * Dragon Knight during Elder Dragon Form with Aghanim's Scepter * Lina during Flame Cloak * Terrorblade's Reflection illusions",
    "General changes",
    "Tier 1 availability changed from 5:00 to 0:00",
    "Madstone crafting cost for Tier 1 items increased from 5 to 6"
@@ -3178,21 +3155,21 @@
     "Cost increased from 800g to 900g",
     "Magic Resistance bonus decreased from +20% to +18%",
     "Returning as a Tier 3 Neutral Artifact",
-    "Passive: Immolate. Burns enemy units in a 375 unit radius for 40 damage per second. Illusions deal 25 damage per second ",
+    "Passive: Immolate. Burns enemy units in a 375 unit radius for 40 damage per second. Illusions deal 25 damage per second",
     "Dormant Curio increases damage from 40 to 52 and illusion damage from 25 to 32.5"
    ],
    "cornucopia": [
     "Item removed from the game"
    ],
    "orb_of_frost": [
-    "Now also modifies incoming healing ",
+    "Now also modifies incoming healing",
     "As a result of Health Restoration changes"
    ],
    "refresher": [
     "Reset Cooldowns no longer refreshes items",
     "Health Regen bonus increased from +12 to +14",
     "Mana Regen bonus increased from +6 to +7",
-    "Reset Cooldowns cooldown decreased from 180/190/200/210s to 180s ",
+    "Reset Cooldowns cooldown decreased from 180/190/200/210s to 180s",
     "No longer scales with uses",
     "Reset Cooldowns mana cost decreased from 400 to 325",
     "Reset Cooldowns no longer refreshes items"
@@ -3352,7 +3329,7 @@
    "kaya": [
     "Mana Regen Amplification bonus decreased from +40% to +30%",
     "Mana Regen Amplification bonus decreased from +50% to +40%",
-    "Now also modifies incoming healing ",
+    "Now also modifies incoming healing",
     "As a result of Health Restoration changes"
    ],
    "meteor_hammer": [
@@ -3420,11 +3397,11 @@
     "Soul Rend Mana Cost increased from 125 to 150"
    ],
    "orb_of_corrosion": [
-    "Now also modifies incoming healing ",
+    "Now also modifies incoming healing",
     "As a result of Health Restoration changes"
    ],
    "skadi": [
-    "Cold Attack no longer has a separate value for incoming heal reduction ",
+    "Cold Attack no longer has a separate value for incoming heal reduction",
     "Still reduces incoming heals due to Health Restoration changes",
     "Cold Attack health restoration reduction increased from 40% to 50%"
    ],
@@ -3467,16 +3444,16 @@
    ],
    "sange": [
     "Slow Resistance bonus increased from +20% to +25%",
-    "Now also modifies incoming healing ",
+    "Now also modifies incoming healing",
     "As a result of Health Restoration changes",
     "Status Resistance bonus increased from +15% to +16%",
     "Slow Resistance bonus increased from +25% to +30%",
-    "Now also modifies incoming healing ",
+    "Now also modifies incoming healing",
     "As a result of Health Restoration changes"
    ],
    "abyssal_blade": [
     "Slow Resistance bonus increased from +25% to +30%",
-    "Now also modifies incoming healing ",
+    "Now also modifies incoming healing",
     "As a result of Health Restoration changes"
    ],
    "shivas_guard": [
@@ -3489,14 +3466,14 @@
     "Now also provides +75 Area of Effect",
     "Area of Effect bonuses from multiple Chasm Stones or its upgrades do not stack",
     "Arctic Blast damage increased from 200 to 260",
-    "Arctic Blast radius decreased from 900 to 825 ",
+    "Arctic Blast radius decreased from 900 to 825",
     "Effective spell radius unchanged due to item's built-in Area of Effect bonus",
     "Arctic Blast no longer increases damage taken from spells",
     "Freezing Aura no longer reduces Health Restoration and Incoming Heal Amplification by 25%",
     "Freezing Aura now pierces debuff immunity"
    ],
    "spirit_vessel": [
-    "Soul Release no longer has a separate value for incoming heal reduction ",
+    "Soul Release no longer has a separate value for incoming heal reduction",
     "Still reduces incoming heals due to Health Restoration changes"
    ],
    "tranquil_boots": [
@@ -3519,7 +3496,7 @@
     "Health bonus increased from +450 to +650",
     "Now also provides +15 Intelligence",
     "Bloodpact no longer applies a basic dispel",
-    "Bloodpact no longer multiplies spell lifesteal bonus by 3. Now increases spell lifesteal to 60% instead ",
+    "Bloodpact no longer multiplies spell lifesteal bonus by 3. Now increases spell lifesteal to 60% instead",
     "Spell Lifesteal during Bloodpact decreased from 75% to 60%",
     "Bloodpact no longer has a 30s self debuff preventing repeated usage of Bloodpact",
     "Now also provides passive Spell Weakness Aura",
@@ -3552,7 +3529,7 @@
    ],
    "possessed_mask": [
     "Returning as a Tier 1 Neutral Artifact",
-    "Passive: Lifesteal. Attacks heal for 5 health ",
+    "Passive: Lifesteal. Attacks heal for 5 health",
     "This counts as lifesteal and is manipulated by Health Restoration"
    ],
    "stonefeather_satchel": [
@@ -3569,22 +3546,22 @@
     "Hobble initial damage decreased from 75 to 25",
     "Hobble Max slow decreased from 80% to 50%",
     "Hobble Cast Range decreased from 800 to 650",
-    "Hobble now also modifies incoming healing ",
+    "Hobble now also modifies incoming healing",
     "As a result of Health Restoration changes"
    ],
    "medallion_of_courage": [
     "Returning as a Tier 2 Neutral Artifact",
-    "Active: Valor. If cast on an ally, increases their armor by 7 for 8s. If cast on an enemy, decreases their armor by 4 for 8s. Cannot be cast on self. Cast Range: 1000. Mana Cost: 30. Cooldown: 18s ",
+    "Active: Valor. If cast on an ally, increases their armor by 7 for 8s. If cast on an enemy, decreases their armor by 4 for 8s. Cannot be cast on self. Cast Range: 1000. Mana Cost: 30. Cooldown: 18s",
     "Dormant Curio increases duration from 8s to 10.4s"
    ],
    "searing_signet": [
-    "Burn Through: Total Damage decreased from 90 to 80 ",
+    "Burn Through: Total Damage decreased from 90 to 80",
     "From 117 to 104 with Dormant Curio",
     "Burn Through: Damage Threshold increased from 55 to 60"
    ],
    "seeds_of_serenity": [
     "Returning as a Tier 2 Neutral Artifact",
-    "Active: Verdurous Dale. Place a 400 unit circle on the ground for 8s that increases health regeneration of allies inside by 8 + 25% of the caster's health regeneration. Cast Range: 350. No Mana Cost. Cooldown: 35s ",
+    "Active: Verdurous Dale. Place a 400 unit circle on the ground for 8s that increases health regeneration of allies inside by 8 + 25% of the caster's health regeneration. Cast Range: 350. No Mana Cost. Cooldown: 35s",
     "Dormant Curio increases health regeneration from 8 to 10.4 and from 25% to 32.5%"
    ],
    "whisper_of_the_dread": [
@@ -3595,12 +3572,12 @@
    ],
    "jidi_pollen_bag": [
     "Pollinate health restoration loss increased from 30% to 50%",
-    "Pollinate now also modifies incoming healing ",
+    "Pollinate now also modifies incoming healing",
     "As a result of Health Restoration changes"
    ],
    "partisans_brand": [
     "New Tier 3 Artifact",
-    "Passive: Brand. Increases spell damage against player controlled units by 9% ",
+    "Passive: Brand. Increases spell damage against player controlled units by 9%",
     "Dormant Curio increases bonus spell damage from 9% to 11.7%",
     "Player controlled units includes heroes and any creep summoned or converted by them"
    ],
@@ -3609,39 +3586,39 @@
    ],
    "spellslinger": [
     "New Tier 3 Artifact",
-    "Passive: Salvo. Whenever you cast a spell, 20% of the spell's mana cost is restored over 10s. Tick rate: 2s ",
+    "Passive: Salvo. Whenever you cast a spell, 20% of the spell's mana cost is restored over 10s. Tick rate: 2s",
     "Dormant Curio increases mana restored from 20% to 26%",
     "Mana recovery duration cannot be modified"
    ],
    "stormcrafter": [
     "Returning as a Tier 3 Neutral Artifact",
-    "Passive: Bottled Lightning. Every 6s, zaps up to 2 enemies within 700 units, slowing them by 40% for 0.4s and dealing 70 magic damage ",
+    "Passive: Bottled Lightning. Every 6s, zaps up to 2 enemies within 700 units, slowing them by 40% for 0.4s and dealing 70 magic damage",
     "Dormant Curio increases damage from 70 to 91"
    ],
    "conjurers_catalyst": [
     "New Tier 4 Artifact",
-    "Passive: Spellover. Every 100 spell damage dealt to an enemy deals damage to their surrounding allies in a 300 unit radius. Hero targets deal 40 damage to their allies, other targets deal 15 damage ",
+    "Passive: Spellover. Every 100 spell damage dealt to an enemy deals damage to their surrounding allies in a 300 unit radius. Hero targets deal 40 damage to their allies, other targets deal 15 damage",
     "Dormant Curio increases hero damage from 40 to 52 and non-hero damage from 15 to 19.5"
    ],
    "dandelion_amulet": [
     "Returning as a Tier 4 Neutral Artifact",
-    "Passive: Magical Damage Block. Blocks 300 magic damage from instances over 75 damage. Cooldown: 12s ",
+    "Passive: Magical Damage Block. Blocks 300 magic damage from instances over 75 damage. Cooldown: 12s",
     "Dormant Curio increases blocked damage from 300 to 390"
    ],
    "enchanters_bauble": [
     "New Tier 4 Artifact",
-    "Passive: Enchant. Increases bonuses of the item's Neutral Enchantment by 15%. Every time you craft this item again the bonus is increased by 40% ",
+    "Passive: Enchant. Increases bonuses of the item's Neutral Enchantment by 15%. Every time you craft this item again the bonus is increased by 40%",
     "Dormant Curio increases recraft stat bonus from 40% to 52%",
     "You can select any Enchantments during re-craft and bonus will still keep increasing as long as you keep Enchanter's Bauble"
    ],
    "metamorphic_mandible": [
-    "Pupate duration increased from 4s to 5s ",
+    "Pupate duration increased from 4s to 5s",
     "From 5.2s to 6.5s with Dormant Curio",
     "Pupate bonus magic resistance increased from 35% to 50%"
    ],
    "prophets_pendulum": [
     "New Tier 4 Artifact",
-    "Passive: Linger. 30% of damage taken is delayed over 5 seconds. Damage Ticks every 1 second and is lethal ",
+    "Passive: Linger. 30% of damage taken is delayed over 5 seconds. Damage Ticks every 1 second and is lethal",
     "Dormant Curio increases damage delayed from 30% to 39%"
    ],
    "rattlecage": [
@@ -3649,7 +3626,7 @@
    ],
    "harmonizer": [
     "New Tier 5 Artifact",
-    "Passive: Balance. Grants 5% mana cost reduction for every hero ability off cooldown and 6% spell amplification for every spell on cooldown ",
+    "Passive: Balance. Grants 5% mana cost reduction for every hero ability off cooldown and 6% spell amplification for every spell on cooldown",
     "Dormant Curio increases mana cost reduction from 5% to 6.5% and spell amplification from 6% to 7.8%",
     "Item spells are affected by both effects, however item cooldowns don't affect the Harmonizer buff",
     "The buff counts only current abilities that have cooldown, even if it's passive",
@@ -3665,7 +3642,7 @@
    "heavy_blade": [
     "Returning as a Tier 5 Neutral Artifact",
     "Active: Cleanse. Apply basic dispel on all units in a 300 unit radius area. Cast Range: 500. Mana Cost: 150. Cooldown: 40s",
-    "Passive: Subjugate. Your attacks deal bonus magical damage equal to 4% of target's Max Mana ",
+    "Passive: Subjugate. Your attacks deal bonus magical damage equal to 4% of target's Max Mana",
     "Dormant Curio increases damage from 4% to 5.2%"
    ],
    "enhancement_boundless": [
@@ -3706,7 +3683,7 @@
     "Now is a guaranteed option for Strength heroes only",
     "Tiers changed from 4/5 to 2-4",
     "Health Restoration bonus rescaled from +30/40% to +10/15/20%",
-    "Now also modifies incoming healing ",
+    "Now also modifies incoming healing",
     "As a result of Health Restoration changes",
     "Base Attack Time Reduction bonus rescaled from 12/18% to 8/12/16%",
     "Intelligence Penalty increased from 5% to 6%"
@@ -3765,7 +3742,6 @@
     "Shop Reshuffle",
     "Items in all shop categories except for Consumables have been rearranged to accommodate new items",
     "Consumables now includes Infused Raindrops",
-    "<br>",
     "Basic Items",
     "Upgrades",
     "Artifact changes",
@@ -6010,8 +5986,8 @@
     "talents": [
      "Level 15 Talent +60 Defense Matrix Damage Barrier replaced with +100 Deploy Turrets Tinker Knockback",
      "Level 20 Talent +10% Defense Matrix Status Resistance replaced with +60 Deploy Turrets Missile Damage",
-     "Level 25  +40 Intelligence replaced with -0.25s Time to Rearm",
-     "Level 25  Laser AoE increased from 200 to 250"
+     "Level 25 +40 Intelligence replaced with -0.25s Time to Rearm",
+     "Level 25 Laser AoE increased from 200 to 250"
     ]
    },
    "tiny": {
@@ -6759,26 +6735,26 @@
     "Pollinate radius increased from 700 to 900"
    ],
    "conjurers_catalyst": [
-    "Spellover now has a 0.1s internal cooldown ",
+    "Spellover now has a 0.1s internal cooldown",
     "Still can proc multiple times from a single instance of high damage",
     "Spellover damage threshold increased from 100 to 200",
-    "Spellover damage from hero targets increased from 40 to 80 ",
+    "Spellover damage from hero targets increased from 40 to 80",
     "From 52 to 104 with Dormant Curio",
-    "Spellover damage from creep targets increased from 15 to 30 ",
+    "Spellover damage from creep targets increased from 15 to 30",
     "From 19.5 to 39 with Dormant Curio"
    ],
    "enchanters_bauble": [
     "Enchant base Neutral Enchantment bonus decreased from 15% to 10%"
    ],
    "idol_of_screeauk": [
-    "False Flight duration increased from 5s to 6.5s ",
+    "False Flight duration increased from 5s to 6.5s",
     "From 6.5s to 8.45s with Dormant Curio"
    ],
    "metamorphic_mandible": [
     "Pupate movement speed bonus increased from 15% to 20%"
    ],
    "rattlecage": [
-    "Reverberate projectile physical damage decreased from 110 to 90 ",
+    "Reverberate projectile physical damage decreased from 110 to 90",
     "From 143 to 117 with Dormant Curio"
    ],
    "demonicon": [
@@ -8784,12 +8760,12 @@
     "Forage time decreased from 1s to 0.75s"
    ],
    "conjurers_catalyst": [
-    "Spellover non-hero explosion damage decreased from 30 to 20 ",
+    "Spellover non-hero explosion damage decreased from 30 to 20",
     "From 39 to 26 with Dormant Curio",
     "Spellover damage threshold on illusions now only considers pre-amplification damage"
    ],
    "enchanters_bauble": [
-    "Enchant recraft bonus decreased from 40% to 35% ",
+    "Enchant recraft bonus decreased from 40% to 35%",
     "From 52% to 45.5% with Dormant Curio"
    ],
    "heavy_blade": [

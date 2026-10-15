@@ -11,8 +11,8 @@
     "Макс первым: весь харрас, фарм и комбо 3×рэйз"
    ],
    [
-    "nevermore_necromastery",
-    "Второй приоритет — души дают урон за каждый крип"
+    "nevermore_frenzy",
+    "Второй: Feast of Souls — скорость и сбор душ в разменах (Necromastery теперь врождённая)"
    ],
    [
     "nevermore_dark_lord",
@@ -124,8 +124,6 @@
    "После смерти ты теряешь 30% душ: не умирай с полными душами без причины"
   ],
   "beats": [
-   "tinker",
-   "pugna",
    "zuus",
    "lina"
   ],
@@ -843,12 +841,12 @@
     "Макс первым: харрас + фарм в одно действие"
    ],
    [
-    "zuus_static_field",
-    "Второй: процентный урон делает тебя страшным и в лейте"
+    "zuus_heavenly_jump",
+    "Второй: прыжок и замедление — выживание против прыгунов и ганкеров"
    ],
    [
     "zuus_lightning_bolt",
-    "Нюк и тру-сайт: один уровень рано, макс во вторую очередь по ситуации"
+    "Нюк и тру-сайт: третий приоритет, один уровень рано — максим после прыжка"
    ],
    [
     "zuus_thundergods_wrath",
@@ -953,12 +951,10 @@
   ],
   "beats": [
    "sniper",
-   "tinker",
    "medusa"
   ],
   "loses_to": [
    "antimage",
-   "huskar",
    "obsidian_destroyer",
    "storm_spirit"
   ]
@@ -1628,8 +1624,6 @@
   ],
   "beats": [
    "tinker",
-   "sniper",
-   "pugna",
    "visage"
   ],
   "loses_to": [
@@ -1761,7 +1755,6 @@
    "zuus"
   ],
   "loses_to": [
-   "huskar",
    "antimage",
    "storm_spirit",
    "silencer"
@@ -1887,9 +1880,7 @@
    "Nether Ward ломает врагам наихудший сценарий: файт с кастами"
   ],
   "beats": [
-   "nevermore",
-   "tinker",
-   "leshrac"
+   "tinker"
   ],
   "loses_to": [
    "huskar",
@@ -2019,14 +2010,10 @@
   ],
   "beats": [
    "storm_spirit",
-   "lina",
-   "zuus",
-   "huskar"
+   "zuus"
   ],
   "loses_to": [
    "huskar",
-   "batrider",
-   "ember_spirit",
    "antimage"
   ]
  },
@@ -2158,7 +2145,6 @@
   "loses_to": [
    "antimage",
    "sniper",
-   "leshrac",
    "obsidian_destroyer"
   ]
  },
@@ -2425,9 +2411,7 @@
   ],
   "loses_to": [
    "necrolyte",
-   "zuus",
-   "templar_assassin",
-   "shredder"
+   "zuus"
   ]
  }
 }

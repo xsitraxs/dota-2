@@ -5,7 +5,7 @@
  */
 import {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
-  heroDamage, heroHp, heroMana, heroArmor,
+  heroDamage, heroHp, heroMana, heroArmor, isServiceAbility,
 } from './analysis.js';
 import {
   recognizeScreenshot, recognizeCells, manualCells, clampRegion, clampGridSize, MAX_GRID,
@@ -356,9 +356,10 @@ function itemRows(list) {
   }).join('');
 }
 function abilityCard(key) {
-  if (/_empty\d*$/.test(key)) return ''; // служебные слоты вроде invoker_empty1
   const a = DATA.abilities[key];
-  if (!a) return '';
+  // Служебные слоты (Invoked Spell, Stolen Spell, Devoured Ability, Souvenir Slot) и пустые
+  // технические записи источника — не способности героя.
+  if (!a || isServiceAbility(key, a)) return '';
   const meta = [
     a.dmg_type ? `тип урона: ${esc(a.dmg_type)}` : null,
     a.mc !== null && a.mc !== undefined ? `мана: ${esc(Array.isArray(a.mc) ? a.mc.join(' / ') : a.mc)}` : null,
@@ -368,8 +369,14 @@ function abilityCard(key) {
   ].filter(Boolean).join(' · ');
   const attrib = (a.attrib || []).filter((x) => x.header).slice(0, 8)
     .map((x) => `<div><i>${esc(x.header)}</i> ${esc(Array.isArray(x.value) ? x.value.join(' / ') : x.value)}</div>`).join('');
+  // Врождённые способности 7.41 и способности, выдаваемые предметом, очками не качают: в списке
+  // и в карточке это должно быть видно, иначе они читаются как обычные слоты прокачки.
+  const kind = a.granted === 'shard' ? '<span class="badge">выдаёт шард</span>'
+    : a.granted === 'scepter' ? '<span class="badge">выдаёт агханим</span>'
+      : a.innate && !Number.isFinite(a.firstLevel) ? '<span class="badge">врождённая</span>'
+        : Number.isFinite(a.firstLevel) ? `<span class="badge">с ${esc(a.firstLevel)} уровня героя</span>` : '';
   return `<div class="ability">
-    <div class="nm">${esc(a.dname || key)}</div>
+    <div class="nm">${esc(a.dname || key)} ${kind}</div>
     <div class="meta">${meta}</div>
     ${a.desc ? `<div class="desc">${esc(a.desc)}</div>` : ''}
     ${attrib ? `<div class="attrib">${attrib}</div>` : ''}
@@ -520,7 +527,7 @@ function renderDraft() {
             <b style="flex:0 0 200px">${esc(DATA.abilities[key]?.dname || key)}</b>
             <span class="muted">${esc(note)}</span>
           </div>`).join('')}
-          ${plan.ult ? `<div class="row" style="align-items:flex-start"><b style="flex:0 0 200px">${esc(DATA.abilities[plan.ult]?.dname || 'Ультимейт')}</b><span class="muted">уровни 6 / 12 / 18</span></div>` : ''}
+          ${plan.ult && !plan.ultInSkills ? `<div class="row" style="align-items:flex-start"><b style="flex:0 0 200px">${esc(DATA.abilities[plan.ult]?.dname || 'Ультимейт')}</b><span class="muted">уровни 6 / 12 / 18</span></div>` : ''}
         </div>
         <h3>Стартовый закуп</h3>${itemRows(plan.items.start)}
         <h3>Ранний закуп</h3>${itemRows(plan.items.early)}
@@ -619,7 +626,14 @@ function renderHeroCard(h) {
   const s = h.stats;
   const notes = h.notes || [];
   const tags = tagsOf(h.slug);
-  const slots = h.slots.filter((x) => x.i <= 5 && !/_empty\d*$/.test(x.key));
+  // Служебные слоты (Stolen Spell, Devoured Ability, Souvenir Slot) и пустые технические записи
+  // из источника не показываем: это не способности героя.
+  const ability = (key) => DATA.abilities[key];
+  const slots = h.slots.filter((x) => x.i <= 5 && !isServiceAbility(x.key, ability(x.key)));
+  // h.extra — врождённые способности и под-способности (Necromastery, Static Field, Eureka!,
+  // Multicast, Invoked Spell…). У 46 героев их 3 и больше, и раньше вместо карточек с описанием
+  // и цифрами показывался только список названий; теперь карточка одинакова для любого числа.
+  const extra = (h.extra || []).filter((key) => !isServiceAbility(key, ability(key)));
   const beats = plan?.beats || [];
   const loses = plan?.loses_to || [];
 
@@ -658,9 +672,7 @@ function renderHeroCard(h) {
     <div class="stack">
       ${slots.map((x) => abilityCard(x.key)).join('')}
     </div>
-    ${h.extra.length ? (h.extra.length > 2
-      ? `<h3>Связанные способности и стойки</h3><div class="stack">${h.extra.map((k) => abilityCard(k)).join('')}</div>`
-      : `<h3>Связанные способности и стойки</h3><div class="stack small muted">${h.extra.map((k) => esc(DATA.abilities[k]?.dname || k)).join(' · ')}</div>`) : ''}
+    ${extra.length ? `<h3>Связанные способности и стойки</h3><div class="stack">${extra.map((k) => abilityCard(k)).join('')}</div>` : ''}
 
     ${plan ? `<hr class="sep">
       <h3>Мидовый план</h3>
@@ -673,7 +685,7 @@ function renderHeroCard(h) {
         ${loses.length ? `<span class="muted">Тяжело против: ${loses.map((b) => esc(DATA.heroes[b]?.localized_name || b)).join(', ')}</span>` : ''}
       </div>` : ''}
 
-    ${notes.length ? `<h3>Изменения в серии ${esc(patchSeries())} (до ${esc(latestPatchVersion())})</h3><ul class="tight small">${notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
+    ${notes.length ? `<h3>Изменения в серии ${esc(patchSeries())} (до ${esc(latestPatchVersion())})</h3><ul class="tight small">${notes.map((n) => `<li>${esc(patchText(n))}</li>`).join('')}</ul>` : ''}
   </div>`;
 }
 
@@ -688,12 +700,33 @@ function itemsFiltered() {
     .sort((a, b) => (b[1].cost || 0) - (a[1].cost || 0));
 }
 
+/**
+ * Строка характеристики предмета. Источник даёт готовую строку с подстановкой («+ {value} Damage»),
+ * у части характеристик её нет — тогда подписью служит сам ключ. Раньше характеристики, мана
+ * и перезарядка не выводились вовсе, и карточка показывала только имя, цену и тип.
+ */
+function itemAttrHTML(a) {
+  const value = Array.isArray(a.value) ? a.value.join(' / ') : a.value;
+  const text = a.display && a.display.includes('{value}')
+    ? a.display.replace(/\{value\}/g, value)
+    : a.display ? `${a.display} ${value}`
+      : `${String(a.key || '').replace(/_/g, ' ')}: ${value}`;
+  return `<div>${esc(text)}</div>`;
+}
+
 function itemCardHTML([, it]) {
+  const attrib = (it.attrib || []).slice(0, 8).map(itemAttrHTML).join('');
+  const use = [
+    it.mc ? `мана: ${it.mc}` : null,
+    it.cd ? `перезарядка: ${it.cd} c` : null,
+  ].filter(Boolean).join(' · ');
   return `<div class="ability item-card">
     <div class="spread"><div class="nm">${esc(it.dname)}</div><div class="cost" style="color:var(--gold);font-weight:700">${it.cost ?? ''}</div></div>
-    <div class="meta">${esc(it.qual || '')}${it.tier ? ` · тир ${esc(it.tier)}` : ''}${it.behavior ? ` · ${esc(it.behavior)}` : ''}</div>
+    <div class="meta">${esc(it.qual || '')}${it.tier ? ` · тир ${esc(it.tier)}` : ''}${it.behavior ? ` · ${esc(it.behavior)}` : ''}${use ? ` · ${esc(use)}` : ''}</div>
+    ${attrib ? `<div class="attrib">${attrib}</div>` : ''}
     ${(it.abilities || []).map((a) => `<div class="desc"><b>${esc(a.title)}</b> <span class="muted tiny">(${a.type === 'active' ? 'актив' : 'пассив'})</span><br>${esc(a.description)}</div>`).join('')}
     ${it.notes ? `<div class="tiny muted" style="margin-top:6px">${esc(it.notes)}</div>` : ''}
+    ${it.hint && it.hint.length ? `<div class="tiny muted" style="margin-top:6px">${it.hint.map(esc).join(' · ')}</div>` : ''}
     ${it.patchNotes && it.patchNotes.length ? `<div class="tiny" style="margin-top:6px;color:var(--gold)">${esc(patchSeries())}: ${it.patchNotes.slice(0, 2).map(esc).join('; ')}</div>` : ''}
     ${it.components && it.components.length ? `<div class="tiny muted" style="margin-top:6px">собирается из: ${it.components.map((c) => esc(DATA.items[c]?.dname || c)).join(' + ')}</div>` : ''}
   </div>`;
@@ -766,14 +799,44 @@ function stopItemsLazy() {
 
 /* ------------------------------ вкладка «Патч» ------------------------------ */
 
+/**
+ * Разметка источника в патчноутах. Свежая сборка данных уже отдаёт обычный текст (теги и
+ * HTML-сущности вычищает tools/build_data.mjs), но если файл собран старой версией сборщика,
+ * вкладка не должна печатать «<br>» и «<span class="Subtitle">» как текст.
+ */
+function patchText(s) {
+  return String(s ?? '')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&lt;/gi, '<').replace(/&gt;/gi, '>').replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'").replace(/&amp;/gi, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+/** Строки списка изменений без HTML и без пустых пунктов (одиночный <br> — не пункт). */
+const patchList = (arr) => (Array.isArray(arr) ? arr : []).map(patchText).filter(Boolean);
+
+/**
+ * Запись героя в патчноуте: объект «способность → изменения» (обычный случай) или массив строк
+ * (как запись misc — «прочее»). Раньше массив разбирался как объект, и вкладка падала с
+ * TypeError; теперь оба вида дают список строк.
+ */
+function heroNoteLines(obj) {
+  if (Array.isArray(obj)) return patchList(obj);
+  return Object.entries(obj || {}).flatMap(([ab, arr]) => patchList(arr)
+    .map((c) => `<span class="muted">${esc(DATA.abilities[ab]?.dname || ab.replace(/_/g, ' '))}:</span> ${esc(c)}`));
+}
+
 function renderPatch() {
   const versions = Object.keys(DATA.patchnotes).sort(comparePatch);
   const v = state.patch && DATA.patchnotes[state.patch] ? state.patch : versions[versions.length - 1];
   state.patch = v;
   const note = DATA.patchnotes[v] || { general: [], items: {}, heroes: {} };
-  const itemEntries = Object.entries(note.items || {});
+  // Пустые после чистки записи не показываем: заголовок без изменений только мешает читать.
+  const itemEntries = Object.entries(note.items || {}).map(([k, arr]) => [k, patchList(arr)]).filter(([, arr]) => arr.length);
   const heroEntries = Object.entries(note.heroes || {}).filter(([k]) => DATA.heroes[k]);
-  const general = note.general || [];
+  const general = patchList(note.general);
   const misc = Object.entries(note.heroes || {}).filter(([k]) => !DATA.heroes[k]);
   return `<div class="panel">
     <div class="head row">
@@ -792,9 +855,9 @@ function renderPatch() {
     ${heroEntries.length ? `<h3>Герои</h3><div class="stack small">${heroEntries.map(([slug, obj]) => `
       <div>
         <div class="row" style="cursor:pointer" data-goto-hero="${esc(slug)}"><b>${esc(DATA.heroes[slug].localized_name)}</b></div>
-        <ul class="tight">${Object.entries(obj).flatMap(([ab, arr]) => arr.map((c) => `<li><span class="muted">${esc(DATA.abilities[ab]?.dname || ab.replace(/_/g, ' '))}:</span> ${esc(c)}</li>`)).join('')}</ul>
+        <ul class="tight">${heroNoteLines(obj).map((c) => `<li>${c}</li>`).join('')}</ul>
       </div>`).join('')}</div>` : ''}
-    ${misc.length ? `<h3>Прочее</h3><div class="stack small">${misc.map(([k, obj]) => `<div><b>${esc(k.replace(/_/g, ' '))}</b><ul class="tight">${Object.values(obj).flat().map((c) => `<li>${esc(c)}</li>`).join('')}</ul></div>`).join('')}</div>` : ''}
+    ${misc.length ? `<h3>Прочее</h3><div class="stack small">${misc.map(([k, obj]) => `<div><b>${esc(k.replace(/_/g, ' '))}</b><ul class="tight">${heroNoteLines(obj).map((c) => `<li>${c}</li>`).join('')}</ul></div>`).join('')}</div>` : ''}
   </div>`;
 }
 
@@ -935,13 +998,26 @@ function render() {
       <p class="small muted">Переключи вкладку или обнови страницу. Если ошибка повторяется — сообщи о ней вместе с шагами.</p></div>`;
   }
   if (state.tab !== 'items') stopItemsLazy();
-  if (state.tab === 'heroes' && state.selectedHero) {
-    const card = $('#heroCard');
-    if (card && typeof card.scrollIntoView === 'function') card.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  }
+  scrollToHeroCard();
 }
 
 /* ------------------------------ выбор героя ------------------------------ */
+
+/**
+ * Прокрутка к карточке героя — только когда героя выбрали (клик по списку или переход
+ * «Показать героя»). Поиск и фильтры на вкладке «Герои» перерисовывают список десятки раз
+ * на ввод одной буквы; раньше каждый такой рендер дёргал scrollIntoView и страница уезжала
+ * к карточке прямо во время набора. Помним, для какого героя уже прокрутили.
+ */
+let heroCardScrolledFor = null;
+
+function scrollToHeroCard() {
+  if (state.tab !== 'heroes' || !state.selectedHero) return;
+  if (heroCardScrolledFor === state.selectedHero) return;
+  heroCardScrolledFor = state.selectedHero;
+  const card = $('#heroCard');
+  if (card && typeof card.scrollIntoView === 'function') card.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
 
 function openPicker(target) {
   const { group, idx } = target;
@@ -982,7 +1058,9 @@ function openPicker(target) {
       .filter((h) => !used.has(h.slug))
       .filter((h) => !attr || h.primary_attr === attr)
       .filter((h) => !onlyMid || DATA.plans[h.slug]?.mid)
-      .filter((h) => !q || h.localized_name.toLowerCase().includes(q))
+      // Поиск и по слагу: «antimage», «queenofpain», «furion», «nevermore», «zuus» — так героя
+      // ищут по названию файла/строке драфта, а не только по локализованному имени.
+      .filter((h) => !q || h.localized_name.toLowerCase().includes(q) || h.slug.includes(q))
       .sort((a, b) => byName(a.localized_name, b.localized_name));
     $('#pickerGrid', modal).innerHTML = list.map((h) => `<button class="pick" data-choose="${esc(h.slug)}">
       ${DATA.plans[h.slug]?.mid ? '<span class="mid">мид</span>' : ''}
@@ -990,6 +1068,10 @@ function openPicker(target) {
     </button>`).join('');
   };
   draw();
+  // Escape закрывает пикер, как и клик по фону/кнопке «Закрыть»: раньше из модального окна
+  // можно было выйти только мышью.
+  modal.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.preventDefault(); modal.remove(); } });
+  $('#pickerSearch', modal)?.focus();
   modal.addEventListener('input', (e) => { if (e.target.id === 'pickerSearch') { q = e.target.value.trim().toLowerCase(); draw(); } });
   modal.addEventListener('click', (e) => {
     if (e.target === modal || e.target.closest('[data-close]')) { modal.remove(); return; }
@@ -1510,7 +1592,9 @@ function bindEvents() {
     const timerBtn = e.target.closest('[data-timer]');
     if (timerBtn) {
       const act = timerBtn.dataset.timer;
-      if (act === 'start') { state.timer = { running: true, start: Date.now(), offset: state.timer.offset }; }
+      // Повторный «Старт» не сбрасывает идущий отсчёт в 0:00 (раньше сбивал время матча);
+      // он лишь заново синхронизирует отсчёт с текущего момента, сохраняя прошедшее время.
+      if (act === 'start') { state.timer = { running: true, start: Date.now(), offset: timerElapsed() }; }
       else if (act === 'stop') { state.timer = { running: false, start: 0, offset: state.timer.running ? (Date.now() - state.timer.start) / 1000 + state.timer.offset : state.timer.offset }; }
       else state.timer = { running: false, start: 0, offset: 0 };
       render(); return;
@@ -1540,6 +1624,31 @@ function bindEvents() {
   });
 
   document.addEventListener('input', (e) => {
+    // Поля ручной нарезки переносим в состояние сразу: любая перерисовка (например, правка
+    // ячейки в списке распознанного) перерисовывает форму, и введённые координаты области
+    // раньше терялись — оставалось то, что запомнила последняя «Нарезать заново».
+    if (['shotX', 'shotY', 'shotW', 'shotH', 'shotCols', 'shotRows'].includes(e.target.id)) {
+      const shot = state.shot;
+      if (shot.image) {
+        // Пустое или нечисловое поле не превращаем в «весь кадр»: пока число не введено,
+        // в состоянии остаётся предыдущая рамка.
+        const num = (sel) => {
+          const raw = $(sel)?.value;
+          const n = Number(raw);
+          return raw !== '' && raw !== null && raw !== undefined && Number.isFinite(n) ? n : null;
+        };
+        const cols = num('#shotCols');
+        const rowsN = num('#shotRows');
+        if (cols !== null) shot.cols = clampGridSize(cols, shot.cols || 1);
+        if (rowsN !== null) shot.rows = clampGridSize(rowsN, shot.rows || 1);
+        const region = { x: num('#shotX'), y: num('#shotY'), w: num('#shotW'), h: num('#shotH') };
+        if (region.x !== null && region.y !== null && region.w !== null && region.h !== null) {
+          shot.region = clampRegion(region, shot.image.width, shot.image.height);
+        }
+        shot.regionEdited = true;
+      }
+      return; // без render(): перерисовка на каждый символ сбивала бы курсор в поле
+    }
     if (e.target.id === 'heroSearch') { state.heroSearch = e.target.value; const pos = e.target.selectionStart; render(); const inp = $('#heroSearch'); if (inp) { inp.focus(); inp.setSelectionRange(pos, pos); } }
     if (e.target.id === 'itemSearch') {
       state.itemSearch = e.target.value;

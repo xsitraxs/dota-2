@@ -8,6 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import { isPlanSkill } from '../assets/analysis.js';
 
 /* ------------------------------ tar ------------------------------ */
 
@@ -172,12 +173,31 @@ const PLAN_ITEM_GROUPS = ['start', 'early', 'core', 'situational'];
 const hasOwn = (obj, key) => typeof key === 'string' && obj !== null && typeof obj === 'object'
   && Object.prototype.hasOwnProperty.call(obj, key);
 
+/** Почему способность нельзя качать: для понятного текста ошибки валидатора. */
+function whyUnlearnable(a) {
+  if (!a) return 'её нет в данных';
+  if (a.granted === 'shard' || a.granted === 'scepter') return `её выдаёт ${a.granted === 'shard' ? 'шард' : 'агханим'}, а не очки способностей`;
+  if (a.innate === true) return 'она врождённая (innate) — уровней не имеет';
+  const behavior = Array.isArray(a.behavior) ? a.behavior : a.behavior ? [a.behavior] : [];
+  if (behavior.includes('Hidden')) return 'это под-способность, а не слот прокачки';
+  return 'у неё нет уровней в данных 7.41';
+}
+
 /**
  * Ссылки файлов знаний: герои, способности, предметы и теги должны существовать в данных.
- * @param {{heroes: object, items: object, kb: Object<string, object>}} input kb: имя файла → содержимое
+ * Отдельно проверяется то, что движок принимает на веру:
+ *   • порядок прокачки (plan.skills) — только изучаемые способности 7.41 (не врождённые и не
+ *     под-способности): раньше в него попадали Necromastery, Static Field, Eureka!, Dragon Blood,
+ *     Greevil's Greed и Mana Shield, то есть то, что качать невозможно;
+ *   • picks в rules.json — только герои с мидовым планом (остальных counterPicks игнорирует);
+ *   • матчапы — без самопротиворечий: нельзя одновременно «стоять хорошо» и «проигрывать» одному
+ *     герою, и два героя не могут взаимно считаться друг для друга выигрышными или проигрышными.
+ * @param {{heroes: object, items: object, abilities?: object, kb: Object<string, object>}} input
+ *   kb: имя файла → содержимое; abilities — собранные способности (без них проверка прокачки
+ *   и матчапов по возможностям пропускается, ссылки всё равно проверяются)
  * @returns {{errors: string[], warnings: string[]}}
  */
-export function validateKb({ heroes, items, kb }) {
+export function validateKb({ heroes, items, abilities, kb }) {
   const errors = [];
   const warnings = [];
   const itemKey = (entry) => (Array.isArray(entry) ? entry[0] : entry);
@@ -194,6 +214,23 @@ export function validateKb({ heroes, items, kb }) {
   const checkTag = (where, tag) => {
     if (!hasOwn(vocabulary, tag)) errors.push(`${where}: тег «${tag}» отсутствует в словаре tags.json`);
   };
+  // Герои с мидовым планом: только их движок рассматривает как рекомендацию по пику.
+  const midHeroes = new Set();
+  for (const [file, data] of Object.entries(kb)) {
+    if (!file.startsWith('plans')) continue;
+    for (const [slug, plan] of Object.entries(data || {})) {
+      if (!slug.startsWith('_') && plan && plan.mid) midHeroes.add(slug);
+    }
+  }
+  const checkPick = (where, slug) => {
+    if (!checkHero(where, slug)) return;
+    if (midHeroes.size && !midHeroes.has(slug)) {
+      errors.push(`${where}: у героя «${slug}» нет мидового плана — counterPicks такой пик игнорирует`);
+    }
+  };
+  // Матчапы планов: slug → множества «кто кого стоит». Разбираем после обхода файлов.
+  const beats = new Map();
+  const loses = new Map();
 
   for (const [file, data] of Object.entries(kb)) {
     if (file.startsWith('plans')) {
@@ -209,11 +246,29 @@ export function validateKb({ heroes, items, kb }) {
           if (!PLAN_ITEM_GROUPS.includes(group)) errors.push(`${where}.items: неизвестная группа «${group}»`);
         }
         for (const group of PLAN_ITEM_GROUPS) for (const it of groups[group] || []) checkItem(`${where}.items.${group}`, it);
+        const seenSkills = new Set();
         for (const [key] of (plan && plan.skills) || []) {
-          if (!own.has(key)) errors.push(`${where}.skills: способность «${key}» не принадлежит герою`);
+          if (!own.has(key)) {
+            errors.push(`${where}.skills: способность «${key}» не принадлежит герою`);
+          } else if (abilities && !isPlanSkill(key, heroes[slug], abilities)) {
+            errors.push(`${where}.skills: «${key}» нельзя качать в 7.41 — ${whyUnlearnable(abilities[key])}`);
+          }
+          if (seenSkills.has(key)) errors.push(`${where}.skills: способность «${key}» указана дважды`);
+          seenSkills.add(key);
         }
-        for (const s of (plan && plan.beats) || []) checkHero(`${where}.beats`, s);
-        for (const s of (plan && plan.loses_to) || []) checkHero(`${where}.loses_to`, s);
+        const addPair = (map, from, to) => {
+          if (!map.has(from)) map.set(from, new Set());
+          map.get(from).add(to);
+        };
+        for (const s of (plan && plan.beats) || []) {
+          if (checkHero(`${where}.beats`, s)) addPair(beats, slug, s);
+        }
+        for (const s of (plan && plan.loses_to) || []) {
+          if (checkHero(`${where}.loses_to`, s)) addPair(loses, slug, s);
+        }
+        if ((beats.get(slug) || new Set()).has(slug) || (loses.get(slug) || new Set()).has(slug)) {
+          errors.push(`${where}: герой указан в своих же матчапах`);
+        }
       }
     }
     if (file === 'tags.json') {
@@ -233,17 +288,35 @@ export function validateKb({ heroes, items, kb }) {
         for (const group of Object.keys(rule.item_groups || {})) {
           for (const it of rule.item_groups[group]) checkItem(`rules.json[${tag}].${group}`, it);
         }
-        for (const s of rule.picks || []) checkHero(`rules.json[${tag}].picks`, s);
+        for (const s of rule.picks || []) checkPick(`rules.json[${tag}].picks`, s);
       }
       ((data && data.combos) || []).forEach((combo, i) => {
         for (const tag of combo.tags || []) checkTag(`rules.json[combos#${i}]`, tag);
         for (const it of combo.items || []) checkItem(`rules.json[combos#${i}].items`, it);
-        for (const s of combo.picks || []) checkHero(`rules.json[combos#${i}].picks`, s);
+        for (const s of combo.picks || []) checkPick(`rules.json[combos#${i}].picks`, s);
       });
     }
     if (file === 'timings.json') {
       for (const ev of (data && data.events) || []) for (const it of ev.items || []) checkItem('timings.json', it);
     }
+  }
+
+  // Матчапы: одно утверждение на пару. Противоречия видно в интерфейсе сразу — в разборе лейна
+  // подряд появлялись «ты хорошо стоишь против него» и «он давит на тебя».
+  const pairs = new Set();
+  for (const [from, tos] of beats) for (const to of tos) pairs.add(`${from}\t${to}`);
+  for (const [from, tos] of loses) for (const to of tos) pairs.add(`${from}\t${to}`);
+  for (const pair of pairs) {
+    const [a, b] = pair.split('\t');
+    if (a >= b) continue;
+    const aBeats = beats.get(a)?.has(b);
+    const bBeats = beats.get(b)?.has(a);
+    const aLoses = loses.get(a)?.has(b);
+    const bLoses = loses.get(b)?.has(a);
+    if (aBeats && aLoses) errors.push(`матчапы: «${a}» одновременно стоит против «${b}» и проигрывает ему`);
+    if (bBeats && bLoses) errors.push(`матчапы: «${b}» одновременно стоит против «${a}» и проигрывает ему`);
+    if (aBeats && bBeats) errors.push(`матчапы: «${a}» и «${b}» взаимно считаются выигрышными`);
+    if (aLoses && bLoses) errors.push(`матчапы: «${a}» и «${b}» взаимно считаются проигрышными`);
   }
   return { errors, warnings };
 }

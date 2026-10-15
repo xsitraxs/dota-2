@@ -114,8 +114,36 @@ const rawHeroes = readJson(path.join(build, 'heroes.json'));
 const rawHeroAbilities = readJson(path.join(build, 'hero_abilities.json'));
 const rawAbilities = readJson(path.join(build, 'abilities.json'));
 const rawItems = readJson(path.join(build, 'items.json'));
-const rawPatchnotes = readJson(path.join(build, 'patchnotes.json'));
+// aghs_desc.json в источнике — список записей по героям (а не словарь по способностям).
+const rawAghs = readJson(path.join(build, 'aghs_desc.json'));
 const rawPatches = readJson(path.join(build, 'patch.json'));
+
+/**
+ * Патчноуты источника приходят с разметкой клиента: <br>, <span class="Subtitle">…</span>,
+ * <font color="#F05039">…</font>. Интерфейс печатал их как обычный текст («&lt;br&gt;» в списке
+ * изменений), поэтому теги и HTML-сущности вычищаются ещё при сборке — и во вкладке «Патч»,
+ * и в карточках героев/предметов. Записи, от которых после чистки ничего не осталось
+ * (одиночный <br>), выбрасываются: пустых строк в списках изменений быть не должно.
+ */
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+function cleanNote(s) {
+  if (typeof s !== 'string') return s;
+  return s
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&(#\d+|[a-z]+);/gi, (m, e) => (Object.prototype.hasOwnProperty.call(ENTITIES, e)
+      ? ENTITIES[e]
+      : e[0] === '#' ? String.fromCodePoint(Number(e.slice(1))) : m))
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+const cleanNotesTree = (value) => {
+  if (typeof value === 'string') return cleanNote(value);
+  if (Array.isArray(value)) return value.map(cleanNotesTree).filter((v) => v !== '');
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, cleanNotesTree(v)]));
+  return value;
+};
+const rawPatchnotes = cleanNotesTree(readJson(path.join(build, 'patchnotes.json')));
 
 const slugify = (npc) => npc.replace(/^npc_dota_hero_/, '');
 
@@ -170,6 +198,51 @@ for (const h of Object.values(rawHeroes)) {
   heroSlots[slug] = { slots, extra };
 }
 
+/**
+ * Сколько уровней у способности: самая длинная шкала среди attrib/mc/cd. У изучаемых способностей
+ * уровни есть (4 у базовых, 3 у ультов), у врождённых и под-способностей шкалы нет (0) — по этому
+ * признаку движок и валидатор базы знаний отличают то, что можно качать.
+ */
+const abilityLevels = (a) => {
+  let n = 0;
+  for (const at of a.attrib || []) if (Array.isArray(at.value)) n = Math.max(n, at.value.length);
+  for (const f of ['mc', 'cd']) if (Array.isArray(a[f])) n = Math.max(n, a[f].length);
+  return n;
+};
+
+/**
+ * Способность, которая «разблокируется» на уровне героя (Invoke у Invoker: качается сам на 6/12/18
+ * и выдаёт дополнительное очко). В источнике это первый способ узнать, что врождённую запись всё
+ * же можно считать ультимейтом, а не пассивкой.
+ */
+const abilityFirstLevel = (a) => {
+  for (const at of a.attrib || []) {
+    if (at.key !== 'first_ability_level') continue;
+    return Number(at.value);
+  }
+  return null;
+};
+
+/**
+ * Способности, которые герой получает не очками, а предметом: шард/агханим даёт «новую способность»
+ * (Warp Flare у Tinker, Nimbus и Lightning Hands у Zeus, Fireball у Dragon Knight, Cold Blooded у
+ * Medusa). В aghs_desc.json они помечены флагом *_new_skill, но названием — ключ ищем только среди
+ * способностей этого героя, иначе одноимённая Fireball чёрного дракона попала бы в тот же список.
+ */
+const grantedByKey = {};
+for (const entry of Array.isArray(rawAghs) ? rawAghs : []) {
+  const slug = slugify(entry.hero_name || '');
+  const keys = new Set([...(heroSlots[slug]?.slots || []).map((s) => s.key), ...(heroSlots[slug]?.extra || [])]);
+  for (const [flag, nameField, kind] of [
+    ['shard_new_skill', 'shard_skill_name', 'shard'],
+    ['scepter_new_skill', 'scepter_skill_name', 'scepter'],
+  ]) {
+    if (entry[flag] !== true || !entry[nameField]) continue;
+    const key = [...keys].find((k) => rawAbilities[k] && rawAbilities[k].dname === entry[nameField]);
+    if (key) grantedByKey[key] = kind;
+  }
+}
+
 const abilitiesOut = {};
 for (const key of neededAbilityKeys) {
   const a = rawAbilities[key];
@@ -184,6 +257,14 @@ for (const key of neededAbilityKeys) {
     lore: undefined,
     mc: a.mc ?? null,
     cd: a.cd ?? null,
+    // Врождённая способность 7.41 (Necromastery, Static Field, Eureka!): её не качают.
+    innate: a.is_innate === true,
+    // Сколько уровней у способности и на каком уровне героя её выдают: по этим двум числам
+    // движок отличает то, что качают очками, от врождённых пассивок и под-способностей.
+    levels: abilityLevels(a),
+    firstLevel: abilityFirstLevel(a),
+    // 'shard' | 'scepter' — способность выдаётся предметом (Warp Flare, Nimbus, Fireball).
+    granted: grantedByKey[key] || undefined,
     attrib: (a.attrib || []).slice(0, 12).map(({ key: k, header, value }) => ({ key: k, header, value })),
     type: a.type || null,
   };
@@ -201,6 +282,9 @@ for (const [id, h] of Object.entries(rawHeroes)) {
   const slug = slugify(h.name);
   const stats = {};
   for (const k of STAT_KEYS) stats[k] = h[k] ?? null;
+  // Снаряд есть только у дальнего боя. В константах у милишников лежит заглушка (900 или 0),
+  // из-за которой движок прибавлял им +0.33 с «полёта снаряда», а карточка показывала «Снаряд: 900».
+  if (h.attack_type !== 'Ranged') stats.projectile_speed = null;
   heroesOut[slug] = {
     slug,
     id: Number(id),
@@ -229,6 +313,9 @@ for (const [key, it] of Object.entries(rawItems)) {
     tier: it.tier ?? null,
     behavior: it.behavior || null,
     notes: trim(it.notes || '', 260),
+    // Подсказка источника («Activate to redeem a Tier 1 Neutral Item…»): у части предметов
+    // это единственное описание, которое вообще есть (жетоны тиров, Leviathan's Fish).
+    hint: it.hint && it.hint.length ? it.hint.slice(0, 4) : undefined,
     mc: it.mc ?? null,
     cd: it.cd ?? null,
     components: it.components || null,
@@ -237,7 +324,9 @@ for (const [key, it] of Object.entries(rawItems)) {
       title: a.title,
       description: trim(a.description || '', 420),
     })),
-    attrib: (it.attrib || []).slice(0, 10).map(({ key: k, header, value }) => ({ key: k, header, value })),
+    // display — готовая строка вида «+ {value} Move Speed (Ranged Heroes)»: без неё карточка
+    // предмета показывала только имя и цену (87 из 409 карточек были пустыми).
+    attrib: (it.attrib || []).slice(0, 10).map(({ key: k, header, display, value }) => ({ key: k, header, display, value })),
     recipe: isRecipe || undefined,
     patchNotes: notesByItem[key] || [],
   };
@@ -290,7 +379,7 @@ log('\nПроверяю data/kb/*.json …');
 const kbFiles = fs.existsSync(KB) ? fs.readdirSync(KB).filter((f) => f.endsWith('.json')).sort() : [];
 writeJson(path.join(DATA, 'kb_index.json'), { files: kbFiles });
 const kbData = Object.fromEntries(kbFiles.map((f) => [f, readJson(path.join(KB, f))]));
-const kbCheck = validateKb({ heroes: heroesOut, items: itemsOut, kb: kbData });
+const kbCheck = validateKb({ heroes: heroesOut, items: itemsOut, abilities: abilitiesOut, kb: kbData });
 const plansAll = Object.assign({}, ...kbFiles.filter((f) => f.startsWith('plans')).map((f) => kbData[f]));
 const errors = [...kbCheck.errors, ...kbTextIssues({ heroes: heroesOut, abilities: abilitiesOut, items: itemsOut, plans: plansAll })];
 for (const w of kbCheck.warnings) log(`  ⚠ ${w}`);
