@@ -380,9 +380,49 @@ export function counterPicks({ enemies, enemyMid, data, limit = 6, exclude = [] 
   return results.sort((a, b) => b.score - a.score).slice(0, limit).filter((r) => r.score > 0);
 }
 
+/**
+ * Роли героя из клиента → архетип закупа. Порядок ролей в данных не случаен: первый слот — основная
+ * роль героя, поэтому Carry в первом слоте — керри, а Axe («Initiator, Durable, …, Carry») — оффлейн.
+ * Явные исключения (Pudge, Nyx Assassin и другие) лежат в data/kb/archetypes.json с объяснением:
+ * без них Pudge уходил бы в мидовый закуп, а Mirana — в керрийный.
+ * @returns {{name: string, title: string, why: string}|null}
+ */
+export function archetypeFor(hero, archetypes) {
+  if (!hero || !archetypes || !archetypes.archetypes) return null;
+  const all = archetypes.archetypes;
+  const override = (archetypes.overrides || {})[hero.slug];
+  let name = override && override.archetype;
+  if (!name) {
+    const roles = hero.roles || [];
+    const first = roles[0] || '';
+    if (roles.includes('Support') && !roles.includes('Carry')) name = 'support';
+    else if (first === 'Carry') name = 'carry';
+    else if (first === 'Support') name = 'support';
+    else if (first === 'Initiator' || first === 'Durable') name = 'offlane';
+    else name = 'mid';
+  }
+  const archetype = all[name];
+  if (!archetype) return null;
+  return { name, title: archetype.title || name, why: (override && override.why) || '', data: archetype };
+}
+
+/** Группы предметов архетипа: стартовый стат-предмет и «свой» большой слот зависят от атрибута. */
+function archetypeItems({ archetype, title, attr }) {
+  const source = `роль «${title}»`;
+  const stage = (list) => (list || []).map(([key, why]) => ({ key, why, source }));
+  const byAttr = archetype.statByAttr || {};
+  const coreByAttr = archetype.coreByAttr || {};
+  const stat = byAttr[attr] || byAttr.all;
+  return {
+    start: stage(stat ? [...(archetype.start || []), stat] : archetype.start),
+    early: stage(archetype.early),
+    core: stage([...(archetype.core || []), ...(coreByAttr[attr] || [])]),
+  };
+}
+
 /** Сборка плана: базовый билд героя + адаптация под теги врага. */
 export function buildPlan({ heroSlug, enemySlugs, data }) {
-  const { heroes, abilities, plans, rules, tagsKb } = data;
+  const { heroes, abilities, plans, rules, tagsKb, archetypes } = data;
   const h = heroes[heroSlug];
   if (!h) return null;
   const plan = plans[heroSlug];
@@ -396,22 +436,11 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
   if (plan && plan.items) {
     for (const g of Object.keys(items)) items[g] = (plan.items[g] || []).map(([k, why]) => ({ key: k, why, source: 'план героя' }));
   } else {
-    // Универсальный мидовый старт, если герой не в курируемом списке.
-    const attr = h.primary_attr;
-    const statItem = attr === 'str' ? 'bracer' : attr === 'agi' ? 'wraith_band' : 'null_talisman';
-    items.start = [
-      { key: 'tango', why: 'реген на размены', source: 'универсально' },
-      { key: 'branches', why: 'статы и гибкость', source: 'универсально' },
-      { key: statItem, why: 'статы под размены', source: 'универсально' },
-    ];
-    items.early = [
-      { key: 'bottle', why: 'реген и мана от рун воды', source: 'универсально' },
-      { key: 'power_treads', why: 'статы и атакспид', source: 'универсально' },
-      { key: 'magic_wand', why: 'заряды от их кастов', source: 'универсально' },
-    ];
-    items.core = [
-      { key: 'black_king_bar', why: 'без него с 25-й минуты ты не играешь файты', source: 'универсально' },
-    ];
+    // Курируемого плана под 7.41 у героя нет — берём закуп его роли (data/kb/archetypes.json).
+    // Раньше здесь был один универсальный мидовый старт: 91 герой из 127 получал одинаковые
+    // bottle/treads и ядро из одного BKB, включая всех керри и всех поддержек.
+    const arche = archetypeFor(h, archetypes);
+    if (arche) Object.assign(items, archetypeItems({ archetype: arche.data, title: arche.title, attr: h.primary_attr }));
   }
 
   // Ситуативный закуп: сначала курируемые предметы плана героя (они не должны теряться —
@@ -457,9 +486,12 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
     .map((key) => [key, 'основная способность — качай по ситуации']);
   const skills = skillPlan || genericSkills;
 
+  const arche = plan ? null : archetypeFor(h, archetypes);
   return {
     hero: h,
     plan,
+    // Архетип по роли (data/kb/archetypes.json) — только когда курируемого плана нет.
+    archetype: arche ? { name: arche.name, title: arche.title, why: arche.why } : null,
     items: {
       ...items,
       // Курируемый список героя + до 10 адаптивных ответов на теги их драфта; повторов по ключу нет.
@@ -477,8 +509,10 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
     ultInSkills: Boolean(ultKey && skills.some(([key]) => key === ultKey)),
     lane: plan?.lane || null,
     spikes: plan?.spikes || [],
-    tips: plan?.tips || [],
-    curve: plan?.curve || null,
+    // Без курируемого плана кривую и советы даёт архетип роли: иначе панель плана оставалась бы
+    // без объяснения, зачем брать именно эти предметы.
+    tips: plan?.tips || (arche ? arche.data.tips || [] : []),
+    curve: plan?.curve || (arche ? arche.data.curve || null : null),
     difficulty: plan?.difficulty || null,
     curated: Boolean(plan),
   };

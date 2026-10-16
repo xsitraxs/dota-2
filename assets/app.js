@@ -5,14 +5,14 @@
  */
 import {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
-  heroDamage, heroHp, heroMana, heroArmor, isServiceAbility,
+  heroDamage, heroHp, heroMana, heroArmor, isServiceAbility, archetypeFor,
 } from './analysis.js';
 import {
   recognizeScreenshot, recognizeCells, manualCells, clampRegion, clampGridSize, MAX_GRID,
 } from './recognize.js';
 
 const DATA = {
-  heroes: {}, abilities: {}, items: {}, patchnotes: {}, icons: {}, meta: {},
+  heroes: {}, abilities: {}, items: {}, patchnotes: {}, icons: {}, meta: {}, archetypes: null,
   tagsKb: { vocabulary: {}, heroes: {} }, rules: { rules: {}, combos: [] },
   timings: { events: [], notes: [] }, plans: {},
   templates: null, // подписи героев для распознавания — грузятся при первом открытии вкладки
@@ -128,8 +128,8 @@ async function loadData() {
   ]);
   Object.assign(DATA, { heroes, abilities, items, patchnotes, meta, icons, tagsKb, rules, timings });
   for (const f of kbIndex.files) {
-    if (!f.startsWith('plans')) continue;
-    Object.assign(DATA.plans, await get(`data/kb/${f}`));
+    if (f === 'archetypes.json') DATA.archetypes = await get(`data/kb/${f}`);
+    else if (f.startsWith('plans')) Object.assign(DATA.plans, await get(`data/kb/${f}`));
   }
   state.patch = Object.keys(DATA.patchnotes).sort(comparePatch).pop() || null;
 }
@@ -519,8 +519,10 @@ function renderDraft() {
       ${plan ? `<div class="panel">
         <h2>Твой план: ${esc(plan.hero.localized_name)}</h2>
         ${plan.curated ? `<p class="small muted">${esc(plan.curve || '')}${plan.difficulty ? ` · сложность: ${esc(plan.difficulty)}` : ''}</p>`
-          : `<p class="small muted">Для этого героя нет отдельного плана в базе — показываю универсальный мидовый закуп и адаптацию под их драфт.</p>`}
+          : plan.archetype ? `<p class="small muted">Курируемого плана под 7.41 у героя нет — закуп собран по его роли: <b>${esc(plan.archetype.title)}</b>.${plan.archetype.why ? ` ${esc(plan.archetype.why)}.` : ''} ${esc(plan.curve || '')}</p>`
+            : `<p class="small muted">Для этого героя нет ни плана, ни роли в базе — показываю универсальный мидовый закуп и адаптацию под их драфт.</p>`}
         ${plan.lane ? `<h3>Как играть лейн</h3><p class="small">${esc(plan.lane)}</p>` : ''}
+        ${!plan.curated && plan.tips && plan.tips.length ? `<h3>Как играть роль</h3><ul class="tight small">${plan.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
         <h3>Порядок способностей</h3>
         <div class="stack small">
           ${plan.skills.map(([key, note]) => `<div class="row" style="align-items:flex-start">
@@ -623,6 +625,8 @@ function renderHeroes() {
 
 function renderHeroCard(h) {
   const plan = DATA.plans[h.slug];
+  // Для героя без курируемого плана показываем, по какой роли собран закуп (data/kb/archetypes.json).
+  const rolePlan = !plan ? archetypeFor(h, DATA.archetypes) : null;
   const s = h.stats;
   const notes = h.notes || [];
   const tags = tagsOf(h.slug);
@@ -664,7 +668,8 @@ function renderHeroCard(h) {
           <div><span>Обзор день / ночь</span><b>${s.day_vision} / ${s.night_vision}</b></div>
         </div>
         ${tags.length ? `<div class="row" style="margin-top:10px">${tags.map((t) => `<span class="tag-pill">${esc(DATA.tagsKb.vocabulary[t]?.title || t)}</span>`).join('')}</div>` : ''}
-        ${plan ? `<div class="row small" style="margin-top:10px"><span class="badge">мидовый план есть</span><span class="muted">${esc(plan.curve || '')}</span></div>` : ''}
+        ${plan ? `<div class="row small" style="margin-top:10px"><span class="badge">мидовый план есть</span><span class="muted">${esc(plan.curve || '')}</span></div>`
+    : rolePlan ? `<div class="row small" style="margin-top:10px"><span class="badge">закуп по роли: ${esc(rolePlan.title)}</span><span class="muted">${esc(rolePlan.curve || '')}</span></div>` : ''}
       </div>
     </div>
 
@@ -1487,6 +1492,9 @@ function planAsText() {
       lines.push(`  ${g === 'start' ? 'старт' : g === 'early' ? 'ранний' : g === 'core' ? 'ядро' : 'ситуативно'}: ${arr.map((i) => DATA.items[i.key]?.dname || i.key).join(', ')}`);
     }
     if (plan.skills.length) lines.push('\nСПОСОБНОСТИ: ' + plan.skills.map(([k]) => DATA.abilities[k]?.dname || k).join(' → '));
+    if (!plan.curated) lines.push('\nСБОРКА: ' + (plan.archetype
+      ? `по роли «${plan.archetype.title}»${plan.curve ? `. ${plan.curve}` : ''}`
+      : 'универсальный мидовый закуп: отдельного плана у героя нет'));
   }
   if (DATA.timings.plan_summary) lines.push('\nТАЙМИНГИ: ' + DATA.timings.plan_summary);
   return lines.join('\n');
