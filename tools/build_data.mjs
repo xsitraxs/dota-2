@@ -54,9 +54,20 @@ async function download(url, dest) {
 
 const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 const trim = (s, n) => (typeof s === 'string' ? (s.length > n ? s.slice(0, n - 1) + '…' : s) : s);
+/**
+ * Скалярное поле: пустой массив источника — это «данных нет», а не пустой список. У 19 способностей
+ * `dmg_type`, `bkbpierce` и `behavior` приходили как `[]`, и из-за этого карточка Huskar и Dark Seer
+ * печатала «тип урона: » без значения (пустой массив в JS истинен). Списки (attrib, abilities,
+ * patchNotes, extra) не трогаем: пустой список — законное значение, его и ждут потребители.
+ */
+const scalar = (v) => (Array.isArray(v) && v.length === 0 ? null : v ?? null);
+
 const writeJson = (p, obj) => {
   fs.mkdirSync(path.dirname(p), { recursive: true });
-  fs.writeFileSync(p, JSON.stringify(obj, null, 1));
+  // Перевод строки в конце — как у остальных файлов репозитория (и как пишет build_templates.mjs):
+  // без него git помечает каждый сгенерированный файл «No newline at end of file», а kb_index.json
+  // после каждой сборки показывал диф из-за одного отсутствующего байта.
+  fs.writeFileSync(p, JSON.stringify(obj, null, 1) + '\n');
   log(`  → ${path.relative(ROOT, p)} (${(fs.statSync(p).size / 1024).toFixed(0)} КБ)`);
 };
 
@@ -249,14 +260,15 @@ for (const key of neededAbilityKeys) {
   if (!a) continue;
   abilitiesOut[key] = {
     dname: a.dname,
-    behavior: a.behavior || [],
-    dmg_type: a.dmg_type || null,
-    bkbpierce: a.bkbpierce ?? null,
-    dispellable: a.dispellable ?? null,
-    desc: trim(a.desc || '', 700),
-    lore: undefined,
-    mc: a.mc ?? null,
-    cd: a.cd ?? null,
+    behavior: scalar(a.behavior),
+    dmg_type: scalar(a.dmg_type),
+    bkbpierce: scalar(a.bkbpierce),
+    dispellable: scalar(a.dispellable),
+    // null, а не пустая строка: у 34 способностей (новые герои и врождённые пассивки) в источнике
+    // описания нет вовсе — в карточке останутся цифры, и это должно быть видно, а не «пусто».
+    desc: trim(a.desc || '', 700) || null,
+    mc: scalar(a.mc),
+    cd: scalar(a.cd),
     // Врождённая способность 7.41 (Necromastery, Static Field, Eureka!): её не качают.
     innate: a.is_innate === true,
     // Сколько уровней у способности и на каком уровне героя её выдают: по этим двум числам
@@ -265,8 +277,10 @@ for (const key of neededAbilityKeys) {
     firstLevel: abilityFirstLevel(a),
     // 'shard' | 'scepter' — способность выдаётся предметом (Warp Flare, Nimbus, Fireball).
     granted: grantedByKey[key] || undefined,
-    attrib: (a.attrib || []).slice(0, 12).map(({ key: k, header, value }) => ({ key: k, header, value })),
-    type: a.type || null,
+    // Только подпись и значение: ключ характеристики (percent_damage_per_burn) интерфейсу не нужен,
+    // подпись есть у всех 5703 строк, а 95 КБ ключей — десятая часть файла. У предметов наоборот:
+    // там подписи нет ни у одной из 1540 строк, и ключ служит ярлыком.
+    attrib: (a.attrib || []).filter((r) => r.header).slice(0, 12).map(({ header, value }) => ({ header, value })),
   };
 }
 
@@ -292,8 +306,8 @@ for (const [id, h] of Object.entries(rawHeroes)) {
     localized_name: h.localized_name,
     primary_attr: h.primary_attr,
     attack_type: h.attack_type,
+    // cm_enabled источника не выводим: он true у всех 127 героев, то есть не несёт информации.
     roles: h.roles,
-    cm_enabled: h.cm_enabled,
     stats,
     slots: heroSlots[slug]?.slots || [],
     extra: heroSlots[slug]?.extra || [],
@@ -366,7 +380,7 @@ for (const [slug, src] of Object.entries(iconMatch.manifest)) {
 // собрались бы подписи распознавания для несуществующих слагов.
 const stale = fs.readdirSync(iconsOut).filter((f) => f.endsWith('.webp') && !Object.values(manifest).includes(f));
 for (const f of stale) fs.rmSync(path.join(iconsOut, f));
-fs.writeFileSync(path.join(DATA, 'icons.json'), JSON.stringify(manifest, null, 1));
+fs.writeFileSync(path.join(DATA, 'icons.json'), JSON.stringify(manifest, null, 1) + '\n');
 log(`  иконок скопировано: ${Object.keys(manifest).length}/${Object.keys(heroesOut).length}${stale.length ? `, удалено устаревших: ${stale.join(', ')}` : ''}`);
 if (iconMatch.missing.length) {
   // Чужие картинки вместо недостающих не подставляем: в интерфейсе будет буквенный аватар,

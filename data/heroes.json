@@ -11,7 +11,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.5,
@@ -111,7 +110,6 @@
    "Disabler",
    "Carry"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 2,
@@ -188,7 +186,6 @@
    "Nuker",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -274,7 +271,6 @@
    "Nuker",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -355,7 +351,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -439,7 +434,6 @@
    "Disabler",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -536,7 +530,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -610,7 +603,6 @@
    "Pusher",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -705,7 +697,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -795,7 +786,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -885,7 +875,6 @@
    "Carry",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -988,7 +977,6 @@
    "Pusher",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 2,
@@ -1066,7 +1054,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -1155,7 +1142,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 2.5,
@@ -1232,7 +1218,6 @@
    "Nuker",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -1313,7 +1298,6 @@
    "Nuker",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -1402,7 +1386,6 @@
    "Initiator",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -1477,7 +1460,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -1560,7 +1542,6 @@
    "Durable",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -1674,7 +1655,6 @@
    "Nuker",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -1759,7 +1739,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -1858,7 +1837,6 @@
    "Nuker",
    "Carry"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -1958,7 +1936,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -2048,7 +2025,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -2144,7 +2120,6 @@
    "Nuker",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -2228,7 +2203,6 @@
    "Nuker",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -2313,7 +2287,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -2400,7 +2373,6 @@
    "Nuker",
    "Carry"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -2488,7 +2460,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -2568,7 +2539,6 @@
    "Support",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -2653,7 +2623,6 @@
    "Escape",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 2.5,
@@ -2732,7 +2701,6 @@
    "Initiator",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -2814,7 +2782,6 @@
    "Nuker",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -2919,7 +2886,6 @@
    "Carry",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3005,7 +2971,6 @@
    "Durable",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3090,7 +3055,6 @@
    "Initiator",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3171,7 +3135,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3281,7 +3244,6 @@
    "Nuker",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3363,7 +3325,6 @@
    "Pusher",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3467,7 +3428,6 @@
    "Escape",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -3562,7 +3522,6 @@
    "Disabler",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -3658,7 +3617,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3743,7 +3701,6 @@
    "Carry",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -3829,7 +3786,6 @@
    "Nuker",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -3905,7 +3861,6 @@
    "Carry",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0,
@@ -4001,7 +3956,6 @@
    "Initiator",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -4085,7 +4039,6 @@
    "Nuker",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -4167,7 +4120,6 @@
    "Initiator",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -4271,7 +4223,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -4352,7 +4303,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -4459,7 +4409,6 @@
    "Pusher",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -4541,7 +4490,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -4640,7 +4588,6 @@
    "Escape",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -4742,7 +4689,6 @@
    "Escape",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.5,
@@ -4824,7 +4770,6 @@
    "Escape",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -4906,7 +4851,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -5009,7 +4953,6 @@
    "Durable",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -5092,7 +5035,6 @@
    "Durable",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0,
@@ -5180,7 +5122,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -5272,7 +5213,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -5358,7 +5298,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -5450,7 +5389,6 @@
    "Carry",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.25,
@@ -5529,7 +5467,6 @@
    "Pusher",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -5622,7 +5559,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.25,
@@ -5713,7 +5649,6 @@
    "Support",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -5802,7 +5737,6 @@
    "Durable",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.5,
@@ -5908,7 +5842,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -6005,7 +5938,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.66,
@@ -6112,7 +6044,6 @@
    "Durable",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -6185,7 +6116,6 @@
    "Durable",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.25,
@@ -6280,7 +6210,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -6375,7 +6304,6 @@
    "Initiator",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -6469,7 +6397,6 @@
    "Escape",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -6580,7 +6507,6 @@
    "Initiator",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -6663,7 +6589,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -6765,7 +6690,6 @@
    "Durable",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -6852,7 +6776,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -6933,7 +6856,6 @@
    "Initiator",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -7020,7 +6942,6 @@
    "Pusher",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -7101,7 +7022,6 @@
    "Pusher",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -7194,7 +7114,6 @@
    "Initiator",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -7309,7 +7228,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -7406,7 +7324,6 @@
    "Durable",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.5,
@@ -7496,7 +7413,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": -0.5,
@@ -7574,7 +7490,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -7679,7 +7594,6 @@
    "Nuker",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -7774,7 +7688,6 @@
    "Initiator",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 2,
@@ -7863,7 +7776,6 @@
    "Initiator",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -7948,7 +7860,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -8051,7 +7962,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -8142,7 +8052,6 @@
    "Disabler",
    "Pusher"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -8233,7 +8142,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -8325,7 +8233,6 @@
    "Disabler",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -8410,7 +8317,6 @@
    "Disabler",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -8499,7 +8405,6 @@
    "Nuker",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 3,
@@ -8592,7 +8497,6 @@
    "Nuker",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -8679,7 +8583,6 @@
    "Durable",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -8770,7 +8673,6 @@
    "Initiator",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -8850,7 +8752,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -8942,7 +8843,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -9019,7 +8919,6 @@
    "Carry",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -9102,7 +9001,6 @@
    "Nuker",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -9199,7 +9097,6 @@
    "Durable",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -9300,7 +9197,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -9407,7 +9303,6 @@
    "Disabler",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -9500,7 +9395,6 @@
    "Initiator",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -9594,7 +9488,6 @@
    "Durable",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -9674,7 +9567,6 @@
    "Pusher",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -9759,7 +9651,6 @@
    "Escape",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 2,
@@ -9852,7 +9743,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -9942,7 +9832,6 @@
    "Disabler",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10034,7 +9923,6 @@
    "Escape",
    "Nuker"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10128,7 +10016,6 @@
    "Disabler",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1,
@@ -10228,7 +10115,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -10314,7 +10200,6 @@
    "Escape",
    "Initiator"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10403,7 +10288,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10483,7 +10367,6 @@
    "Escape",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10586,7 +10469,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10672,7 +10554,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.75,
@@ -10769,7 +10650,6 @@
    "Disabler",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10855,7 +10735,6 @@
    "Escape",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -10944,7 +10823,6 @@
    "Carry",
    "Durable"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.5,
@@ -11041,7 +10919,6 @@
    "Disabler",
    "Escape"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -11128,7 +11005,6 @@
    "Durable",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -11213,7 +11089,6 @@
    "Nuker",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
@@ -11303,7 +11178,6 @@
    "Escape",
    "Disabler"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 1.5,
@@ -11409,7 +11283,6 @@
    "Disabler",
    "Support"
   ],
-  "cm_enabled": true,
   "stats": {
    "base_health": 120,
    "base_health_regen": 0.25,
