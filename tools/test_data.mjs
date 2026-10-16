@@ -249,10 +249,77 @@ const templates = J('templates.json');
 
   const kbFiles = fs.readdirSync(path.join(DATA, 'kb')).filter((f) => f.endsWith('.json')).sort();
   ok(JSON.stringify(kbIndex.files) === JSON.stringify(kbFiles), 'kb_index.json перечисляет все файлы базы знаний', kbIndex.files.join(', '));
+
+  // Гигиена источника: пустой массив в скалярном поле — это «данных нет», а не значение. У 19
+  // способностей так приходили dmg_type, bkbpierce и behavior, и карточка Huskar и Dark Seer
+  // печатала «тип урона: » без значения (пустой массив в JS истинен). Сборщик это чинит,
+  // а тест следит, чтобы мусор не вернулся ни через источник, ни через правку сборщика.
+  const SCALARS = ['dmg_type', 'bkbpierce', 'dispellable', 'mc', 'cd', 'behavior'];
+  // Массивы в mc/cd/behavior — это норма (значения по уровням, список поведения): ловим пустые.
+  const arraysInScalars = Object.entries(abilities).filter(([, a]) => SCALARS.some((f) => Array.isArray(a[f]) && a[f].length === 0)).map(([k]) => k);
+  ok(arraysInScalars.length === 0, `в скалярных полях способностей нет пустых массивов (найдено: ${arraysInScalars.length})`,
+    arraysInScalars.slice(0, 5).join(', '));
+  const deviant = (f, good) => Object.entries(abilities).filter(([, a]) => a[f] !== null && a[f] !== undefined && !good(a[f])).map(([k]) => k);
+  ok(deviant('dmg_type', (v) => typeof v === 'string' && v).length === 0, 'dmg_type — непустая строка или отсутствует');
+  ok(deviant('bkbpierce', (v) => typeof v === 'string' && v).length === 0, 'bkbpierce — непустая строка или отсутствует');
+  ok(Object.values(abilities).every((a) => a.desc === null || typeof a.desc === 'string'), 'описание — строка или null («источник не дал»)');
+  const noDesc = Object.values(abilities).filter((a) => !a.desc).length;
+  ok(noDesc <= 34, `без описания из источника — ${noDesc} способностей (новых быть не должно: в dotaconstants текста для них нет)`);
+
+  // attrib способностей — только подпись и значение: ключ характеристики (percent_damage_per_burn)
+  // интерфейсу не нужен, а 95 КБ ключей — десятая часть файла.
+  const attrFields = [...new Set(Object.values(abilities).flatMap((a) => (a.attrib || []).flatMap((r) => Object.keys(r))))].sort();
+  ok(JSON.stringify(attrFields) === JSON.stringify(['header', 'value']), 'attrib способностей содержит только header и value', attrFields.join(', '));
+  ok(Object.values(abilities).every((a) => a.type === undefined), 'мёртвое поле type (в источнике его нет) не выводится');
+  ok(Object.values(heroes).every((h) => h.cm_enabled === undefined), 'cm_enabled, одинаковый у всех героев, не выводится');
+  const descLen = Object.values(abilities).filter((a) => !a.desc).length;
+  console.log(`    способностей без описания в источнике: ${descLen}; предметов: ${Object.keys(items).length}`);
 }
 
-/* ------------------------------ 6. документация ------------------------------ */
-console.log('\n6. README соответствует данным');
+/* ------------------------------ 6. вес первой загрузки ------------------------------ */
+console.log('\n6. Вес первой загрузки');
+/**
+ * Бюджет стартовых данных: столько приложение тянет до первого рендера. Список файлов берётся из
+ * самого приложения (loadData), поэтому тест не разойдётся с кодом и заметит тяжёлый файл, который
+ * кто-то добавил в стартовый набор. Патчноуты (365 КБ) и подписи распознавания грузятся лениво —
+ * их в списке быть не должно.
+ */
+const BOOT_BUDGET_KB = 400;
+{
+  const app = fs.readFileSync(path.join(ROOT, 'assets', 'app.js'), 'utf8');
+  const start = app.indexOf('async function loadData()');
+  const end = app.indexOf('let patchnotesLoading');
+  ok(start > 0 && end > start, 'в assets/app.js найден стартовый набор данных (loadData)');
+  const block = app.slice(start, end);
+  const boot = [...block.matchAll(/get\('(data\/[^']+)'\)/g)].map((m) => m[1]);
+  ok(boot.length >= 8, `в loadData перечислено файлов: ${boot.length}`, boot.join(', '));
+  // База знаний подтягивается циклом по kb_index: на старте нужны архетипы и планы.
+  const kbAtBoot = kbIndex.files.map((f) => `data/kb/${f}`).filter((f) => /archetypes|plans/.test(f));
+  const files = [...boot, ...kbAtBoot];
+  const heavy = files.filter((f) => /patchnotes|templates/.test(f));
+  ok(heavy.length === 0, `тяжёлые файлы на старте не грузятся (в списке их ${heavy.length})`, heavy.join(', '));
+  let raw = 0;
+  let gz = 0;
+  const rows = [];
+  for (const f of files) {
+    const buf = fs.readFileSync(path.join(ROOT, f));
+    const packed = zlib.gzipSync(buf).length;
+    raw += buf.length;
+    gz += packed;
+    rows.push(`    ${f.padEnd(30)} ${String(Math.round(buf.length / 1024)).padStart(5)} КБ → ${String(Math.round(packed / 1024)).padStart(4)} КБ gzip`);
+  }
+  console.log(rows.join('\n'));
+  console.log(`    итого: ${(raw / 1024).toFixed(0)} КБ → ${(gz / 1024).toFixed(0)} КБ gzip (бюджет ${BOOT_BUDGET_KB} КБ)`);
+  ok(gz <= BOOT_BUDGET_KB * 1024, `стартовые данные укладываются в бюджет ${BOOT_BUDGET_KB} КБ gzip (сейчас ${(gz / 1024).toFixed(1)} КБ)`);
+  // Профиль веса: если один файл съедает больше половины бюджета, разговор о ленивой загрузке
+  // идёт не про мелочи — тест это подсвечивает, но не валит.
+  const gzOf = (row) => Number(row.match(/→\s*(\d+) КБ/)[1]);
+  const biggest = rows.reduce((a, b) => (gzOf(a) >= gzOf(b) ? a : b));
+  console.log(`    самый тяжёлый стартовый файл: ${biggest.trim().split(/\s{2,}/)[0]} (${gzOf(biggest)} КБ gzip)`);
+}
+
+/* ------------------------------ 7. документация ------------------------------ */
+console.log('\n7. README соответствует данным');
 {
   const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
   const midPlans = Object.entries(plans).filter(([k, p]) => !k.startsWith('_') && p && p.mid).length;
@@ -266,6 +333,8 @@ console.log('\n6. README соответствует данным');
   claim(/^# .*\(патч ([\d.]+)\)/m, 'серия патча в заголовке', meta.patchSeries);
   claim(/Все (\d+) героев/, 'число героев', Object.keys(heroes).length);
   claim(/мидовые планы \((\d+) героев\)/, 'число мидовых планов', midPlans);
+  // Фраза в README: «Бюджет стартовых данных (400 КБ gzip) проверяет tools/test_data.mjs».
+  claim(/Бюджет стартовых\s+данных \((\d+) КБ gzip\)/, 'бюджет стартовых данных, КБ gzip', BOOT_BUDGET_KB);
   claim(/\((\d+) героя × \d+ кадров/, 'число героев с шаблонами распознавания', tplCount);
   claim(/героя × (\d+) кадров/, 'число кадров шаблона', templates.meta.variants.length);
   claim(/Патчноуты \(([\d.a-z]+) → /, 'последняя версия в патчноутах', noteKeys[noteKeys.length - 1]);

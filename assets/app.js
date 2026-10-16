@@ -12,10 +12,11 @@ import {
 } from './recognize.js';
 
 const DATA = {
-  heroes: {}, abilities: {}, items: {}, patchnotes: {}, icons: {}, meta: {}, archetypes: null,
+  heroes: {}, abilities: {}, items: {}, icons: {}, meta: {}, archetypes: null,
   tagsKb: { vocabulary: {}, heroes: {} }, rules: { rules: {}, combos: [] },
   timings: { events: [], notes: [] }, plans: {},
   templates: null, // подписи героев для распознавания — грузятся при первом открытии вкладки
+  patchnotes: null, // патчноуты — при первом открытии вкладки «Патч» (365 КБ)
 };
 
 /** Сколько карточек предметов рисуем сразу: остальное подгружается по скроллу или кнопкой. */
@@ -102,11 +103,15 @@ function comparePatch(a, b) {
 function patchSeries() {
   return String(DATA.meta.patchSeries || DATA.meta.latestPatch || '');
 }
-/** Последняя версия текущей серии в патчноутах: 7.41 → 7.41f (или сама серия, если букв ещё нет). */
+/**
+ * Последняя версия текущей серии в патчноутах: 7.41 → 7.41f (или сама серия, если букв ещё нет).
+ * Обычно ответ есть в meta.json; разбор патчноутов — запасной путь, а самих патчноутов до
+ * открытия вкладки «Патч» в памяти нет, поэтому список версий может быть пустым.
+ */
 function latestPatchVersion() {
   const series = patchSeries();
   if (DATA.meta.latestVersion) return String(DATA.meta.latestVersion);
-  const own = Object.keys(DATA.patchnotes).filter((k) => {
+  const own = Object.keys(DATA.patchnotes || {}).filter((k) => {
     const p = parsePatch(k);
     return p && `${p[0]}.${p[1]}` === series;
   });
@@ -121,17 +126,53 @@ async function loadData() {
     if (!res.ok) throw new Error(`${p}: HTTP ${res.status}`);
     return res.json();
   };
-  const [heroes, abilities, items, patchnotes, meta, icons, kbIndex, tagsKb, rules, timings] = await Promise.all([
+  // Патчноутов (365 КБ) в стартовом наборе нет: в шапке, карточке героя и подписях нужны только
+  // серия и её последняя версия — они есть в meta.json, — а сами изменения читают на вкладке «Патч».
+  const [heroes, abilities, items, meta, icons, kbIndex, tagsKb, rules, timings] = await Promise.all([
     get('data/heroes.json'), get('data/abilities.json'), get('data/items.json'),
-    get('data/patchnotes.json'), get('data/meta.json'), get('data/icons.json'),
+    get('data/meta.json'), get('data/icons.json'),
     get('data/kb_index.json'), get('data/kb/tags.json'), get('data/kb/rules.json'), get('data/kb/timings.json'),
   ]);
-  Object.assign(DATA, { heroes, abilities, items, patchnotes, meta, icons, tagsKb, rules, timings });
+  Object.assign(DATA, { heroes, abilities, items, meta, icons, tagsKb, rules, timings });
   for (const f of kbIndex.files) {
     if (f === 'archetypes.json') DATA.archetypes = await get(`data/kb/${f}`);
     else if (f.startsWith('plans')) Object.assign(DATA.plans, await get(`data/kb/${f}`));
   }
-  state.patch = Object.keys(DATA.patchnotes).sort(comparePatch).pop() || null;
+  state.patch = latestPatchVersion() || null;
+}
+
+/**
+ * Патчноуты грузятся при первом открытии вкладки «Патч» и кэшируются в памяти. Неудачная попытка
+ * не кэшируется: повторное открытие вкладки запросит файл снова (как у подписей распознавания).
+ */
+let patchnotesLoading = null;
+function ensurePatchnotes() {
+  if (DATA.patchnotes) return Promise.resolve(DATA.patchnotes);
+  if (!patchnotesLoading) {
+    patchnotesLoading = (async () => {
+      const res = await fetch('data/patchnotes.json');
+      if (!res.ok) throw new Error(`data/patchnotes.json: HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json || typeof json !== 'object' || !Object.keys(json).length) throw new Error('data/patchnotes.json: пустой файл');
+      DATA.patchnotes = json;
+      return json;
+    })().finally(() => { patchnotesLoading = null; });
+  }
+  return patchnotesLoading;
+}
+
+/** Пока патчноуты едут, вкладка показывает заглушку; ошибка видна с объяснением, а не «пусто». */
+function renderPatchTab() {
+  const view = $('#view');
+  view.innerHTML = `<div class="panel"><h2>Патчноуты</h2><p class="small muted">Загружаю изменения патчей…</p></div>`;
+  ensurePatchnotes().then(() => {
+    if (state.tab === 'patch') render();
+  }).catch((err) => {
+    if (state.tab !== 'patch') return;
+    view.innerHTML = `<div class="panel"><h2>Патчноуты не загрузились</h2>
+      <p class="small warn">${esc(err && err.message)}</p>
+      <p class="small muted">Обнови страницу или открой вкладку ещё раз — запрос повторится.</p></div>`;
+  });
 }
 
 /* ------------------------------ распознавание скриншота ------------------------------ */
@@ -992,7 +1033,7 @@ function render() {
     else if (state.tab === 'shot') { view.innerHTML = renderShot(); mountShot(); }
     else if (state.tab === 'heroes') view.innerHTML = renderHeroes();
     else if (state.tab === 'items') { view.innerHTML = renderItems(); mountItemsLazy(); }
-    else if (state.tab === 'patch') view.innerHTML = renderPatch();
+    else if (state.tab === 'patch') { if (DATA.patchnotes) view.innerHTML = renderPatch(); else renderPatchTab(); }
     else if (state.tab === 'timers') view.innerHTML = renderTimers();
     else view.innerHTML = renderAbout();
   } catch (err) {

@@ -237,7 +237,7 @@ check($$('.item-card').length === itemPage, `возврат на вкладку 
 type($('#itemSearch'), 'blink'); await t(250);
 check($$('.item-card').length >= 1 && $$('.item-card').length <= 4, `поиск «blink» → ${$$('.item-card').length} (Blink/Swift/Overwhelming)`);
 type($('#itemSearch'), ''); await t(250);
-click($('[data-tab="patch"]')); await t(400);
+click($('[data-tab="patch"]')); await waitFor(() => $('#patchSelect'));
 const versions = $$('#patchSelect option').length;
 check(versions >= 4 && $('#view').textContent.length > 800, `версий патча: ${versions}, символов: ${$('#view').textContent.length}`);
 click($('[data-tab="timers"]')); await t(300);
@@ -815,7 +815,7 @@ console.log('\n14. Правки аудита: закуп, карточки, по
   const uPatch = ui(domPatch.window);
   await waitLoaded(domPatch.window);
   uPatch.click(uPatch.q('[data-tab="patch"]'));
-  await t(400);
+  await waitFor(() => uPatch.q('#patchSelect'));
   const compact = (v) => String(v).replace(/\s+/g, '');
   check(!/Ошибка интерфейса/.test(uPatch.text()) && uPatch.text().length > 800
     && compact(uPatch.text()).includes(compact('Berserker\u2019s Call: тест записи-массива')),
@@ -908,6 +908,83 @@ console.log('\n15. Закуп по роли героя, когда куриру�
   await t(300);
   const card15 = u15.q('#heroCard')?.textContent || '';
   check(/мидовый план есть/.test(card15) && !/закуп по роли/.test(card15), 'у героя с планом роли не подмешивается');
+}
+
+console.log('\n16. Ленивая загрузка патчноутов (365 КБ не должны ехать на старте)');
+{
+  const asked = [];
+  const dom16 = bootApp({ me: 'queenofpain' }, {
+    fetchOverride: (url, real, o) => { asked.push(String(url)); return real(url, o); },
+  });
+  const u16 = ui(dom16.window);
+  await waitLoaded(dom16.window);
+  await t(200);
+  const heavy = asked.filter((u) => /patchnotes\.json|templates\.json/.test(u));
+  check(heavy.length === 0 && asked.length > 0,
+    `на старте запрошено ${asked.length} файлов, тяжёлых среди них нет${heavy.length ? `: ${heavy.join(', ')}` : ''}`);
+  u16.click(u16.q('[data-tab="patch"]'));
+  const shown = await waitFor(() => u16.q('#patchSelect') && u16.q('#patchSelect').options.length >= 4);
+  const calls = () => asked.filter((u) => u.includes('patchnotes.json')).length;
+  check(shown && calls() === 1, `вкладка «Патч» подгружает патчноуты ровно одним запросом (запросов: ${calls()})`);
+  u16.click(u16.q('[data-tab="draft"]'));
+  await t(200);
+  u16.click(u16.q('[data-tab="patch"]'));
+  await waitFor(() => u16.q('#patchSelect'));
+  check(calls() === 1, 'возврат на вкладку берёт патчноуты из памяти, а не из сети');
+
+  // Сбой загрузки: вкладка объясняет, что случилось, и повторная попытка (файл не кэшируется) работает.
+  let failOnce = true;
+  const dom16b = bootApp({ me: 'queenofpain' }, {
+    fetchOverride: (url, real, o) => {
+      if (String(url).includes('patchnotes.json') && failOnce) {
+        failOnce = false;
+        return Promise.resolve(new Response('сбой', { status: 500 }));
+      }
+      return real(url, o);
+    },
+  });
+  const u16b = ui(dom16b.window);
+  await waitLoaded(dom16b.window);
+  u16b.click(u16b.q('[data-tab="patch"]'));
+  const failed = await waitFor(() => /Патчноуты не загрузились/.test(u16b.text()));
+  check(failed && /HTTP 500/.test(u16b.text()) && !/Ошибка интерфейса/.test(u16b.text()),
+    'сбой загрузки объясняется на вкладке, а не молчанием и не ошибкой интерфейса');
+  u16b.click(u16b.q('[data-tab="draft"]'));
+  await t(150);
+  u16b.click(u16b.q('[data-tab="patch"]'));
+  check(await waitFor(() => u16b.q('#patchSelect')), 'повторное открытие вкладки пробует загрузить файл снова');
+}
+
+console.log('\n17. Данные источника в карточке героя');
+{
+  // Пустой массив в dmg_type давал в карточке висящее «тип урона: » без значения (Huskar Blood Magic,
+  // Dark Seer Aggrandize). Сборщик это чинит, тест смотрит на экран, а не на данные.
+  const dom17 = bootApp();
+  const u17 = ui(dom17.window);
+  await waitLoaded(dom17.window);
+  u17.click(u17.q('[data-tab="heroes"]'));
+  await t(200);
+  const dangling = [];
+  for (const slug of ['huskar', 'dark_seer', 'rattletrap']) {
+    u17.set('#heroSearch', slug);
+    await t(200);
+    const pick = u17.q(`.pick[data-hero="${slug}"]`);
+    if (!pick) { dangling.push(`${slug}: нет карточки`); continue; }
+    u17.click(pick);
+    await t(250);
+    const card = u17.q('#heroCard')?.textContent || '';
+    if (/тип урона:\s*(?:·|$)/.test(card)) dangling.push(slug);
+  }
+  check(dangling.length === 0, `висящего «тип урона:» без значения нет: ${dangling.join(', ') || 'ни у кого'}`);
+
+  // attrib способностей уехал без ключа характеристики — подписи и числа в карточке должны остаться.
+  u17.set('#heroSearch', 'antimage');
+  await t(200);
+  u17.click(u17.q('.pick[data-hero="antimage"]'));
+  await t(300);
+  const anti = u17.q('#heroCard')?.textContent || '';
+  check(/MANA BURNED AS DAMAGE:/.test(anti) && /MANA BURNED PER HIT:/.test(anti),
+    'подписи характеристик способности видны в карточке (ключи attrib не нужны)');
 }
 
 console.log(problems.length ? `\nПРОБЛЕМЫ (${problems.length}):\n - ` + problems.join('\n - ') : '\nПроблем не найдено.');
