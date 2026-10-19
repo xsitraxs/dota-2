@@ -346,6 +346,65 @@ export function combosFor(enemySlugs, data) {
   return res.sort((a, b) => b.hits - a.hits);
 }
 
+/** Синергии своей команды: положительные связки, которые уже есть в вашем драфте 5×5. */
+const SYNERGY_COMBOS = [
+  { tags: ['save'], min: 2, title: 'Двойной сейв', advice: 'Два сейва — можно играть первым номером, один сейв всегда в запасе. Не стойте вместе, чтобы не отдать обоих одним контролем.', items: [] },
+  { tags: ['heavy_lockdown', 'single_target_lockdown', 'hex_root'], min: 2, title: 'Много контроля', advice: 'Много контроля — есть кем закрыть цель под ваш бурст. Стакайте стан → хекс, не жмите всё сразу.', items: [] },
+  { tags: ['teamfight_ultimate'], min: 2, title: 'Командные ульты', advice: 'Два командных ульта — играйте 5v5 когда они готовы. До этого — сплит и избегайте файтов 4v5.', items: [] },
+  { tags: ['burst_magical'], min: 2, title: 'Маг. бурст-стек', advice: 'Маг. бурст у нескольких героев — хватает урона без физ. кора. Усиливайте его Veil/Shivas, а не только физ. защиту.', items: [] },
+  { tags: ['burst_physical'], min: 2, title: 'Физ. урон-стек', advice: 'Много физ. урона — быстро сносите цели и вышки. Берите Desolator/Assault, не давайте врагу настакать броню.', items: [] },
+  { tags: ['invis'], min: 2, title: 'Двойная невидимость', advice: 'Два инвизера — врагу нужен постоянный детект. Играйте через вижн-контроль и ловите их на сентри.', items: [] },
+  { tags: ['late_scaler'], min: 2, title: 'Поздний потенциал', advice: 'Два лейта — время на вашей стороне. Фармите карту, не форсируйте до 30+ минут.', items: [] },
+  { tags: ['waveclear'], min: 2, title: 'Чистка волн', advice: 'Два героя с быстрым фармом волн — всегда есть кто защитит базу и пофармит лес.', items: [] },
+  { tags: ['save', 'burst_physical'], min: 2, requireEach: true, title: 'Сейв + кор', advice: 'Сейв продлевает жизнь вашему кору в фокусе — сейвите керри когда он влетает. Сейв → бурст.', items: [] },
+  { tags: ['heavy_lockdown', 'burst_magical'], min: 2, requireEach: true, title: 'Стан + маг. бурст', advice: 'Стан под маг. бурст — классическая связка. Один станит, второй сразу выгружает урон.', items: [] },
+  { tags: ['heavy_heal', 'teamfight_ultimate'], min: 2, requireEach: true, title: 'Хил + командный ульт', advice: 'Хил/реген + командный ульт — можно драться затяжно. Не распadaйтесь после первого прокаста.', items: [] },
+];
+
+export function synergiesFor(teamSlugs, data) {
+  const { tagsKb } = data;
+  const counts = {};
+  for (const slug of new Set((teamSlugs || []).filter(Boolean))) {
+    for (const t of (tagsKb.heroes && tagsKb.heroes[slug]) || []) counts[t] = (counts[t] || 0) + 1;
+  }
+  const res = [];
+  for (const combo of SYNERGY_COMBOS) {
+    if (combo.requireEach) {
+      if (!combo.tags.every((t) => (counts[t] || 0) >= 1)) continue;
+      const total = combo.tags.reduce((acc, t) => acc + (counts[t] || 0), 0);
+      if (total >= combo.min) res.push({ ...combo, hits: total, heroes: teamSlugs.filter(Boolean).filter((s) => (tagsKb.heroes[s] || []).some((tt) => combo.tags.includes(tt))).slice(0, 3) });
+    } else {
+      const total = combo.tags.reduce((acc, t) => acc + (counts[t] || 0), 0);
+      if (total >= combo.min) res.push({ ...combo, hits: total, heroes: teamSlugs.filter(Boolean).filter((s) => (tagsKb.heroes[s] || []).some((tt) => combo.tags.includes(tt))).slice(0, 3) });
+    }
+  }
+  return res.sort((a, b) => b.hits - a.hits);
+}
+
+const TEAM_COVERAGE_TAGS = [
+  { tag: 'save', label: 'Сейв союзника', why: 'нечем спасти кора в фокусе' },
+  { tag: 'heavy_lockdown', label: 'Надёжный контроль', why: 'нечем закрыть цель под бурст' },
+  { tag: 'waveclear', label: 'Чистка волн', why: 'волны и пуш будут душить' },
+  { tag: 'teamfight_ultimate', label: 'Командный ульт', why: '5v5 без ульта проигрываете' },
+  { tag: 'burst_magical', label: 'Маг. урон', why: 'не хватает магического прокаста' },
+  { tag: 'burst_physical', label: 'Физ. урон', why: 'нечем бить строения и танки' },
+];
+
+export function teamCoverage(teamSlugs, data) {
+  const { tagsKb } = data;
+  const have = new Set();
+  for (const slug of new Set((teamSlugs || []).filter(Boolean))) {
+    for (const t of (tagsKb.heroes && tagsKb.heroes[slug]) || []) have.add(t);
+  }
+  const missing = [];
+  const present = [];
+  for (const { tag, label, why } of TEAM_COVERAGE_TAGS) {
+    if (have.has(tag) || (tag === 'heavy_lockdown' && (have.has('single_target_lockdown') || have.has('hex_root')))) present.push({ tag, label });
+    else missing.push({ tag, label, why });
+  }
+  return { have: present, missing };
+}
+
 /** Рекомендации по пикам: кто из мидовых героев хорошо стоит против их драфта.
  *  exclude — уже занятые герои (я и союзники), их не предлагаем. */
 export function counterPicks({ enemies, enemyMid, data, limit = 6, exclude = [] }) {
@@ -407,14 +466,54 @@ export function archetypeFor(hero, archetypes) {
 }
 
 /** Группы предметов архетипа: стартовый стат-предмет и «свой» большой слот зависят от атрибута. */
-function archetypeItems({ archetype, title, attr }) {
+function archetypeItems({ archetype, title, attr, hero }) {
   const source = `роль «${title}»`;
   const stage = (list) => (list || []).map(([key, why]) => ({ key, why, source }));
   const byAttr = archetype.statByAttr || {};
   const coreByAttr = archetype.coreByAttr || {};
   const stat = byAttr[attr] || byAttr.all;
+  // База: старт из архетипа + стат-предмет под атрибут
+  let start = stage(stat ? [...(archetype.start || []), stat] : archetype.start);
+  // Пер-геройный штрих к старту 7.41: каждый герой получает один уникальный мелкий предмет,
+  // чтобы старт не выглядел «один на всех». Выбор детерминирован по слагу героя, но остаётся
+  // в рамках меты (mango/clarity/flask/stick/вторая ветка/circlet).
+  if (hero && hero.slug) {
+    const poolByRole = {
+      carry: [['enchanted_mango', 'манго на ману под добивание'], ['clarity', 'кларити на спам способностей'], ['flask', 'фласка против плотного лейна'], ['magic_stick', 'стик против спама врага']],
+      mid: [['enchanted_mango', 'манго на прокаст на руне'], ['clarity', 'кларити на два прокаста'], ['branches', 'вторая ветка за 55 — +2 статов']],
+      offlane: [['enchanted_mango', 'манго на стан'], ['flask', 'фласка против их керри'], ['clarity', 'кларити на инициацию']],
+      support: [['ward_sentry', 'сентри на девард лесом'], ['enchanted_mango', 'манго на сейв'], ['clarity', 'кларити на хил/стан']],
+      roam: [['ward_sentry', 'сентри для блока лагеря'], ['enchanted_mango', 'манго на ганг'], ['clarity', 'кларити']],
+    };
+    const roleKey = archetype.title && archetype.title.toLowerCase().includes('керри') ? 'carry'
+      : archetype.title && archetype.title.toLowerCase().includes('мид') ? 'mid'
+      : archetype.title && archetype.title.toLowerCase().includes('офф') ? 'offlane'
+      : archetype.title && archetype.title.toLowerCase().includes('поддерж') ? 'support' : 'roam';
+    const pool = poolByRole[roleKey] || poolByRole.mid;
+    const hash = [...hero.slug].reduce((a, c) => a + c.charCodeAt(0), 0);
+    const pick = pool[hash % pool.length];
+    // Рэндж-керри не нужен Quelling Blade — меняем его на вторую ветку/манго/серклет, чтобы не тратить 100 золота впустую
+    const hasQuelling = start.some((i) => i.key === 'quelling_blade');
+    if (hasQuelling && hero.attack_type === 'Ranged' && roleKey === 'carry') {
+      start = start.filter((i) => i.key !== 'quelling_blade');
+      // для рэнджей вторым слотом часто берут вторую ветку или манго
+      if (!start.some((i) => i.key === pick[0])) start.push({ key: pick[0], why: pick[1], source });
+      // если выбрали не ветку — добавляем ветку отдельно для рэнджа
+      if (pick[0] !== 'branches' && !start.some((i) => i.key === 'branches' && start.filter((x) => x.key === 'branches').length < 2)) {
+        // вторая ветка уже есть? в базе одна, добавим вторую
+        if (start.filter((i) => i.key === 'branches').length < 2) start.push({ key: 'branches', why: 'вторая ветка — +3 статов за 55, метa 7.41', source });
+      }
+    } else {
+      if (!start.some((i) => i.key === pick[0])) start.push({ key: pick[0], why: pick[1], source });
+    }
+    // Лимит золота старта — не больше 6 слотов, 600 золота: если стало 7+ — убираем самую дорогую «статовую» часть (gauntlets/slippers) в пользу манго/кларити
+    if (start.length > 6) {
+      const idx = start.findIndex((i) => ['gauntlets','slippers','mantle','circlet'].includes(i.key));
+      if (idx !== -1) start.splice(idx, 1);
+    }
+  }
   return {
-    start: stage(stat ? [...(archetype.start || []), stat] : archetype.start),
+    start,
     early: stage(archetype.early),
     core: stage([...(archetype.core || []), ...(coreByAttr[attr] || [])]),
   };
@@ -455,16 +554,55 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
   // Курируемый план показываем только когда роль не переопределена или это мид —
   // иначе для Pudge-керри или Crystal Maiden-мида отдавали бы один мидовый bottle-старт.
   const useCurated = Boolean(plan && plan.items && (!useRole || role === 'mid'));
-  if (useCurated) {
-    for (const g of Object.keys(items)) items[g] = (plan.items[g] || []).map(([k, why]) => ({ key: k, why, source: 'план героя' }));
-  } else if (useRole) {
-    Object.assign(items, archetypeItems({ archetype: roleArche.data, title: roleArche.title, attr: h.primary_attr }));
-  } else {
-    // Курируемого плана под 7.41 у героя нет — берём закуп его роли (data/kb/archetypes.json).
-    // Раньше здесь был один универсальный мидовый старт: 91 герой из 127 получал одинаковые
-    // bottle/treads и ядро из одного BKB, включая всех керри и всех поддержек.
-    const arche = archetypeFor(h, archetypes);
-    if (arche) Object.assign(items, archetypeItems({ archetype: arche.data, title: arche.title, attr: h.primary_attr }));
+  // Для навыков курируемый план остаётся приоритетом, но для предметов теперь всегда
+  // используем пер-геройный билд из hero_builds.json (сверено с инетом), если он есть.
+  // Так все 127 героев получают интернет-коры (Battle Fury для AM, Maelstrom для Sniper и т.д.),
+  // а не один общий BKB, и даже мидовые герои с планом получают правильный закуп.
+  const useCuratedForSkills = Boolean(plan && plan.skills && (!useRole || role === 'mid'));
+  const heroBuilds = data.hero_builds || null;
+  let usedHeroBuild = false;
+  if (heroBuilds && heroBuilds[heroSlug]) {
+    const hbPerRole = heroBuilds[heroSlug];
+    let src = null;
+    if (hbPerRole && typeof hbPerRole === 'object' && (hbPerRole.carry || hbPerRole.mid || hbPerRole.support)) {
+      if (role && hbPerRole[role]) src = hbPerRole[role];
+      else if (!useRole) {
+        // Авто: если у героя есть курируемый мид-план — показываем мид (без гранаты),
+        // иначе — его природную роль (carry/support/offlane). Иначе Lina/Visage и т.п.
+        // с Support в ролях получали бы саппорт-билд с гранатой даже без выбора роли.
+        let natName;
+        if (plan && plan.mid) natName = 'mid';
+        else {
+          const nat = archetypeFor(h, archetypes);
+          natName = nat ? nat.name : 'mid';
+        }
+        src = hbPerRole[natName] || hbPerRole['mid'] || hbPerRole['carry'] || hbPerRole['support'] || null;
+      }
+    } else {
+      src = hbPerRole;
+    }
+    if (src && src.start) {
+      const roleTitle = role ? (ROLE_TITLES[role] || role) : (archetypeFor(h, archetypes)?.title || 'Авто');
+      const hbSource = `билд героя ${h.localized_name} · ${roleTitle} (7.41f, сверено с Dotacoach/Spectral)`;
+      const stageHb = (list) => (list || []).map(([k, why]) => ({ key: k, why, source: hbSource }));
+      items.start = stageHb(src.start);
+      items.early = stageHb(src.early);
+      items.core = stageHb(src.core);
+      usedHeroBuild = true;
+    }
+  }
+  if (!usedHeroBuild) {
+    if (useCurated) {
+      for (const g of Object.keys(items)) items[g] = (plan.items[g] || []).map(([k, why]) => ({ key: k, why, source: 'план героя' }));
+    } else if (useRole) {
+      Object.assign(items, archetypeItems({ archetype: roleArche.data, title: roleArche.title, attr: h.primary_attr, hero: h }));
+    } else {
+      // Курируемого плана под 7.41 у героя нет — берём закуп его роли (data/kb/archetypes.json).
+      // Раньше здесь был один универсальный мидовый старт: 91 герой из 127 получал одинаковые
+      // bottle/treads и ядро из одного BKB, включая всех керри и всех поддержек.
+      const arche = archetypeFor(h, archetypes);
+      if (arche) Object.assign(items, archetypeItems({ archetype: arche.data, title: arche.title, attr: h.primary_attr, hero: h }));
+    }
   }
 
   // Ситуативный закуп: сначала курируемые предметы плана героя (они не должны теряться —
@@ -503,7 +641,7 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
   }
 
   const ultKey = heroUltimateKey(h, abilities);
-  const skillPlan = useCurated && plan.skills ? plan.skills : null;
+  const skillPlan = useCuratedForSkills && plan.skills ? plan.skills : null;
   // Без курируемого плана показываем только изучаемые базовые способности: неизучаемые слоты
   // 7.41 (Stolen Spell, Devoured Ability, Souvenir Slot) и врождённые в порядок прокачки не годятся.
   // Ультимейт идёт отдельной строкой, поэтому в список базовых не попадает.

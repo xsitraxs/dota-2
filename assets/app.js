@@ -6,6 +6,7 @@
 import {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
   heroDamage, heroHp, heroMana, heroArmor, isServiceAbility, archetypeFor, ROLES, ROLE_TITLES,
+  synergiesFor, teamCoverage,
 } from './analysis.js';
 import {
   recognizeScreenshot, recognizeCells, manualCells, clampRegion, clampGridSize, MAX_GRID,
@@ -14,7 +15,7 @@ import {
 const DATA = {
   heroes: {}, abilities: {}, items: {}, icons: {}, meta: {}, archetypes: null,
   tagsKb: { vocabulary: {}, heroes: {} }, rules: { rules: {}, combos: [] },
-  timings: { events: [], notes: [] }, plans: {},
+  timings: { events: [], notes: [] }, plans: {}, hero_builds: null,
   templates: null, // подписи героев для распознавания — грузятся при первом открытии вкладки
   patchnotes: null, // патчноуты — при первом открытии вкладки «Патч» (365 КБ)
 };
@@ -137,6 +138,7 @@ async function loadData() {
   Object.assign(DATA, { heroes, abilities, items, meta, icons, tagsKb, rules, timings });
   for (const f of kbIndex.files) {
     if (f === 'archetypes.json') DATA.archetypes = await get(`data/kb/${f}`);
+    else if (f === 'hero_builds.json') DATA.hero_builds = await get(`data/kb/${f}`);
     else if (f.startsWith('plans')) Object.assign(DATA.plans, await get(`data/kb/${f}`));
   }
   state.patch = latestPatchVersion() || null;
@@ -446,6 +448,9 @@ function renderDraft() {
   }) : [];
   const plan = me ? buildPlan({ heroSlug: me, enemySlugs: enemies, data: DATA, role: myRole }) : null;
   const checklist = buildChecklist({ threats, combos, data: DATA });
+  const team = [me, ...allies].filter(Boolean);
+  const synergies = team.length >= 2 ? synergiesFor(team, DATA) : [];
+  const coverage = team.length ? teamCoverage(team, DATA) : { have: [], missing: [] };
 
   const slot = (group, arr, i, label) => {
     const slug = arr[i];
@@ -571,6 +576,13 @@ function renderDraft() {
             ${t.actions.length ? `<ul class="tight small">${t.actions.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
           </div>`).join('')}
         </div>
+      </div>` : ''}
+
+      ${team.length >= 2 ? `<div class="panel">
+        <h2>Синергия вашей команды <span class="muted tiny">· ${team.length}/5</span></h2>
+        ${synergies.length ? `<div class="stack">${synergies.map((s) => `<div class="threat sev1"><div class="t">${esc(s.title)} <span class="muted tiny">×${s.hits}</span></div><div class="small">${esc(s.advice)}</div><div class="tiny muted">герои: ${s.heroes.map((hh) => esc(DATA.heroes[hh]?.localized_name || hh)).join(', ')}</div></div>`).join('')}</div>` : `<p class="small muted">Пока ярких связок не видно — добавь союзников, чтобы увидеть комбо (сейв+бурст, стан+бурст, два сейва и т.д.).</p>`}
+        ${coverage.missing.length ? `<h3>Чего не хватает</h3><ul class="tight small">${coverage.missing.map((m) => `<li><b>${esc(m.label)}</b> — ${esc(m.why)}</li>`).join('')}</ul>` : `<p class="small muted" style="margin-top:8px">Покрытие: ${coverage.have.map((h) => esc(h.label)).join(' · ')} — команда сбалансирована.</p>`}
+        ${coverage.have.length && coverage.missing.length ? `<p class="tiny muted" style="margin-top:6px">Есть: ${coverage.have.map((h) => esc(h.label)).join(' · ')}</p>` : ''}
       </div>` : ''}
 
       ${plan ? `<div class="panel">
