@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xsitraxs.github.io/dota-2/sitemap.xml

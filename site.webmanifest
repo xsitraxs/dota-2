@@ -1,0 +1,19 @@
+{
+  "name": "Драфт-помощник Dota 2 — патч 7.41",
+  "short_name": "Dota 2 Draft",
+  "description": "Разбор мид-лейна, угрозы драфта, закуп и тайминги по цифрам патча 7.41. Офлайн, без винрейтов.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1016",
+  "theme_color": "#0d1016",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "data/icons/pudge.webp",
+      "sizes": "256x144",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}
