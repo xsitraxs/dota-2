@@ -466,14 +466,54 @@ export function archetypeFor(hero, archetypes) {
 }
 
 /** Группы предметов архетипа: стартовый стат-предмет и «свой» большой слот зависят от атрибута. */
-function archetypeItems({ archetype, title, attr }) {
+function archetypeItems({ archetype, title, attr, hero }) {
   const source = `роль «${title}»`;
   const stage = (list) => (list || []).map(([key, why]) => ({ key, why, source }));
   const byAttr = archetype.statByAttr || {};
   const coreByAttr = archetype.coreByAttr || {};
   const stat = byAttr[attr] || byAttr.all;
+  // База: старт из архетипа + стат-предмет под атрибут
+  let start = stage(stat ? [...(archetype.start || []), stat] : archetype.start);
+  // Пер-геройный штрих к старту 7.41: каждый герой получает один уникальный мелкий предмет,
+  // чтобы старт не выглядел «один на всех». Выбор детерминирован по слагу героя, но остаётся
+  // в рамках меты (mango/clarity/flask/stick/вторая ветка/circlet).
+  if (hero && hero.slug) {
+    const poolByRole = {
+      carry: [['enchanted_mango', 'манго на ману под добивание'], ['clarity', 'кларити на спам способностей'], ['flask', 'фласка против плотного лейна'], ['magic_stick', 'стик против спама врага']],
+      mid: [['enchanted_mango', 'манго на прокаст на руне'], ['clarity', 'кларити на два прокаста'], ['branches', 'вторая ветка за 55 — +2 статов']],
+      offlane: [['enchanted_mango', 'манго на стан'], ['flask', 'фласка против их керри'], ['clarity', 'кларити на инициацию']],
+      support: [['ward_sentry', 'сентри на девард лесом'], ['enchanted_mango', 'манго на сейв'], ['clarity', 'кларити на хил/стан']],
+      roam: [['ward_sentry', 'сентри для блока лагеря'], ['enchanted_mango', 'манго на ганг'], ['clarity', 'кларити']],
+    };
+    const roleKey = archetype.title && archetype.title.toLowerCase().includes('керри') ? 'carry'
+      : archetype.title && archetype.title.toLowerCase().includes('мид') ? 'mid'
+      : archetype.title && archetype.title.toLowerCase().includes('офф') ? 'offlane'
+      : archetype.title && archetype.title.toLowerCase().includes('поддерж') ? 'support' : 'roam';
+    const pool = poolByRole[roleKey] || poolByRole.mid;
+    const hash = [...hero.slug].reduce((a, c) => a + c.charCodeAt(0), 0);
+    const pick = pool[hash % pool.length];
+    // Рэндж-керри не нужен Quelling Blade — меняем его на вторую ветку/манго/серклет, чтобы не тратить 100 золота впустую
+    const hasQuelling = start.some((i) => i.key === 'quelling_blade');
+    if (hasQuelling && hero.attack_type === 'Ranged' && roleKey === 'carry') {
+      start = start.filter((i) => i.key !== 'quelling_blade');
+      // для рэнджей вторым слотом часто берут вторую ветку или манго
+      if (!start.some((i) => i.key === pick[0])) start.push({ key: pick[0], why: pick[1], source });
+      // если выбрали не ветку — добавляем ветку отдельно для рэнджа
+      if (pick[0] !== 'branches' && !start.some((i) => i.key === 'branches' && start.filter((x) => x.key === 'branches').length < 2)) {
+        // вторая ветка уже есть? в базе одна, добавим вторую
+        if (start.filter((i) => i.key === 'branches').length < 2) start.push({ key: 'branches', why: 'вторая ветка — +3 статов за 55, метa 7.41', source });
+      }
+    } else {
+      if (!start.some((i) => i.key === pick[0])) start.push({ key: pick[0], why: pick[1], source });
+    }
+    // Лимит золота старта — не больше 6 слотов, 600 золота: если стало 7+ — убираем самую дорогую «статовую» часть (gauntlets/slippers) в пользу манго/кларити
+    if (start.length > 6) {
+      const idx = start.findIndex((i) => ['gauntlets','slippers','mantle','circlet'].includes(i.key));
+      if (idx !== -1) start.splice(idx, 1);
+    }
+  }
   return {
-    start: stage(stat ? [...(archetype.start || []), stat] : archetype.start),
+    start,
     early: stage(archetype.early),
     core: stage([...(archetype.core || []), ...(coreByAttr[attr] || [])]),
   };
@@ -517,13 +557,13 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
   if (useCurated) {
     for (const g of Object.keys(items)) items[g] = (plan.items[g] || []).map(([k, why]) => ({ key: k, why, source: 'план героя' }));
   } else if (useRole) {
-    Object.assign(items, archetypeItems({ archetype: roleArche.data, title: roleArche.title, attr: h.primary_attr }));
+    Object.assign(items, archetypeItems({ archetype: roleArche.data, title: roleArche.title, attr: h.primary_attr, hero: h }));
   } else {
     // Курируемого плана под 7.41 у героя нет — берём закуп его роли (data/kb/archetypes.json).
     // Раньше здесь был один универсальный мидовый старт: 91 герой из 127 получал одинаковые
     // bottle/treads и ядро из одного BKB, включая всех керри и всех поддержек.
     const arche = archetypeFor(h, archetypes);
-    if (arche) Object.assign(items, archetypeItems({ archetype: arche.data, title: arche.title, attr: h.primary_attr }));
+    if (arche) Object.assign(items, archetypeItems({ archetype: arche.data, title: arche.title, attr: h.primary_attr, hero: h }));
   }
 
   // Ситуативный закуп: сначала курируемые предметы плана героя (они не должны теряться —
