@@ -237,3 +237,10 @@ footer.foot { margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--b
 }
 .lbl { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); }
 .warn { color: var(--danger); }
+
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .timer-row.soon { animation: none !important; }
+}

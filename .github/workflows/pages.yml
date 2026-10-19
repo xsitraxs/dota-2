@@ -64,6 +64,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+
       # Гейт: движок, данные и база знаний, политика этого workflow — на том, что уедет в прод.
       - name: Test engine, data and CI policy
         run: npm test

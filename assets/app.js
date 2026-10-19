@@ -374,7 +374,7 @@ function heroMini(slug, removable = true, slotIdx = null, group = 'enemies') {
       <div class="nm">${esc(h.localized_name)}</div>
       <div class="rl">${esc(ATTR_RU[h.primary_attr] || '')} · ${esc((h.roles || []).map((r) => ROLE_RU[r] || r).slice(0, 2).join(', '))}</div>
     </div>
-    ${removable ? `<button data-remove="${group}:${slotIdx}" title="Убрать">✕</button>` : ''}
+    ${removable ? `<button data-remove="${group}:${slotIdx}" aria-label="Убрать героя ${esc(h.localized_name)}" title="Убрать">✕</button>` : ''}
   </div>`;
 }
 function itemChip(key) {
@@ -447,7 +447,7 @@ function renderDraft() {
     const slug = arr[i];
     return slug
       ? heroMini(slug, true, i, group)
-      : `<button class="slot-empty" data-pick="${group}:${i}"><span>${label}</span><span>+</span></button>`;
+      : `<button class="slot-empty" data-pick="${group}:${i}" aria-label="${esc(label)} — выбрать героя"><span>${esc(label)}</span><span aria-hidden="true">+</span></button>`;
   };
 
   return `
@@ -455,7 +455,7 @@ function renderDraft() {
     <div class="stack">
       <div class="panel">
         <h2>Мой герой на миду</h2>
-        ${me ? heroMini(me, false) : `<button class="slot-empty" data-pick="me:0"><span>Выбрать мидового героя</span><span>+</span></button>`}
+        ${me ? heroMini(me, false) : `<button class="slot-empty" data-pick="me:0" aria-label="Выбрать мидового героя"><span>Выбрать мидового героя</span><span aria-hidden="true">+</span></button>`}
         ${me ? `<div class="row" style="margin-top:10px">
           <button class="btn sm ghost" data-pick="me:0">Сменить</button>
           <button class="btn sm ghost" data-action="clear-me">Очистить</button>
@@ -645,17 +645,17 @@ function renderHeroes() {
   return `
   <div class="panel">
     <div class="head row">
-      <input class="search" id="heroSearch" placeholder="Поиск героя…" value="${esc(state.heroSearch)}">
-      <div class="chips">
-        ${['str', 'agi', 'int', 'all'].map((a) => `<button class="chip ${state.attrFilter === a ? 'active' : ''}" data-attr="${a}">${ATTR_RU[a]}</button>`).join('')}
-        ${['Carry', 'Nuker', 'Initiator', 'Support', 'Disabler', 'Pusher'].map((r) => `<button class="chip ${state.roleFilter === r ? 'active' : ''}" data-role="${r}">${ROLE_RU[r]}</button>`).join('')}
-        <button class="chip ${state.onlyMid ? 'active' : ''}" data-only-mid>только мидовые</button>
+      <input class="search" id="heroSearch" placeholder="Поиск героя…" aria-label="Поиск героя" value="${esc(state.heroSearch)}">
+      <div class="chips" role="group" aria-label="Фильтры героев">
+        ${['str', 'agi', 'int', 'all'].map((a) => `<button class="chip ${state.attrFilter === a ? 'active' : ''}" data-attr="${a}" aria-pressed="${String(state.attrFilter === a)}">${ATTR_RU[a]}</button>`).join('')}
+        ${['Carry', 'Nuker', 'Initiator', 'Support', 'Disabler', 'Pusher'].map((r) => `<button class="chip ${state.roleFilter === r ? 'active' : ''}" data-role="${r}" aria-pressed="${String(state.roleFilter === r)}">${ROLE_RU[r]}</button>`).join('')}
+        <button class="chip ${state.onlyMid ? 'active' : ''}" data-only-mid aria-pressed="${String(state.onlyMid)}">только мидовые</button>
       </div>
     </div>
     <p class="small muted">Найдено: ${list.length}${state.heroSearch ? ` по запросу «${esc(state.heroSearch)}»` : ''}</p>
     <div class="pick-grid">
-      ${list.map((h) => `<button class="pick" data-hero="${esc(h.slug)}">
-        ${DATA.plans[h.slug]?.mid ? '<span class="mid">мид</span>' : ''}
+      ${list.map((h) => `<button class="pick" data-hero="${esc(h.slug)}" aria-label="${esc(h.localized_name)}">
+        ${DATA.plans[h.slug]?.mid ? '<span class="mid" aria-hidden="true">мид</span>' : ''}
         <div class="avatar">${iconHTML(h.slug)}</div>
         <div class="nm">${esc(h.localized_name)}</div>
       </button>`).join('')}
@@ -1026,7 +1026,11 @@ function renderAbout() {
 /* ------------------------------ рендер ------------------------------ */
 
 function render() {
-  document.querySelectorAll('#tabs button').forEach((b) => b.classList.toggle('active', b.dataset.tab === state.tab));
+  document.querySelectorAll('#tabs button').forEach((b) => {
+    const on = b.dataset.tab === state.tab;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', String(on));
+  });
   const view = $('#view');
   try {
     if (state.tab === 'draft') view.innerHTML = renderDraft();
@@ -1072,15 +1076,16 @@ function openPicker(target) {
   let onlyMid = group === 'me'; // для врагов и союзников показываем всех героев
   const modal = document.createElement('div');
   modal.className = 'overlay';
-  modal.innerHTML = `<div class="modal">
+  modal.setAttribute('role', 'presentation');
+  modal.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-label="Выбор героя">
     <div class="head row">
-      <input class="search" id="pickerSearch" placeholder="Поиск героя…">
-      <div class="chips" id="pickerChips">
-        <button class="chip ${onlyMid ? 'active' : ''}" data-mid="1">мидовые</button>
-        <button class="chip ${onlyMid ? '' : 'active'}" data-mid="0">все герои</button>
-        ${['str', 'agi', 'int', 'all'].map((a) => `<button class="chip" data-attr="${a}">${ATTR_RU[a]}</button>`).join('')}
+      <input class="search" id="pickerSearch" placeholder="Поиск героя…" aria-label="Поиск героя">
+      <div class="chips" id="pickerChips" role="group" aria-label="Фильтры">
+        <button class="chip ${onlyMid ? 'active' : ''}" data-mid="1" aria-pressed="${String(onlyMid)}">мидовые</button>
+        <button class="chip ${onlyMid ? '' : 'active'}" data-mid="0" aria-pressed="${String(!onlyMid)}">все герои</button>
+        ${['str', 'agi', 'int', 'all'].map((a) => `<button class="chip" data-attr="${a}" aria-pressed="false">${ATTR_RU[a]}</button>`).join('')}
       </div>
-      <button class="btn ghost" data-close>Закрыть</button>
+      <button class="btn ghost" data-close aria-label="Закрыть окно выбора">Закрыть</button>
     </div>
     <div class="pick-grid" id="pickerGrid"></div>
   </div>`;
@@ -1108,7 +1113,7 @@ function openPicker(target) {
       // ищут по названию файла/строке драфта, а не только по локализованному имени.
       .filter((h) => !q || h.localized_name.toLowerCase().includes(q) || h.slug.includes(q))
       .sort((a, b) => byName(a.localized_name, b.localized_name));
-    $('#pickerGrid', modal).innerHTML = list.map((h) => `<button class="pick" data-choose="${esc(h.slug)}">
+    $('#pickerGrid', modal).innerHTML = list.map((h) => `<button class="pick" data-choose="${esc(h.slug)}" aria-label="Выбрать ${esc(h.localized_name)}">
       ${DATA.plans[h.slug]?.mid ? '<span class="mid">мид</span>' : ''}
       <div class="avatar">${iconHTML(h.slug)}</div><div class="nm">${esc(h.localized_name)}</div>
     </button>`).join('');
@@ -1123,10 +1128,12 @@ function openPicker(target) {
     if (e.target === modal || e.target.closest('[data-close]')) { modal.remove(); return; }
     const chip = e.target.closest('.chip');
     if (chip) {
-      if (chip.dataset.mid !== undefined) { onlyMid = chip.dataset.mid === '1'; modal.querySelectorAll('[data-mid]').forEach((c) => c.classList.toggle('active', c === chip)); }
-      else {
+      if (chip.dataset.mid !== undefined) {
+        onlyMid = chip.dataset.mid === '1';
+        modal.querySelectorAll('[data-mid]').forEach((c) => { const on = c === chip; c.classList.toggle('active', on); c.setAttribute('aria-pressed', String(on)); });
+      } else {
         attr = attr === chip.dataset.attr ? null : chip.dataset.attr;
-        modal.querySelectorAll('[data-attr]').forEach((c) => c.classList.toggle('active', attr && c.dataset.attr === attr));
+        modal.querySelectorAll('[data-attr]').forEach((c) => { const on = attr && c.dataset.attr === attr; c.classList.toggle('active', !!on); c.setAttribute('aria-pressed', String(!!on)); });
       }
       draw();
       return;
@@ -1162,7 +1169,7 @@ function shotRowHTML(row, heroOptions) {
   const alts = row.candidates
     .filter((c) => c.slug !== row.slug)
     .slice(0, 3)
-    .map((c) => `<button class="chip" data-shot-alt="${row.index}:${esc(c.slug)}" title="Близость ${esc(c.score)}">${esc(DATA.heroes[c.slug].localized_name)}</button>`)
+    .map((c) => `<button class="chip" data-shot-alt="${row.index}:${esc(c.slug)}" aria-label="Выбрать ${esc(DATA.heroes[c.slug].localized_name)}" title="Близость ${esc(c.score)}">${esc(DATA.heroes[c.slug].localized_name)}</button>`)
     .join('');
   const statusText = SHOT_STATUS_RU[row.status] || '';
   const warn = row.status === 'weak' || row.status === 'cleared';
@@ -1172,9 +1179,9 @@ function shotRowHTML(row, heroOptions) {
     statusText ? (warn ? `<span class="warn">${esc(statusText)}</span>` : esc(statusText)) : null,
   ].filter(Boolean).join(' · ');
   return `<div class="shot-row" data-shot-status="${esc(row.status)}">
-    <canvas class="shot-thumb" data-shot-thumb="${row.index}" width="52" height="52"></canvas>
+    <canvas class="shot-thumb" data-shot-thumb="${row.index}" width="52" height="52" aria-hidden="true"></canvas>
     <div class="shot-info">
-      <select class="shot-pick" data-shot-pick="${row.index}">
+      <select class="shot-pick" data-shot-pick="${row.index}" aria-label="Герой в ячейке ${row.index + 1}">
         <option value=""${row.slug ? '' : ' selected'}>— не определён —</option>
         ${heroOptions.map((h) => `<option value="${esc(h.slug)}"${h.slug === row.slug ? ' selected' : ''}>${esc(h.localized_name)}</option>`).join('')}
       </select>
