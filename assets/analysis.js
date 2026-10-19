@@ -554,16 +554,48 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
   // Курируемый план показываем только когда роль не переопределена или это мид —
   // иначе для Pudge-керри или Crystal Maiden-мида отдавали бы один мидовый bottle-старт.
   const useCurated = Boolean(plan && plan.items && (!useRole || role === 'mid'));
-  if (useCurated) {
-    for (const g of Object.keys(items)) items[g] = (plan.items[g] || []).map(([k, why]) => ({ key: k, why, source: 'план героя' }));
-  } else if (useRole) {
-    Object.assign(items, archetypeItems({ archetype: roleArche.data, title: roleArche.title, attr: h.primary_attr, hero: h }));
-  } else {
-    // Курируемого плана под 7.41 у героя нет — берём закуп его роли (data/kb/archetypes.json).
-    // Раньше здесь был один универсальный мидовый старт: 91 герой из 127 получал одинаковые
-    // bottle/treads и ядро из одного BKB, включая всех керри и всех поддержек.
-    const arche = archetypeFor(h, archetypes);
-    if (arche) Object.assign(items, archetypeItems({ archetype: arche.data, title: arche.title, attr: h.primary_attr, hero: h }));
+  // Для навыков курируемый план остаётся приоритетом, но для предметов теперь всегда
+  // используем пер-геройный билд из hero_builds.json (сверено с инетом), если он есть.
+  // Так все 127 героев получают интернет-коры (Battle Fury для AM, Maelstrom для Sniper и т.д.),
+  // а не один общий BKB, и даже мидовые герои с планом получают правильный закуп.
+  const useCuratedForSkills = Boolean(plan && plan.skills && (!useRole || role === 'mid'));
+  const heroBuilds = data.hero_builds || null;
+  let usedHeroBuild = false;
+  if (heroBuilds && heroBuilds[heroSlug]) {
+    const hbPerRole = heroBuilds[heroSlug];
+    let src = null;
+    if (hbPerRole && typeof hbPerRole === 'object' && (hbPerRole.carry || hbPerRole.mid || hbPerRole.support)) {
+      if (role && hbPerRole[role]) src = hbPerRole[role];
+      else if (!useRole) {
+        const nat = archetypeFor(h, archetypes);
+        const natName = nat ? nat.name : 'mid';
+        src = hbPerRole[natName] || hbPerRole['mid'] || hbPerRole['carry'] || hbPerRole['support'] || null;
+      }
+    } else {
+      src = hbPerRole;
+    }
+    if (src && src.start) {
+      const roleTitle = role ? (ROLE_TITLES[role] || role) : (archetypeFor(h, archetypes)?.title || 'Авто');
+      const hbSource = `билд героя ${h.localized_name} · ${roleTitle} (7.41f, сверено с Dotacoach/Spectral)`;
+      const stageHb = (list) => (list || []).map(([k, why]) => ({ key: k, why, source: hbSource }));
+      items.start = stageHb(src.start);
+      items.early = stageHb(src.early);
+      items.core = stageHb(src.core);
+      usedHeroBuild = true;
+    }
+  }
+  if (!usedHeroBuild) {
+    if (useCurated) {
+      for (const g of Object.keys(items)) items[g] = (plan.items[g] || []).map(([k, why]) => ({ key: k, why, source: 'план героя' }));
+    } else if (useRole) {
+      Object.assign(items, archetypeItems({ archetype: roleArche.data, title: roleArche.title, attr: h.primary_attr, hero: h }));
+    } else {
+      // Курируемого плана под 7.41 у героя нет — берём закуп его роли (data/kb/archetypes.json).
+      // Раньше здесь был один универсальный мидовый старт: 91 герой из 127 получал одинаковые
+      // bottle/treads и ядро из одного BKB, включая всех керри и всех поддержек.
+      const arche = archetypeFor(h, archetypes);
+      if (arche) Object.assign(items, archetypeItems({ archetype: arche.data, title: arche.title, attr: h.primary_attr, hero: h }));
+    }
   }
 
   // Ситуативный закуп: сначала курируемые предметы плана героя (они не должны теряться —
@@ -602,7 +634,7 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
   }
 
   const ultKey = heroUltimateKey(h, abilities);
-  const skillPlan = useCurated && plan.skills ? plan.skills : null;
+  const skillPlan = useCuratedForSkills && plan.skills ? plan.skills : null;
   // Без курируемого плана показываем только изучаемые базовые способности: неизучаемые слоты
   // 7.41 (Stolen Spell, Devoured Ability, Souvenir Slot) и врождённые в порядок прокачки не годятся.
   // Ультимейт идёт отдельной строкой, поэтому в список базовых не попадает.

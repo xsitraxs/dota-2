@@ -15,7 +15,7 @@ import {
 const DATA = {
   heroes: {}, abilities: {}, items: {}, icons: {}, meta: {}, archetypes: null,
   tagsKb: { vocabulary: {}, heroes: {} }, rules: { rules: {}, combos: [] },
-  timings: { events: [], notes: [] }, plans: {},
+  timings: { events: [], notes: [] }, plans: {}, hero_builds: null,
   templates: null, // подписи героев для распознавания — грузятся при первом открытии вкладки
   patchnotes: null, // патчноуты — при первом открытии вкладки «Патч» (365 КБ)
 };
@@ -138,6 +138,7 @@ async function loadData() {
   Object.assign(DATA, { heroes, abilities, items, meta, icons, tagsKb, rules, timings });
   for (const f of kbIndex.files) {
     if (f === 'archetypes.json') DATA.archetypes = await get(`data/kb/${f}`);
+    else if (f === 'hero_builds.json') DATA.hero_builds = await get(`data/kb/${f}`);
     else if (f.startsWith('plans')) Object.assign(DATA.plans, await get(`data/kb/${f}`));
   }
   state.patch = latestPatchVersion() || null;
