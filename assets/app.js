@@ -731,9 +731,11 @@ function renderHeroCard(h) {
         const isAdapted = enemies.length > 0;
         const head = isAdapted ? `Рекомендуемый билд <span class="muted tiny">под твой драфт врага (${enemies.map((s) => esc(DATA.heroes[s]?.localized_name || s)).join(', ')})</span>` : 'Рекомендуемый билд <span class="muted tiny">(база, без учёта врагов)</span>';
         const cur = b.curated ? `<span class="badge">мид-план</span>` : b.archetype ? `<span class="badge">по роли: ${esc(b.archetype.title)}</span>` : `<span class="badge">универсальный</span>`;
+        const already = draftOwner(h.slug);
+        const action = already && already !== 'me' ? `<span class="tiny muted" style="margin-left:auto">Уже в драфте</span>` : `<button class="btn sm ghost" data-set-me="${esc(h.slug)}" style="margin-left:auto">Взять в драфт</button>`;
         return `<hr class="sep">
       <h3>${head}</h3>
-      <div class="row small" style="margin-bottom:8px">${cur}<span class="muted">${esc(b.curve || '')}</span><button class="btn sm ghost" data-set-me="${esc(h.slug)}" style="margin-left:auto">Взять в драфт</button></div>
+      <div class="row small" style="margin-bottom:8px">${cur}<span class="muted">${esc(b.curve || '')}</span>${action}</div>
       <h3 style="margin-top:10px">Стартовый закуп</h3>${itemRows(b.items.start)}
       <h3>Ранний закуп</h3>${itemRows(b.items.early)}
       <h3>Ядро</h3>${itemRows(b.items.core)}
