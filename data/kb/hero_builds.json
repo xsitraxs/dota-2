@@ -175,8 +175,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -227,12 +227,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
           "blink",
@@ -287,12 +287,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -341,16 +341,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "blade_mail",
+          "кор — blade_mail"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "heart",
+          "кор — heart"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -397,16 +405,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
+        ],
+        [
+          "heart",
+          "кор — heart"
         ]
       ]
     },
@@ -521,12 +537,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -573,16 +589,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -631,16 +647,24 @@
       ],
       "core": [
         [
+          "orchid",
+          "кор — orchid"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "sheepstick",
+          "кор — sheepstick"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -687,16 +711,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
+          "orchid",
+          "кор — orchid"
         ],
         [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "sheepstick",
+          "кор — sheepstick"
         ]
       ]
     },
@@ -747,8 +779,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -863,16 +895,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -1053,12 +1085,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -1105,12 +1137,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -1161,16 +1193,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -1219,16 +1251,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -1275,6 +1315,10 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
@@ -1285,6 +1329,10 @@
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -1335,8 +1383,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -1387,24 +1435,24 @@
       ],
       "core": [
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
-          "blink",
-          "кор — blink"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "aghanims_shard",
           "кор — aghanims_shard"
         ],
         [
-          "black_king_bar",
-          "кор — black_king_bar"
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -1455,12 +1503,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -1641,8 +1689,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -1757,8 +1805,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -1807,16 +1855,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "echo_sabre",
+          "кор — echo_sabre"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -1863,16 +1919,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -1923,8 +1987,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -2039,16 +2103,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -2229,8 +2293,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -2285,12 +2349,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -2337,16 +2401,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -2395,6 +2459,14 @@
       ],
       "core": [
         [
+          "maelstrom",
+          "кор — maelstrom"
+        ],
+        [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
@@ -2403,8 +2475,8 @@
           "кор — manta"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "skadi",
+          "кор — eye_of_skadi"
         ]
       ]
     },
@@ -2451,6 +2523,14 @@
       ],
       "core": [
         [
+          "maelstrom",
+          "кор — maelstrom"
+        ],
+        [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
@@ -2459,8 +2539,8 @@
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "manta",
+          "кор — manta"
         ]
       ]
     },
@@ -2511,8 +2591,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -2631,12 +2711,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -2817,12 +2897,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
-        ],
-        [
           "shivas_guard",
           "кор — shivas_guard"
+        ],
+        [
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -2869,16 +2949,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -2925,16 +3005,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -3115,8 +3195,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -3413,12 +3493,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -3469,12 +3549,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -3521,16 +3601,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -3579,16 +3659,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -3635,16 +3723,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
+          "witch_blade",
+          "кор — witch_blade"
         ],
         [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -3763,8 +3859,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -3811,16 +3907,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -3869,16 +3965,24 @@
       ],
       "core": [
         [
+          "heart",
+          "кор — heart"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "blink",
+          "кор — blink"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -3925,16 +4029,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "heart",
+          "кор — heart"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -3981,24 +4093,24 @@
       ],
       "core": [
         [
+          "phase_boots",
+          "кор — phase_boots"
+        ],
+        [
           "blink",
           "кор — blink"
         ],
         [
           "ultimate_scepter",
-          "кор — ultimate_scepter"
+          "кор — aghanims_scepter"
         ],
         [
-          "blade_mail",
-          "кор — blade_mail"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "heart",
-          "кор — heart"
-        ],
-        [
-          "octarine_core",
-          "кор — octarine_core"
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -4045,16 +4157,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -4291,12 +4403,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -4351,8 +4463,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -4457,16 +4569,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "lotus_orb",
+          "кор — lotus_orb"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -4513,16 +4633,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -4573,12 +4701,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
-        ],
-        [
           "shivas_guard",
           "кор — shivas_guard"
+        ],
+        [
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -4689,16 +4817,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -4879,8 +5007,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -4931,16 +5059,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -4987,16 +5115,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -5177,12 +5305,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -5229,16 +5357,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -5293,8 +5421,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -5475,12 +5603,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "crimson_guard",
+          "кор — crimson_guard"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -5583,16 +5711,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -5641,16 +5769,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
+          "desolator",
+          "кор — desolator"
         ],
         [
           "manta",
           "кор — manta"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "butterfly",
           "кор — butterfly"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -5697,16 +5833,24 @@
       ],
       "core": [
         [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "manta",
+          "кор — manta"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "sheepstick",
+          "кор — sheepstick"
+        ],
+        [
+          "butterfly",
+          "кор — butterfly"
         ]
       ]
     },
@@ -5757,8 +5901,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -5877,12 +6021,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -6063,8 +6207,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -6115,16 +6259,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -6171,16 +6315,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -6361,12 +6505,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -6413,16 +6557,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -6473,12 +6617,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -6659,8 +6803,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -6719,8 +6863,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -6767,16 +6911,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -6825,16 +6969,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "blink",
+          "кор — blink"
         ]
       ]
     },
@@ -6881,16 +7033,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "blink",
+          "кор — blink"
         ]
       ]
     },
@@ -6941,8 +7101,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -7061,12 +7221,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -7115,16 +7275,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -7171,16 +7339,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -7231,8 +7407,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -7351,12 +7527,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -7405,16 +7581,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "refresher",
+          "кор — refresher"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -7461,16 +7645,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -7521,12 +7713,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -7637,16 +7829,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -7827,12 +8019,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -7879,16 +8071,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -7935,16 +8127,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -7993,16 +8185,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "refresher",
+          "кор — refresher"
+        ],
+        [
+          "heart",
+          "кор — heart"
         ]
       ]
     },
@@ -8049,16 +8249,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -8173,12 +8381,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -8283,16 +8491,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -8339,16 +8555,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -8399,8 +8623,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -8515,16 +8739,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -8573,16 +8797,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -8629,16 +8861,24 @@
       ],
       "core": [
         [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -8689,8 +8929,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -8741,6 +8981,10 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
@@ -8751,10 +8995,6 @@
         [
           "aghanims_shard",
           "кор — aghanims_shard"
-        ],
-        [
-          "solar_crest",
-          "кор — solar_crest"
         ],
         [
           "blink",
@@ -8805,16 +9045,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -8995,12 +9235,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -9047,16 +9287,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -9107,12 +9347,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -9161,16 +9401,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "refresher",
+          "кор — refresher"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -9217,16 +9465,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -9341,12 +9597,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -9393,16 +9649,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -9583,12 +9839,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -9635,12 +9891,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -9691,16 +9947,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -9881,8 +10137,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -9937,12 +10193,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -9997,8 +10253,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -10179,12 +10435,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -10231,16 +10487,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -10287,16 +10543,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -10345,16 +10601,24 @@
       ],
       "core": [
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -10401,16 +10665,24 @@
       ],
       "core": [
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "refresher",
+          "кор — refresher"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -10461,8 +10733,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -10577,16 +10849,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -10635,16 +10907,24 @@
       ],
       "core": [
         [
+          "helm_of_the_overlord",
+          "кор — helm_of_the_overlord"
+        ],
+        [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "assault",
+          "кор — assault"
         ]
       ]
     },
@@ -10691,16 +10971,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
+          "helm_of_the_overlord",
+          "кор — helm_of_the_overlord"
         ],
         [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "assault",
+          "кор — assault"
         ]
       ]
     },
@@ -10811,12 +11099,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
           "blink",
@@ -10867,16 +11155,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -11057,12 +11345,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -11169,12 +11457,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -11223,16 +11511,24 @@
       ],
       "core": [
         [
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "hurricane_pike",
+          "кор — hurricane_pike"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -11279,16 +11575,24 @@
       ],
       "core": [
         [
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "hurricane_pike",
+          "кор — hurricane_pike"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -11339,12 +11643,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -11455,16 +11759,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -11645,8 +11949,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -11753,16 +12057,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -11943,8 +12247,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -12003,8 +12307,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -12059,8 +12363,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -12241,12 +12545,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -12297,12 +12601,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -12353,12 +12657,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -12539,8 +12843,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -12591,12 +12895,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -12837,12 +13141,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -12889,16 +13193,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -12945,16 +13249,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -13139,8 +13443,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -13187,16 +13491,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -13247,12 +13551,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -13433,8 +13737,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -13489,12 +13793,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -13541,16 +13845,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -13731,8 +14035,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -13783,16 +14087,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -13839,16 +14143,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -14029,8 +14333,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -14141,12 +14445,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -14195,16 +14499,24 @@
       ],
       "core": [
         [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -14251,16 +14563,24 @@
       ],
       "core": [
         [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -14315,8 +14635,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -14431,12 +14751,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -14485,16 +14805,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "blade_mail",
+          "кор — blade_mail"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -14541,16 +14869,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "blade_mail",
+          "кор — blade_mail"
+        ],
+        [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -14665,12 +15001,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -14717,16 +15053,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -14907,8 +15243,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -14963,12 +15299,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -15015,16 +15351,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -15205,12 +15541,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -15257,16 +15593,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -15313,16 +15649,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -15503,12 +15839,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -15555,16 +15891,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -15669,16 +16005,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
-        ],
-        [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -15725,16 +16069,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -15845,16 +16197,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -16091,8 +16443,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -16151,8 +16503,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -16257,16 +16609,24 @@
       ],
       "core": [
         [
+          "armlet",
+          "кор — armlet"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "heart",
+          "кор — heart"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "lotus_orb",
+          "кор — lotus_orb"
+        ],
+        [
+          "radiance",
+          "кор — radiance"
         ]
       ]
     },
@@ -16313,16 +16673,24 @@
       ],
       "core": [
         [
+          "armlet",
+          "кор — armlet"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "heart",
+          "кор — heart"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -16373,12 +16741,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
-        ],
-        [
           "shivas_guard",
           "кор — shivas_guard"
+        ],
+        [
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -16497,8 +16865,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -16547,16 +16915,24 @@
       ],
       "core": [
         [
+          "dragon_lance",
+          "кор — dragon_lance"
+        ],
+        [
+          "hurricane_pike",
+          "кор — hurricane_pike"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -16603,16 +16979,24 @@
       ],
       "core": [
         [
+          "dragon_lance",
+          "кор — dragon_lance"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "hurricane_pike",
+          "кор — hurricane_pike"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -16663,8 +17047,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -16783,12 +17167,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -16969,8 +17353,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -17077,16 +17461,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -17135,16 +17519,24 @@
       ],
       "core": [
         [
+          "armlet",
+          "кор — armlet"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "abyssal_blade",
+          "кор — abyssal_blade"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "nullifier",
+          "кор — nullifier"
+        ],
+        [
+          "desolator",
+          "кор — desolator"
         ]
       ]
     },
@@ -17191,16 +17583,24 @@
       ],
       "core": [
         [
+          "armlet",
+          "кор — armlet"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "nullifier",
+          "кор — nullifier"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "abyssal_blade",
+          "кор — abyssal_blade"
+        ],
+        [
+          "heart",
+          "кор — heart"
         ]
       ]
     },
@@ -17251,12 +17651,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "crimson_guard",
+          "кор — crimson_guard"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -17307,12 +17707,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -17359,16 +17759,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -17549,8 +17949,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -17601,16 +18001,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -17657,16 +18057,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -17715,16 +18115,24 @@
       ],
       "core": [
         [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "abyssal_blade",
+          "кор — abyssal_blade"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "orchid",
+          "кор — orchid"
+        ],
+        [
+          "nullifier",
+          "кор — nullifier"
         ]
       ]
     },
@@ -17771,16 +18179,24 @@
       ],
       "core": [
         [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "nullifier",
+          "кор — nullifier"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "orchid",
+          "кор — orchid"
+        ],
+        [
+          "abyssal_blade",
+          "кор — abyssal_blade"
         ]
       ]
     },
@@ -17835,8 +18251,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -17883,16 +18299,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -18137,8 +18553,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -18197,8 +18613,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -18249,12 +18665,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -18303,16 +18719,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -18359,16 +18783,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -18419,8 +18851,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -18535,16 +18967,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -18593,16 +19025,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -18649,16 +19089,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -18769,12 +19217,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -18833,8 +19281,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -18883,16 +19331,24 @@
       ],
       "core": [
         [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
+          "guardian_greaves",
+          "кор — guardian_greaves"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
-        ],
-        [
-          "butterfly",
-          "кор — butterfly"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -18939,16 +19395,24 @@
       ],
       "core": [
         [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -18999,12 +19463,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -19305,8 +19769,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -19413,16 +19877,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -19471,16 +19935,24 @@
       ],
       "core": [
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -19527,16 +19999,24 @@
       ],
       "core": [
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -19587,8 +20067,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -19703,16 +20183,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -19893,8 +20373,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -19949,12 +20429,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -20001,16 +20481,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -20195,8 +20675,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -20243,16 +20723,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -20299,16 +20779,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -20489,12 +20969,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -20597,16 +21077,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -20787,12 +21267,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -20895,16 +21375,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -21085,12 +21565,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -21137,16 +21617,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -21197,12 +21677,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -21383,12 +21863,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -21439,12 +21919,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -21491,16 +21971,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -21549,16 +22029,24 @@
       ],
       "core": [
         [
+          "orchid",
+          "кор — orchid"
+        ],
+        [
+          "hurricane_pike",
+          "кор — hurricane_pike"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "bloodthorn",
+          "кор — bloodthorn"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "sheepstick",
+          "кор — sheepstick"
         ]
       ]
     },
@@ -21605,12 +22093,20 @@
       ],
       "core": [
         [
+          "orchid",
+          "кор — orchid"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "hurricane_pike",
+          "кор — hurricane_pike"
+        ],
+        [
+          "bloodthorn",
+          "кор — bloodthorn"
         ],
         [
           "octarine_core",
@@ -21665,12 +22161,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -21781,16 +22277,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -21971,12 +22467,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -22269,8 +22765,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -22325,12 +22821,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -22381,12 +22877,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -22571,8 +23067,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -22623,12 +23119,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -22675,16 +23171,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -22733,16 +23229,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "cyclone",
+          "кор — cyclone"
         ]
       ]
     },
@@ -22789,16 +23293,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "sheepstick",
+          "кор — sheepstick"
         ]
       ]
     },
@@ -22849,8 +23361,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -22965,16 +23477,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -23155,12 +23667,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -23207,16 +23719,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -23271,8 +23783,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -23453,12 +23965,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
-        ],
-        [
           "shivas_guard",
           "кор — shivas_guard"
+        ],
+        [
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -23505,16 +24017,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -23565,12 +24077,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -23751,8 +24263,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -23803,16 +24315,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -23863,12 +24375,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -23917,16 +24429,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ]
       ]
     },
@@ -23973,12 +24493,20 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
           "octarine_core",
@@ -24033,8 +24561,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -24153,12 +24681,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -24207,16 +24735,24 @@
       ],
       "core": [
         [
+          "hand_of_midas",
+          "кор — hand_of_midas"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -24263,16 +24799,24 @@
       ],
       "core": [
         [
+          "hand_of_midas",
+          "кор — hand_of_midas"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -24323,12 +24867,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "crimson_guard",
+          "кор — crimson_guard"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -24447,8 +24991,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -24497,16 +25041,24 @@
       ],
       "core": [
         [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
+          "guardian_greaves",
+          "кор — guardian_greaves"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
-        ],
-        [
-          "butterfly",
-          "кор — butterfly"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -24553,16 +25105,24 @@
       ],
       "core": [
         [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -24613,8 +25173,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -24737,8 +25297,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -24787,16 +25347,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -24843,16 +25411,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -24903,12 +25479,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
-        ],
-        [
           "shivas_guard",
           "кор — shivas_guard"
+        ],
+        [
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -25019,16 +25595,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -25077,16 +25653,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -25133,16 +25717,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -25193,12 +25785,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -25309,16 +25901,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -25367,16 +25959,24 @@
       ],
       "core": [
         [
+          "dagon",
+          "кор — dagon"
+        ],
+        [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "abyssal_blade",
+          "кор — abyssal_blade"
         ]
       ]
     },
@@ -25423,16 +26023,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
+          "dagon",
+          "кор — dagon"
         ],
         [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "sheepstick",
+          "кор — sheepstick"
         ]
       ]
     },
@@ -25483,8 +26091,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -25539,12 +26147,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -25789,8 +26397,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -25841,16 +26449,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -25897,16 +26505,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -25955,16 +26563,24 @@
       ],
       "core": [
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "refresher",
+          "кор — refresher"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -26011,16 +26627,24 @@
       ],
       "core": [
         [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -26071,8 +26695,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -26187,16 +26811,16 @@
       ],
       "core": [
         [
+          "urn_of_shadows",
+          "кор — urn_of_shadows"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -26245,16 +26869,24 @@
       ],
       "core": [
         [
+          "holy_locket",
+          "кор — holy_locket"
+        ],
+        [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
-        ],
-        [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -26301,16 +26933,24 @@
       ],
       "core": [
         [
+          "holy_locket",
+          "кор — holy_locket"
+        ],
+        [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
-          "octarine_core",
-          "кор — octarine_core"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -26361,8 +27001,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -26413,12 +27053,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -26527,16 +27167,24 @@
       ],
       "core": [
         [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -26583,16 +27231,24 @@
       ],
       "core": [
         [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -26643,8 +27299,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -26759,16 +27415,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -26949,12 +27605,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -27001,16 +27657,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -27061,12 +27717,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -27251,8 +27907,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -27299,12 +27955,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
           "blink",
@@ -27359,12 +28015,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -27549,8 +28205,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -27597,12 +28253,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -27653,16 +28309,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -27711,16 +28367,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
+          "heart",
+          "кор — heart"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -27767,16 +28431,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "heart",
+          "кор — heart"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -27887,16 +28559,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -27947,12 +28619,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -28001,16 +28673,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "echo_sabre",
+          "кор — echo_sabre"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "refresher",
+          "кор — refresher"
+        ],
+        [
+          "assault",
+          "кор — assault"
         ]
       ]
     },
@@ -28057,16 +28737,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "echo_sabre",
+          "кор — echo_sabre"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -28177,16 +28865,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -28241,8 +28929,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -28423,8 +29111,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -28475,16 +29163,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     },
@@ -28531,16 +29219,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -28721,12 +29409,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -28829,16 +29517,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -28887,16 +29575,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "desolator",
+          "кор — desolator"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "abyssal_blade",
+          "кор — abyssal_blade"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -28943,16 +29639,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "abyssal_blade",
+          "кор — abyssal_blade"
         ]
       ]
     },
@@ -29063,16 +29767,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -29119,16 +29823,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -29177,16 +29881,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ]
       ]
     },
@@ -29233,16 +29945,24 @@
       ],
       "core": [
         [
+          "witch_blade",
+          "кор — witch_blade"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -29293,8 +30013,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -29409,16 +30129,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -29467,16 +30187,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "manta",
           "кор — manta"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "butterfly",
           "кор — butterfly"
+        ],
+        [
+          "heart",
+          "кор — heart"
+        ],
+        [
+          "abyssal_blade",
+          "кор — abyssal_blade"
         ]
       ]
     },
@@ -29523,16 +30251,24 @@
       ],
       "core": [
         [
+          "manta",
+          "кор — manta"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "heart",
+          "кор — heart"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "butterfly",
+          "кор — butterfly"
         ]
       ]
     },
@@ -29583,12 +30319,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -29703,12 +30439,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -29757,16 +30493,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "pipe",
+          "кор — pipe"
+        ],
+        [
+          "echo_sabre",
+          "кор — echo_sabre"
         ]
       ]
     },
@@ -29813,16 +30557,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -29933,16 +30685,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -29989,16 +30741,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -30179,12 +30931,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "crimson_guard",
+          "кор — crimson_guard"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -30239,8 +30991,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -30287,16 +31039,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -30477,12 +31229,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "crimson_guard",
+          "кор — crimson_guard"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -30529,12 +31281,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -30593,8 +31345,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -30775,8 +31527,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -30827,12 +31579,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -30887,12 +31639,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -30941,16 +31693,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -30997,16 +31757,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -31057,12 +31825,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "crimson_guard",
+          "кор — crimson_guard"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -31109,16 +31877,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -31231,16 +31999,24 @@
       ],
       "core": [
         [
+          "mekansm",
+          "кор — mekansm"
+        ],
+        [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -31287,12 +32063,20 @@
       ],
       "core": [
         [
+          "pipe",
+          "кор — pipe"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "octarine_core",
@@ -31347,8 +32131,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -31463,16 +32247,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -31653,8 +32437,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -31705,16 +32489,16 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "force_staff",
           "кор — force_staff"
         ],
         [
           "glimmer_cape",
           "кор — glimmer_cape"
-        ],
-        [
-          "blink",
-          "кор — blink"
         ]
       ]
     },
@@ -31761,16 +32545,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -31819,16 +32603,24 @@
       ],
       "core": [
         [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "refresher",
+          "кор — refresher"
+        ],
+        [
+          "spirit_vessel",
+          "кор — spirit_vessel"
         ]
       ]
     },
@@ -31875,16 +32667,24 @@
       ],
       "core": [
         [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -31935,8 +32735,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -32055,12 +32855,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -32109,16 +32909,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "cyclone",
+          "кор — cyclone"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -32165,16 +32973,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "sheepstick",
+          "кор — sheepstick"
         ]
       ]
     },
@@ -32225,12 +33041,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -32341,16 +33157,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -32399,16 +33215,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "octarine_core",
+          "кор — octarine_core"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "cyclone",
+          "кор — cyclone"
         ]
       ]
     },
@@ -32455,16 +33279,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -32515,8 +33347,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -32639,8 +33471,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -32821,8 +33653,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -32873,16 +33705,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -32929,16 +33761,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     }
@@ -33119,8 +33951,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -33179,8 +34011,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -33235,8 +34067,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -33285,16 +34117,24 @@
       ],
       "core": [
         [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -33341,16 +34181,24 @@
       ],
       "core": [
         [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -33401,8 +34249,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "blade_mail",
+          "кор — blade_mail"
         ],
         [
           "shivas_guard",
@@ -33525,8 +34373,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -33707,8 +34555,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -33819,12 +34667,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "force_staff",
+          "кор — force_staff"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -33873,16 +34721,24 @@
       ],
       "core": [
         [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -33929,16 +34785,24 @@
       ],
       "core": [
         [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "ultimate_scepter",
+          "кор — aghanims_scepter"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -33993,8 +34857,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -34045,12 +34909,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -34097,16 +34961,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -34155,6 +35019,14 @@
       ],
       "core": [
         [
+          "maelstrom",
+          "кор — maelstrom"
+        ],
+        [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
@@ -34163,8 +35035,8 @@
           "кор — manta"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "gungir",
+          "кор — gleipnir"
         ]
       ]
     },
@@ -34211,16 +35083,24 @@
       ],
       "core": [
         [
+          "maelstrom",
+          "кор — maelstrom"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "desolator",
+          "кор — desolator"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "gungir",
+          "кор — gleipnir"
         ]
       ]
     },
@@ -34271,8 +35151,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "assault",
+          "кор — assault"
         ],
         [
           "shivas_guard",
@@ -34323,12 +35203,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -34569,12 +35449,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -34621,12 +35501,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "tranquil_boots",
+          "кор — tranquil_boots"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
           "blink",
@@ -34677,16 +35557,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -34735,16 +35615,24 @@
       ],
       "core": [
         [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
+        ],
+        [
+          "gungir",
+          "кор — gleipnir"
         ]
       ]
     },
@@ -34791,16 +35679,24 @@
       ],
       "core": [
         [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "gungir",
+          "кор — gleipnir"
         ]
       ]
     },
@@ -34851,12 +35747,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -34975,8 +35871,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
@@ -35025,16 +35921,24 @@
       ],
       "core": [
         [
+          "blink",
+          "кор — blink"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "desolator",
+          "кор — desolator"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "satanic",
+          "кор — satanic"
+        ],
+        [
+          "refresher",
+          "кор — refresher"
         ]
       ]
     },
@@ -35081,16 +35985,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "satanic",
+          "кор — satanic"
         ]
       ]
     },
@@ -35141,8 +36053,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -35193,12 +36105,12 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
         ],
         [
           "blink",
@@ -35249,16 +36161,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -35307,16 +36219,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
+          "force_staff",
+          "кор — force_staff"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "cyclone",
+          "кор — cyclone"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "octarine_core",
+          "кор — octarine_core"
         ]
       ]
     },
@@ -35363,16 +36283,24 @@
       ],
       "core": [
         [
+          "glimmer_cape",
+          "кор — glimmer_cape"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
-        ],
-        [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "cyclone",
+          "кор — cyclone"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -35423,12 +36351,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -35475,16 +36403,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
           "aghanims_shard",
@@ -35543,12 +36471,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -35729,8 +36657,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -35785,12 +36713,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
-        ],
-        [
           "blink",
           "кор — blink"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -35841,12 +36769,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -35895,16 +36823,24 @@
       ],
       "core": [
         [
+          "echo_sabre",
+          "кор — echo_sabre"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "harpoon",
+          "кор — harpoon"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "abyssal_blade",
+          "кор — abyssal_blade"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -35951,16 +36887,24 @@
       ],
       "core": [
         [
+          "echo_sabre",
+          "кор — echo_sabre"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "harpoon",
+          "кор — harpoon"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "abyssal_blade",
+          "кор — abyssal_blade"
         ]
       ]
     },
@@ -36011,8 +36955,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
           "shivas_guard",
@@ -36127,16 +37071,16 @@
       ],
       "core": [
         [
-          "spirit_vessel",
-          "кор — spirit_vessel"
-        ],
-        [
           "blink",
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "spirit_vessel",
+          "кор — spirit_vessel"
+        ],
+        [
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     }
@@ -36189,12 +37133,20 @@
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "blink",
+          "кор — blink"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "hood_of_defiance",
+          "кор — hood_of_defiance"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
+        ],
+        [
+          "heart",
+          "кор — heart"
         ]
       ]
     },
@@ -36247,6 +37199,14 @@
         [
           "blink",
           "кор — blink"
+        ],
+        [
+          "hood_of_defiance",
+          "кор — hood_of_defiance"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ],
         [
           "octarine_core",
@@ -36301,8 +37261,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "black_king_bar",
+          "кор — black_king_bar"
         ],
         [
           "shivas_guard",
@@ -36353,16 +37313,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
-        ],
-        [
           "glimmer_cape",
           "кор — glimmer_cape"
         ],
         [
           "blink",
           "кор — blink"
+        ],
+        [
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ]
       ]
     },
@@ -36409,16 +37369,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -36467,16 +37427,24 @@
       ],
       "core": [
         [
-          "black_king_bar",
-          "кор — black_king_bar"
-        ],
-        [
           "manta",
           "кор — manta"
         ],
         [
+          "black_king_bar",
+          "кор — black_king_bar"
+        ],
+        [
+          "desolator",
+          "кор — desolator"
+        ],
+        [
           "butterfly",
           "кор — butterfly"
+        ],
+        [
+          "skadi",
+          "кор — eye_of_skadi"
         ]
       ]
     },
@@ -36523,16 +37491,24 @@
       ],
       "core": [
         [
+          "manta",
+          "кор — manta"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "blink",
-          "кор — blink"
+          "desolator",
+          "кор — desolator"
         ],
         [
           "octarine_core",
           "кор — octarine_core"
+        ],
+        [
+          "skadi",
+          "кор — eye_of_skadi"
         ]
       ]
     },
@@ -36583,12 +37559,12 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "crimson_guard",
+          "кор — crimson_guard"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -36635,16 +37611,16 @@
       ],
       "core": [
         [
-          "force_staff",
-          "кор — force_staff"
+          "mekansm",
+          "кор — mekansm"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "guardian_greaves",
+          "кор — guardian_greaves"
         ],
         [
-          "blink",
-          "кор — blink"
+          "pipe",
+          "кор — pipe"
         ]
       ]
     },
@@ -36691,16 +37667,16 @@
       ],
       "core": [
         [
+          "tranquil_boots",
+          "кор — tranquil_boots"
+        ],
+        [
           "spirit_vessel",
           "кор — spirit_vessel"
         ],
         [
           "blink",
           "кор — blink"
-        ],
-        [
-          "holy_locket",
-          "кор — holy_locket"
         ]
       ]
     }
@@ -36885,8 +37861,8 @@
           "кор — pipe"
         ],
         [
-          "shivas_guard",
-          "кор — shivas_guard"
+          "lotus_orb",
+          "кор — lotus_orb"
         ]
       ]
     },
@@ -36941,8 +37917,8 @@
           "кор — glimmer_cape"
         ],
         [
-          "blink",
-          "кор — blink"
+          "aether_lens",
+          "кор — aether_lens"
         ]
       ]
     },
@@ -36993,12 +37969,12 @@
           "кор — spirit_vessel"
         ],
         [
-          "blink",
-          "кор — blink"
+          "lotus_orb",
+          "кор — lotus_orb"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "blink",
+          "кор — blink"
         ]
       ]
     }
@@ -37047,16 +38023,24 @@
       ],
       "core": [
         [
+          "armlet",
+          "кор — armlet"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
         [
-          "manta",
-          "кор — manta"
+          "heart",
+          "кор — heart"
         ],
         [
-          "butterfly",
-          "кор — butterfly"
+          "lotus_orb",
+          "кор — lotus_orb"
+        ],
+        [
+          "blink",
+          "кор — blink"
         ]
       ]
     },
@@ -37103,6 +38087,10 @@
       ],
       "core": [
         [
+          "armlet",
+          "кор — armlet"
+        ],
+        [
           "black_king_bar",
           "кор — black_king_bar"
         ],
@@ -37111,8 +38099,12 @@
           "кор — blink"
         ],
         [
-          "octarine_core",
-          "кор — octarine_core"
+          "heart",
+          "кор — heart"
+        ],
+        [
+          "shivas_guard",
+          "кор — shivas_guard"
         ]
       ]
     },
@@ -37163,8 +38155,8 @@
           "кор — blink"
         ],
         [
-          "pipe",
-          "кор — pipe"
+          "heart",
+          "кор — heart"
         ],
         [
           "shivas_guard",
@@ -37219,12 +38211,12 @@
           "кор — force_staff"
         ],
         [
-          "glimmer_cape",
-          "кор — glimmer_cape"
+          "aghanims_shard",
+          "кор — aghanims_shard"
         ],
         [
-          "blink",
-          "кор — blink"
+          "glimmer_cape",
+          "кор — glimmer_cape"
         ]
       ]
     },
@@ -37279,8 +38271,8 @@
           "кор — blink"
         ],
         [
-          "holy_locket",
-          "кор — holy_locket"
+          "force_staff",
+          "кор — force_staff"
         ]
       ]
     }
