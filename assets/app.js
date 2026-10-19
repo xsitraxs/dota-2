@@ -489,8 +489,11 @@ function renderDraft() {
         <h2>Действия</h2>
         <div class="row">
           <button class="btn" data-action="copy">Скопировать план текстом</button>
+          <button class="btn ghost" data-action="share">Поделиться ссылкой</button>
+          <button class="btn ghost" data-action="random" title="Случайный драфт для теста — с кайфом">🎲 Рандом</button>
           <button class="btn ghost" data-action="reset">Сбросить драфт</button>
         </div>
+        <p class="tiny muted" style="margin-top:8px">Ссылка на драфт — в адресной строке (hash), кидай её тиммейтам — откроют твой пик 1-в-1.</p>
       </div>
     </div>
 
@@ -1463,6 +1466,86 @@ function saveDraft() {
       me: state.me, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks,
     }));
   } catch { /* приватный режим — просто не сохраняем */ }
+  syncHash();
+}
+
+/** Шаринг драфта по ссылке: кодируем в hash #me=&en=&em=&al= (только валидные герои, без повторов). */
+function draftToHash() {
+  const p = new URLSearchParams();
+  if (isHero(state.me)) p.set('me', state.me);
+  const en = state.enemies.filter(isHero);
+  if (en.length) p.set('en', en.join(','));
+  if (isHero(state.enemyMid) && en.includes(state.enemyMid)) p.set('em', state.enemyMid);
+  const al = state.allies.filter(isHero);
+  if (al.length) p.set('al', al.join(','));
+  const s = p.toString();
+  return s ? '#' + s : '';
+}
+function draftFromHash() {
+  try {
+    if (typeof location === 'undefined') return null;
+    const h = String(location.hash || '').replace(/^#/, '');
+    if (!h) return null;
+    const p = new URLSearchParams(h);
+    const seen = new Set();
+    const take = (s) => (isHero(s) && !seen.has(s) ? (seen.add(s), s) : null);
+    const me = take(p.get('me'));
+    const enRaw = (p.get('en') || '').split(',').map((s) => s.trim()).filter(Boolean);
+    const en = [];
+    for (const s of enRaw) { const v = take(s); if (v) en.push(v); if (en.length >= 5) break; }
+    while (en.length < 5) en.push(null);
+    const alRaw = (p.get('al') || '').split(',').map((s) => s.trim()).filter(Boolean);
+    const al = [];
+    for (const s of alRaw) { const v = take(s); if (v) al.push(v); if (al.length >= 4) break; }
+    while (al.length < 4) al.push(null);
+    let em = take(p.get('em'));
+    // em должен быть из врагов, иначе берём первого врага
+    if (em && !en.includes(em)) em = null;
+    if (!em) em = en.find(Boolean) || null;
+    // пустой hash — не считаем драфтом
+    if (!me && !en.find(Boolean) && !al.find(Boolean)) return null;
+    return { me, enemies: en, enemyMid: em, allies: al };
+  } catch { return null; }
+}
+function syncHash() {
+  try {
+    if (typeof location === 'undefined' || typeof history === 'undefined') return;
+    const h = draftToHash();
+    const cur = location.hash || '';
+    if (h !== cur) history.replaceState(null, '', location.pathname + location.search + h);
+  } catch { /* ignore */ }
+}
+function applyHash() {
+  const d = draftFromHash();
+  if (!d) return false;
+  state.me = d.me;
+  state.enemies = d.enemies;
+  state.allies = d.allies;
+  state.enemyMid = d.enemyMid;
+  return true;
+}
+function randomDraft() {
+  const mids = Object.keys(DATA.plans).filter((k) => !k.startsWith('_') && DATA.plans[k]?.mid && isHero(k));
+  const pool = Object.keys(DATA.heroes);
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const seen = new Set();
+  const takeUnique = () => {
+    let s; let tries = 0;
+    do { s = pick(pool); tries++; } while (seen.has(s) && tries < 100);
+    seen.add(s); return s;
+  };
+  state.me = pick(mids.length ? mids : pool);
+  seen.add(state.me);
+  state.enemies = [0, 1, 2, 3, 4].map(() => takeUnique());
+  state.enemyMid = pick(state.enemies);
+  state.allies = [0, 1, 2, 3].map(() => Math.random() < 0.5 ? takeUnique() : null);
+  // сбрасываем чеклист под новый драфт
+  state.checks = {};
+  // конфетти для кайфа: если вердикт хороший — подсветим
+  saveDraft();
+  render();
+  // лёгкий вау-эффект: вибрация и звук клика не нужны, просто скролл к вердикту
+  setTimeout(() => document.querySelector('.verdict')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 100);
 }
 function loadDraft() {
   try {
@@ -1667,6 +1750,14 @@ function bindEvents() {
         catch { window.prompt('Скопируй план:', text); }
         return;
       }
+      if (a === 'share') {
+        syncHash();
+        const url = location.href;
+        try { await navigator.clipboard.writeText(url); action.textContent = 'Ссылка скопирована ✓'; setTimeout(() => render(), 1500); }
+        catch { window.prompt('Скопируй ссылку:', url); }
+        return;
+      }
+      if (a === 'random') { randomDraft(); return; }
       return;
     }
 
@@ -1741,6 +1832,9 @@ function bindEvents() {
       saveDraft();
     }
   });
+  window.addEventListener('hashchange', () => {
+    if (applyHash()) { try { localStorage.setItem('dp.draft', JSON.stringify({ me: state.me, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks })); } catch { /* ignore */ } render(); }
+  });
 }
 
 /** Вставка из буфера обмена и перетаскивание файла на область предпросмотра. */
@@ -1777,8 +1871,14 @@ function bindShotDrop() {
 (async function boot() {
   try {
     await loadData();
-    loadDraft();
+    const fromHash = applyHash();
+    if (!fromHash) loadDraft();
+    else {
+      // hash — источник истины при шаринге, продублируем в localStorage
+      try { localStorage.setItem('dp.draft', JSON.stringify({ me: state.me, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks })); } catch { /* ignore */ }
+    }
     if (pruneChecks()) saveDraft(); // выкинули мусор из старых галочек — сразу фиксируем это в хранилище
+    else if (fromHash) syncHash(); else syncHash();
     $('#patchBadge').textContent = `патч ${patchSeries()}`;
     const patchTab = $('#tabs [data-tab="patch"]');
     if (patchTab) patchTab.textContent = `Патч ${patchSeries()}`;
