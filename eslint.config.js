@@ -5,8 +5,8 @@
 import js from '@eslint/js';
 import globals from 'globals';
 
-/** Одинаковые правила для браузерного кода (assets/) и скриптов (tools/). */
-const rules = {
+/** Базовые правила — без сборщика, с жёстким eqeqeq и без var. */
+const baseRules = {
   ...js.configs.recommended.rules,
   'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
   eqeqeq: ['error', 'smart'],
@@ -23,7 +23,8 @@ export default [
       sourceType: 'module',
       globals: { ...globals.browser },
     },
-    rules,
+    // В браузере console.log — мусор в проде, оставляем только console.error для видимой ошибки рендера.
+    rules: { ...baseRules, 'no-console': ['error', { allow: ['error', 'warn'] }] },
   },
   {
     files: ['tools/**/*.mjs', 'eslint.config.js'],
@@ -32,6 +33,6 @@ export default [
       sourceType: 'module',
       globals: { ...globals.node },
     },
-    rules,
+    rules: baseRules,
   },
 ];
