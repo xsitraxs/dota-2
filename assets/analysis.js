@@ -567,8 +567,15 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
     if (hbPerRole && typeof hbPerRole === 'object' && (hbPerRole.carry || hbPerRole.mid || hbPerRole.support)) {
       if (role && hbPerRole[role]) src = hbPerRole[role];
       else if (!useRole) {
-        const nat = archetypeFor(h, archetypes);
-        const natName = nat ? nat.name : 'mid';
+        // Авто: если у героя есть курируемый мид-план — показываем мид (без гранаты),
+        // иначе — его природную роль (carry/support/offlane). Иначе Lina/Visage и т.п.
+        // с Support в ролях получали бы саппорт-билд с гранатой даже без выбора роли.
+        let natName;
+        if (plan && plan.mid) natName = 'mid';
+        else {
+          const nat = archetypeFor(h, archetypes);
+          natName = nat ? nat.name : 'mid';
+        }
         src = hbPerRole[natName] || hbPerRole['mid'] || hbPerRole['carry'] || hbPerRole['support'] || null;
       }
     } else {
