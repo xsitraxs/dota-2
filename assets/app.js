@@ -5,7 +5,7 @@
  */
 import {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
-  heroDamage, heroHp, heroMana, heroArmor, isServiceAbility, archetypeFor,
+  heroDamage, heroHp, heroMana, heroArmor, isServiceAbility, archetypeFor, ROLES, ROLE_TITLES,
 } from './analysis.js';
 import {
   recognizeScreenshot, recognizeCells, manualCells, clampRegion, clampGridSize, MAX_GRID,
@@ -27,6 +27,7 @@ const SHOT_MAX_SIDE = 2560;
 const state = {
   tab: 'draft',
   me: null,
+  myRole: null,
   enemies: [null, null, null, null, null],
   enemyMid: null,
   allies: [null, null, null, null],
@@ -429,18 +430,21 @@ function tagsOf(slug) { return (DATA.tagsKb.heroes || {})[slug] || []; }
 
 function renderDraft() {
   const me = state.me;
+  const myRole = state.myRole;
   const enemies = state.enemies.filter(Boolean);
+  const allies = state.allies.filter(Boolean);
   const ctx = { tagsKb: DATA.tagsKb, rules: DATA.rules, plans: DATA.plans };
   const enemyMid = state.enemyMid && state.enemies.includes(state.enemyMid) ? state.enemyMid : guessEnemyMid(enemies);
 
-  const lane = me && enemyMid ? laneReport(DATA.heroes[me], DATA.heroes[enemyMid], ctx) : null;
+  const isMidRole = !myRole || myRole === 'mid';
+  const lane = me && enemyMid && isMidRole ? laneReport(DATA.heroes[me], DATA.heroes[enemyMid], ctx) : null;
   const threats = enemies.length ? threatsFor(enemies, DATA) : [];
   const combos = enemies.length ? combosFor(enemies, DATA) : [];
   const picks = enemies.length ? counterPicks({
     enemies, enemyMid, data: DATA, limit: 6,
     exclude: [state.me, ...state.allies.filter(Boolean), ...enemies],
   }) : [];
-  const plan = me ? buildPlan({ heroSlug: me, enemySlugs: enemies, data: DATA }) : null;
+  const plan = me ? buildPlan({ heroSlug: me, enemySlugs: enemies, data: DATA, role: myRole }) : null;
   const checklist = buildChecklist({ threats, combos, data: DATA });
 
   const slot = (group, arr, i, label) => {
@@ -454,16 +458,32 @@ function renderDraft() {
   <div class="grid cols-2">
     <div class="stack">
       <div class="panel">
-        <h2>Мой герой на миду</h2>
-        ${me ? heroMini(me, false) : `<button class="slot-empty" data-pick="me:0" aria-label="Выбрать мидового героя"><span>Выбрать мидового героя</span><span aria-hidden="true">+</span></button>`}
+        <h2>Мой герой <span class="muted tiny">· твоя роль: ${esc(myRole ? (ROLE_TITLES[myRole] || myRole) : 'Авто')}</span></h2>
+        ${me ? heroMini(me, false) : `<button class="slot-empty" data-pick="me:0" aria-label="Выбрать героя"><span>Выбрать героя — любого, на любую роль</span><span aria-hidden="true">+</span></button>`}
+        <div style="margin-top:10px">
+          <div class="tiny muted" style="margin-bottom:6px">Я играю на:</div>
+          <div class="chips" role="group" aria-label="Выбор роли">
+            <button class="chip ${!myRole ? 'active' : ''}" data-rolepick="" aria-pressed="${String(!myRole)}" title="Авто — роль по герою">Авто</button>
+            ${ROLES.map((r) => `<button class="chip ${myRole === r ? 'active' : ''}" data-rolepick="${esc(r)}" aria-pressed="${String(myRole === r)}">${esc(ROLE_TITLES[r])}</button>`).join('')}
+          </div>
+          <div class="tiny muted" style="margin-top:6px">${myRole ? `Билд и советы под роль «${esc(ROLE_TITLES[myRole])}» — любой из 127 героев адаптируется под неё.` : 'Авто берёт роль героя из базы. Выбери роль — получишь закуп керри/саппорта/роамера на любом герое.'}</div>
+        </div>
         ${me ? `<div class="row" style="margin-top:10px">
-          <button class="btn sm ghost" data-pick="me:0">Сменить</button>
+          <button class="btn sm ghost" data-pick="me:0">Сменить героя</button>
           <button class="btn sm ghost" data-action="clear-me">Очистить</button>
         </div>` : ''}
       </div>
 
       <div class="panel">
-        <h2>Вражеский драфт</h2>
+        <h2>Моя команда <span class="muted tiny">${(me ? 1 : 0) + allies.length}/5</span> <span class="muted tiny">· твои союзники</span></h2>
+        <div class="stack">
+          ${state.allies.map((s, i) => slot('allies', state.allies, i, `Союзник ${i + 1}`)).join('')}
+        </div>
+        <p class="tiny muted" style="margin-top:8px">Введи всех 4 союзников — полный драфт 5×5 даёт точные ситуативные предметы (например, dust vs Riki).</p>
+      </div>
+
+      <div class="panel">
+        <h2>Вражеский драфт <span class="muted tiny">${enemies.length}/5</span></h2>
         <div class="stack">
           ${state.enemies.map((s, i) => slot('enemies', state.enemies, i, `Враг ${i + 1}`)).join('')}
         </div>
@@ -479,13 +499,6 @@ function renderDraft() {
       </div>
 
       <div class="panel">
-        <h2>Свои союзники <span class="muted tiny">(не обязательно)</span></h2>
-        <div class="stack">
-          ${state.allies.map((s, i) => slot('allies', state.allies, i, `Союзник ${i + 1}`)).join('')}
-        </div>
-      </div>
-
-      <div class="panel">
         <h2>Действия</h2>
         <div class="row">
           <button class="btn" data-action="copy">Скопировать план текстом</button>
@@ -493,20 +506,20 @@ function renderDraft() {
           <button class="btn ghost" data-action="random" title="Случайный драфт для теста — с кайфом">🎲 Рандом</button>
           <button class="btn ghost" data-action="reset">Сбросить драфт</button>
         </div>
-        <p class="tiny muted" style="margin-top:8px">Ссылка на драфт — в адресной строке (hash), кидай её тиммейтам — откроют твой пик 1-в-1.</p>
+        <p class="tiny muted" style="margin-top:8px">Ссылка на драфт (включая роль) — в адресной строке (hash), кидай её тиммейтам — откроют твой пик 1-в-1.</p>
       </div>
     </div>
 
     <div class="stack">
       ${!me && !enemies.length ? `<div class="panel"><h2>Как пользоваться</h2>
         <ol class="tight small">
-          <li>Выбери своего мидового героя.</li>
-          <li>Добавь вражеский драфт — анализ сразу перестроится.</li>
-          <li>Укажи, кто у них на миду, чтобы получить разбор лейна.</li>
-          <li>Смотри план закупа, угрозы и рекомендации по следующим пикам.</li>
+          <li>Выбери своего героя — любого из 127, не только мидера.</li>
+          <li>Нажми «Я играю на: Керри/Мид/Оффлейн/Поддержка/Роам» — билд, тайминги и советы перестроятся под роль.</li>
+          <li>Введи полностью свою команду (4 союзника) и вражеский драфт (5) — ситуативные предметы подстроятся под врага.</li>
+          <li>Для мида укажи, кто у них на миде, чтобы получить разбор лейна; для других ролей — смотри план закупа под роль.</li>
           <li>Либо вставь скриншот экрана пика на вкладке «Скриншот» — герои распознаются и подставятся сами.</li>
         </ol>
-        <p class="muted small">Всё работает офлайн и на цифрах патча 7.41 — без сторонних сервисов и винрейтов.</p>
+        <p class="muted small">Всё работает офлайн и на цифрах патча 7.41 — без сторонних сервисов и винрейтов. Роль можно менять на лету — билд для любого героя на любой позиции готов.</p>
       </div>` : ''}
 
       ${lane ? `<div class="panel">
@@ -532,7 +545,7 @@ function renderDraft() {
           </tr>`).join('')}
         </table>
         ${lane.tips.length ? `<h3>Что делать прямо на линии</h3><ul class="tight small">${lane.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
-      </div>` : ''}
+      </div>` : me && enemyMid && myRole && myRole !== 'mid' ? `<div class="panel"><h2>Разбор лейна</h2><p class="small muted">Роль «${esc(ROLE_TITLES[myRole])}» — разбор мида скрыт. Билд и советы ниже собраны под твою роль, а угрозы и ситуативные предметы — под их драфт 5×5.</p></div>` : ''}
 
       ${combos.length ? `<div class="panel">
         <h2>Предупреждения по драфту врага</h2>
@@ -561,8 +574,9 @@ function renderDraft() {
       </div>` : ''}
 
       ${plan ? `<div class="panel">
-        <h2>Твой план: ${esc(plan.hero.localized_name)}</h2>
-        ${plan.curated ? `<p class="small muted">${esc(plan.curve || '')}${plan.difficulty ? ` · сложность: ${esc(plan.difficulty)}` : ''}</p>`
+        <h2>Твой план: ${esc(plan.hero.localized_name)} <span class="muted tiny">· ${esc(myRole ? (ROLE_TITLES[myRole] || myRole) : (plan.archetype ? plan.archetype.title : 'Авто'))}</span></h2>
+        ${myRole ? `<p class="small muted">Роль «<b>${esc(ROLE_TITLES[myRole])}</b>»${plan.curated ? ` — курируемый мид-план героя · ${esc(plan.curve || '')}` : plan.archetype ? ` — закуп по архетипу · ${esc(plan.curve || '')}` : ' — универсальный закуп' }${plan.difficulty ? ` · сложность: ${esc(plan.difficulty)}` : ''}</p>`
+          : plan.curated ? `<p class="small muted">${esc(plan.curve || '')}${plan.difficulty ? ` · сложность: ${esc(plan.difficulty)}` : ''}</p>`
           : plan.archetype ? `<p class="small muted">Курируемого плана под 7.41 у героя нет — закуп собран по его роли: <b>${esc(plan.archetype.title)}</b>.${plan.archetype.why ? ` ${esc(plan.archetype.why)}.` : ''} ${esc(plan.curve || '')}</p>`
             : `<p class="small muted">Для этого героя нет ни плана, ни роли в базе — показываю универсальный мидовый закуп и адаптацию под их драфт.</p>`}
         ${plan.lane ? `<h3>Как играть лейн</h3><p class="small">${esc(plan.lane)}</p>` : ''}
@@ -1484,16 +1498,17 @@ function startTimerLoop() {
 function saveDraft() {
   try {
     localStorage.setItem('dp.draft', JSON.stringify({
-      me: state.me, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks,
+      me: state.me, myRole: state.myRole, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks,
     }));
   } catch { /* приватный режим — просто не сохраняем */ }
   syncHash();
 }
 
-/** Шаринг драфта по ссылке: кодируем в hash #me=&en=&em=&al= (только валидные герои, без повторов). */
+/** Шаринг драфта по ссылке: кодируем в hash #me=&role=&en=&em=&al= (только валидные герои, без повторов). */
 function draftToHash() {
   const p = new URLSearchParams();
   if (isHero(state.me)) p.set('me', state.me);
+  if (state.myRole && ROLES.includes(state.myRole)) p.set('role', state.myRole);
   const en = state.enemies.filter(isHero);
   if (en.length) p.set('en', en.join(','));
   if (isHero(state.enemyMid) && en.includes(state.enemyMid)) p.set('em', state.enemyMid);
@@ -1511,6 +1526,8 @@ function draftFromHash() {
     const seen = new Set();
     const take = (s) => (isHero(s) && !seen.has(s) ? (seen.add(s), s) : null);
     const me = take(p.get('me'));
+    const roleRaw = String(p.get('role') || '').trim();
+    const myRole = ROLES.includes(roleRaw) ? roleRaw : null;
     const enRaw = (p.get('en') || '').split(',').map((s) => s.trim()).filter(Boolean);
     const en = [];
     for (const s of enRaw) { const v = take(s); if (v) en.push(v); if (en.length >= 5) break; }
@@ -1519,13 +1536,12 @@ function draftFromHash() {
     const al = [];
     for (const s of alRaw) { const v = take(s); if (v) al.push(v); if (al.length >= 4) break; }
     while (al.length < 4) al.push(null);
-    let em = take(p.get('em'));
-    // em должен быть из врагов, иначе берём первого врага
-    if (em && !en.includes(em)) em = null;
+    const emRaw = String(p.get('em') || '').trim();
+    let em = isHero(emRaw) && en.includes(emRaw) ? emRaw : null;
     if (!em) em = en.find(Boolean) || null;
-    // пустой hash — не считаем драфтом
-    if (!me && !en.find(Boolean) && !al.find(Boolean)) return null;
-    return { me, enemies: en, enemyMid: em, allies: al };
+    // пустой hash — не считаем драфтом (роль без героев — тоже пусто, не перезаписываем сохранённое)
+    if (!me && !en.find(Boolean) && !al.find(Boolean) && !myRole) return null;
+    return { me, myRole, enemies: en, enemyMid: em, allies: al };
   } catch { return null; }
 }
 function syncHash() {
@@ -1540,6 +1556,7 @@ function applyHash() {
   const d = draftFromHash();
   if (!d) return false;
   state.me = d.me;
+  state.myRole = d.myRole || null;
   state.enemies = d.enemies;
   state.allies = d.allies;
   state.enemyMid = d.enemyMid;
@@ -1557,6 +1574,7 @@ function randomDraft() {
   };
   state.me = pick(mids.length ? mids : pool);
   seen.add(state.me);
+  state.myRole = ROLES[Math.floor(Math.random() * ROLES.length)];
   state.enemies = [0, 1, 2, 3, 4].map(() => takeUnique());
   state.enemyMid = pick(state.enemies);
   state.allies = [0, 1, 2, 3].map(() => Math.random() < 0.5 ? takeUnique() : null);
@@ -1588,6 +1606,7 @@ function loadDraft() {
       return out;
     };
     state.me = take(raw.me);
+    state.myRole = typeof raw.myRole === 'string' && ROLES.includes(raw.myRole) ? raw.myRole : null;
     state.enemies = arr(raw.enemies, 5);
     state.allies = arr(raw.allies, 4);
     state.enemyMid = isHero(raw.enemyMid) && state.enemies.includes(raw.enemyMid) ? raw.enemyMid : null;
@@ -1620,9 +1639,13 @@ function planAsText() {
   const enemies = state.enemies.filter(Boolean);
   const enemyMid = state.enemyMid && state.enemies.includes(state.enemyMid) ? state.enemyMid : guessEnemyMid(enemies);
   const lines = [`=== План на игру (Dota 2, патч ${patchSeries()}, патчноуты до ${latestPatchVersion()}) ===`];
-  if (state.me) lines.push(`Мой герой: ${DATA.heroes[state.me]?.localized_name || state.me}`);
+  if (state.me) {
+    const roleTxt = state.myRole ? ` · роль: ${ROLE_TITLES[state.myRole] || state.myRole}` : '';
+    lines.push(`Мой герой: ${DATA.heroes[state.me]?.localized_name || state.me}${roleTxt}`);
+  }
+  if (state.allies.filter(Boolean).length) lines.push(`Союзники: ${state.allies.filter(Boolean).map((s) => DATA.heroes[s]?.localized_name || s).join(', ')}`);
   if (enemies.length) lines.push(`Враги: ${enemies.map((s) => DATA.heroes[s]?.localized_name || s).join(', ')}`);
-  if (state.me && enemyMid) {
+  if (state.me && enemyMid && (!state.myRole || state.myRole === 'mid')) {
     const lane = laneReport(DATA.heroes[state.me], DATA.heroes[enemyMid], { tagsKb: DATA.tagsKb, rules: DATA.rules, plans: DATA.plans });
     lines.push(`\nМИД: ${lane.verdict.title} (${lane.score > 0 ? '+' : ''}${lane.score})`);
     lines.push(lane.verdict.text);
@@ -1636,7 +1659,7 @@ function planAsText() {
     }
   }
   if (state.me) {
-    const plan = buildPlan({ heroSlug: state.me, enemySlugs: enemies, data: DATA });
+    const plan = buildPlan({ heroSlug: state.me, enemySlugs: enemies, data: DATA, role: state.myRole });
     lines.push('\nЗАКУП:');
     for (const g of ['start', 'early', 'core', 'situational']) {
       const arr = plan.items[g];
@@ -1743,6 +1766,15 @@ function bindEvents() {
     const gotoHero = e.target.closest('[data-goto-hero]');
     if (gotoHero) { state.selectedHero = gotoHero.dataset.gotoHero; state.tab = 'heroes'; state.heroSearch = ''; state.onlyMid = false; render(); return; }
 
+    const rolePick = e.target.closest('[data-rolepick]');
+    if (rolePick) {
+      const v = rolePick.dataset.rolepick;
+      state.myRole = v && ROLES.includes(v) ? v : null;
+      saveDraft();
+      render();
+      return;
+    }
+
     const attr = e.target.closest('[data-attr]');
     if (attr && attr.closest('#view')) { state.attrFilter = state.attrFilter === attr.dataset.attr ? null : attr.dataset.attr; render(); return; }
     const role = e.target.closest('[data-role]');
@@ -1763,7 +1795,7 @@ function bindEvents() {
     const action = e.target.closest('[data-action]');
     if (action) {
       const a = action.dataset.action;
-      if (a === 'reset') { state.me = null; state.enemies = [null, null, null, null, null]; state.enemyMid = null; state.allies = [null, null, null, null]; state.checks = {}; saveDraft(); render(); }
+      if (a === 'reset') { state.me = null; state.myRole = null; state.enemies = [null, null, null, null, null]; state.enemyMid = null; state.allies = [null, null, null, null]; state.checks = {}; saveDraft(); render(); }
       if (a === 'clear-me') { state.me = null; saveDraft(); render(); }
       if (a === 'copy') {
         const text = planAsText();
@@ -1854,7 +1886,7 @@ function bindEvents() {
     }
   });
   window.addEventListener('hashchange', () => {
-    if (applyHash()) { try { localStorage.setItem('dp.draft', JSON.stringify({ me: state.me, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks })); } catch { /* ignore */ } render(); }
+    if (applyHash()) { try { localStorage.setItem('dp.draft', JSON.stringify({ me: state.me, myRole: state.myRole, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks })); } catch { /* ignore */ } render(); }
   });
 }
 
@@ -1896,7 +1928,7 @@ function bindShotDrop() {
     if (!fromHash) loadDraft();
     else {
       // hash — источник истины при шаринге, продублируем в localStorage
-      try { localStorage.setItem('dp.draft', JSON.stringify({ me: state.me, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks })); } catch { /* ignore */ }
+      try { localStorage.setItem('dp.draft', JSON.stringify({ me: state.me, myRole: state.myRole, enemies: state.enemies, enemyMid: state.enemyMid, allies: state.allies, checks: state.checks })); } catch { /* ignore */ }
     }
     if (pruneChecks()) saveDraft(); // выкинули мусор из старых галочек — сразу фиксируем это в хранилище
     else if (fromHash) syncHash(); else syncHash();

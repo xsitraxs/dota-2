@@ -420,8 +420,18 @@ function archetypeItems({ archetype, title, attr }) {
   };
 }
 
+/** Роли для выбора игроком: совпадают с ключами archetypes.json. */
+export const ROLES = ['carry', 'mid', 'offlane', 'support', 'roam'];
+export const ROLE_TITLES = {
+  carry: 'Керри (1)',
+  mid: 'Мид (2)',
+  offlane: 'Оффлейн (3)',
+  support: 'Поддержка (4)',
+  roam: 'Роумер (4-5)',
+};
+
 /** Сборка плана: базовый билд героя + адаптация под теги врага. */
-export function buildPlan({ heroSlug, enemySlugs, data }) {
+export function buildPlan({ heroSlug, enemySlugs, data, role }) {
   const { heroes, abilities, plans, rules, tagsKb, archetypes } = data;
   const h = heroes[heroSlug];
   if (!h) return null;
@@ -433,8 +443,22 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
   }
 
   const items = { start: [], early: [], core: [], situational: [] };
-  if (plan && plan.items) {
+  // Роль, выбранная игроком в драфте (null = авто по герою). Если задана — переопределяет
+  // автовыбор, чтобы любой из 127 героев мог получить закуп керри/саппорта/роамера,
+  // а не только свою «природную» роль.
+  let roleArche = null;
+  if (role && archetypes && archetypes.archetypes && archetypes.archetypes[role]) {
+    const a = archetypes.archetypes[role];
+    roleArche = { name: role, title: a.title || role, why: '', data: a };
+  }
+  const useRole = Boolean(roleArche);
+  // Курируемый план показываем только когда роль не переопределена или это мид —
+  // иначе для Pudge-керри или Crystal Maiden-мида отдавали бы один мидовый bottle-старт.
+  const useCurated = Boolean(plan && plan.items && (!useRole || role === 'mid'));
+  if (useCurated) {
     for (const g of Object.keys(items)) items[g] = (plan.items[g] || []).map(([k, why]) => ({ key: k, why, source: 'план героя' }));
+  } else if (useRole) {
+    Object.assign(items, archetypeItems({ archetype: roleArche.data, title: roleArche.title, attr: h.primary_attr }));
   } else {
     // Курируемого плана под 7.41 у героя нет — берём закуп его роли (data/kb/archetypes.json).
     // Раньше здесь был один универсальный мидовый старт: 91 герой из 127 получал одинаковые
@@ -447,11 +471,13 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
   // раньше этот список затирался адаптацией), затем — ответы на теги их драфта.
   const curated = [];
   const curatedKeys = new Set();
-  for (const [key, why] of (plan && plan.items && plan.items.situational) || []) {
-    if (curatedKeys.has(key)) continue;
-    if (['start', 'early', 'core'].some((g) => items[g].some((i) => i.key === key))) continue;
-    curatedKeys.add(key);
-    curated.push({ key, why, source: 'план героя', tags: [] });
+  if (useCurated) {
+    for (const [key, why] of (plan.items.situational || [])) {
+      if (curatedKeys.has(key)) continue;
+      if (['start', 'early', 'core'].some((g) => items[g].some((i) => i.key === key))) continue;
+      curatedKeys.add(key);
+      curated.push({ key, why, source: 'план героя', tags: [] });
+    }
   }
 
   const situational = new Map();
@@ -477,7 +503,7 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
   }
 
   const ultKey = heroUltimateKey(h, abilities);
-  const skillPlan = plan && plan.skills ? plan.skills : null;
+  const skillPlan = useCurated && plan.skills ? plan.skills : null;
   // Без курируемого плана показываем только изучаемые базовые способности: неизучаемые слоты
   // 7.41 (Stolen Spell, Devoured Ability, Souvenir Slot) и врождённые в порядок прокачки не годятся.
   // Ультимейт идёт отдельной строкой, поэтому в список базовых не попадает.
@@ -486,11 +512,14 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
     .map((key) => [key, 'основная способность — качай по ситуации']);
   const skills = skillPlan || genericSkills;
 
-  const arche = plan ? null : archetypeFor(h, archetypes);
+  // Архетип, показанный в шапке плана: роль игрока или авто-роль героя.
+  let arche = null;
+  if (useRole) arche = roleArche;
+  else if (!useCurated) arche = archetypeFor(h, archetypes);
   return {
     hero: h,
-    plan,
-    // Архетип по роли (data/kb/archetypes.json) — только когда курируемого плана нет.
+    plan: useCurated ? plan : null,
+    // Архетип по роли (data/kb/archetypes.json) — когда курируемого плана нет или роль переопределена.
     archetype: arche ? { name: arche.name, title: arche.title, why: arche.why } : null,
     items: {
       ...items,
@@ -507,14 +536,14 @@ export function buildPlan({ heroSlug, enemySlugs, data }) {
     // Ульт уже описан в списке способностей (в курируемых планах у него свой комментарий) —
     // интерфейс не должен выводить его второй раз отдельной строкой.
     ultInSkills: Boolean(ultKey && skills.some(([key]) => key === ultKey)),
-    lane: plan?.lane || null,
-    spikes: plan?.spikes || [],
+    lane: useCurated ? (plan.lane || null) : null,
+    spikes: useCurated ? (plan.spikes || []) : [],
     // Без курируемого плана кривую и советы даёт архетип роли: иначе панель плана оставалась бы
     // без объяснения, зачем брать именно эти предметы.
-    tips: plan?.tips || (arche ? arche.data.tips || [] : []),
-    curve: plan?.curve || (arche ? arche.data.curve || null : null),
-    difficulty: plan?.difficulty || null,
-    curated: Boolean(plan),
+    tips: useCurated ? (plan.tips || []) : (arche ? arche.data.tips || [] : []),
+    curve: useCurated ? (plan.curve || null) : (arche ? arche.data.curve || null : null),
+    difficulty: useCurated ? (plan.difficulty || null) : null,
+    curated: useCurated,
   };
 }
 
