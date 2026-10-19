@@ -346,6 +346,65 @@ export function combosFor(enemySlugs, data) {
   return res.sort((a, b) => b.hits - a.hits);
 }
 
+/** Синергии своей команды: положительные связки, которые уже есть в вашем драфте 5×5. */
+const SYNERGY_COMBOS = [
+  { tags: ['save'], min: 2, title: 'Двойной сейв', advice: 'Два сейва — можно играть первым номером, один сейв всегда в запасе. Не стойте вместе, чтобы не отдать обоих одним контролем.', items: [] },
+  { tags: ['heavy_lockdown', 'single_target_lockdown', 'hex_root'], min: 2, title: 'Много контроля', advice: 'Много контроля — есть кем закрыть цель под ваш бурст. Стакайте стан → хекс, не жмите всё сразу.', items: [] },
+  { tags: ['teamfight_ultimate'], min: 2, title: 'Командные ульты', advice: 'Два командных ульта — играйте 5v5 когда они готовы. До этого — сплит и избегайте файтов 4v5.', items: [] },
+  { tags: ['burst_magical'], min: 2, title: 'Маг. бурст-стек', advice: 'Маг. бурст у нескольких героев — хватает урона без физ. кора. Усиливайте его Veil/Shivas, а не только физ. защиту.', items: [] },
+  { tags: ['burst_physical'], min: 2, title: 'Физ. урон-стек', advice: 'Много физ. урона — быстро сносите цели и вышки. Берите Desolator/Assault, не давайте врагу настакать броню.', items: [] },
+  { tags: ['invis'], min: 2, title: 'Двойная невидимость', advice: 'Два инвизера — врагу нужен постоянный детект. Играйте через вижн-контроль и ловите их на сентри.', items: [] },
+  { tags: ['late_scaler'], min: 2, title: 'Поздний потенциал', advice: 'Два лейта — время на вашей стороне. Фармите карту, не форсируйте до 30+ минут.', items: [] },
+  { tags: ['waveclear'], min: 2, title: 'Чистка волн', advice: 'Два героя с быстрым фармом волн — всегда есть кто защитит базу и пофармит лес.', items: [] },
+  { tags: ['save', 'burst_physical'], min: 2, requireEach: true, title: 'Сейв + кор', advice: 'Сейв продлевает жизнь вашему кору в фокусе — сейвите керри когда он влетает. Сейв → бурст.', items: [] },
+  { tags: ['heavy_lockdown', 'burst_magical'], min: 2, requireEach: true, title: 'Стан + маг. бурст', advice: 'Стан под маг. бурст — классическая связка. Один станит, второй сразу выгружает урон.', items: [] },
+  { tags: ['heavy_heal', 'teamfight_ultimate'], min: 2, requireEach: true, title: 'Хил + командный ульт', advice: 'Хил/реген + командный ульт — можно драться затяжно. Не распadaйтесь после первого прокаста.', items: [] },
+];
+
+export function synergiesFor(teamSlugs, data) {
+  const { tagsKb } = data;
+  const counts = {};
+  for (const slug of new Set((teamSlugs || []).filter(Boolean))) {
+    for (const t of (tagsKb.heroes && tagsKb.heroes[slug]) || []) counts[t] = (counts[t] || 0) + 1;
+  }
+  const res = [];
+  for (const combo of SYNERGY_COMBOS) {
+    if (combo.requireEach) {
+      if (!combo.tags.every((t) => (counts[t] || 0) >= 1)) continue;
+      const total = combo.tags.reduce((acc, t) => acc + (counts[t] || 0), 0);
+      if (total >= combo.min) res.push({ ...combo, hits: total, heroes: teamSlugs.filter(Boolean).filter((s) => (tagsKb.heroes[s] || []).some((tt) => combo.tags.includes(tt))).slice(0, 3) });
+    } else {
+      const total = combo.tags.reduce((acc, t) => acc + (counts[t] || 0), 0);
+      if (total >= combo.min) res.push({ ...combo, hits: total, heroes: teamSlugs.filter(Boolean).filter((s) => (tagsKb.heroes[s] || []).some((tt) => combo.tags.includes(tt))).slice(0, 3) });
+    }
+  }
+  return res.sort((a, b) => b.hits - a.hits);
+}
+
+const TEAM_COVERAGE_TAGS = [
+  { tag: 'save', label: 'Сейв союзника', why: 'нечем спасти кора в фокусе' },
+  { tag: 'heavy_lockdown', label: 'Надёжный контроль', why: 'нечем закрыть цель под бурст' },
+  { tag: 'waveclear', label: 'Чистка волн', why: 'волны и пуш будут душить' },
+  { tag: 'teamfight_ultimate', label: 'Командный ульт', why: '5v5 без ульта проигрываете' },
+  { tag: 'burst_magical', label: 'Маг. урон', why: 'не хватает магического прокаста' },
+  { tag: 'burst_physical', label: 'Физ. урон', why: 'нечем бить строения и танки' },
+];
+
+export function teamCoverage(teamSlugs, data) {
+  const { tagsKb } = data;
+  const have = new Set();
+  for (const slug of new Set((teamSlugs || []).filter(Boolean))) {
+    for (const t of (tagsKb.heroes && tagsKb.heroes[slug]) || []) have.add(t);
+  }
+  const missing = [];
+  const present = [];
+  for (const { tag, label, why } of TEAM_COVERAGE_TAGS) {
+    if (have.has(tag) || (tag === 'heavy_lockdown' && (have.has('single_target_lockdown') || have.has('hex_root')))) present.push({ tag, label });
+    else missing.push({ tag, label, why });
+  }
+  return { have: present, missing };
+}
+
 /** Рекомендации по пикам: кто из мидовых героев хорошо стоит против их драфта.
  *  exclude — уже занятые герои (я и союзники), их не предлагаем. */
 export function counterPicks({ enemies, enemyMid, data, limit = 6, exclude = [] }) {
