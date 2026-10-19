@@ -723,6 +723,25 @@ function renderHeroCard(h) {
     </div>
     ${extra.length ? `<h3>Связанные способности и стойки</h3><div class="stack">${extra.map((k) => abilityCard(k)).join('')}</div>` : ''}
 
+    ${(() => {
+      try {
+        const enemies = state.enemies.filter(Boolean);
+        const b = buildPlan({ heroSlug: h.slug, enemySlugs: enemies, data: DATA });
+        if (!b || !b.items) return '';
+        const isAdapted = enemies.length > 0;
+        const head = isAdapted ? `Рекомендуемый билд <span class="muted tiny">под твой драфт врага (${enemies.map((s) => esc(DATA.heroes[s]?.localized_name || s)).join(', ')})</span>` : 'Рекомендуемый билд <span class="muted tiny">(база, без учёта врагов)</span>';
+        const cur = b.curated ? `<span class="badge">мид-план</span>` : b.archetype ? `<span class="badge">по роли: ${esc(b.archetype.title)}</span>` : `<span class="badge">универсальный</span>`;
+        return `<hr class="sep">
+      <h3>${head}</h3>
+      <div class="row small" style="margin-bottom:8px">${cur}<span class="muted">${esc(b.curve || '')}</span><button class="btn sm ghost" data-set-me="${esc(h.slug)}" style="margin-left:auto">Взять в драфт</button></div>
+      <h3 style="margin-top:10px">Стартовый закуп</h3>${itemRows(b.items.start)}
+      <h3>Ранний закуп</h3>${itemRows(b.items.early)}
+      <h3>Ядро</h3>${itemRows(b.items.core)}
+      <h3>Ситуативно ${isAdapted ? '<span class="muted tiny">— под угрозы врага</span>' : ''}</h3>${itemRows(b.items.situational)}
+      ${b.spikes?.length ? `<h3>Тайминги</h3><ul class="tight small">${b.spikes.map(([t, n]) => `<li><b>${esc(t)}</b> — ${esc(n)}</li>`).join('')}</ul>` : ''}`;
+      } catch { return ''; }
+    })()}
+
     ${plan ? `<hr class="sep">
       <h3>Мидовый план</h3>
       ${plan.lane ? `<p class="small">${esc(plan.lane)}</p>` : ''}
