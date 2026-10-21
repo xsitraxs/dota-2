@@ -19,7 +19,7 @@ const J = (p) => JSON.parse(fs.readFileSync(path.join(DATA, p), 'utf8'));
 
 const {
   laneReport, threatsFor, combosFor, counterPicks, buildPlan, buildChecklist, checklistUniverse,
-  heroDamage, heroHp, heroMana, heroArmor, archetypeFor,
+  heroDamage, heroHp, heroMana, heroArmor, archetypeFor, heroLearnableSkills, isSubAbility,
 } = await import(path.join(ROOT, 'assets', 'analysis.js'));
 
 const heroes = J('heroes.json');
@@ -211,6 +211,53 @@ ok([...checklist, ...otherChecklist].every((c) => universe.has(c)),
 ok((rules.combos || []).every((c) => universe.has(`Запомни комбо-предупреждение: ${c.advice.split('.')[0]}`)),
   'все комбо-пункты из rules.json учтены во «вселенной»');
 ok(universe.has('Сентри/дасты в инвентаре до 10-й минуты') && !universe.has('мусор'), 'во «вселенную» попадают только реальные пункты');
+
+// 6c. Порядок способностей: без дублей по имени и без под-способностей ультимейтов/стоек.
+{
+  // Три Shadowraze (nevermore_shadowraze1/2/3) — это один слот прокачки, а не три строки.
+  const razeNames = heroLearnableSkills(heroes.nevermore, abilities)
+    .map((k) => abilities[k]?.dname || k).filter((n) => n === 'Shadowraze');
+  ok(razeNames.length === 1, 'у Nevermore в порядке прокачки одна Shadowraze, а не три',
+    heroLearnableSkills(heroes.nevermore, abilities).map((k) => abilities[k]?.dname || k).join(' → '));
+  // Под-способности: их открывает другая способность героя, отдельными слотами они не качаются.
+  const subs = ['ember_spirit_activate_fire_remnant', 'visage_stone_form_self_cast',
+    'monkey_king_primal_spring', 'dark_willow_bedlam'];
+  for (const key of subs) {
+    const owner = Object.values(heroes).find((h) => [...h.slots.map((s) => s.key), ...h.extra].includes(key));
+    ok(owner && !heroLearnableSkills(owner, abilities).includes(key),
+      `под-способность ${key} не попадает в порядок прокачки`, owner ? owner.slug : 'герой не найден');
+    ok(isSubAbility(key), `isSubAbility(${key}) — под-способность`);
+  }
+  const badList = [];
+  for (const h of Object.values(heroes)) {
+    const list = heroLearnableSkills(h, abilities);
+    const names = list.map((k) => abilities[k]?.dname || k);
+    if (new Set(names).size !== names.length) badList.push(`${h.slug}: дубль имени`);
+    if (list.some((k) => isSubAbility(k))) badList.push(`${h.slug}: под-способность`);
+  }
+  ok(badList.length === 0, `у всех ${Object.keys(heroes).length} героев порядок прокачки без дублей и под-способностей`,
+    badList.join(', ') || 'чисто');
+}
+
+// 6d. Выбранная роль меняет только закуп: порядок способностей и тайминги героя сохраняются.
+{
+  const qopPlan = plans.queenofpain;
+  const qopCarry = buildPlan({ heroSlug: 'queenofpain', enemySlugs: ['riki'], data, role: 'carry' });
+  ok(!qopCarry.curated && qopCarry.items.start.length > 0
+    && qopCarry.items.start.every((i) => /роль/.test(i.source || '')),
+    'закуп под роль «Керри» собирается по архетипу, а не курируемому мид-плану');
+  ok(JSON.stringify(qopCarry.skills) === JSON.stringify(qopPlan.skills),
+    'при другой роли порядок способностей героя из плана не сбрасывается в genericSkills');
+  ok(qopCarry.spikes.length > 0 && JSON.stringify(qopCarry.spikes) === JSON.stringify(qopPlan.spikes),
+    'при другой роли тайминги героя из плана не теряются');
+  // Первый тег адаптивного предмета назван в source — строки закупа в интерфейсе выводят
+  // только дополнительные теги (см. itemRows в assets/app.js), инвариант держит именно buildPlan.
+  const adaptive = qopCarry.items.situational.filter((i) => i.source && i.source.startsWith('под их «'));
+  const quoted = adaptive.filter((i) => (i.tags || [])
+    .some((t) => i.source.includes(`«${tagsKb.vocabulary[t]?.title || t}»`)));
+  ok(adaptive.length > 0 && quoted.length === adaptive.length,
+    'первый тег каждого адаптивного предмета уже назван в source', `адаптивных: ${adaptive.length}`);
+}
 
 // 7. тайминги
 ok(timings.events.some((e) => e.at === '20:00' && e.title.includes('Торментор')), 'Торментор 20:00 в таймингах');

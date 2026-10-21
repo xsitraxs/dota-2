@@ -89,15 +89,39 @@ export function isPlanSkill(key, hero, abilities = {}) {
 }
 
 /**
+ * Под-способности ультимейтов и стоек: формально у них есть шкала уровней, но в бою их
+ * открывает другая способность (Activate Fire Remnant — реманент, Stone Form — фамильяры,
+ * Primal Spring — пока сидишь на дереве, Bedlam — половина ультимейта Willow),
+ * отдельным слотом прокачки они не являются и в порядок способностей не входят.
+ */
+const SUB_ABILITY_KEYS = new Set([
+  'ember_spirit_activate_fire_remnant',
+  'visage_stone_form_self_cast',
+  'monkey_king_primal_spring',
+  'dark_willow_bedlam',
+]);
+
+/** Под-способность ультимейта/стойки: не отдельный слот прокачки (см. SUB_ABILITY_KEYS). */
+export function isSubAbility(key) {
+  return SUB_ABILITY_KEYS.has(String(key));
+}
+
+/**
  * Базовые (качаемые) способности героя в порядке слотов — для героев без курируемого плана.
+ * Дубли по имени склеиваются (три Shadowraze у Shadow Fiend — одна строка прокачки),
+ * под-способности ультимейтов/стоек отбрасываются.
  */
 export function heroLearnableSkills(h, abilities = {}) {
   const keys = [...(h.slots || []).map((s) => s.key), ...(h.extra || [])];
   const seen = new Set();
+  const seenNames = new Set();
   const out = [];
   for (const key of keys) {
-    if (seen.has(key) || !isLearnableAbility(key, abilities[key])) continue;
+    if (seen.has(key) || isSubAbility(key) || !isLearnableAbility(key, abilities[key])) continue;
+    const dname = abilities[key]?.dname || key;
+    if (seenNames.has(dname)) continue;
     seen.add(key);
+    seenNames.add(dname);
     out.push(key);
   }
   return out;
@@ -503,7 +527,10 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
   }
 
   const ultKey = heroUltimateKey(h, abilities);
-  const skillPlan = useCurated && plan.skills ? plan.skills : null;
+  // Порядок способностей и тайминги героя не привязаны к закупу: курируемый план их задаёт
+  // даже когда игрок выбрал другую роль и предметы собираются по архетипу (раньше выбор роли
+  // сбрасывал plan.skills и plan.spikes к общему списку, теряя разметку плана героя).
+  const skillPlan = plan && plan.skills ? plan.skills : null;
   // Без курируемого плана показываем только изучаемые базовые способности: неизучаемые слоты
   // 7.41 (Stolen Spell, Devoured Ability, Souvenir Slot) и врождённые в порядок прокачки не годятся.
   // Ультимейт идёт отдельной строкой, поэтому в список базовых не попадает.
@@ -537,7 +564,8 @@ export function buildPlan({ heroSlug, enemySlugs, data, role }) {
     // интерфейс не должен выводить его второй раз отдельной строкой.
     ultInSkills: Boolean(ultKey && skills.some(([key]) => key === ultKey)),
     lane: useCurated ? (plan.lane || null) : null,
-    spikes: useCurated ? (plan.spikes || []) : [],
+    // Тайминги, как и порядок способностей, — героя, а не закупа: остаются и при другой роли.
+    spikes: plan && plan.spikes ? plan.spikes : [],
     // Без курируемого плана кривую и советы даёт архетип роли: иначе панель плана оставалась бы
     // без объяснения, зачем брать именно эти предметы.
     tips: useCurated ? (plan.tips || []) : (arche ? arche.data.tips || [] : []),

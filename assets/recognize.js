@@ -662,6 +662,10 @@ export function gridCandidates(img, opts = {}) {
     ...boundaryCandidates(colLum, { minLag: colMinLag, maxLag: colMaxLag, limit: 4, mode: 'gaps' }),
   ];
   const colRange = { a: box.x0, b: box.x1 - 1 };
+  // Диапазон для вертикальных профилей (rowLum/rowEdge) — по оси Y в пределах области
+  // содержимого: раньше сюда передавались координаты по X, и lagLattices читал чужой
+  // участок профиля (а при x1 > h — и вовсе выходил за длину профиля).
+  const rowRange = { a: box.y0, b: Math.max(box.y0, box.y1 - 1) };
   colSets.push(...lagLattices(colLum, colRange, { minLag: colMinLag, maxLag: colMaxLag, mode: 'gaps', limit: 6 }));
   colSets.push(...lagLattices(colEdge, colRange, { minLag: colMinLag, maxLag: colMaxLag, mode: 'edges', limit: 4 }));
   // Экран пика состоит из двух рядов команд с большим промежутком между ними: общий профиль
@@ -691,7 +695,6 @@ export function gridCandidates(img, opts = {}) {
       ...boundaryCandidates(rowEdge, { minLag: rowMinLag, maxLag: rowMaxLag, minPoints: 2, limit: 3 }),
       ...boundaryCandidates(rowLum, { minLag: rowMinLag, maxLag: rowMaxLag, minPoints: 2, limit: 3, mode: 'gaps' }),
     ];
-    const rowRange = { a: x0, b: x1 };
     rowSets.push(...lagLattices(rowLum, rowRange, { minLag: rowMinLag, maxLag: rowMaxLag, mode: 'gaps', limit: 3 }));
     rowSets.push(...lagLattices(rowEdge, rowRange, { minLag: rowMinLag, maxLag: rowMaxLag, mode: 'edges', limit: 2 }));
     // Одна полоса карточек: ряд занимает всю вертикальную область, заполненную деталями.
@@ -787,15 +790,22 @@ function contentBand(profile) {
 function contentBounds(gray, w, h) {
   // Границы берём по объединению двух признаков: карточка выделяется и градиентом по краю,
   // и яркостью. По отдельности каждый признак врёт: тёмный край портрета сливается с фоном.
+  // Если один из признаков диапазон не нашёл, берём границы второго (а не всего кадра):
+  // иначе сброс обоих вариантов к 0..w / 0..h затирал найденный диапазон второго признака.
+  const mergeRange = (a, b, fullEnd) => {
+    if (a && b) return { start: Math.min(a.a, b.a), end: Math.max(a.b, b.b) + 1 };
+    const only = a || b;
+    return only ? { start: only.a, end: only.b + 1 } : { start: 0, end: fullEnd };
+  };
   const xEdge = activeRange(edgeProfileX(gray, w, h), 0.15, 3);
   const xLum = activeRange(lumProfileX(gray, w, h), 0.15, 3);
-  const x0 = Math.min(xEdge ? xEdge.a : 0, xLum ? xLum.a : 0);
-  const x1 = Math.max(xEdge ? xEdge.b + 1 : w - 1, xLum ? xLum.b + 1 : w - 1);
+  const xr = mergeRange(xEdge, xLum, w);
+  const x0 = xr.start;
+  const x1 = xr.end;
   const yEdge = activeRange(edgeProfileY(gray, w, h, x0, x1), 0.15, 3);
   const yLum = activeRange(lumProfileY(gray, w, h, x0, x1), 0.15, 3);
-  const y0 = Math.min(yEdge ? yEdge.a : 0, yLum ? yLum.a : 0);
-  const y1 = Math.max(yEdge ? yEdge.b + 1 : h - 1, yLum ? yLum.b + 1 : h - 1);
-  return { x0, x1, y0, y1 };
+  const yr = mergeRange(yEdge, yLum, h);
+  return { x0, x1, y0: yr.start, y1: yr.end };
 }
 
 /** Средняя яркость колонок. */

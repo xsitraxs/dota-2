@@ -63,10 +63,11 @@ vc.on('error', (...a) => problems.push('console.error: ' + a.join(' ')));
  * rawDraft — строка в localStorage как есть (испорченный JSON и т. п.).
  * fetchOverride(url, realFetch) — подмена ответов сервера (ошибки, изменённые файлы).
  * fakeMedia — заглушки Image, URL.createObjectURL и 2D-контекста canvas для загрузки файла.
+ * hash — location.hash, с которым открывается страница (шаринг-ссылка с драфтом).
  */
-function bootApp(seedDraft, { withObserver = false, rawDraft = null, fetchOverride = null, fakeMedia = null } = {}) {
+function bootApp(seedDraft, { withObserver = false, rawDraft = null, fetchOverride = null, fakeMedia = null, hash = '' } = {}) {
   const d = new JSDOM(html, {
-    url: base, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc,
+    url: base + hash, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc,
     beforeParse(window) {
       const realFetch = (u, o) => globalThis.fetch(new URL(u, base).href, o);
       window.fetch = fetchOverride ? (u, o) => fetchOverride(String(u), realFetch, o) : realFetch;
@@ -985,6 +986,220 @@ console.log('\n17. Данные источника в карточке геро�
   const anti = u17.q('#heroCard')?.textContent || '';
   check(/MANA BURNED AS DAMAGE:/.test(anti) && /MANA BURNED PER HIT:/.test(anti),
     'подписи характеристик способности видны в карточке (ключи attrib не нужны)');
+}
+
+console.log('\n18. Регрессии аудита: checks с hash, мид противника, дубли карточек, клавиатура и поиск');
+{
+  const waterRune = 'Руна воды 2:00 и 4:00 — рефил бутылки, не отдавай её бесплатно';
+  const plansKb = {};
+  for (const f of JSON.parse(await get('data/kb_index.json')).files) {
+    if (f.startsWith('plans')) Object.assign(plansKb, JSON.parse(await get('data/kb/' + f)));
+  }
+
+  // (1) Галочки чеклиста переживают перезагрузку с непустым hash: boot() сначала читает
+  // localStorage (loadDraft), затем применяет hash (applyHash) — checks при этом не затираются.
+  const dom18 = bootApp(
+    { me: 'huskar', myRole: null, enemies: [null, null, null, null, null], enemyMid: null, allies: [], checks: { [waterRune]: true } },
+    { hash: '#me=queenofpain&en=huskar' },
+  );
+  const u18 = ui(dom18.window);
+  check(await waitLoaded(dom18.window), 'окно с hash в URL загрузилось');
+  await t(250);
+  const saved18 = u18.saved();
+  check(saved18.checks && saved18.checks[waterRune] === true,
+    'валидные checks из localStorage не пропали при открытии с #me=queenofpain&en=huskar (раньше перезаписывались пустым {})');
+  check(saved18.me === 'queenofpain' && saved18.enemies && saved18.enemies[0] === 'huskar',
+    `драфт из hash применён поверх сохранённого (me=${saved18.me}, враг[0]=${saved18.enemies && saved18.enemies[0]})`);
+  check(/Queen of Pain/.test(u18.text()), 'герой из hash показан на экране');
+  const seededCheck = u18.qa('input[data-check]').find((el) => el.dataset.check === waterRune);
+  check(Boolean(seededCheck) && seededCheck.checked,
+    'сохранённая галочка чеклиста отмечена в UI после загрузки с hash');
+
+  // (2) Мид противника: без ручного выбора это лучший кандидат guessEnemyMid, а не первый враг.
+  const domMid = bootApp();
+  const uMid = ui(domMid.window);
+  await waitLoaded(domMid.window);
+  await t(150);
+  for (const [i, slug] of ['riki', 'huskar'].entries()) {
+    uMid.click(uMid.q(`[data-pick="enemies:${i}"]`));
+    await t(120);
+    uMid.set('#pickerSearch', slug);
+    await t(120);
+    uMid.click(uMid.q(`[data-choose="${slug}"]`));
+    await t(150);
+  }
+  check(uMid.q('[data-enemy-mid]')?.value === 'huskar',
+    `без ручного выбора их мид — лучший кандидат, а не первый враг: ${uMid.q('[data-enemy-mid]')?.value} (первым взят riki)`);
+  check(uMid.saved().enemyMid === null, 'state.enemyMid не записан первым врагом при выборе/заполнении');
+  check(!/em=/.test(domMid.window.location.hash), 'в share-hash нет em, пока мид не выбран вручную');
+  uMid.choose(uMid.q('[data-enemy-mid]'), 'riki');
+  await t(150);
+  check(uMid.saved().enemyMid === 'riki' && /em=riki/.test(domMid.window.location.hash),
+    'ручной выбор в селекте сохраняется в localStorage и hash');
+
+  // (3) Пикер: фильтр «только мидовые» по умолчанию учитывает выбранную роль.
+  const domRole = bootApp({ me: null, myRole: 'support', enemies: [null, null, null, null, null], enemyMid: null, allies: [] });
+  const uRole = ui(domRole.window);
+  await waitLoaded(domRole.window);
+  await t(150);
+  uRole.click(uRole.q('[data-pick="me:0"]'));
+  await t(150);
+  const allCount = uRole.qa('#pickerGrid .pick').length;
+  check(allCount === heroesCount,
+    `с ролью «Поддержка» свой пикер показывает всех героев: ${allCount} (в данных: ${heroesCount})`);
+  uRole.click(uRole.q('[data-close]'));
+  await t(80);
+  uRole.click(uRole.q('[data-rolepick=""]')); // вернуть «Авто»
+  await t(100);
+  uRole.click(uRole.q('[data-pick="me:0"]'));
+  await t(150);
+  check(uRole.qa('#pickerGrid .pick').length === midCount,
+    `в режиме «Авто» пикер снова по умолчанию только мидовые: ${uRole.qa('#pickerGrid .pick').length} (планов: ${midCount})`);
+  uRole.click(uRole.q('[data-close]'));
+  await t(60);
+
+  // (4) Карточка героя: без дублей кривой/таймингов/кнопки и с пометкой для своего героя.
+  const domCard = bootApp({ me: 'queenofpain', enemies: ['riki', 'clinkz', null, null, null], enemyMid: null });
+  const uCard = ui(domCard.window);
+  await waitLoaded(domCard.window);
+  uCard.click(uCard.q('[data-tab="heroes"]'));
+  await t(200);
+  uCard.set('#heroSearch', 'queenofpain');
+  await t(200);
+  uCard.click(uCard.q('.pick[data-hero="queenofpain"]'));
+  await t(250);
+  const cardText = uCard.q('#heroCard')?.textContent || '';
+  check(/Уже выбран твоим героем/.test(cardText), 'свой герой — пометка «Уже выбран твоим героем» вместо кнопки');
+  check(uCard.q('#heroCard [data-set-me]') === null, 'в карточке своего героя нет кнопок data-set-me');
+  const qopCurve = plansKb.queenofpain.curve;
+  check(qopCurve && cardText.split(qopCurve).length - 1 === 1,
+    `кривая плана показана ровно один раз (шапка), без дубля в «Рекомендуемом билде»: вхождений ${qopCurve ? cardText.split(qopCurve).length - 1 : '—'}`);
+  check((cardText.match(/Тайминги/g) || []).length === 1,
+    `тайминги показаны один раз (блок «Мидовый план»): упоминаний ${(cardText.match(/Тайминги/g) || []).length}`);
+  // Дубли способностей и под-способности ультимейтов в карточке.
+  uCard.set('#heroSearch', 'nevermore');
+  await t(200);
+  uCard.click(uCard.q('.pick[data-hero="nevermore"]'));
+  await t(250);
+  const razeCards = [...(uCard.q('#heroCard')?.querySelectorAll('.ability .nm') || [])]
+    .filter((el) => /^Shadowraze/.test(el.textContent.trim()));
+  check(razeCards.length === 1, `у Nevermore одна карточка Shadowraze вместо трёх (${razeCards.length})`);
+  uCard.set('#heroSearch', 'ember_spirit');
+  await t(200);
+  uCard.click(uCard.q('.pick[data-hero="ember_spirit"]'));
+  await t(250);
+  const emberNames = [...(uCard.q('#heroCard')?.querySelectorAll('.ability .nm') || [])].map((el) => el.textContent.trim());
+  check(emberNames.some((n) => n.startsWith('Fire Remnant')) && !emberNames.some((n) => n.startsWith('Activate Fire Remnant')),
+    `под-способность не показана карточкой: ${emberNames.join(' / ')}`);
+
+  // (5) «Практика» и «Как играть роль» не выводят одни и те же советы дважды.
+  const domTips = bootApp({ me: 'queenofpain', enemies: [null, null, null, null, null], enemyMid: null });
+  const uTips = ui(domTips.window);
+  await waitLoaded(domTips.window);
+  await t(200);
+  const qopTip = (plansKb.queenofpain.tips || [])[0];
+  check(qopTip && /<h3>Практика<\/h3>/.test(uTips.q('#view').innerHTML) && !/Как играть роль/.test(uTips.text()),
+    'курируемый план: блок «Практика» есть, «Как играть роль» не показан');
+  check(qopTip && uTips.text().split(qopTip.slice(0, 50)).length - 1 === 1,
+    'советы курируемого плана в панели ровно один раз');
+  const domRoleTips = bootApp({ me: 'crystal_maiden', enemies: [null, null, null, null, null], enemyMid: null });
+  const uRoleTips = ui(domRoleTips.window);
+  await waitLoaded(domRoleTips.window);
+  await t(200);
+  const archetypes = JSON.parse(await get('data/kb/archetypes.json'));
+  const supportTip = (archetypes.archetypes.support.tips || [])[0];
+  check(/Как играть роль/.test(uRoleTips.text()) && !/<h3>Практика<\/h3>/.test(uRoleTips.q('#view').innerHTML),
+    'план по роли: советы один раз под «Как играть роль», «Практика» не дублирует');
+  check(supportTip && uRoleTips.text().split(supportTip.slice(0, 50)).length - 1 === 1,
+    'советы роли в панели ровно один раз');
+
+  // (6) Строки закупа: первый тег адаптивного предмета не повторяется после source.
+  const domItems = bootApp({ me: 'queenofpain', enemies: ['riki', 'clinkz', null, null, null], enemyMid: null });
+  const uItems = ui(domItems.window);
+  await waitLoaded(domItems.window);
+  await t(250);
+  const tinyRows = uItems.qa('.item-row .tiny').map((el) => el.textContent.trim());
+  const adaptiveRows = tinyRows.filter((t) => t.includes('под их «'));
+  const dupRows = tinyRows.filter((t) => /«([^»]+)»\s*·\s*\1/.test(t));
+  check(adaptiveRows.length > 0, `адаптивные строки закупа есть: ${adaptiveRows.length}`);
+  check(dupRows.length === 0, `тег из source не печатается дважды: ${dupRows.join(' | ') || 'дублей нет'}`);
+
+  // (7) Копирование плана: текст кнопки возвращается таймером, экран не перерисовывается.
+  const domCopy = bootApp({ me: 'queenofpain' });
+  const uCopy = ui(domCopy.window);
+  await waitLoaded(domCopy.window);
+  await t(200);
+  const panelBefore = uCopy.q('#view .panel');
+  uCopy.click(uCopy.q('[data-action="copy"]'));
+  await t(120);
+  check(uCopy.q('[data-action="copy"]')?.textContent === 'Скопировано ✓', 'на кнопке появилось подтверждение');
+  await t(1400); // старый код через 1200 мс вызывал полный render()
+  check(uCopy.q('[data-action="copy"]')?.textContent === 'Скопировать план текстом',
+    'текст кнопки восстановлен по таймеру: ' + uCopy.q('[data-action="copy"]')?.textContent);
+  check(uCopy.q('#view .panel') === panelBefore,
+    'экран не перерисовывался (тот же DOM-узел) — открытая вкладка и ввод не сбиты');
+
+  // (8) Поиск героев и предметов не пересоздаёт <input>: история Ctrl+Z, выделение и IME целы.
+  uCopy.click(uCopy.q('[data-tab="heroes"]'));
+  await t(200);
+  const heroInput = uCopy.q('#heroSearch');
+  uCopy.set('#heroSearch', 'invo');
+  await t(200);
+  check(uCopy.q('#heroSearch') === heroInput, 'input поиска героев — тот же элемент DOM после ввода');
+  check(uCopy.qa('.pick[data-hero]').length === 1, 'список героев обновился без перерисовки поля');
+  uCopy.click(uCopy.q('[data-tab="items"]'));
+  await t(250);
+  const itemInput = uCopy.q('#itemSearch');
+  uCopy.set('#itemSearch', 'tango');
+  await t(250);
+  check(uCopy.q('#itemSearch') === itemInput, 'input поиска предметов — тот же элемент DOM после ввода');
+  check(uCopy.qa('.item-card').length === 2 && /2 предметов/.test(uCopy.q('#itemCount')?.textContent || ''),
+    `карточки и счётчик обновились без перерисовки поля (${uCopy.q('#itemCount')?.textContent})`);
+
+  // (9) Escape закрывает пикер на уровне document — независимо от того, где фокус.
+  uCopy.click(uCopy.q('[data-tab="draft"]'));
+  await t(200);
+  uCopy.click(uCopy.q('[data-pick="me:0"]'));
+  await t(150);
+  check(uCopy.q('#pickerGrid') !== null, 'пикер открыт');
+  domCopy.window.document.dispatchEvent(new domCopy.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  await t(80);
+  check(uCopy.q('#pickerGrid') === null, 'Escape, отправленный на document, закрывает открытый пикер');
+
+  // (10) Выбор файла с клавиатуры: Enter/Space на <label> открывают <input type="file">.
+  uCopy.click(uCopy.q('[data-tab="shot"]'));
+  await t(150);
+  const fileLabel = uCopy.q('label[data-file-label]');
+  check(fileLabel !== null && fileLabel.getAttribute('tabindex') === '0',
+    `метка выбора файла доступна с клавиатуры (tabindex=${fileLabel ? fileLabel.getAttribute('tabindex') : '—'})`);
+  let fileClicks = 0;
+  domCopy.window.document.addEventListener('click', (e) => { if (e.target && e.target.id === 'shotFile') fileClicks++; });
+  fileLabel.dispatchEvent(new domCopy.window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+  await t(60);
+  fileLabel.dispatchEvent(new domCopy.window.KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+  await t(60);
+  check(fileClicks === 2, `Enter и Space на метке вызывают выбор файла (кликов input: ${fileClicks})`);
+
+  // (11) Подсказки про союзников честно описывают их роль в драфте.
+  const domHint = bootApp();
+  const uHint = ui(domHint.window);
+  await waitLoaded(domHint.window);
+  await t(150);
+  const hintText = uHint.text();
+  check(!/полный драфт 5×5 даёт точные ситуативные предметы/.test(hintText),
+    'старая формулировка «полный драфт 5×5 даёт точные ситуативные предметы» убрана');
+  check(/исключаются из пикера и рекомендаций по пикам/.test(hintText) && /шаринг/.test(hintText),
+    'подсказка «Моя команда» честно описывает роль союзников');
+  check(!/Введи полностью свою команду \(4 союзника\) и вражеский драфт \(5\) — ситуативные предметы/.test(hintText),
+    'в «Как пользоваться» ситуативные предметы больше не привязаны к союзникам');
+  check(/Введи вражеский драфт \(5\) — ситуативные предметы подстроятся под них/.test(hintText)
+    && /не предлагались в пикере и рекомендациях/.test(hintText),
+    '«Как пользоваться» честно разделяет врагов (ситуатив) и союзников (пикер/шаринг)');
+
+  // (12) Статические правки: мёртвый код и дубль в boot удалены, порядок boot сохранён.
+  check(!/plan\?\.tier/.test(app), 'мёртвая проверка plan?.tier удалена из guessEnemyMid');
+  check(!/else if \(fromHash\) syncHash\(\); else syncHash\(\)/.test(app), 'дубль «else if (fromHash) syncHash(); else syncHash();» убран');
+  check(/loadDraft\(\);\s*\n\s*const fromHash = applyHash\(\)/.test(app), 'boot(): loadDraft() вызывается до applyHash()');
 }
 
 console.log(problems.length ? `\nПРОБЛЕМЫ (${problems.length}):\n - ` + problems.join('\n - ') : '\nПроблем не найдено.');
