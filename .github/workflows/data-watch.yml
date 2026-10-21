@@ -1,0 +1,99 @@
+# Периодическая сверка собранных данных с их источником (odota/dotaconstants).
+#
+# Скрипт tools/check_data_updates.mjs только СООБЩАЕТ о новой версии констант:
+# issue открывается сам, но данные и рекомендации обновляются исключительно вручную
+# в pull request и обязаны пройти все тесты (CONTRIBUTING). Никакого автопуша в main
+# и автопубликации здесь нет by design.
+name: Data watch
+
+on:
+  schedule:
+    # 1-го числа в 06:00 UTC — редкий ритм под ручной цикл «собрать → тесты → PR».
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+# По умолчанию у токена нет прав: job ниже получает только issues: write для уведомлений.
+permissions: {}
+
+concurrency:
+  group: data-watch
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      # Exit 0 — данные актуальны, exit 3 — у источника новая версия, exit 1 — проверить
+      # не удалось (сеть/источник): это падение прогона, а не повод для issue.
+      - name: Сверить constantsVersion с источником
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          code=0
+          node tools/check_data_updates.mjs --json | tee "$RUNNER_TEMP/data-check.json" || code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" = "1" ]; then
+            echo "::error::Источник данных недоступен — сверка не выполнена"
+            exit 1
+          fi
+
+      # Уведомление: один открытый issue на найденное обновление, без каких-либо изменений в данных.
+      - name: Сообщить об обновлении issue-ем
+        if: steps.check.outputs.code == '3'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          current=$(node -p 'JSON.parse(require("fs").readFileSync(process.env.RUNNER_TEMP + "/data-check.json", "utf8")).current')
+          remote=$(node -p 'JSON.parse(require("fs").readFileSync(process.env.RUNNER_TEMP + "/data-check.json", "utf8")).remote')
+          title="Обновление данных источника: ${current} → ${remote}"
+          exists=$(gh issue list --state open --limit 100 --json title --jq "[.[] | select(.title == \"${title}\")] | length")
+          if [ "$exists" != "0" ]; then
+            echo "Открытый issue уже есть: ${title}"
+            exit 0
+          fi
+          node -e '
+            const fs = require("fs");
+            const r = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + "/data-check.json", "utf8"));
+            const body = [
+              "Периодическая проверка (workflow Data watch) нашла новую версию констант у источника **odota/dotaconstants**.",
+              "",
+              `- в репозитории: constantsVersion \`${r.current}\` (data/meta.json),`,
+              `- у источника: \`${r.remote}\` (коммит package.json: ${r.commitDate || "—"}, ${r.commit || "—"}).`,
+              "",
+              "**Автоматически данные не обновляются.** Обновление — вручную, в pull request:",
+              "1. `npm ci`, затем `node tools/build_data.mjs` и `node tools/build_templates.mjs`;",
+              "2. прогнать все проверки: `npm run lint`, `npm test`, `npm run test:recognize`, `npm run test:ui`;",
+              "3. освежить при необходимости README/патчноуты и открыть PR — публикация только через main со всеми гейтами.",
+              "",
+              "Этот issue закроет сам следующий запуск Data watch, когда репозиторий догонит источник.",
+            ].join("\n");
+            fs.writeFileSync(process.env.RUNNER_TEMP + "/issue-body.md", body);
+          '
+          gh issue create --title "$title" --body-file "$RUNNER_TEMP/issue-body.md"
+
+      # Данные догнали источник (например, обновление уже влито вручную) — устаревшее
+      # уведомление больше не нужно и закрывается с пояснением.
+      - name: Закрыть устаревшее уведомление
+        if: steps.check.outputs.code == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          nums=$(gh issue list --state open --limit 100 --json number,title \
+            --jq '[.[] | select(.title | startswith("Обновление данных источника"))] | .[].number')
+          for num in $nums; do
+            gh issue close "$num" --comment "Данные в репозитории снова актуальны — свежая сборка уже в main, уведомление закрыто автоматически."
+          done

@@ -542,6 +542,7 @@ function renderDraft() {
             </div>
           </div>
         </div>
+        <p class="tiny muted">Оценка — эвристика проекта (не винрейт): формулы и правила патча, без статистики матчей. Проверяй вывод в игре.</p>
         <h3>Из чего сложилась оценка</h3>
         <table class="factors">
           <tr><th>Фактор</th><th>У тебя</th><th>У него</th><th>Вывод</th></tr>
@@ -581,6 +582,7 @@ function renderDraft() {
 
       ${plan ? `<div class="panel">
         <h2>Твой план: ${esc(plan.hero.localized_name)} <span class="muted tiny">· ${esc(myRole ? (ROLE_TITLES[myRole] || myRole) : (plan.archetype ? plan.archetype.title : 'Авто'))}</span></h2>
+        <p class="tiny muted">Рекомендации ниже — эвристика проекта (не винрейт): правила и цифры патча 7.41 без телеметрии матчей, проверяй в игре.</p>
         ${myRole ? `<p class="small muted">Роль «<b>${esc(ROLE_TITLES[myRole])}</b>»${plan.curated ? ` — курируемый мид-план героя · ${esc(plan.curve || '')}` : plan.archetype ? ` — закуп по архетипу · ${esc(plan.curve || '')}` : ' — универсальный закуп' }${plan.difficulty ? ` · сложность: ${esc(plan.difficulty)}` : ''}</p>`
           : plan.curated ? `<p class="small muted">${esc(plan.curve || '')}${plan.difficulty ? ` · сложность: ${esc(plan.difficulty)}` : ''}</p>`
           : plan.archetype ? `<p class="small muted">Курируемого плана под 7.41 у героя нет — закуп собран по его роли: <b>${esc(plan.archetype.title)}</b>.${plan.archetype.why ? ` ${esc(plan.archetype.why)}.` : ''} ${esc(plan.curve || '')}</p>`
@@ -1713,6 +1715,7 @@ function planAsText() {
     const lane = laneReport(DATA.heroes[state.me], DATA.heroes[enemyMid], { tagsKb: DATA.tagsKb, rules: DATA.rules, plans: DATA.plans });
     lines.push(`\nМИД: ${lane.verdict.title} (${lane.score > 0 ? '+' : ''}${lane.score})`);
     lines.push(lane.verdict.text);
+    lines.push('  (оценка — эвристика проекта по цифрам патча, не винрейт)');
     for (const t of lane.tips) lines.push('  • ' + t);
   }
   if (enemies.length) {
@@ -1725,6 +1728,7 @@ function planAsText() {
   if (state.me) {
     const plan = buildPlan({ heroSlug: state.me, enemySlugs: enemies, data: DATA, role: state.myRole });
     lines.push('\nЗАКУП:');
+    lines.push('  (эвристика проекта: подбор под их драфт и роль, без винрейтов)');
     for (const g of ['start', 'early', 'core', 'situational']) {
       const arr = plan.items[g];
       if (!arr.length) continue;

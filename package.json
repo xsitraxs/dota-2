@@ -7,18 +7,21 @@
   "scripts": {
     "serve": "python3 -m http.server 8000",
     "lint": "eslint .",
-    "test": "node tools/test_engine.mjs && node tools/test_data.mjs && node tools/test_tags.mjs && node tools/test_ci.mjs",
+    "test": "node tools/test_engine.mjs && node tools/test_data.mjs && node tools/test_tags.mjs && node tools/test_data_updates.mjs && node tools/test_ci.mjs",
     "test:ui": "node tools/test_ui.mjs",
-    "test:recognize": "node tools/test_recognize.mjs"
+    "test:recognize": "node tools/test_recognize.mjs && node tools/test_recognize_fixtures.mjs",
+    "test:browser": "node tools/test_browser.mjs"
   },
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@sparticuz/chromium": "^153.0.0",
     "eslint": "^10.13.0",
     "globals": "^17.13.0",
     "jsdom": "^30.1.3",
+    "playwright-core": "^1.64.1",
     "yaml": "^2.9.1"
   }
 }

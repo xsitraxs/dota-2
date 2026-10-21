@@ -71,7 +71,8 @@ jobs:
       - name: Test engine, data and CI policy
         run: npm test
 
-      # Гейт распознавания: синтетические «скриншоты» собираются ImageMagick из тех же иконок.
+      # Гейт распознавания: синтетические «скриншоты» собираются ImageMagick из тех же иконок,
+      # а tools/test_recognize_fixtures.mjs гоняет те же шаблоны на реальных кадрах драфта (tools/rec_fixtures).
       - name: Install ImageMagick
         run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
 
@@ -84,6 +85,12 @@ jobs:
           python3 -m http.server 8000 --bind 127.0.0.1 >/dev/null 2>&1 &
           for _ in $(seq 1 40); do curl -fsS -o /dev/null http://127.0.0.1:8000/ && break; sleep 0.25; done
           npm run test:ui
+
+      # Гейт настоящего браузера: Chromium из npm-пакета (@sparticuz/chromium, без сети)
+      # прогоняет пользовательские сценарии — загрузку и вставку скриншота, выбор героев,
+      # ссылку-шаринг, чеклист после перезагрузки и узкий экран.
+      - name: Test app in real browser
+        run: npm run test:browser
 
       # Режим публикации и решение «публиковать ли». Ошибка API на push/dispatch — явный сбой,
       # а не молчаливое «Pages выключен»: иначе сайт тихо перестал бы обновляться.

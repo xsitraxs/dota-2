@@ -23,6 +23,8 @@ python3 -m http.server 8000 # открыть http://localhost:8000
 - `data/` — собранные игровые константы (не править руками)
 - `data/kb/` — ручная база знаний (планы мидов, теги, правила, тайминги) — вот это правишь
 - `tools/` — сборщик и тесты
+- `tools/rec_fixtures/` — реальные скриншоты драфта и `manifest.json` с правильными ответами (фикстуры теста распознавания; карточки подписывай визуально по монтажам с иконками)
+- `tools/expert_scenarios.json` — экспертные сценарии для движка: драфт → ждемая угроза → предмет/контр-пик-ответ → почему это верно
 
 ## Обновить данные под новый патч
 
@@ -30,10 +32,11 @@ python3 -m http.server 8000 # открыть http://localhost:8000
 node tools/build_data.mjs          # свежие dotaconstants + иконки → data/
 node tools/build_data.mjs --cached # из tools/.cache без сети
 node tools/build_templates.mjs     # если менялись иконки — подписи для распознавания
-npm test
+npm run lint && npm test && npm run test:recognize && npm run test:ui && npm run test:browser
+                                      # все проверки обязаны быть зелёными до PR
 ```
 
-Сборщик валидирует `data/kb/*.json`: каждый герой/способность/предмет/тег должен существовать, в текстах планов не должно быть старых названий (`Force of Nature → Nature's Call`).
+Свежесть данных в любой момент проверяет `node tools/check_data_updates.mjs` — сверяет `constantsVersion` с источником odota/dotaconstants и лишь сообщает (коды: 0 актуально / 3 есть обновление / 1 ошибка). В CI то же делает workflow `data-watch.yml`: открывает issue с уведомлением, но **никогда не публикует данные автоматически** — обновление только вручную, с прогоном всех тестов. Сборщик валидирует `data/kb/*.json`: каждый герой/способность/предмет/тег должен существовать, в текстах планов не должно быть старых названий (`Force of Nature → Nature's Call`).
 
 ## Правила
 
@@ -45,6 +48,6 @@ npm test
 
 ## CI
 
-`npm run lint && npm test && npm run test:recognize && npm run test:ui` должны быть зелёными до PR. Workflow `pages.yml` сам подстроится под `Settings → Pages → Source` и задеплоит только с `main`.
+`npm run lint && npm test && npm run test:recognize && npm run test:ui && npm run test:browser` должны быть зелёными до PR. В job `build` workflow `pages.yml` идут npm audit, все суиты (включая настоящий Chromium) — и только зелёный `build` достаточен для слияния. Workflow `pages.yml` сам подстроится под `Settings → Pages → Source` и задеплоит только с `main`.
 
 Вопросы — открывай issue с шагами воспроизведения.
