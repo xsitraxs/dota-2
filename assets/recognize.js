@@ -898,7 +898,15 @@ export function recognizeScreenshot(img, templates, opts = {}) {
 
   // Отсеиваем заведомо неверные рамки: карточка героя — почти квадрат и не бывает пустой.
   const scored = [];
+  // Ячейки почти во весь кадр (например, три колонки на всю высоту экрана) — это нарезка фона,
+  // а не карточки: карточка на настоящем скриншоте не бывает шире 420 px (на особых кадрах
+  // есть ручная нарезка). Такую рамку
+  // отбраковываем до сравнения по узнаваемости, иначе она «побеждает» одним лишь покрытием
+  // области содержимия (так было на мультиблочном экране капитанки).
+  const sizeCap = 420;
   for (const grid of candidates) {
+    const dims = grid.cells.map((c) => Math.max(c.w, c.h)).sort((a, b) => a - b);
+    if (dims[Math.floor(dims.length / 2)] > sizeCap) continue;
     const aspects = grid.cells.map((c) => c.w / Math.max(1, c.h)).sort((a, b) => a - b);
     const aspect = aspects[Math.floor(aspects.length / 2)];
     const sampleLimit = Math.min(verifyLimit, 8);
@@ -916,6 +924,8 @@ export function recognizeScreenshot(img, templates, opts = {}) {
     // области содержимого и за ячейки, не похожие на карточки по размеру.
     scored.push({ grid, med, aspect, emptyFrac, cov, fit, rank: med + 0.15 * (1 - cov) + 0.08 * fit });
   }
+  // Все кандидаты отбракованы (например, по размеру ячеек): сетки нет — как и на кадре без карточек.
+  if (!scored.length) return { grid: null, cells: [], confidence: 0, candidates: candidates.length };
   // Карточки героев бывают и квадратными, и 16:9 — окно аспекта поэтому широкое,
   // а пустые ячейки (полоса подписей, промежуток между рядами) не отбраковывают сетку целиком.
   const plausible = scored.filter((c) => c.aspect >= 0.4 && c.aspect <= 2 && c.emptyFrac <= 0.6);

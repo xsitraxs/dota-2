@@ -263,5 +263,61 @@ ok(universe.has('Сентри/дасты в инвентаре до 10-й мин
 ok(timings.events.some((e) => e.at === '20:00' && e.title.includes('Торментор')), 'Торментор 20:00 в таймингах');
 ok(timings.events.some((e) => e.at === '7:00'), 'святилище мудрости 7:00 в таймингах');
 
+// 8. Экспертные сценарии: драфт → ждемая угроза → предмет/пик-ответ → почему это верно
+//    по контексту игры (tools/expert_scenarios.json). Это проверка осмысленности рекомендаций,
+//    а не только того, что предметы существуют и не дублируются.
+{
+  const expert = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'expert_scenarios.json'), 'utf8'));
+  ok(expert.cases.length >= 6 && expert.cases.every((c) => c.id && c.title && c.why),
+    'экспертные сценарии подписаны: драфт → угроза → ответ → почему', `сценариев: ${expert.cases.length}`);
+  for (const c of expert.cases) {
+    const threats = c.enemies ? threatsFor(c.enemies, data) : [];
+    for (const t of (c.expect && c.expect.threats) || []) {
+      const found = threats.find((x) => x.tag === t.tag);
+      const have = found ? found.items.map(([k]) => k) : [];
+      ok(!!found, `[${c.id}] их состав показывает угрозу «${t.tag}»`,
+        found ? '' : `нет; видно теги: ${threats.map((x) => x.tag).join(', ')}`);
+      if (!found) continue;
+      if (t.itemsAll) {
+        const missing = t.itemsAll.filter((i) => !have.includes(i));
+        ok(missing.length === 0 && t.itemsAll.every((i) => items[i]),
+          `[${c.id}] ${t.tag} → в ответе обязательны: ${t.itemsAll.join(', ')}`,
+          missing.length ? `нет: ${missing.join(', ')}` : `все предметы есть в базе`);
+      }
+      if (t.itemsAny) {
+        const hit = t.itemsAny.find((i) => have.includes(i));
+        ok(!!hit && t.itemsAny.every((i) => items[i]),
+          `[${c.id}] ${t.tag} → в ответе один из подходящих контексту: ${t.itemsAny.join('/')}`,
+          hit ? `найден: ${hit}` : `фактически: ${have.slice(0, 8).join(', ')}`);
+      }
+    }
+    if (c.expect && c.expect.plan) {
+      const plan = buildPlan({ heroSlug: c.expect.plan.hero, enemySlugs: c.enemies, data });
+      const sit = plan.items.situational.map((i) => i.key);
+      const missing = c.expect.plan.situationalAll.filter((i) => !sit.includes(i));
+      ok(missing.length === 0,
+        `[${c.id}] план ${c.expect.plan.hero} собирается под их драфт: ${c.expect.plan.situationalAll.join(', ')}`,
+        missing.length ? `не хватает: ${missing.join(', ')}` : `ситуативно: ${sit.slice(0, 12).join(', ')}`);
+    }
+    if (c.expect && c.expect.picks) {
+      const want = c.expect.picks;
+      const picks = counterPicks({ enemies: c.enemies, enemyMid: c.enemyMid, data, limit: want.top });
+      const top = picks.slice(0, want.top).map((p) => p.slug);
+      const hit = want.anyOf.find((s) => top.includes(s));
+      ok(!!hit, `[${c.id}] ожидаемый контр-пик (${want.anyOf.join('/')}) в топ-${want.top} по контексту`,
+        `топ: ${top.join(', ')}`);
+    }
+    if (c.expect && c.expect.lane) {
+      const l = c.expect.lane;
+      const r = laneReport(heroes[c.me], heroes[l.vs], ctx);
+      const scoreOk = (l.maxScore === undefined || r.score <= l.maxScore)
+        && (l.minScore === undefined || r.score >= l.minScore);
+      ok(scoreOk && r.verdict.title === l.title,
+        `[${c.id}] лейн ${c.me} против ${l.vs}: «${l.title}» и счёт в ожидаемом диапазоне`,
+        `фактически: «${r.verdict.title}» (score ${r.score})`);
+    }
+  }
+}
+
 console.log(failed === 0 ? '\nВсе проверки пройдены.\n' : `\nПровалено проверок: ${failed}\n`);
 process.exit(failed === 0 ? 0 : 1);
